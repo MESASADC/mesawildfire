@@ -1,0 +1,607 @@
+// BEGIN LAYOUT
+
+
+  function applyMargins() {
+    /* var leftToggler = $(".mini-submenu-left");
+    var rightToggler = $(".mini-submenu-right");
+    if (leftToggler.is(":visible")) {
+      $("#map .ol-zoom")
+        .css("margin-left", 0)
+        .removeClass("zoom-top-opened-sidebar")
+        .addClass("zoom-top-collapsed");
+    } else {
+      $("#map .ol-zoom")
+        .css("margin-left", $(".sidebar-left").width())
+        .removeClass("zoom-top-opened-sidebar")
+        .removeClass("zoom-top-collapsed");
+    }
+    if (rightToggler.is(":visible")) {
+      $("#map .ol-rotate")
+        .css("margin-right", 0)
+        .removeClass("zoom-top-opened-sidebar")
+        .addClass("zoom-top-collapsed");
+    } else {
+      $("#map .ol-rotate")
+        .css("margin-right", $(".sidebar-right").width())
+        .removeClass("zoom-top-opened-sidebar")
+        .removeClass("zoom-top-collapsed");
+    }
+    */
+  }
+
+
+  function isConstrained() {
+    return $("div.mid").width() == $(window).width();
+  }
+
+  function applyInitialUIState() {
+    if (isConstrained()) {
+      $(".sidebar-left .sidebar-body").fadeOut('slide');
+      $(".sidebar-right .sidebar-body").fadeOut('slide');
+      $('.mini-submenu-left').fadeIn();
+      $('.mini-submenu-right').fadeIn();
+    }
+  }
+
+  $(function() {
+    $('.sidebar-left .slide-submenu').on('click', function() {
+      var thisEl = $(this);
+      thisEl.closest('.sidebar-body').fadeOut('slide', function() {
+        $('.mini-submenu-left').fadeIn();
+        applyMargins();
+      });
+    });
+
+    $('.mini-submenu-left').on('click', function() {
+      var thisEl = $(this);
+      $('.sidebar-left .sidebar-body').toggle('slide');
+      thisEl.hide();
+      applyMargins();
+    });
+
+    $('.sidebar-right .slide-submenu').on('click', function() {
+      var thisEl = $(this);
+      thisEl.closest('.sidebar-body').fadeOut('slide', function() {
+        $('.mini-submenu-right').fadeIn();
+        applyMargins();
+      });
+    });
+
+    $('.mini-submenu-right').on('click', function() {
+      var thisEl = $(this);
+      $('.sidebar-right .sidebar-body').toggle('slide');
+      thisEl.hide();
+      applyMargins();
+    });
+
+    $(window).on("resize", applyMargins);
+
+// BEGIN OPEN LAYERS
+
+    var map = new ol.Map({
+      target: "_map",
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: [0, 0],
+        zoom: 2
+      })
+    });
+    applyInitialUIState();
+    applyMargins();
+
+// END OPEN LAYERS
+
+  });
+
+// END LAYOUT
+
+
+// BEGIN FIRE EVENT TABLE
+
+
+var tableData = [
+{
+  "id": "55",
+  "description": "Near Township A",
+  "status": "In Progress",
+  "area": 10,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township B",
+  "status": "In Progress",
+  "area": 20,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township C",
+  "status": "Out",
+  "area": 30,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township A",
+  "status": "In Progress",
+  "area": 10,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township B",
+  "status": "In Progress",
+  "area": 20,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township C",
+  "status": "Out",
+  "area": 30,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township A",
+  "status": "In Progress",
+  "area": 10,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township B",
+  "status": "In Progress",
+  "area": 20,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township C",
+  "status": "Out",
+  "area": 30,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township D",
+  "status": "Responding",
+  "area": 40,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township E",
+  "status": "Out",
+  "area": 50,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township F",
+  "status": "Responding",
+  "area": 60,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+}
+];
+
+
+
+$(document).ready(function(){
+
+  var table = $('table.fire-table').DataTable({
+    "data": tableData,
+    deferRender:    true,
+    dom:            "tS",
+    scrollY:        300,
+    scrollCollapse: false,
+    stateSave:      true,
+    paging:         false,
+    "columns": [{
+      "className": 'details-control',
+      "orderable": false,
+      "data": null,
+      "defaultContent": ''
+    }, {
+      "data": "id"
+    }, {
+      "data": "description"
+    }, {
+      "data": "status"
+    }, {
+      "data": "area"
+    }, {
+      "data": "max_frp"
+    }, {
+/*      "data": "first_observed"
+    }, {
+      "data": "last_observed"
+    }, {
+      "data": "fdi_first"
+    }, {
+      "data": "fdi_last"
+    }, {
+*/      "data": "fdi_current"
+    }],
+    "order": [
+      [1, 'asc']
+    ]
+  });
+
+
+  /* Formatting function for row details - modify as you need */
+
+  function format(d) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+      '<tr>' +
+        '<td>First Observation:</td>' +
+        '<td>' + d.first_observed + '</td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>Last Observation:</td>' +
+        '<td>' + d.last_observed + '</td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>FDI at first observation:</td>' +
+        '<td>' + d.fdi_first + '</td>' +
+      '</tr>' +
+      '<tr>' +
+        '<td>FDI at last observation:</td>' +
+        '<td>' + d.fdi_last + '</td>' +
+      '</tr>' +
+    '</table>';
+  }
+
+
+  // Add event listener for opening and closing details
+  $('table.fire-table tbody').on('click', 'td.details-control', function() {
+    var tr = $(this).closest('tr');
+    var row = table.row(tr);
+
+    if (row.child.isShown()) {
+      // This row is already open - close it
+      row.child.hide();
+      tr.removeClass('shown');
+    } else {
+      // Open this row
+      row.child(format(row.data())).show();
+      tr.addClass('shown');
+    }
+  });
+
+  $('.form-control.search').on( 'keyup', function () {
+      table.search( this.value ).draw();
+  } );
+
+});
+
+// END FIRE EVENT TABLE
+
+
+/* Formatting function for row details - modify as you need */
+/*
+function format(d) {
+// `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+      '<tr>' +
+      '<td>Full name:</td>' +
+      '<td>' + d.name + '</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Extension number:</td>' +
+      '<td>' + d.extn + '</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Extra info:</td>' +
+      '<td>And any further details here (images etc)...</td>' +
+      '</tr>' +
+      '</table>';
+}
+
+var tableData = [
+    {
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "salary": "$320,800",
+      "start_date": "2011/04/25",
+      "office": "Edinburgh",
+      "extn": "5421"
+    },
+    {
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "salary": "$320,800",
+      "start_date": "2011/04/25",
+      "office": "Edinburgh",
+      "extn": "5421"
+    },
+    {
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "salary": "$320,800",
+      "start_date": "2011/04/25",
+      "office": "Edinburgh",
+      "extn": "5421"
+    },
+    {
+      "name": "Tiger Nixon",
+      "position": "System Architect",
+      "salary": "$320,800",
+      "start_date": "2011/04/25",
+      "office": "Edinburgh",
+      "extn": "5421"
+    },
+    {
+      "name": "Garrett Winters",
+      "position": "Accountants",
+      "salary": "$170,750",
+      "start_date": "2011/07/25",
+      "office": "Tokyo",
+      "extn": "8422"
+    }
+  ];
+
+$(document).ready(function(){
+//    $('#myTable').DataTable();
+
+      var table = $('table.fire-table').DataTable({
+        "data": tableData,
+        deferRender:    true,
+        dom:            "tiS",
+        //scrollY:        300,
+        scrollCollapse: false,
+        stateSave:      true,
+        "columns": [{
+          "className": 'details-control',
+          "orderable": false,
+          "data": null,
+          "defaultContent": ''
+        }, {
+          "data": "name"
+        }, {
+          "data": "position"
+        }, {
+          "data": "office"
+        }, {
+          "data": "salary"
+        }],
+        "order": [
+          [1, 'asc']
+        ]
+      });
+
+
+      // Add event listener for opening and closing details
+      $('table.fire-table tbody').on('click', 'td.details-control', function() {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          // Open this row
+          row.child(format(row.data())).show();
+          tr.addClass('shown');
+        }
+      });
+
+      $('.form-control.search').on( 'keyup', function () {
+        table.search( this.value ).draw();
+      } );
+
+});
+*/
+
+// BEGIN FDI CHART
+
+      // generate data
+      var chartData = [];
+
+      function generateChartData() {
+        var thisDate = new Date();
+        var firstDate = new Date(thisDate.getTime() - 2 * 24 * 60 * 60 * 1000);
+        firstDate.setHours(0);
+        firstDate.setMinutes(0);
+        firstDate.setSeconds(0);
+        firstDate.setMilliseconds(0);
+
+        for (var i = firstDate.getTime(); i < (firstDate.getTime() + 5 * 24 * 60 * 60 * 1000); i += 60 * 60 * 1000) {
+          var newDate = new Date(i);
+          var value1 = 0;
+
+          if (i == firstDate.getTime()) {
+            value1 = Math.round(Math.random() * 40 + 20);
+          } else {
+            value1 = Math.round(chartData[chartData.length - 1].value1 / 100 * (90 + Math.round(Math.random() * 20)) * 100) / 100;
+          }
+
+          value2 = value1;
+
+          if (newDate < thisDate) {
+            if (newDate.getHours() == 12) {
+              // we set daily data on 12th hour only
+              chartData.push({
+                date: newDate,
+                value1: value1,
+                value2: value2
+              });
+            } else {
+              chartData.push({
+                date: newDate,
+                value1: value1
+              });
+            }
+          } else {
+            if (newDate.getHours() == 12) {
+              // we set daily data on 12th hour only
+              chartData.push({
+                date: newDate,
+                value1: value1,
+                value2: value2
+              });
+            }
+          }
+        }
+      }
+
+      generateChartData();
+
+      var chart = AmCharts.makeChart("chartdiv", {
+        "type": "serial",
+        "theme": "dark",
+        "marginRight": 80,
+        "dataProvider": chartData,
+        "valueAxes": [{
+          "maximum": 100,
+          "minimum": 0,
+          "axisAlpha": 0.4,
+          "guides": [{}, {
+            "lineColor": "#4e0000",
+            "lineThickness": 3,
+            "lineAlpha": 0,
+            "value": 0,
+            "toValue": 20
+          }, {
+            "lineColor": "#0000FF",
+            "lineThickness": 3,
+            "lineAlpha": 1,
+            "value": 20,
+            "toValue": 45
+          }, {
+            "lineColor": "#FFFF00",
+            "lineThickness": 3,
+            "lineAlpha": 1,
+            "value": 45,
+            "toValue": 60
+          }, {
+            "lineColor": "#FFA500",
+            "lineThickness": 3,
+            "lineAlpha": 1,
+            "value": 60,
+            "toValue": 75
+          }, {
+            "lineColor": "#FF0000",
+            "lineAlpha": 1,
+            "lineThickness": 3,
+            "value": 75
+          }]
+        }],
+
+        "graphs": [{
+          "balloonText": "", // "[[title]]: [[value]]",
+          "columnWidth": 15,
+          "fillColors": "#000000",
+          "fillAlphas": 0.4,
+          "lineAlpha": 0,
+          "title": "12H00 Forecast",
+          "type": "column",
+          "valueField": "value2"
+        }, {
+          "balloonText": "[[title]]: [[value]]",
+          "lineThickness": 3,
+          "connect": false,
+          "title": "FDI",
+          "lineColor": "#FFFFFF",
+          "type": "smoothedLine",
+
+          "valueField": "value1"
+        }],
+        "zoomOutButtonRollOverAlpha": 0.15,
+        "chartCursor": {
+          "categoryBalloonDateFormat": "MMM DD JJ:NN",
+          "cursorPosition": "mouse",
+          "showNextAvailable": true
+        },
+        "autoMarginOffset": 5,
+        "columnWidth": 1,
+        "categoryField": "date",
+        "categoryAxis": {
+          "minPeriod": "hh",
+          "parseDates": true
+        },
+        "export": {
+          "enabled": true
+        }
+      });
+
+// END FDI CHART
