@@ -79,7 +79,7 @@
 // BEGIN OPEN LAYERS
 
     var map = new ol.Map({
-      target: "_map",
+      target: "map",
       layers: [
         new ol.layer.Tile({
           source: new ol.source.OSM()
@@ -259,6 +259,162 @@ var tableData = [
   "fdi_first": 70,
   "fdi_last": 65,
   "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "55",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
+},
+{
+  "id": "555",
+  "description": "Near Township G",
+  "status": "In Progress",
+  "area": 70,
+  "max_frp": 700,
+  "first_observed": "2015/04/25",
+  "last_observed": "2015/04/26",
+  "fdi_first": 70,
+  "fdi_last": 65,
+  "fdi_current": 60
 }
 ];
 
@@ -270,8 +426,8 @@ $(document).ready(function(){
     "data": tableData,
     deferRender:    true,
     dom:            "tS",
-    scrollY:        300,
-    scrollCollapse: false,
+    scrollY:        "60%",
+    scrollCollapse: true,
     stateSave:      true,
     paging:         false,
     "columns": [{
