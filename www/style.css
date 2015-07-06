@@ -38,8 +38,7 @@ table.dataTable td {
 .mini-submenu {
   display: none;
   background-color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 1px solid #000000;
+  background-color: rgba(255, 255, 255, 1);
   border: 1px solid rgba(0, 0, 0, 0.9);
   border-radius: 4px;
   padding: 9px;
@@ -105,12 +104,6 @@ table.dataTable td {
 }
 
 
-.main-row {
-  /*margin-bottom: 0;*/
-  /*background-color: rgba(200, 100, 0, 0.5);*/
-
-}
-
 
 .mini-submenu:hover {
   cursor: pointer;
@@ -137,4 +130,16 @@ body {
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 10px;
+}
+
+.logo  {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.logo img {
+    width: 12vw;
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 4px;
 }
