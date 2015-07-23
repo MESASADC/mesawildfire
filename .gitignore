@@ -1,3 +1,7 @@
 examples
 offline
 fonts
+
+.idea
+geoserver_data
+postgres_data

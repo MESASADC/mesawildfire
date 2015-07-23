@@ -1,0 +1,1426 @@
+2015-07-15 08:18:40,214 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:18:40,217 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:18:40,219 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:18:59,559 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:18:59,561 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:18:59,564 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:21:33,363 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "%s-%s-%s",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:21:33,366 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "%s-%s-%s",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:21:33,369 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "%s-%s-%s",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "0009",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:21:52,163 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "%s-%s-%s",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "%s:%s:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:21:52,165 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "%s-%s-%s",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "%s:%s:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:21:52,168 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "%s-%s-%s",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "%s:%s:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:22:22,745 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:9:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:22:22,747 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:9:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 08:22:22,750 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:9:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 09:36:32,872 :: Failed to process: af_modis/MODISA_FIRE.2015134.0009.txt for AAA
+Traceback (most recent call last):
+  File "scripts/af_modis.py", line 28, in <module>
+    YYYY_MM_DD = "{:0>4d}-{:0>2d}-{:0>2d}".format(DD_MM_YYYY[6:10], DD_MM_YYYY[3:5], DD_MM_YYYY[0:2])
+ValueError: Unknown format code 'd' for object of type 'str'
+2015-07-15 09:37:33,514 :: Failed to process: af_modis/MODISA_FIRE.2015134.0009.txt for AAA
+Traceback (most recent call last):
+  File "scripts/af_modis.py", line 28, in <module>
+    YYYY_MM_DD = "{:0>4d}-{:0>2d}-{:0>2d}".format(DD_MM_YYYY[6:10], DD_MM_YYYY[3:5], DD_MM_YYYY[0:2])
+ValueError: Unknown format code 'd' for object of type 'str'
+2015-07-15 09:37:55,914 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 09:37:55,916 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 09:37:55,919 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 10:57:22,272 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 10:57:22,275 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 10:57:22,278 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 10:57:53,996 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.641, 19.025
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.641,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 19.025,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 306.8,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 10.7,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 10:57:53,999 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.120, 15.180
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.120,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.180,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 336.1,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 59.1,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
+2015-07-15 10:57:54,009 :: {
+    "type": "af_modis",
+    "version": "m.0.1",
+    "id": ,
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -15.128, 15.166
+            ]
+        },
+        "properties": {
+            "id": ""
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": -15.128,
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": 15.166,
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "date": {
+            "value": "2015-14-05",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "00:09:00",
+            "description": "Date",
+            "format": "HH:MM:SS"
+        },
+        "btemp": {
+            "value": 308.5,
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "sat": {
+            "value": "",
+            "description": "Satellite",
+            "format": "A or T"
+        },
+        "frp": {
+            "value": 16.5,
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}
