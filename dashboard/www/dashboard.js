@@ -517,7 +517,7 @@ $(document).ready(function(){
 
       // generate data
       var chartData = [];
-
+/*
       function generateChartData() {
         var thisDate = new Date();
         var firstDate = new Date(thisDate.getTime() - 2 * 24 * 60 * 60 * 1000);
@@ -566,7 +566,7 @@ $(document).ready(function(){
       }
 
       generateChartData();
-
+*/
       var chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "dark",
