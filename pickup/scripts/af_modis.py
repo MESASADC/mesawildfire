@@ -17,7 +17,7 @@ with Connection('amqp://vhost1:password1@localhost:5672/vhost1/') as conn:
     simple_queue.close()
 """
 
-
+'''
 with Connection('amqp://vhost1:password1@localhost:5672/vhost1') as conn:
     conn.connect()
     print "conn"
@@ -34,7 +34,7 @@ with Connection('amqp://vhost1:password1@localhost:5672/vhost1') as conn:
     print "consumed"
     conn.close()
     print "closed"
-    
+'''
     
     
 
@@ -51,19 +51,31 @@ incron_file = sys.argv[2]
 incron_filepath = os.path.join(incron_dir, incron_file)
 incron_event = sys.argv[3]
 
-logfile = os.path.join(script_dir, 'af_modis.log')
+#logfile = os.path.join(script_dir, 'af_modis.log')
+logfile='/dev/stdout'
 logging.basicConfig(filename=logfile,level=logging.INFO, format='%(asctime)s :: %(message)s')
 
+uri = 'amqp://vhost1:password1@localhost:5672/vhost1'    
+exchange = 'ingest_funnel'
+
 try:
+
     logging.debug('Processing: {}/{} for {}'.format(incron_dir, incron_file, incron_event))
-    for line in open(incron_filepath):
-        # Compose message payload
-        lon, lat, btemp, frp, res, DD_MM_YYYY, HHMM, sat, confidence = line.split(',')
-        YYYY_MM_DD = "{}-{}-{}".format(DD_MM_YYYY[6:10], DD_MM_YYYY[3:5], DD_MM_YYYY[0:2])
-        HH_MM_SS = "{}:{}:00".format(HHMM[:2], HHMM[2:4])
-        logging.info(render_message_payload(script_dir, "af_modis_template.json", lon=lon, lat=lat, btemp=btemp, frp=frp, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, confidence=confidence))
-        # 
-    #os.remove(incron_filepath)
+    
+    # Connect to rabbitmq server
+    with Connection(uri) as conn:
+        conn.connect()
+        logging.debug('Connection established: %s' % uri)
+        exchange = Exchange(ingest_funnel, type='topic', channel=conn.default_channel)
+        for line in open(incron_filepath):
+            # Compose message payload
+            lon, lat, btemp, frp, res, DD_MM_YYYY, HHMM, sat, confidence = line.split(',')
+            YYYY_MM_DD = "{}-{}-{}".format(DD_MM_YYYY[6:10], DD_MM_YYYY[3:5], DD_MM_YYYY[0:2])
+            HH_MM_SS = "{}:{}:00".format(HHMM[:2], HHMM[2:4])
+            logging.info(render_message_payload(script_dir, "af_modis_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=btemp, frp=frp, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat=sat, confidence=confidence))
+            # Publish message
+            exchange.
+        #os.remove(incron_filepath)
 except:
     logging.exception('Failed to process: {}/{} for {}'.format(incron_dir, incron_file, incron_event))
 
