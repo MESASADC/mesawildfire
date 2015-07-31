@@ -12,6 +12,10 @@ body {
   margin-top: 50px;
 }
 
+.first_row{
+  height: 30vh;
+
+}
 
 td.details-control {
   background: url('images/details_open.png') no-repeat center center;
@@ -66,14 +70,12 @@ table.dataTable td {
   background: #3f3f4f;
   color: #ffffff;
   width: 100%;
-  height: 40vh;
   font-size: 11px;
 }
 #fdi_table{
   background: #3f3f4f;
   color: #ffffff;
   width: 100%;
-  height: 40vh;
   font-size: 11px;
 }
 .fdi-table{
@@ -87,7 +89,6 @@ height: 60vh;
   background: #3f3f4f;
   color: #ffffff;
   width: 100%;
-  height: 40vh;
   font-size: 11px;
 }
 
