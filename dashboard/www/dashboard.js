@@ -1055,18 +1055,15 @@ var RealTime =
 
 function fdi_table_data(json){
   for (var j =0; j < json.length; j++){
-    for(var i = 0;i < json[j].data.length;i++){
       var data = json[j];
       HISTORIC.push({
           station: data.station_name,
-          fdi: parseFloat(data.data[i].LFDI[0]),
-          wind : data.data[i].ws_kmh,
-          temp : data.data[i].temp_c,
-          relativeH : data.data[i].rh_pct,
-          rain : data.data[i].rain_mm
+          fdi: parseFloat(data.data[0].LFDI[0]),
+          wind : data.data[0].ws_kmh,
+          temp : data.data[0].temp_c,
+          relativeH : data.data[0].rh_pct,
+          rain : data.data[0].rain_mm
         });
-      
-    }
   }
     console.log(HISTORIC);
 };
@@ -1129,7 +1126,7 @@ $(document).ready(function(){
     stateSave:      true,
     paging:         false,
     "columns": [{
-      "className": 'details-control',
+      "className": 'weather-station-select',
       "orderable": false,
       "data": null,
       "defaultContent": ''
@@ -1149,6 +1146,13 @@ $(document).ready(function(){
     "order": [
       [1, 'asc']
     ]
+  });
+
+  // Add event listener for updating the FDI graph
+  $('table.fdi-table tbody').on('click','weather-station-select',function() {
+
+    update_graph();
+
   });
 
 
@@ -1190,7 +1194,7 @@ $(document).ready(function(){
       [1, 'asc']
     ]
   });
-    console.log("waytsi - " + tablefdi.row(0).data());
+
 
 
 /*
@@ -1270,6 +1274,7 @@ $(document).ready(function(){
       tr.addClass('shown');
     }
   });
+
 
   $('.form-control.search').on( 'keyup', function () {
       table.search( this.value ).draw();
