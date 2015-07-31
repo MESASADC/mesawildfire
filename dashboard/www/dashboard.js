@@ -418,9 +418,739 @@ var tableData = [
 }
 ];
 
+var RealTime = 
+    [{
+        "station_id": "0513435A4",
+        "station_name": "PRETORIA UNIVERSITY PROEFPLAAS",
+        "distance_m": 4497.378442236,
+        "data": [
+            {
+                "rain_mm": null,
+                "ws_kmh": 2.16,
+                "rh_pct": 68,
+                "LFDI": [
+                    11,
+                    "0000ff"
+                ],
+                "temp_c": 6,
+                "firedanger": 11,
+                "winddirection_deg": 94,
+                "localtime": "2015-07-27 02:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.04,
+                "rh_pct": 70,
+                "LFDI": [
+                    15,
+                    "0000ff"
+                ],
+                "temp_c": 5.1,
+                "firedanger": 15,
+                "winddirection_deg": 122,
+                "localtime": "2015-07-27 04:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 4.68,
+                "rh_pct": 54,
+                "LFDI": [
+                    24,
+                    "00ff00"
+                ],
+                "temp_c": 8.4,
+                "firedanger": 24,
+                "winddirection_deg": 110,
+                "localtime": "2015-07-27 06:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 08:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 10:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 12:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 14:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 16:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 18:00:00"
+            }
+        ]},
+        {
+        "station_id": "0513435A4",
+        "station_name": "JOHANNESBURG UNIVERSITY ",
+        "distance_m": 4497.378442236,
+        "data": [
+            {
+                "rain_mm": null,
+                "ws_kmh": 2.16,
+                "rh_pct": 68,
+                "LFDI": [
+                    11,
+                    "0000ff"
+                ],
+                "temp_c": 6,
+                "firedanger": 11,
+                "winddirection_deg": 94,
+                "localtime": "2015-07-27 02:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.04,
+                "rh_pct": 70,
+                "LFDI": [
+                    15,
+                    "0000ff"
+                ],
+                "temp_c": 5.1,
+                "firedanger": 15,
+                "winddirection_deg": 122,
+                "localtime": "2015-07-27 04:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 4.68,
+                "rh_pct": 54,
+                "LFDI": [
+                    24,
+                    "00ff00"
+                ],
+                "temp_c": 8.4,
+                "firedanger": 24,
+                "winddirection_deg": 110,
+                "localtime": "2015-07-27 06:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 08:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 10:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 12:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 14:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 16:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 18:00:00"
+            }
+        ],
+        "station_id": "0513435A4"
+      }
+    ];
 
+    var RealTimeEG = [
+    {
+        "station_name": "PRETORIA UNIVERSITY PROEFPLAAS",
+        "distance_m": 4497.378442236,
+        "data": [
+            {
+                "rain_mm": null,
+                "ws_kmh": 2.16,
+                "rh_pct": 68,
+                "LFDI": [
+                    11,
+                    "0000ff"
+                ],
+                "temp_c": 6,
+                "firedanger": 11,
+                "winddirection_deg": 94,
+                "localtime": "2015-07-27 02:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.04,
+                "rh_pct": 70,
+                "LFDI": [
+                    15,
+                    "0000ff"
+                ],
+                "temp_c": 5.1,
+                "firedanger": 15,
+                "winddirection_deg": 122,
+                "localtime": "2015-07-27 04:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 4.68,
+                "rh_pct": 54,
+                "LFDI": [
+                    24,
+                    "00ff00"
+                ],
+                "temp_c": 8.4,
+                "firedanger": 24,
+                "winddirection_deg": 110,
+                "localtime": "2015-07-27 06:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 08:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 10:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 12:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 14:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 16:00:00"
+            },
+            {
+                "rain_mm": null,
+                "ws_kmh": 5.4,
+                "rh_pct": 38,
+                "LFDI": [
+                    35,
+                    "00ff00"
+                ],
+                "temp_c": 13.4,
+                "firedanger": 35,
+                "winddirection_deg": 40,
+                "localtime": "2015-07-27 18:00:00"
+            }
+        ],
+        "station_id": "0513435A4"
+    }
+
+    ];
+
+
+              var ForeCast = {
+
+                 "2015-07-25": {
+                    "rain_mm": 0,
+                    "vwind_ms": 2,
+                    "FWI": [
+                       43,
+                       "ffa500"
+                    ],
+                    "temp_k": 300,
+                    "rh_pct": 88,
+                    "LFDI": [
+                       43,
+                       "ffa500"
+                    ],
+                    "dc": 1598,
+                    "temp_c": 27,
+                    "dmc": 522,
+                    "ffmc": 88,
+                    "rain_days": 20,
+                    "date": "2015-07-25",
+                    "dewpt_k": 291,
+                    "LFDIreal": [
+                       49,
+                       "ffff00"
+                    ],
+                    "uwind_ms": 1,
+                    "ws_kmh": 8.05
+                 },
+                 "2015-07-26": {
+                    "rain_mm": 0,
+                    "dmc": 523,
+                    "temp_k": 303,
+                    "FWI": [
+                       41,
+                       "ffa500"
+                    ],
+                    "uwind_ms": 1,
+                    "rh_pct": 88,
+                    "LFDI": [
+                       41,
+                       "ffa500"
+                    ],
+                    "vwind_ms": 2,
+                    "dc": 1604,
+                    "temp_c": 30,
+                    "ffmc": 90,
+                    "rain_days": 20,
+                    "date": "2015-08-01",
+                    "dewpt_k": 292,
+                    "LFDIreal": [
+                       61,
+                       "ffa500"
+                    ],
+                    "ws_kmh": 8.05
+                 },
+                 "2015-07-27": {
+                    "rain_mm": 0,
+                    "dmc": 523,
+                    "temp_k": 303,
+                    "FWI": [
+                       41,
+                       "ffa500"
+                    ],
+                    "uwind_ms": 1,
+                    "rh_pct": 88,
+                    "LFDI": [
+                       41,
+                       "ffa500"
+                    ],
+                    "vwind_ms": 2,
+                    "dc": 1604,
+                    "temp_c": 30,
+                    "ffmc": 90,
+                    "rain_days": 20,
+                    "date": "2015-08-01",
+                    "dewpt_k": 292,
+                    "LFDIreal": [
+                       99,
+                       "ffa500"
+                    ],
+                    "ws_kmh": 8.05
+                 },
+                 "2015-07-28": {
+                    "rain_mm": 0,
+                    "dmc": 525,
+                    "temp_k": 304,
+                    "FWI": [
+                       34,
+                       "ffff00"
+                    ],
+                    "uwind_ms": 2,
+                    "rh_pct": 90,
+                    "vwind_ms": 5,
+                    "LFDI": [
+                       34,
+                       "ffff00"
+                    ],
+                    "temp_c": 31,
+                    "dc": 1607,
+                    "ffmc": 90,
+                    "rain_days": 20,
+                    "date": "2015-08-02",
+                    "dewpt_k": 290,
+                    "LFDIreal": [
+                       52,
+                       "ffff00"
+                    ],
+                    "ws_kmh": 19.39
+                 },
+                 "2015-07-29": {
+                    "rain_mm": 0,
+                    "dmc": 518,
+                    "temp_k": 300,
+                    "FWI": [
+                       59,
+                       "ffa500"
+                    ],
+                    "uwind_ms": 0,
+                    "rh_pct": 59,
+                    "vwind_ms": -1,
+                    "LFDI": [
+                       59,
+                       "ffa500"
+                    ],
+                    "temp_c": 27,
+                    "dc": 1587,
+                    "ffmc": 91,
+                    "rain_days": 20,
+                    "date": "2015-07-27",
+                    "dewpt_k": 286,
+                    "LFDIreal": [
+                       60,
+                       "ffff00"
+                    ],
+                    "ws_kmh": 3.6
+                 },
+                 "2015-07-30": {
+                    "rain_mm": 0,
+                    "dmc": 523,
+                    "FWI": [
+                       36,
+                       "ffff00"
+                    ],
+                    "temp_k": 299,
+                    "rh_pct": 93,
+                    "LFDI": [
+                       36,
+                       "ffff00"
+                    ],
+                    "vwind_ms": 6,
+                    "dc": 1601,
+                    "temp_c": 26,
+                    "ffmc": 87,
+                    "rain_days": 20,
+                    "date": "2015-07-31",
+                    "dewpt_k": 292,
+                    "LFDIreal": [
+                       43,
+                       "00ff00"
+                    ],
+                    "uwind_ms": 1,
+                    "ws_kmh": 21.9
+                 },
+                 "2015-07-31": {
+                    "rain_mm": 0,
+                    "vwind_ms": 5,
+                    "temp_k": 295,
+                    "FWI": [
+                       29,
+                       "ffff00"
+                    ],
+                    "uwind_ms": 2,
+                    "rh_pct": 90,
+                    "LFDI": [
+                       29,
+                       "ffff00"
+                    ],
+                    "dc": 1594,
+                    "temp_c": 22,
+                    "dmc": 520,
+                    "ffmc": 89,
+                    "rain_days": 20,
+                    "date": "2015-07-29",
+                    "dewpt_k": 287,
+                    "LFDIreal": [
+                       46,
+                       "ffff00"
+                    ],
+                    "ws_kmh": 19.39
+                 },
+                 "2015-08-01": {
+                    "rain_mm": 0,
+                    "dmc": 519,
+                    "temp_k": 297,
+                    "FWI": [
+                       50,
+                       "ffa500"
+                    ],
+                    "uwind_ms": 1,
+                    "rh_pct": 70,
+                    "LFDI": [
+                       50,
+                       "ffa500"
+                    ],
+                    "dc": 1591,
+                    "temp_c": 24,
+                    "vwind_ms": 6,
+                    "ffmc": 91,
+                    "rain_days": 20,
+                    "date": "2015-07-28",
+                    "dewpt_k": 288,
+                    "LFDIreal": [
+                       56,
+                       "ffff00"
+                    ],
+                    "ws_kmh": 21.9
+                 }
+              };
+
+
+
+
+/*var drest ={    
+
+            "station_name": "PRETORIA UNIVERSITY PROEFPLAAS",
+            "distance_m": 4497.3784,
+            "data": [{
+                      "rain_mm": null,
+                      "ws_kmh": 2.16,
+                      "rh_pct": 68,
+                      "LFDI": [
+                         11,
+                         "0000ff"
+                      ],
+                      "temp_c": 6,
+                      "firedanger": 11,
+                      "winddirection_deg": 94,
+                      "localtime": "2015-07-27 02:00:00"
+                      }
+             };*/
+
+
+   var HISTORIC = [];
+   var FORECAST = [];
+   var TABLEDATAA = Array();
+   Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+   };
+
+
+function fdi_table_data(json){
+  for (var j =0; j < json.length; j++){
+    for(var i = 0;i < json[j].data.length;i++){
+      var data = json[j];
+      HISTORIC.push({
+          station: data.station_name,
+          fdi: parseFloat(data.data[i].LFDI[0]),
+          wind : data.data[i].ws_kmh,
+          temp : data.data[i].temp_c,
+          relativeH : data.data[i].rh_pct,
+          rain : data.data[i].rain_mm
+        });
+      
+    }
+  }
+    console.log(HISTORIC);
+};
+/*
+function parse_forecast(json){
+
+    for(key in json){
+        var date = new Date(key);
+        date.setHours(12);
+        date.setMinutes(0);
+        FORECAST.push({
+          date: date,
+          fdi: parseFloat(json[key].LFDI[0])
+        });
+      
+    }
+    console.log(FORECAST);
+};
+function compare(a,b) {
+  if (a.date < b.date)
+    return -1;
+  if (a.date > b.date)
+    return 1;
+  return 0;
+}
+
+
+function declare_graph_data(){
+
+      for (var i = 0; i < FORECAST.length; i++){
+          TABLEDATAA.push({
+            date: FORECAST[i].date,
+            value2: FORECAST[i].fdi
+          });
+      }
+    for (var i =0; i < HISTORIC.length; i++){
+          TABLEDATAA.push({
+            date: HISTORIC[i].date,
+            value1: HISTORIC[i].fdi
+          });
+    }
+
+    
+  TABLEDATAA.sort(compare);
+  sorted =   TABLEDATAA.sort(compare);
+}
+*/
 
 $(document).ready(function(){
+
+  fdi_table_data(RealTime);
+  var tablefdi = $('table.fdi-table').DataTable({
+ 
+    "data": HISTORIC,
+    deferRender:    true,
+    dom:            "tS",
+    scrollY:        "60%",
+    scrollCollapse: true,
+    scrollX:        "60%",
+    stateSave:      true,
+    paging:         false,
+    "columns": [{
+      "className": 'details-control',
+      "orderable": false,
+      "data": null,
+      "defaultContent": ''
+    }, {
+      "data":"station"
+    }, {
+      "data":"fdi"
+    }, {
+      "data": "wind"
+    }, {
+      "data": "temp"
+    }, {
+      "data": "relativeH"
+    }, {
+      "data": "rain"
+    }],
+    "order": [
+      [1, 'asc']
+    ]
+  });
+
 
   var table = $('table.fire-table').DataTable({
     "data": tableData,
@@ -460,8 +1190,46 @@ $(document).ready(function(){
       [1, 'asc']
     ]
   });
+    console.log("waytsi - " + tablefdi.row(0).data());
 
 
+/*
+    var tablefdi = $('#fdi-table display').DataTable({
+    "data1": drest,
+    deferRender:    true,
+    dom:            "tS",
+    scrollY:        "60%",
+    scrollCollapse: true,
+    stateSave:      true,
+    paging:         false,
+
+    "columns": [{"className": 'details-control',"orderable": false,"data1": null,"defaultContent": ''}, 
+    {
+      "data1": "station_name"
+    }, 
+    {
+      "data1": "LFDI"
+    }, 
+    {
+      "data1": "ws_kmh"
+    },
+    {
+      "data1":"temp_c"
+    }, 
+    {
+      "data1": "rh_pct"
+    }, 
+    {
+      "data1":  "rain_mm"
+    }],
+    "order": [
+      [1, 'asc']
+    ]
+  });*/
+
+
+
+ 
   /* Formatting function for row details - modify as you need */
 
   function format(d) {
@@ -515,22 +1283,28 @@ $(document).ready(function(){
 
 // BEGIN FDI CHART
 
+var SECOND = 1000;
+var MINUTE = 60* SECOND;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
+
+
       // generate data
       var chartData = [];
 
       function generateChartData() {
         var thisDate = new Date();
-        var firstDate = new Date(thisDate.getTime() - 2 * 24 * 60 * 60 * 1000);
-        firstDate.setHours(0);
-        firstDate.setMinutes(0);
-        firstDate.setSeconds(0);
-        firstDate.setMilliseconds(0);
+        var twoDaysAgoDate = new Date(thisDate.getTime() - 2 * DAY);
+        twoDaysAgoDate.setHours(0);
+        twoDaysAgoDate.setMinutes(0);
+        twoDaysAgoDate.setSeconds(0);
+        twoDaysAgoDate.setMilliseconds(0);
 
-        for (var i = firstDate.getTime(); i < (firstDate.getTime() + 5 * 24 * 60 * 60 * 1000); i += 60 * 60 * 1000) {
+        for (var i = twoDaysAgoDate.getTime(); i < (twoDaysAgoDate.getTime() + 5 * DAY); i += 1 * HOUR) {
           var newDate = new Date(i);
           var value1 = 0;
 
-          if (i == firstDate.getTime()) {
+          if (i == twoDaysAgoDate.getTime()) {
             value1 = Math.round(Math.random() * 40 + 20);
           } else {
             value1 = Math.round(chartData[chartData.length - 1].value1 / 100 * (90 + Math.round(Math.random() * 20)) * 100) / 100;
@@ -539,6 +1313,7 @@ $(document).ready(function(){
           value2 = value1;
 
           if (newDate < thisDate) {
+
             if (newDate.getHours() == 12) {
               // we set daily data on 12th hour only
               chartData.push({
@@ -549,9 +1324,9 @@ $(document).ready(function(){
             } else {
               chartData.push({
                 date: newDate,
-                value1: value1
-              });
+                value1: value1});
             }
+
           } else {
             if (newDate.getHours() == 12) {
               // we set daily data on 12th hour only
@@ -565,13 +1340,128 @@ $(document).ready(function(){
         }
       }
 
-     generateChartData();
+   var LFDILOCAL = [];
+   var LFDIFORECAST = [];
+   var graph_data = Array();
+   Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+   };
 
+
+function parse_historic(json){
+    for(var i = 0;i < json.data.length;i++){
+      LFDILOCAL.push({
+          date: new Date(json.data[i].localtime),
+          fdi: parseFloat(json.data[i].LFDI[0])
+        });
+      
+    }
+    console.log(LFDILOCAL);
+};
+
+function parse_forecast(json){
+
+    for(key in json){
+        var date = new Date(key);
+        date.setHours(12);
+        date.setMinutes(0);
+        LFDIFORECAST.push({
+          date: date,
+          fdi: parseFloat(json[key].LFDI[0])
+        });
+      
+    }
+    console.log(LFDIFORECAST);
+};
+function compare(a,b) {
+  if (a.date < b.date)
+    return -1;
+  if (a.date > b.date)
+    return 1;
+  return 0;
+}
+
+
+function declare_graph_data(){
+    graph_data = [];
+      for (var i = 0; i < LFDIFORECAST.length; i++){
+          graph_data.push({
+            date: LFDIFORECAST[i].date,
+            value2: LFDIFORECAST[i].fdi
+          });
+      }
+    for (var i =0; i < LFDILOCAL.length; i++){
+          graph_data.push({
+            date: LFDILOCAL[i].date,
+            value1: LFDILOCAL[i].fdi
+          });
+    }
+
+    
+  graph_data.sort(compare);
+  sorted =   graph_data.sort(compare);
+}
+
+function update_graph(weather_station_index){
+     parse_historic(RealTime[weather_station_index]);
+     declare_graph_data();
+     render_chart();
+}
+
+
+/*
+  $(document).ready(function(){
+
+  var table = $('table.fdi-table display').DataTable({
+    "data": RealTime,
+    deferRender:    true,
+    dom:            "tS",
+    scrollY:        "60%",
+    scrollCollapse: true,
+    stateSave:      true,
+    paging:         false,
+    "columns": [{
+      "className": 'details-control',
+      "orderable": false,
+      "data": null,
+      "defaultContent": ''
+    }, {
+      "data": "station_name"
+    }, {
+      "data": "LFDI"
+    }, {
+      "data": "ws_kmh"
+    }, {
+      "data": "temp_c"
+    }, {
+      "data": "rh_pct"
+    }, {
+     "data": "rain_mm"
+    }],
+    "order": [
+      [1, 'asc']
+    ]
+  });*/
+
+
+     //generateChartData();
+     parse_historic(RealTime[0]);
+     parse_forecast(ForeCast);
+     declare_graph_data();
+     render_chart();
+     //generateChartData();
+
+
+     function render_chart(){
       var chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "dark",
         "marginRight": 80,
-        "dataProvider": chartData,
+        "dataProvider": graph_data,
         "valueAxes": [{
           "maximum": 100,
           "minimum": 0,
@@ -609,7 +1499,7 @@ $(document).ready(function(){
         }],
 
         "graphs": [{
-          "balloonText": "", // "[[title]]: [[value]]",
+          "balloonText": "[[title]]: [[value]]",
           "columnWidth": 15,
           "fillColors": "#000000",
           "fillAlphas": 0.4,
@@ -618,9 +1508,9 @@ $(document).ready(function(){
           "type": "column",
           "valueField": "value2"
         }, {
-          "balloonText": "[[title]]: [[value]]",
+          "balloonText": "",
           "lineThickness": 3,
-          "connect": false,
+          "connect": true,
           "title": "FDI",
           "lineColor": "#FFFFFF",
           "type": "smoothedLine",
@@ -644,5 +1534,8 @@ $(document).ready(function(){
           "enabled": true
         }
       });
+     }
+
+      
 
 // END FDI CHART
