@@ -666,12 +666,10 @@ var RealTime =
             }
         ],
         "station_id": "0513435A4"
-      }
-    ];
-
-    var RealTimeEG = [
-    {
-        "station_name": "PRETORIA UNIVERSITY PROEFPLAAS",
+      },
+      {
+        "station_id": "0513435A4",
+        "station_name": "CAPE TOWN UNIVERSITY ",
         "distance_m": 4497.378442236,
         "data": [
             {
@@ -679,7 +677,7 @@ var RealTime =
                 "ws_kmh": 2.16,
                 "rh_pct": 68,
                 "LFDI": [
-                    11,
+                    50,
                     "0000ff"
                 ],
                 "temp_c": 6,
@@ -692,7 +690,7 @@ var RealTime =
                 "ws_kmh": 5.04,
                 "rh_pct": 70,
                 "LFDI": [
-                    15,
+                    20,
                     "0000ff"
                 ],
                 "temp_c": 5.1,
@@ -705,7 +703,7 @@ var RealTime =
                 "ws_kmh": 4.68,
                 "rh_pct": 54,
                 "LFDI": [
-                    24,
+                    90,
                     "00ff00"
                 ],
                 "temp_c": 8.4,
@@ -718,7 +716,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    45,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -731,7 +729,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    60,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -744,7 +742,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    12,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -757,7 +755,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    78,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -770,7 +768,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    23,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -783,7 +781,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    10,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -793,230 +791,228 @@ var RealTime =
             }
         ],
         "station_id": "0513435A4"
-    }
-
+      }
     ];
 
+   var ForeCast = {
 
-              var ForeCast = {
-
-                 "2015-07-25": {
-                    "rain_mm": 0,
-                    "vwind_ms": 2,
-                    "FWI": [
-                       43,
-                       "ffa500"
-                    ],
-                    "temp_k": 300,
-                    "rh_pct": 88,
-                    "LFDI": [
-                       43,
-                       "ffa500"
-                    ],
-                    "dc": 1598,
-                    "temp_c": 27,
-                    "dmc": 522,
-                    "ffmc": 88,
-                    "rain_days": 20,
-                    "date": "2015-07-25",
-                    "dewpt_k": 291,
-                    "LFDIreal": [
-                       49,
-                       "ffff00"
-                    ],
-                    "uwind_ms": 1,
-                    "ws_kmh": 8.05
-                 },
-                 "2015-07-26": {
-                    "rain_mm": 0,
-                    "dmc": 523,
-                    "temp_k": 303,
-                    "FWI": [
-                       41,
-                       "ffa500"
-                    ],
-                    "uwind_ms": 1,
-                    "rh_pct": 88,
-                    "LFDI": [
-                       41,
-                       "ffa500"
-                    ],
-                    "vwind_ms": 2,
-                    "dc": 1604,
-                    "temp_c": 30,
-                    "ffmc": 90,
-                    "rain_days": 20,
-                    "date": "2015-08-01",
-                    "dewpt_k": 292,
-                    "LFDIreal": [
-                       61,
-                       "ffa500"
-                    ],
-                    "ws_kmh": 8.05
-                 },
-                 "2015-07-27": {
-                    "rain_mm": 0,
-                    "dmc": 523,
-                    "temp_k": 303,
-                    "FWI": [
-                       41,
-                       "ffa500"
-                    ],
-                    "uwind_ms": 1,
-                    "rh_pct": 88,
-                    "LFDI": [
-                       41,
-                       "ffa500"
-                    ],
-                    "vwind_ms": 2,
-                    "dc": 1604,
-                    "temp_c": 30,
-                    "ffmc": 90,
-                    "rain_days": 20,
-                    "date": "2015-08-01",
-                    "dewpt_k": 292,
-                    "LFDIreal": [
-                       99,
-                       "ffa500"
-                    ],
-                    "ws_kmh": 8.05
-                 },
-                 "2015-07-28": {
-                    "rain_mm": 0,
-                    "dmc": 525,
-                    "temp_k": 304,
-                    "FWI": [
-                       34,
-                       "ffff00"
-                    ],
-                    "uwind_ms": 2,
-                    "rh_pct": 90,
-                    "vwind_ms": 5,
-                    "LFDI": [
-                       34,
-                       "ffff00"
-                    ],
-                    "temp_c": 31,
-                    "dc": 1607,
-                    "ffmc": 90,
-                    "rain_days": 20,
-                    "date": "2015-08-02",
-                    "dewpt_k": 290,
-                    "LFDIreal": [
-                       52,
-                       "ffff00"
-                    ],
-                    "ws_kmh": 19.39
-                 },
-                 "2015-07-29": {
-                    "rain_mm": 0,
-                    "dmc": 518,
-                    "temp_k": 300,
-                    "FWI": [
-                       59,
-                       "ffa500"
-                    ],
-                    "uwind_ms": 0,
-                    "rh_pct": 59,
-                    "vwind_ms": -1,
-                    "LFDI": [
-                       59,
-                       "ffa500"
-                    ],
-                    "temp_c": 27,
-                    "dc": 1587,
-                    "ffmc": 91,
-                    "rain_days": 20,
-                    "date": "2015-07-27",
-                    "dewpt_k": 286,
-                    "LFDIreal": [
-                       60,
-                       "ffff00"
-                    ],
-                    "ws_kmh": 3.6
-                 },
-                 "2015-07-30": {
-                    "rain_mm": 0,
-                    "dmc": 523,
-                    "FWI": [
-                       36,
-                       "ffff00"
-                    ],
-                    "temp_k": 299,
-                    "rh_pct": 93,
-                    "LFDI": [
-                       36,
-                       "ffff00"
-                    ],
-                    "vwind_ms": 6,
-                    "dc": 1601,
-                    "temp_c": 26,
-                    "ffmc": 87,
-                    "rain_days": 20,
-                    "date": "2015-07-31",
-                    "dewpt_k": 292,
-                    "LFDIreal": [
-                       43,
-                       "00ff00"
-                    ],
-                    "uwind_ms": 1,
-                    "ws_kmh": 21.9
-                 },
-                 "2015-07-31": {
-                    "rain_mm": 0,
-                    "vwind_ms": 5,
-                    "temp_k": 295,
-                    "FWI": [
-                       29,
-                       "ffff00"
-                    ],
-                    "uwind_ms": 2,
-                    "rh_pct": 90,
-                    "LFDI": [
-                       29,
-                       "ffff00"
-                    ],
-                    "dc": 1594,
-                    "temp_c": 22,
-                    "dmc": 520,
-                    "ffmc": 89,
-                    "rain_days": 20,
-                    "date": "2015-07-29",
-                    "dewpt_k": 287,
-                    "LFDIreal": [
-                       46,
-                       "ffff00"
-                    ],
-                    "ws_kmh": 19.39
-                 },
-                 "2015-08-01": {
-                    "rain_mm": 0,
-                    "dmc": 519,
-                    "temp_k": 297,
-                    "FWI": [
-                       50,
-                       "ffa500"
-                    ],
-                    "uwind_ms": 1,
-                    "rh_pct": 70,
-                    "LFDI": [
-                       50,
-                       "ffa500"
-                    ],
-                    "dc": 1591,
-                    "temp_c": 24,
-                    "vwind_ms": 6,
-                    "ffmc": 91,
-                    "rain_days": 20,
-                    "date": "2015-07-28",
-                    "dewpt_k": 288,
-                    "LFDIreal": [
-                       56,
-                       "ffff00"
-                    ],
-                    "ws_kmh": 21.9
-                 }
-              };
+             "2015-07-25": {
+                "rain_mm": 0,
+                "vwind_ms": 2,
+                "FWI": [
+                   43,
+                   "ffa500"
+                ],
+                "temp_k": 300,
+                "rh_pct": 88,
+                "LFDI": [
+                   43,
+                   "ffa500"
+                ],
+                "dc": 1598,
+                "temp_c": 27,
+                "dmc": 522,
+                "ffmc": 88,
+                "rain_days": 20,
+                "date": "2015-07-25",
+                "dewpt_k": 291,
+                "LFDIreal": [
+                   49,
+                   "ffff00"
+                ],
+                "uwind_ms": 1,
+                "ws_kmh": 8.05
+             },
+             "2015-07-26": {
+                "rain_mm": 0,
+                "dmc": 523,
+                "temp_k": 303,
+                "FWI": [
+                   41,
+                   "ffa500"
+                ],
+                "uwind_ms": 1,
+                "rh_pct": 88,
+                "LFDI": [
+                   41,
+                   "ffa500"
+                ],
+                "vwind_ms": 2,
+                "dc": 1604,
+                "temp_c": 30,
+                "ffmc": 90,
+                "rain_days": 20,
+                "date": "2015-08-01",
+                "dewpt_k": 292,
+                "LFDIreal": [
+                   61,
+                   "ffa500"
+                ],
+                "ws_kmh": 8.05
+             },
+             "2015-07-27": {
+                "rain_mm": 0,
+                "dmc": 523,
+                "temp_k": 303,
+                "FWI": [
+                   41,
+                   "ffa500"
+                ],
+                "uwind_ms": 1,
+                "rh_pct": 88,
+                "LFDI": [
+                   41,
+                   "ffa500"
+                ],
+                "vwind_ms": 2,
+                "dc": 1604,
+                "temp_c": 30,
+                "ffmc": 90,
+                "rain_days": 20,
+                "date": "2015-08-01",
+                "dewpt_k": 292,
+                "LFDIreal": [
+                   99,
+                   "ffa500"
+                ],
+                "ws_kmh": 8.05
+             },
+             "2015-07-28": {
+                "rain_mm": 0,
+                "dmc": 525,
+                "temp_k": 304,
+                "FWI": [
+                   34,
+                   "ffff00"
+                ],
+                "uwind_ms": 2,
+                "rh_pct": 90,
+                "vwind_ms": 5,
+                "LFDI": [
+                   34,
+                   "ffff00"
+                ],
+                "temp_c": 31,
+                "dc": 1607,
+                "ffmc": 90,
+                "rain_days": 20,
+                "date": "2015-08-02",
+                "dewpt_k": 290,
+                "LFDIreal": [
+                   52,
+                   "ffff00"
+                ],
+                "ws_kmh": 19.39
+             },
+             "2015-07-29": {
+                "rain_mm": 0,
+                "dmc": 518,
+                "temp_k": 300,
+                "FWI": [
+                   59,
+                   "ffa500"
+                ],
+                "uwind_ms": 0,
+                "rh_pct": 59,
+                "vwind_ms": -1,
+                "LFDI": [
+                   59,
+                   "ffa500"
+                ],
+                "temp_c": 27,
+                "dc": 1587,
+                "ffmc": 91,
+                "rain_days": 20,
+                "date": "2015-07-27",
+                "dewpt_k": 286,
+                "LFDIreal": [
+                   60,
+                   "ffff00"
+                ],
+                "ws_kmh": 3.6
+             },
+             "2015-07-30": {
+                "rain_mm": 0,
+                "dmc": 523,
+                "FWI": [
+                   36,
+                   "ffff00"
+                ],
+                "temp_k": 299,
+                "rh_pct": 93,
+                "LFDI": [
+                   36,
+                   "ffff00"
+                ],
+                "vwind_ms": 6,
+                "dc": 1601,
+                "temp_c": 26,
+                "ffmc": 87,
+                "rain_days": 20,
+                "date": "2015-07-31",
+                "dewpt_k": 292,
+                "LFDIreal": [
+                   43,
+                   "00ff00"
+                ],
+                "uwind_ms": 1,
+                "ws_kmh": 21.9
+             },
+             "2015-07-31": {
+                "rain_mm": 0,
+                "vwind_ms": 5,
+                "temp_k": 295,
+                "FWI": [
+                   29,
+                   "ffff00"
+                ],
+                "uwind_ms": 2,
+                "rh_pct": 90,
+                "LFDI": [
+                   29,
+                   "ffff00"
+                ],
+                "dc": 1594,
+                "temp_c": 22,
+                "dmc": 520,
+                "ffmc": 89,
+                "rain_days": 20,
+                "date": "2015-07-29",
+                "dewpt_k": 287,
+                "LFDIreal": [
+                   46,
+                   "ffff00"
+                ],
+                "ws_kmh": 19.39
+             },
+             "2015-08-01": {
+                "rain_mm": 0,
+                "dmc": 519,
+                "temp_k": 297,
+                "FWI": [
+                   50,
+                   "ffa500"
+                ],
+                "uwind_ms": 1,
+                "rh_pct": 70,
+                "LFDI": [
+                   50,
+                   "ffa500"
+                ],
+                "dc": 1591,
+                "temp_c": 24,
+                "vwind_ms": 6,
+                "ffmc": 91,
+                "rain_days": 20,
+                "date": "2015-07-28",
+                "dewpt_k": 288,
+                "LFDIreal": [
+                   56,
+                   "ffff00"
+                ],
+                "ws_kmh": 21.9
+             }
+          };
 
 
 
@@ -1116,7 +1112,7 @@ $(document).ready(function(){
 
   fdi_table_data(RealTime);
   var tablefdi = $('table.fdi-table').DataTable({
- 
+   
     "data": HISTORIC,
     deferRender:    true,
     dom:            "tS",
@@ -1147,13 +1143,12 @@ $(document).ready(function(){
       [1, 'asc']
     ]
   });
-
+  $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
   // Add event listener for updating the FDI graph
-  $('table.fdi-table tbody').on('click','weather-station-select',function() {
-
-    update_graph();
-
+  $('table.fdi-table tbody').on('click','tr',function() {    
+      update_graph(tablefdi.row(this).index());
   });
+
 
 
   var table = $('table.fire-table').DataTable({
@@ -1358,6 +1353,7 @@ var DAY = 24 * HOUR;
 
 
 function parse_historic(json){
+  LFDILOCAL = [];
     for(var i = 0;i < json.data.length;i++){
       LFDILOCAL.push({
           date: new Date(json.data[i].localtime),
@@ -1454,14 +1450,14 @@ function update_graph(weather_station_index){
 
 
      //generateChartData();
-     parse_historic(RealTime[0]);
+     parse_historic(RealTime[1]);
      parse_forecast(ForeCast);
      declare_graph_data();
      render_chart();
      //generateChartData();
 
 
-     function render_chart(){
+function render_chart(){
       var chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "dark",
