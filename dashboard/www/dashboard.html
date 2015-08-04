@@ -58,8 +58,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
-                    MESA Wildfire Terminal</a>
+
+        <a href="http://mesasadc.org" target="_blank">
+            <img src="images/mesa-logo-.png" style="height: 50px;"/>
+            </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="head-navbar-collapse">
@@ -106,88 +108,8 @@
 </div>
 <div class="navbar-offset"></div>
 <div class="row main-area" style="margin-top: 60px;">
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#panel-footer-left">
-                        <i class="fa fa-line-chart"></i>
-                        FDI Graph
-                    </a>
-                  <span class="pull-right slide-submenu">
-                    <i class="fa fa-chevron-left"></i>
-                  </span>
-                </h4>
-            </div>
-            <div id="panel-footer-left" class="panel-collapse collapse in">
-                <div id="chartdiv" class="first_row"></div>
-                <div class="panel-body">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#panel-footer-left-two">
-                        <i class="fa fa-line-chart"></i>
-                        FDI Table
-                    </a>
-                  <span class="pull-right slide-submenu">
-                    <i class="fa fa-chevron-left"></i>
-                  </span>
-                </h4>
-            </div>
-            <div id="panel-footer-left-two" class="panel-collapse collapse in">
-                <div id="fdi_table" class="first_row">
-                    <table class="fdi-table" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Current FDI</th>
-                            <th>Wind</th>
-                            <th>Temp</th>
-                            <th>RH</th>
-                            <th>Rain</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div class="panel-body">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#panel-footer-right">
-                        <i class="fa fa-globe"></i>
-                        Map
-                    </a>
-                  <span class="pull-right slide-submenu">
-                    <i class="fa fa-chevron-right"></i>
-                  </span>
-                </h4>
-            </div>
-            <div id="panel-footer-right" class="panel-collapse collapse in">
-                <div id="map" class="first_row"></div>
-                <div class="panel-body">
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="col-md-12">
-        <div width="100%">
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-            </form>
-        </div>
         <table class="fire-table display" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -214,10 +136,80 @@
             </tfoot>
         </table>
     </div>
-    <div class="logo">
-        <a href="http://mesasadc.org" target="_blank">
-            <img src="images/mesa-logo-.png"/>
-        </a>
+    <div class="col-md-12" style="padding-top:20px;">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#panel-footer-left">
+                            <i class="fa fa-line-chart"></i>
+                            FDI Graph
+                        </a>
+                  <span class="pull-right slide-submenu">
+                    <i class="fa fa-chevron-left"></i>
+                  </span>
+                    </h4>
+                </div>
+                <div id="panel-footer-left" class="panel-collapse collapse in">
+                    <div id="chartdiv" class="first_row"></div>
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#panel-footer-left-two">
+                                <i class="fa fa-line-chart"></i>
+                                FDI Table
+                            </a>
+                        </h4>
+                </div>
+                <input type="text" class="form-control" placeholder="Search">
+                <div id="panel-footer-left-two" class="panel-collapse collapse in">
+                    <div id="fdi_table" class="first_row">
+                        <table class="fdi-table" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Current FDI</th>
+                                <th>Wind</th>
+                                <th>Temp</th>
+                                <th>RH</th>
+                                <th>Rain</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#panel-footer-right">
+                            <i class="fa fa-globe"></i>
+                            Map
+                        </a>
+                  <span class="pull-right slide-submenu">
+                    <i class="fa fa-chevron-right"></i>
+                  </span>
+                    </h4>
+                </div>
+                <div id="panel-footer-right" class="panel-collapse collapse in">
+                    <div id="map" class="first_row"></div>
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="mini-submenu mini-submenu-left pull-left">

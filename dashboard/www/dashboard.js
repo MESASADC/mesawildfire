@@ -1156,7 +1156,7 @@ $(document).ready(function(){
     "data": tableData,
     deferRender:    true,
     dom:            "tS",
-    scrollY:        "60%",
+    scrollY:        "40%",
     scrollCollapse: true,
     stateSave:      true,
     paging:         false,
