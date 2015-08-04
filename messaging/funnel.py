@@ -76,13 +76,13 @@ class Funnel(Exchange):
         
         queue.declare()
         
-        logging.debug("Binding queue '%s' to exchange '%s' with:" % (queue.name, self.name))
+        logging.info("Binding queue '%s' to exchange '%s' with:" % (queue.name, self.name))
         routing_keys = routing_keys or ['#']
         for rk in routing_keys:
             queue.bind_to(exchange=exchange, routing_key=rk)
             logging.debug("rk: %s" % rk)
             
-        consumer_tag = '%s::%s::consumer' % (self.name, queue.name)
+        consumer_tag = '%s::%s::funnel' % (self.name, queue.name)
         queue.consume(consumer_tag, callback=self._consumer_producer_callback)
         
         self._queues.append(queue)
@@ -92,7 +92,7 @@ class Funnel(Exchange):
         
         routing_key = message.delivery_info.get('routing_key')
         self.publish(message, routing_key)
-        logging.debug("published a message with rk '%s' to '%s'" % (routing_key, self.name))
+        logging.info("published a message with rk '%s' to '%s'" % (routing_key, self.name))
         message.ack()
        
         

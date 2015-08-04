@@ -37,7 +37,7 @@
         },
         "time": {
             "value": "{{ HH_MM_SS }}",
-            "description": "Date",
+            "description": "Time (UTC)",
             "format": "HH:MM:SS"
         },
         "btemp": {
