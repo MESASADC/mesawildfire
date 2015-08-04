@@ -69,6 +69,7 @@ table.dataTable td {
   height: 40vh;
   font-size: 11px;
 }
+
 #fdi_table{
   background: #3f3f4f;
   color: #ffffff;
@@ -89,7 +90,7 @@ table.dataTable td {
 
 .sidebar {
   z-index: 45;
-  top: -90vh;
+  top: -50vh;
 }
 
 .sidebar-body .panel-heading {
@@ -101,7 +102,7 @@ table.dataTable td {
 }
 
 .panel-title {
-  color: rgba(255, 255, 255, 1);
+
 }
 
 

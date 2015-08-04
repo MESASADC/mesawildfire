@@ -1,70 +1,73 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <title>MESA Wildfire Terminal</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>MESA Wildfire Terminal</title>
 
 
-  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.css" />
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.js"></script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
-  <script src="http://www.amcharts.com/lib/3/serial.js"></script>
-  <script src="http://www.amcharts.com/lib/3/themes/dark.js"></script>
-  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.css" />
-  <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js">
-  </script>
-  <link rel="stylesheet" href="http://cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css" />
-  <script src="http://cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.css"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script src="http://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="http://www.amcharts.com/lib/3/themes/dark.js"></script>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.css"/>
+    <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js">
+    </script>
+    <link rel="stylesheet" href="http://cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css"/>
+    <script src="http://cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
 
-<!--
-  <link rel="stylesheet" href="offline/ol.min.css" />
-  <link rel="stylesheet" href="offline/bootstrap.min.css" />
-  <link rel="stylesheet" href="offline/font-awesome.min.css" />
-  <script type="text/javascript" src="offline/ol.min.js"></script>
-  <script type="text/javascript" src="offline/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="offline/bootstrap.min.js"></script>
-  <script src="offline/amcharts.js"></script>
-  <script src="offline/serial.js"></script>
-  <script src="offline/dark.js"></script>
-  <link rel="stylesheet" href="offline/jquery.dataTables.css" />
-  <script src="offline/jquery.dataTables.min.js">
-  </script>
-  <link rel="stylesheet" href="offline/dataTables.responsive.css" />
-  <script src="offline/dataTables.responsive.min.js"></script>
--->
+    <!--
+      <link rel="stylesheet" href="offline/ol.min.css" />
+      <link rel="stylesheet" href="offline/bootstrap.min.css" />
+      <link rel="stylesheet" href="offline/font-awesome.min.css" />
+      <script type="text/javascript" src="offline/ol.min.js"></script>
+      <script type="text/javascript" src="offline/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="offline/bootstrap.min.js"></script>
+      <script src="offline/amcharts.js"></script>
+      <script src="offline/serial.js"></script>
+      <script src="offline/dark.js"></script>
+      <link rel="stylesheet" href="offline/jquery.dataTables.css" />
+      <script src="offline/jquery.dataTables.min.js">
+      </script>
+      <link rel="stylesheet" href="offline/dataTables.responsive.css" />
+      <script src="offline/dataTables.responsive.min.js"></script>
+    -->
 
-  <!-- local -->
-  <link rel="stylesheet" href="style.css" />
-  <script src="dashboard.js"></script>
+    <!-- local -->
+    <link rel="stylesheet" href="style.css"/>
+    <script src="test_data.js"></script>
+    <script src="dashboard.js"></script>
 
 
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
     <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#head-navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">
-            MESA Wildfire Terminal</a>
-        </div> 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="head-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><!--<a href="#">Link</a></li>
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#head-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+        <a href="http://mesasadc.org" target="_blank">
+            <img src="images/mesa-logo-.png" style="height: 50px;"/>
+            </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="head-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><!--<a href="#">Link</a></li>
             <li><a href="#">Info</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -77,180 +80,167 @@
                 <li class="divider"></li>
                 <li><a href="#">One more separated link</a></li>
               </ul>-->
-            </li>
-          </ul>
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text" class="search form-control" placeholder="Search">
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input id="fire-table-search" type="text" class="search form-control" placeholder="Search">
+                    </div>
+                    <!--button type="submit" class="btn btn-default">Submit</button-->
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" target="_blank">MESA SADC Website</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-            <!--button type="submit" class="btn btn-default">Submit</button-->
-          </form>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" target="_blank">MESA SADC Website</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li>
-          </ul>
+            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
+        <!-- /.container-fluid -->
     </nav>
-  </div>
-  <div class="navbar-offset"></div>
-  <div class="main-area">
-      <div>
+</div>
+<div class="navbar-offset"></div>
+<div class="row main-area" style="margin-top: 60px;">
+
+    <div class="col-md-12">
         <table class="fire-table display" cellspacing="0" width="100%">
-          <thead>
+            <thead>
             <tr>
-              <th></th>
-              <th>Id</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Area</th>
-              <th>Max FRP</th>
-              <th>Current FDI</th>
+                <th></th>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Area</th>
+                <th>Max FRP</th>
+                <th>Current FDI</th>
             </tr>
-          </thead>
+            </thead>
 
-          <tfoot>
+            <tfoot>
             <tr>
-              <th></th>
-              <th>Id</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Area</th>
-              <th>Max FRP</th>
-              <th>Current FDI</th>
+                <th></th>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Area</th>
+                <th>Max FRP</th>
+                <th>Current FDI</th>
             </tr>
-          </tfoot>
+            </tfoot>
         </table>
-      </div>
-      <div class="logo">
-          <a href="http://mesasadc.org" target="_blank">
-                <img src="images/mesa-logo-.png" />
-          </a>
-      </div>
-  </div>
-  <div class="mini-submenu mini-submenu-left pull-left">
-    <i class="fa fa-line-chart"></i>
-  </div>
-  <div class="mini-submenu mini-submenu-right pull-right">
-    <i class="fa fa-globe"></i>
-  </div>
-
-  <footer class="footer">
-
-  <div class="row footer-row">
-
-    <div class="col-sm-5 col-md-5 sidebar sidebar-left pull-left">
-      <div class="panel-group sidebar-body" id="footer-accordion-left">
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-                  <a data-toggle="collapse" href="#panel-footer-left">
-                    <i class="fa fa-line-chart"></i>
-                    FDI Graph
-                  </a>
-                  <span class="pull-right slide-submenu">
-                    <i class="fa fa-chevron-left"></i>
-                  </span>
-            </h4>
-          </div>
-          <div id="panel-footer-left" class="panel-collapse collapse in">
-            <div id="chartdiv"></div>
-            <div class="panel-body">
-            </div>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-                  <a data-toggle="collapse" href="#panel-footer-left-two">
-                    <i class="fa fa-line-chart"></i>
-                    FDI Table
-                  </a>
-                  <span class="pull-right slide-submenu">
-                    <i class="fa fa-chevron-left"></i>
-                  </span>
-            </h4>
-          </div>
-          <div id="panel-footer-left-two" class="panel-collapse collapse in">
-        <div id="fdi_table" >
-        <table class = "fdi-table" cellspacing="0" width="100%">
-          <thead>
-            <tr>
-
-              <th></th>
-              <th>Name</th>
-              <th>Current FDI</th>
-              <th>Wind</th>
-              <th>Temp</th>
-              <th>RH</th>
-              <th>Rain</th>
-            </tr>
-          </thead>
-          <tbody>
-            
-            <td>
-              <i class="fa fa-line-chart"></i>
-            </td>
-          </tbody>
-          <!--<tfoot>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Current FDI</th>
-              <th>Wind</th>
-              <th>Temp</th>
-              <th>RH</th>
-              <th>Rain</th>
-            </tr>
-          </tfoot>-->
-        </table>
-            </div>
-            <div class="panel-body">
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-    
-    <div class="col-sm-2 col-md-2 midfoot"></div>
+    <div class="col-md-12" style="padding-top:20px;">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#panel-footer-left">
+                            <i class="fa fa-line-chart"></i>
+                            FDI Graph
+                        </a>
+                  <span class="pull-right slide-submenu">
+                    <i class="fa fa-chevron-left"></i>
+                  </span>
+                    </h4>
+                </div>
+                <div id="panel-footer-left" class="panel-collapse collapse in">
+                    <div id="chartdiv" class="first_row"></div>
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="col-sm-5 col-md-5 sidebar sidebar-right pull-right">
-      <div class="panel-group sidebar-body" id="footer-accordion-right">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-                  <a data-toggle="collapse" href="#panel-footer-right">
-                    <i class="fa fa-globe"></i>
-                    Map
-                  </a>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#panel-footer-left-two">
+                                <i class="fa fa-line-chart"></i>
+                                FDI Table
+                            </a>
+                        </h4>
+                </div>
+                <input id="fdi-table-search" type="text" class="form-control" placeholder="Search">
+
+                <div id="panel-footer-left-two" class="panel-collapse collapse in">
+                    <div id="fdi_table" class="first_row">
+                        <table class="fdi-table" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Current FDI</th>
+                                <th>Wind</th>
+                                <th>Temp</th>
+                                <th>RH</th>
+                                <th>Rain</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#panel-footer-right">
+                            <i class="fa fa-globe"></i>
+                            Map
+                        </a>
                   <span class="pull-right slide-submenu">
                     <i class="fa fa-chevron-right"></i>
                   </span>
-            </h4>
-          </div>
-          <div id="panel-footer-right" class="panel-collapse collapse in">
-                <div id="map"></div>
-                <div class="panel-body">
+                    </h4>
+                </div>
+                <div id="panel-footer-right" class="panel-collapse collapse in">
+                    <div id="map" class="first_row"></div>
+                    <div class="panel-body">
+                    </div>
                 </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-    </footer>
-  </body>
+</div>
+<div class="mini-submenu mini-submenu-left pull-left">
+    <i class="fa fa-line-chart"></i>
+</div>
+<div class="mini-submenu mini-submenu-right pull-right">
+    <i class="fa fa-globe"></i>
+</div>
+
+<footer class="footer">
+
+    <div class="row footer-row">
+
+        <div class="col-sm-5 col-md-5 sidebar sidebar-left pull-left">
+            <div class="panel-group sidebar-body" id="footer-accordion-left">
+
+
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2 midfoot"></div>
+
+        <div class="col-sm-5 col-md-5 sidebar sidebar-right pull-right">
+            <div class="panel-group sidebar-body" id="footer-accordion-right">
+
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+</body>
 </html>
