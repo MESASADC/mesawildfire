@@ -103,330 +103,146 @@
 // BEGIN FIRE EVENT TABLE
 
 
-var tableData = [
-{
-  "id": "55",
-  "description": "Near Township A",
-  "status": "In Progress",
-  "area": 10,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township B",
-  "status": "In Progress",
-  "area": 20,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township C",
-  "status": "Out",
-  "area": 30,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township A",
-  "status": "In Progress",
-  "area": 10,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township B",
-  "status": "In Progress",
-  "area": 20,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township C",
-  "status": "Out",
-  "area": 30,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township A",
-  "status": "In Progress",
-  "area": 10,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township B",
-  "status": "In Progress",
-  "area": 20,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township C",
-  "status": "Out",
-  "area": 30,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township D",
-  "status": "Responding",
-  "area": 40,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township E",
-  "status": "Out",
-  "area": 50,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township F",
-  "status": "Responding",
-  "area": 60,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "55",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
-},
-{
-  "id": "555",
-  "description": "Near Township G",
-  "status": "In Progress",
-  "area": 70,
-  "max_frp": 700,
-  "first_observed": "2015/04/25",
-  "last_observed": "2015/04/26",
-  "fdi_first": 70,
-  "fdi_last": 65,
-  "fdi_current": 60
+
+/*var drest ={    
+
+            "station_name": "PRETORIA UNIVERSITY PROEFPLAAS",
+            "distance_m": 4497.3784,
+            "data": [{
+                      "rain_mm": null,
+                      "ws_kmh": 2.16,
+                      "rh_pct": 68,
+                      "LFDI": [
+                         11,
+                         "0000ff"
+                      ],
+                      "temp_c": 6,
+                      "firedanger": 11,
+                      "winddirection_deg": 94,
+                      "localtime": "2015-07-27 02:00:00"
+                      }
+             };*/
+
+
+   var HISTORIC = [];
+   var FORECAST = [];
+   var TABLEDATAA = Array();
+   Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+   };
+
+
+function fdi_table_data(json){
+  for (var j =0; j < json.length; j++){
+      var data = json[j];
+      HISTORIC.push({
+          station: data.station_name,
+          fdi: parseFloat(data.data[0].LFDI[0]),
+          wind : data.data[0].ws_kmh,
+          temp : data.data[0].temp_c,
+          relativeH : data.data[0].rh_pct,
+          rain : data.data[0].rain_mm
+        });
+  }
+    console.log(HISTORIC);
+};
+/*
+function parse_forecast(json){
+
+    for(key in json){
+        var date = new Date(key);
+        date.setHours(12);
+        date.setMinutes(0);
+        FORECAST.push({
+          date: date,
+          fdi: parseFloat(json[key].LFDI[0])
+        });
+      
+    }
+    console.log(FORECAST);
+};
+function compare(a,b) {
+  if (a.date < b.date)
+    return -1;
+  if (a.date > b.date)
+    return 1;
+  return 0;
 }
-];
 
 
+function declare_graph_data(){
+
+      for (var i = 0; i < FORECAST.length; i++){
+          TABLEDATAA.push({
+            date: FORECAST[i].date,
+            value2: FORECAST[i].fdi
+          });
+      }
+    for (var i =0; i < HISTORIC.length; i++){
+          TABLEDATAA.push({
+            date: HISTORIC[i].date,
+            value1: HISTORIC[i].fdi
+          });
+    }
+
+    
+  TABLEDATAA.sort(compare);
+  sorted =   TABLEDATAA.sort(compare);
+}
+*/
 
 $(document).ready(function(){
+
+  fdi_table_data(RealTime);
+  var tableFdi = $('table.fdi-table').DataTable({
+   
+    "data": HISTORIC,
+    deferRender:    true,
+    dom:            "tS",
+    scrollY:        "60%",
+    scrollCollapse: true,
+    scrollX:        "60%",
+    stateSave:      true,
+    paging:         false,
+    "columns": [{
+      "className": 'weather-station-select',
+      "orderable": false,
+      "data": null,
+      "defaultContent": ''
+    }, {
+      "data":"station"
+    }, {
+      "data":"fdi"
+    }, {
+      "data": "wind"
+    }, {
+      "data": "temp"
+    }, {
+      "data": "relativeH"
+    }, {
+      "data": "rain"
+    }],
+    "order": [
+      [1, 'asc']
+    ]
+  });
+  $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
+  // Add event listener for updating the FDI graph
+  $('table.fdi-table tbody').on('click','tr',function() {    
+      update_graph(tableFdi.row(this).index());
+  });
+
+
 
   var table = $('table.fire-table').DataTable({
     "data": tableData,
     deferRender:    true,
     dom:            "tS",
-    scrollY:        "60%",
+    scrollY:        "40%",
     scrollCollapse: true,
     stateSave:      true,
     paging:         false,
@@ -461,7 +277,7 @@ $(document).ready(function(){
     ]
   });
 
-
+ 
   /* Formatting function for row details - modify as you need */
 
   function format(d) {
@@ -503,10 +319,14 @@ $(document).ready(function(){
     }
   });
 
-  $('.form-control.search').on( 'keyup', function () {
+
+  $('#fire-table-search').on( 'keyup', function () {
       table.search( this.value ).draw();
   } );
 
+   $('#fdi-table-search').on( 'keyup', function () {
+      tableFdi.search( this.value ).draw();
+  } );
 
 });
 
@@ -515,22 +335,28 @@ $(document).ready(function(){
 
 // BEGIN FDI CHART
 
+var SECOND = 1000;
+var MINUTE = 60* SECOND;
+var HOUR = 60 * MINUTE;
+var DAY = 24 * HOUR;
+
+
       // generate data
       var chartData = [];
 
       function generateChartData() {
         var thisDate = new Date();
-        var firstDate = new Date(thisDate.getTime() - 2 * 24 * 60 * 60 * 1000);
-        firstDate.setHours(0);
-        firstDate.setMinutes(0);
-        firstDate.setSeconds(0);
-        firstDate.setMilliseconds(0);
+        var twoDaysAgoDate = new Date(thisDate.getTime() - 2 * DAY);
+        twoDaysAgoDate.setHours(0);
+        twoDaysAgoDate.setMinutes(0);
+        twoDaysAgoDate.setSeconds(0);
+        twoDaysAgoDate.setMilliseconds(0);
 
-        for (var i = firstDate.getTime(); i < (firstDate.getTime() + 5 * 24 * 60 * 60 * 1000); i += 60 * 60 * 1000) {
+        for (var i = twoDaysAgoDate.getTime(); i < (twoDaysAgoDate.getTime() + 5 * DAY); i += 1 * HOUR) {
           var newDate = new Date(i);
           var value1 = 0;
 
-          if (i == firstDate.getTime()) {
+          if (i == twoDaysAgoDate.getTime()) {
             value1 = Math.round(Math.random() * 40 + 20);
           } else {
             value1 = Math.round(chartData[chartData.length - 1].value1 / 100 * (90 + Math.round(Math.random() * 20)) * 100) / 100;
@@ -539,6 +365,7 @@ $(document).ready(function(){
           value2 = value1;
 
           if (newDate < thisDate) {
+
             if (newDate.getHours() == 12) {
               // we set daily data on 12th hour only
               chartData.push({
@@ -549,9 +376,9 @@ $(document).ready(function(){
             } else {
               chartData.push({
                 date: newDate,
-                value1: value1
-              });
+                value1: value1});
             }
+
           } else {
             if (newDate.getHours() == 12) {
               // we set daily data on 12th hour only
@@ -565,13 +392,129 @@ $(document).ready(function(){
         }
       }
 
-      generateChartData();
+   var LFDILOCAL = [];
+   var LFDIFORECAST = [];
+   var graph_data = Array();
+   Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+   };
 
+
+function parse_historic(json){
+  LFDILOCAL = [];
+    for(var i = 0;i < json.data.length;i++){
+      LFDILOCAL.push({
+          date: new Date(json.data[i].localtime),
+          fdi: parseFloat(json.data[i].LFDI[0])
+        });
+      
+    }
+    console.log(LFDILOCAL);
+};
+
+function parse_forecast(json){
+
+    for(key in json){
+        var date = new Date(key);
+        date.setHours(12);
+        date.setMinutes(0);
+        LFDIFORECAST.push({
+          date: date,
+          fdi: parseFloat(json[key].LFDI[0])
+        });
+      
+    }
+    console.log(LFDIFORECAST);
+};
+function compare(a,b) {
+  if (a.date < b.date)
+    return -1;
+  if (a.date > b.date)
+    return 1;
+  return 0;
+}
+
+
+function declare_graph_data(){
+    graph_data = [];
+      for (var i = 0; i < LFDIFORECAST.length; i++){
+          graph_data.push({
+            date: LFDIFORECAST[i].date,
+            value2: LFDIFORECAST[i].fdi
+          });
+      }
+    for (var i =0; i < LFDILOCAL.length; i++){
+          graph_data.push({
+            date: LFDILOCAL[i].date,
+            value1: LFDILOCAL[i].fdi
+          });
+    }
+
+    
+  graph_data.sort(compare);
+  sorted =   graph_data.sort(compare);
+}
+
+function update_graph(weather_station_index){
+     parse_historic(RealTime[weather_station_index]);
+     declare_graph_data();
+     render_chart();
+}
+
+
+/*
+  $(document).ready(function(){
+
+  var table = $('table.fdi-table display').DataTable({
+    "data": RealTime,
+    deferRender:    true,
+    dom:            "tS",
+    scrollY:        "60%",
+    scrollCollapse: true,
+    stateSave:      true,
+    paging:         false,
+    "columns": [{
+      "className": 'details-control',
+      "orderable": false,
+      "data": null,
+      "defaultContent": ''
+    }, {
+      "data": "station_name"
+    }, {
+      "data": "LFDI"
+    }, {
+      "data": "ws_kmh"
+    }, {
+      "data": "temp_c"
+    }, {
+      "data": "rh_pct"
+    }, {
+     "data": "rain_mm"
+    }],
+    "order": [
+      [1, 'asc']
+    ]
+  });*/
+
+
+     //generateChartData();
+     parse_historic(RealTime[1]);
+     parse_forecast(ForeCast);
+     declare_graph_data();
+     render_chart();
+     //generateChartData();
+
+
+function render_chart(){
       var chart = AmCharts.makeChart("chartdiv", {
         "type": "serial",
         "theme": "dark",
         "marginRight": 80,
-        "dataProvider": chartData,
+        "dataProvider": graph_data,
         "valueAxes": [{
           "maximum": 100,
           "minimum": 0,
@@ -609,7 +552,7 @@ $(document).ready(function(){
         }],
 
         "graphs": [{
-          "balloonText": "", // "[[title]]: [[value]]",
+          "balloonText": "",
           "columnWidth": 15,
           "fillColors": "#000000",
           "fillAlphas": 0.4,
@@ -620,7 +563,7 @@ $(document).ready(function(){
         }, {
           "balloonText": "[[title]]: [[value]]",
           "lineThickness": 3,
-          "connect": false,
+          "connect": true,
           "title": "FDI",
           "lineColor": "#FFFFFF",
           "type": "smoothedLine",
@@ -644,5 +587,8 @@ $(document).ready(function(){
           "enabled": true
         }
       });
+     }
+
+      
 
 // END FDI CHART

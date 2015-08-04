@@ -70,6 +70,15 @@ table.dataTable td {
   font-size: 11px;
 }
 
+#fdi_table{
+  background: #3f3f4f;
+  color: #ffffff;
+  width: 100%;
+  height: 30vh;
+  font-size: 11px;
+}
+
+
 #map {
   z-index: 55;
   background: #3f3f4f;
@@ -93,7 +102,7 @@ table.dataTable td {
 }
 
 .panel-title {
-  color: rgba(255, 255, 255, 1);
+
 }
 
 
