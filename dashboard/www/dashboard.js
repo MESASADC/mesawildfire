@@ -552,7 +552,7 @@ var RealTime =
                 "ws_kmh": 2.16,
                 "rh_pct": 68,
                 "LFDI": [
-                    11,
+                    45,
                     "0000ff"
                 ],
                 "temp_c": 6,
@@ -565,7 +565,7 @@ var RealTime =
                 "ws_kmh": 5.04,
                 "rh_pct": 70,
                 "LFDI": [
-                    15,
+                    12,
                     "0000ff"
                 ],
                 "temp_c": 5.1,
@@ -578,7 +578,7 @@ var RealTime =
                 "ws_kmh": 4.68,
                 "rh_pct": 54,
                 "LFDI": [
-                    24,
+                    87,
                     "00ff00"
                 ],
                 "temp_c": 8.4,
@@ -591,7 +591,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    64,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -617,7 +617,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    62,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -656,7 +656,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    35,
+                    21,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -677,7 +677,7 @@ var RealTime =
                 "ws_kmh": 2.16,
                 "rh_pct": 68,
                 "LFDI": [
-                    50,
+                    5,
                     "0000ff"
                 ],
                 "temp_c": 6,
@@ -703,7 +703,7 @@ var RealTime =
                 "ws_kmh": 4.68,
                 "rh_pct": 54,
                 "LFDI": [
-                    90,
+                    50,
                     "00ff00"
                 ],
                 "temp_c": 8.4,
@@ -716,7 +716,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    45,
+                    60,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -729,7 +729,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    60,
+                    70,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -742,7 +742,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    12,
+                    80,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -755,7 +755,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    78,
+                    80,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -768,7 +768,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    23,
+                    80,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -781,7 +781,7 @@ var RealTime =
                 "ws_kmh": 5.4,
                 "rh_pct": 38,
                 "LFDI": [
-                    10,
+                    80,
                     "00ff00"
                 ],
                 "temp_c": 13.4,
@@ -1500,7 +1500,7 @@ function render_chart(){
         }],
 
         "graphs": [{
-          "balloonText": "[[title]]: [[value]]",
+          "balloonText": "",
           "columnWidth": 15,
           "fillColors": "#000000",
           "fillAlphas": 0.4,
@@ -1509,7 +1509,7 @@ function render_chart(){
           "type": "column",
           "valueField": "value2"
         }, {
-          "balloonText": "",
+          "balloonText": "[[title]]: [[value]]",
           "lineThickness": 3,
           "connect": true,
           "title": "FDI",
