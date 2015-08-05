@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=mesa
+
+v1schema 2015-08-05T07:20:08Z root <root@d0be112c210c> # Adding_v1_schema
+af_modis 2015-08-05T07:20:09Z root <root@8dc86f5ced83> # Adding_af_modis
