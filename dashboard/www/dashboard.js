@@ -1,5 +1,12 @@
 // BEGIN LAYOUT
 
+function unique(list) {
+    var result = [];
+    $.each(list, function(i, e) {
+        if ($.inArray(e, result) == -1) result.push(e);
+    });
+    return result;
+}
 
   function applyMargins() {
     /* var leftToggler = $(".mini-submenu-left");
@@ -280,32 +287,59 @@ $(document).ready(function(){
  
   /* Formatting function for row details - modify as you need */
 
+    var custom_names = {
+        "first_observed": "First Observation",
+        "last_observed": "First Observation",
+        "fdi_first": "FDI at first observation",
+        "fdi_last": "FDI at last observation"
+    };
+
+  /* Formatting function for row details - modify as you need */
   function format(d) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-      '<tr>' +
-        '<td>First Observation:</td>' +
-        '<td>' + d.first_observed + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>Last Observation:</td>' +
-        '<td>' + d.last_observed + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>FDI at first observation:</td>' +
-        '<td>' + d.fdi_first + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td>FDI at last observation:</td>' +
-        '<td>' + d.fdi_last + '</td>' +
-      '</tr>' +
-    '</table>';
+    var visible_columns = $(".dataTable").find("th.sorting, th.sorting-asc,th.sorting-desc");
+
+    var visible_column_names = Array();
+    for (var i =0 ; i < visible_columns.length; i++){
+        visible_column_names.push($(visible_columns[i]).text());
+    }
+    visible_columns = unique(visible_column_names);
+
+    var displaying_keys = Array();
+    for (key in d){
+        for (var i = 0; i < visible_columns.length; i++){
+            var my_key = visible_columns[i].trim().toLowerCase();
+            my_key = my_key.replace(/[^\w\s]/gi, '').trim().replace(/ /g,'_');
+            if (key == my_key){
+                displaying_keys.push(key);
+                break;
+            }
+        }
+    }
+
+    var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
+    for (key in d){
+        if (displaying_keys.indexOf(key) == -1){
+            var string;
+            if (custom_names[key] != null)
+                string = custom_names[key];
+            else
+                string = key.charAt(0).toUpperCase() + "" + key.substring(1).replace(/_/g,' ');
+
+            html +='<tr>' +
+            '<td>'+string+':</td>' +
+            '<td>' + d[key]+ '</td>' +
+            '</tr>';
+        }
+    }
+    html += '</table>';
+    return html ;
   }
 
 
   // Add event listener for opening and closing details
   $('table.fire-table tbody').on('click', 'td.details-control', function() {
     var tr = $(this).closest('tr');
+    var wms_image = "<image style='width:200px; height:200px; display:inline;'/>";
     var row = table.row(tr);
 
     if (row.child.isShown()) {
@@ -316,6 +350,7 @@ $(document).ready(function(){
       // Open this row
       row.child(format(row.data())).show();
       tr.addClass('shown');
+      tr.parent().find('td[colspan=7]').parent().prepend(wms_image);
     }
   });
 
