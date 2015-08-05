@@ -1,5 +1,7 @@
 -- Revert v1schema
 
 BEGIN;
-drop schema "1";
+
+DROP SCHEMA "1";
+
 COMMIT;
