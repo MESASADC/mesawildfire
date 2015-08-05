@@ -62,9 +62,6 @@ class RestPost(Persist):
             r.raise_for_status()
         except Exception, e:
             raise e
-    
-    
-    
 
 import time          
 import signal
@@ -73,7 +70,7 @@ import signal
 if __name__ == "__main__":
     
     rp = RestPost('restpost', channel=None, uri='http://www.afis.co.za')
-    rp._persist(message='hallo', data={'key': 'value'})
+    rp._persist(message='hallo', data={'key': 'value', 'key2': 'value2'})
     
     """
     uri = 'amqp://vhost1:password1@localhost:5672/vhost1'

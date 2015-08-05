@@ -5,3 +5,7 @@ fonts
 .idea
 geoserver_data
 postgres_data
+
+ENV
+
+*~
