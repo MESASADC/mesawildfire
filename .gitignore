@@ -9,3 +9,6 @@ postgres_data
 ENV
 
 *~
+*.pyc
+
+venv
