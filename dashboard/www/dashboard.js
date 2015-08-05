@@ -97,36 +97,10 @@
 
   });
 
-// END LAYOUT
-
-
-// BEGIN FIRE EVENT TABLE
-
-
-
-/*var drest ={    
-
-            "station_name": "PRETORIA UNIVERSITY PROEFPLAAS",
-            "distance_m": 4497.3784,
-            "data": [{
-                      "rain_mm": null,
-                      "ws_kmh": 2.16,
-                      "rh_pct": 68,
-                      "LFDI": [
-                         11,
-                         "0000ff"
-                      ],
-                      "temp_c": 6,
-                      "firedanger": 11,
-                      "winddirection_deg": 94,
-                      "localtime": "2015-07-27 02:00:00"
-                      }
-             };*/
-
-
    var HISTORIC = [];
    var FORECAST = [];
    var TABLEDATAA = Array();
+
    Object.size = function(obj) {
     var size = 0, key;
     for (key in obj) {
@@ -140,6 +114,7 @@ function fdi_table_data(json){
   for (var j =0; j < json.length; j++){
       var data = json[j];
       HISTORIC.push({
+          type:"WS",
           station: data.station_name,
           fdi: parseFloat(data.data[0].LFDI[0]),
           wind : data.data[0].ws_kmh,
@@ -150,50 +125,7 @@ function fdi_table_data(json){
   }
     console.log(HISTORIC);
 };
-/*
-function parse_forecast(json){
 
-    for(key in json){
-        var date = new Date(key);
-        date.setHours(12);
-        date.setMinutes(0);
-        FORECAST.push({
-          date: date,
-          fdi: parseFloat(json[key].LFDI[0])
-        });
-      
-    }
-    console.log(FORECAST);
-};
-function compare(a,b) {
-  if (a.date < b.date)
-    return -1;
-  if (a.date > b.date)
-    return 1;
-  return 0;
-}
-
-
-function declare_graph_data(){
-
-      for (var i = 0; i < FORECAST.length; i++){
-          TABLEDATAA.push({
-            date: FORECAST[i].date,
-            value2: FORECAST[i].fdi
-          });
-      }
-    for (var i =0; i < HISTORIC.length; i++){
-          TABLEDATAA.push({
-            date: HISTORIC[i].date,
-            value1: HISTORIC[i].fdi
-          });
-    }
-
-    
-  TABLEDATAA.sort(compare);
-  sorted =   TABLEDATAA.sort(compare);
-}
-*/
 
 $(document).ready(function(){
 
@@ -212,8 +144,13 @@ $(document).ready(function(){
       "className": 'weather-station-select',
       "orderable": false,
       "data": null,
-      "defaultContent": ''
-    }, {
+      "defaultContent": ' '
+    },
+    {
+      "data":"type"
+    } 
+    ,
+    {
       "data":"station"
     }, {
       "data":"fdi"
@@ -237,48 +174,53 @@ $(document).ready(function(){
   });
 
 
+//Get fire-table data.
+$.get("http://146.64.28.95:3000/fire", function(table_data,status){ 
+       
+       console.log(status);
+      var table = $('table.fire-table').DataTable({
+          "data": table_data,
+          deferRender:    true,
+          dom:            "tS",
+          scrollY:        "40%",
+          scrollCollapse: true,
+          stateSave:      true,
+          paging:         false,
+          "columns": [{
+            "className": 'details-control',
+            "orderable": false,
+            "data": null,
+            "defaultContent": ''
+          }, {
+            "data": "pk"
+          }, {
+            "data": "type"
+          }, {
+            "data": "geom"
+          }, {
+            "data": "lat"
+          }, {
+            "data": "lon"
+          }, {
+           "data": "date_time"
+          }, {
+            "data": "src"
+          }, {
+            "data": "btemp"
+          },{
+            "data": "sat"
+          },{
+            "data": "frp"
+          }],
+          "order": [
+            [1, 'asc']
+          ]
+        });
 
-  var table = $('table.fire-table').DataTable({
-    "data": tableData,
-    deferRender:    true,
-    dom:            "tS",
-    scrollY:        "40%",
-    scrollCollapse: true,
-    stateSave:      true,
-    paging:         false,
-    "columns": [{
-      "className": 'details-control',
-      "orderable": false,
-      "data": null,
-      "defaultContent": ''
-    }, {
-      "data": "id"
-    }, {
-      "data": "description"
-    }, {
-      "data": "status"
-    }, {
-      "data": "area"
-    }, {
-      "data": "max_frp"
-    }, {
-/*      "data": "first_observed"
-    }, {
-      "data": "last_observed"
-    }, {
-      "data": "fdi_first"
-    }, {
-      "data": "fdi_last"
-    }, {
-*/      "data": "fdi_current"
-    }],
-    "order": [
-      [1, 'asc']
-    ]
-  });
+});
 
- 
-  /* Formatting function for row details - modify as you need */
+
+/* Formatting function for row details - modify as you need */
 
   function format(d) {
     // `d` is the original data object for the row
@@ -341,56 +283,6 @@ var HOUR = 60 * MINUTE;
 var DAY = 24 * HOUR;
 
 
-      // generate data
-      var chartData = [];
-
-      function generateChartData() {
-        var thisDate = new Date();
-        var twoDaysAgoDate = new Date(thisDate.getTime() - 2 * DAY);
-        twoDaysAgoDate.setHours(0);
-        twoDaysAgoDate.setMinutes(0);
-        twoDaysAgoDate.setSeconds(0);
-        twoDaysAgoDate.setMilliseconds(0);
-
-        for (var i = twoDaysAgoDate.getTime(); i < (twoDaysAgoDate.getTime() + 5 * DAY); i += 1 * HOUR) {
-          var newDate = new Date(i);
-          var value1 = 0;
-
-          if (i == twoDaysAgoDate.getTime()) {
-            value1 = Math.round(Math.random() * 40 + 20);
-          } else {
-            value1 = Math.round(chartData[chartData.length - 1].value1 / 100 * (90 + Math.round(Math.random() * 20)) * 100) / 100;
-          }
-
-          value2 = value1;
-
-          if (newDate < thisDate) {
-
-            if (newDate.getHours() == 12) {
-              // we set daily data on 12th hour only
-              chartData.push({
-                date: newDate,
-                value1: value1,
-                value2: value2
-              });
-            } else {
-              chartData.push({
-                date: newDate,
-                value1: value1});
-            }
-
-          } else {
-            if (newDate.getHours() == 12) {
-              // we set daily data on 12th hour only
-              chartData.push({
-                date: newDate,
-                value1: value1,
-                value2: value2
-              });
-            }
-          }
-        }
-      }
 
    var LFDILOCAL = [];
    var LFDIFORECAST = [];
@@ -466,47 +358,11 @@ function update_graph(weather_station_index){
 }
 
 
-/*
-  $(document).ready(function(){
-
-  var table = $('table.fdi-table display').DataTable({
-    "data": RealTime,
-    deferRender:    true,
-    dom:            "tS",
-    scrollY:        "60%",
-    scrollCollapse: true,
-    stateSave:      true,
-    paging:         false,
-    "columns": [{
-      "className": 'details-control',
-      "orderable": false,
-      "data": null,
-      "defaultContent": ''
-    }, {
-      "data": "station_name"
-    }, {
-      "data": "LFDI"
-    }, {
-      "data": "ws_kmh"
-    }, {
-      "data": "temp_c"
-    }, {
-      "data": "rh_pct"
-    }, {
-     "data": "rain_mm"
-    }],
-    "order": [
-      [1, 'asc']
-    ]
-  });*/
-
-
-     //generateChartData();
      parse_historic(RealTime[1]);
      parse_forecast(ForeCast);
      declare_graph_data();
      render_chart();
-     //generateChartData();
+
 
 
 function render_chart(){
