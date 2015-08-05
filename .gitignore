@@ -10,5 +10,9 @@ ENV
 
 *.pyc
 *~
+<<<<<<< HEAD
+=======
+*.pyc
+>>>>>>> persistence
 
 venv
