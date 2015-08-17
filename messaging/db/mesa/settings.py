@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'rest_framework',
+    'rest_framework_gis',
     'mesa.rest',
 )
 
@@ -79,7 +80,7 @@ WSGI_APPLICATION = 'mesa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('MESA_DB_NAME'),
         'USER':  os.environ.get('MESA_DB_USER'),
         'PASSWORD':  os.environ.get('MESA_DB_PASS'),
