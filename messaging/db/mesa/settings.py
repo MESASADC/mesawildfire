@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'mesa.wsgi.application'
 
 DATABASES = {
     'default': {
-	'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.environ.get('MESA_DB_NAME'),
         'USER':  os.environ.get('MESA_DB_USER'),
         'PASSWORD':  os.environ.get('MESA_DB_PASS'),
@@ -108,3 +108,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# MESA REST API
+
+NOTIFY_SAVE_AMQP_CONN_URI = 'amqp://vhost1:password1@localhost:5672/vhost1'
+NOTIFY_SAVE_AMQP_EXCHANGE = 'mesa_notifications'
+
+

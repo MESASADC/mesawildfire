@@ -9,7 +9,7 @@ from rest_framework.reverse import reverse
 class AfModisList(generics.ListCreateAPIView):
     queryset = AfModis.objects.all()
     serializer_class = AfModisSerializer
-    
+
 
 class AfModisDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AfModis.objects.all()

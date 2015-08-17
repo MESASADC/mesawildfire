@@ -2,4 +2,4 @@ psycopg2
 django
 djangorestframework
 djangorestframework-gis
-
+kombu
