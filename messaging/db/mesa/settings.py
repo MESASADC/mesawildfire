@@ -112,7 +112,7 @@ STATIC_URL = '/static/'
 
 # MESA REST API
 
-NOTIFY_SAVE_AMQP_CONN_URI = 'amqp://vhost1:password1@localhost:5672/vhost1'
-NOTIFY_SAVE_AMQP_EXCHANGE = 'mesa_notifications'
+NOTIFY_SAVE_AMQP_CONN_URI = 'amqp://vhost1:password1@172.17.0.17:5672/vhost1'
+NOTIFY_SAVE_AMQP_EXCHANGE = 'my_funnel'
 
 
