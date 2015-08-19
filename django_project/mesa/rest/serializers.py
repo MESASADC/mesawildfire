@@ -4,7 +4,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from mesa.rest.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast
+from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast
 
 
 class AfModisSerializer(GeoFeatureModelSerializer):
