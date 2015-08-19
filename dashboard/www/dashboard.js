@@ -127,6 +127,7 @@ function fdi_table_data(json){
 };
 
 
+
 $(document).ready(function(){
 
   fdi_table_data(RealTime);
@@ -171,6 +172,8 @@ $(document).ready(function(){
   // Add event listener for updating the FDI graph
   $('table.fdi-table tbody').on('click','tr',function() {    
       update_graph(tableFdi.row(this).index());
+      $("table.fdi-table tbody tr").removeClass('fdi-table');    
+      $(this).addClass('fdi-table');
   });
 
 
@@ -270,7 +273,7 @@ $.get("http://146.64.28.95:3000/fire", function(table_data,status){
       tableFdi.search( this.value ).draw();
   } );
 
-});
+
 
 // END FIRE EVENT TABLE
 
@@ -301,12 +304,21 @@ function parse_historic(json){
     for(var i = 0;i < json.data.length;i++){
       LFDILOCAL.push({
           date: new Date(json.data[i].localtime),
-          fdi: parseFloat(json.data[i].LFDI[0])
+          fdi: parseFloat(json.data[i].LFDI[0]),
+          rain: parseFloat(json.data[i].rain_mm),
+          windSpeed: parseFloat(json.data[i].ws_kmh),
+          relativeHumidity: parseFloat(json.data[i].rh_pct),
+          temperature: parseFloat(json.data[i].temp_c),
+          windDirection: parseFloat(json.data[i].winddirection_deg)
         });
-      
+      $("#station-name").html('<i class="fa fa-line-chart"></i>  ' +json.station_name + ' FDI Graph');
+   console.log(json.station_name);
+
     }
     console.log(LFDILOCAL);
 };
+
+
 
 function parse_forecast(json){
 
@@ -316,7 +328,11 @@ function parse_forecast(json){
         date.setMinutes(0);
         LFDIFORECAST.push({
           date: date,
-          fdi: parseFloat(json[key].LFDI[0])
+          fdi: parseFloat(json[key].LFDI[0]),
+          rain: parseFloat(json[key].rain_mm),
+          windSpeed: parseFloat(json[key].ws_kmh),
+          relativeHumidity: parseFloat(json[key].rh_pct),
+          temperature: parseFloat(json[key].temp_c)
         });
       
     }
@@ -335,20 +351,30 @@ function declare_graph_data(){
     graph_data = [];
       for (var i = 0; i < LFDIFORECAST.length; i++){
           graph_data.push({
-            date: LFDIFORECAST[i].date,
-            value2: LFDIFORECAST[i].fdi
+            date: new Date(LFDIFORECAST[i].date),
+            value2: LFDIFORECAST[i].fdi,
+            rain: LFDIFORECAST[i].rain,
+            windSpeed: LFDIFORECAST[i].windSpeed,
+            relativeHumidity: LFDIFORECAST[i].relativeHumidity,
+            temperature: LFDIFORECAST[i].temperature,
+            windDirection: LFDIFORECAST[i].windDirection
           });
       }
     for (var i =0; i < LFDILOCAL.length; i++){
           graph_data.push({
-            date: LFDILOCAL[i].date,
-            value1: LFDILOCAL[i].fdi
+            date: new Date(LFDILOCAL[i].date),
+            value1: LFDILOCAL[i].fdi,
+            rain: LFDILOCAL[i].rain,
+            windSpeed: LFDILOCAL[i].windSpeed,
+            relativeHumidity: LFDILOCAL[i].relativeHumidity,
+            temperature: LFDILOCAL[i].temperature,
+            windDirection: LFDILOCAL[i].windDirection
           });
     }
 
-    
   graph_data.sort(compare);
   sorted =   graph_data.sort(compare);
+  
 }
 
 function update_graph(weather_station_index){
@@ -356,7 +382,6 @@ function update_graph(weather_station_index){
      declare_graph_data();
      render_chart();
 }
-
 
      parse_historic(RealTime[1]);
      parse_forecast(ForeCast);
@@ -408,7 +433,7 @@ function render_chart(){
         }],
 
         "graphs": [{
-          "balloonText": "",
+          "balloonText": "Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Rain : [[rain]] <br> FDI : [[value2]]",
           "columnWidth": 15,
           "fillColors": "#000000",
           "fillAlphas": 0.4,
@@ -416,15 +441,22 @@ function render_chart(){
           "title": "12H00 Forecast",
           "type": "column",
           "valueField": "value2"
-        }, {
-          "balloonText": "[[title]]: [[value]]",
+        },{
+          "balloonText": "Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Wind Direction : [[windDirection]] <br> Rain : [[rain]] <br> FDI : [[value1]]",
           "lineThickness": 3,
           "connect": true,
           "title": "FDI",
           "lineColor": "#FFFFFF",
           "type": "smoothedLine",
-
           "valueField": "value1"
+        },{
+          "balloonText": "",
+          "lineThickness": 3,
+          "connect": true,
+          "title": "date",
+          "lineColor": "#FFFFFF",
+          "type": "smoothedLine",
+          "valueField": "date"
         }],
         "zoomOutButtonRollOverAlpha": 0.15,
         "chartCursor": {
@@ -448,3 +480,4 @@ function render_chart(){
       
 
 // END FDI CHART
+});
