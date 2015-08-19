@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
-from comms.amqp import run_async
-import sys
+from mesa.comms import amqp
+import sys, os
 
 def exception_message(e):
     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            run_async()
+            amqp.async_run_forever()
         except Exception, e:
             self.stdout.write(exception_message(e))
             raise CommandError(e)
