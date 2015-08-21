@@ -117,16 +117,24 @@ function fdi_table_data(json){
           type:"WS",
           station: data.station_name,
           fdi: parseFloat(data.data[0].LFDI[0]),
+          fdiColour: data.data[0].LFDI[1],
           wind : data.data[0].ws_kmh,
           temp : data.data[0].temp_c,
           relativeH : data.data[0].rh_pct,
           rain : data.data[0].rain_mm
         });
   }
-    console.log(HISTORIC);
+ 
 };
 
-
+function extract_rgb(rgb_string){
+  var brack_index = rgb_string.indexOf("(");
+    var values = rgb_string.substring(brack_index+1,rgb_string.length-1).split(",");
+    for (var i = 0; i<values.length;i++){
+      values[i] = parseInt(values[i]);
+    }
+    return values;
+}
 
 $(document).ready(function(){
 
@@ -146,12 +154,9 @@ $(document).ready(function(){
       "orderable": false,
       "data": null,
       "defaultContent": ' '
-    },
-    {
+    },{
       "data":"type"
-    } 
-    ,
-    {
+    },{
       "data":"station"
     }, {
       "data":"fdi"
@@ -168,6 +173,26 @@ $(document).ready(function(){
       [1, 'asc']
     ]
   });
+
+
+
+
+
+    var x = $("#fdi_table").find("tr");
+    for (var row = 2; row < x.length; row++)
+    {
+        var td = $($(x[row]).find("td")[3]);
+        var fdi = td.text();
+        var data = HISTORIC[row-2];
+        td.css("background-color",data.fdiColour);
+        var rgb = extract_rgb(td.css("background-color"));
+        var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
+        (o > 125) ? td.css('color', 'black') : td.css('color', 'white'); 
+
+    }
+
+
+
   $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
   // Add event listener for updating the FDI graph
   $('table.fdi-table tbody').on('click','tr',function() {    
@@ -302,21 +327,38 @@ var DAY = 24 * HOUR;
 function parse_historic(json){
   LFDILOCAL = [];
     for(var i = 0;i < json.data.length;i++){
+
       LFDILOCAL.push({
           date: new Date(json.data[i].localtime),
           fdi: parseFloat(json.data[i].LFDI[0]),
+          fdiColor: json.data[i].LFDI[1],
           rain: parseFloat(json.data[i].rain_mm),
           windSpeed: parseFloat(json.data[i].ws_kmh),
           relativeHumidity: parseFloat(json.data[i].rh_pct),
           temperature: parseFloat(json.data[i].temp_c),
           windDirection: parseFloat(json.data[i].winddirection_deg)
         });
-      $("#station-name").html('<i class="fa fa-line-chart"></i>  ' +json.station_name + ' FDI Graph');
-   console.log(json.station_name);
 
+      $("#station-name").html('<i class="fa fa-line-chart"></i>  FDI Graph:' +json.station_name );
+/*
+      $('.fdi-table').on('mouseover', '.weather-station-select', function() {
+
+          $(this).css("background-color",colorr );
+      }).
+      on('mouseout', '.weather-station-select', function() {
+
+          $(this).css("background-color", "white");
+
+      });
+*/
+
+
+     
     }
     console.log(LFDILOCAL);
 };
+
+
 
 
 
@@ -329,6 +371,7 @@ function parse_forecast(json){
         LFDIFORECAST.push({
           date: date,
           fdi: parseFloat(json[key].LFDI[0]),
+          fdiColor: json[key].LFDI[1],
           rain: parseFloat(json[key].rain_mm),
           windSpeed: parseFloat(json[key].ws_kmh),
           relativeHumidity: parseFloat(json[key].rh_pct),
@@ -338,6 +381,7 @@ function parse_forecast(json){
     }
     console.log(LFDIFORECAST);
 };
+
 function compare(a,b) {
   if (a.date < b.date)
     return -1;
@@ -354,16 +398,19 @@ function declare_graph_data(){
             date: new Date(LFDIFORECAST[i].date),
             value2: LFDIFORECAST[i].fdi,
             rain: LFDIFORECAST[i].rain,
+            fdiColor: "#"+LFDIFORECAST[i].fdiColor,
             windSpeed: LFDIFORECAST[i].windSpeed,
             relativeHumidity: LFDIFORECAST[i].relativeHumidity,
             temperature: LFDIFORECAST[i].temperature,
             windDirection: LFDIFORECAST[i].windDirection
           });
       }
+
     for (var i =0; i < LFDILOCAL.length; i++){
           graph_data.push({
             date: new Date(LFDILOCAL[i].date),
             value1: LFDILOCAL[i].fdi,
+            fdiColor: "#"+LFDILOCAL[i].fdiColor,
             rain: LFDILOCAL[i].rain,
             windSpeed: LFDILOCAL[i].windSpeed,
             relativeHumidity: LFDILOCAL[i].relativeHumidity,
@@ -373,7 +420,7 @@ function declare_graph_data(){
     }
 
   graph_data.sort(compare);
-  sorted =   graph_data.sort(compare);
+  sorted = graph_data.sort(compare);
   
 }
 
@@ -433,20 +480,22 @@ function render_chart(){
         }],
 
         "graphs": [{
-          "balloonText": "Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Rain : [[rain]] <br> FDI : [[value2]]",
+          "balloonText": '<h6>Forecast:</h6> Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Rain : [[rain]] <br> FDI : [[value2]]',
           "columnWidth": 15,
-          "fillColors": "#000000",
+          "fillColors": "blue",
           "fillAlphas": 0.4,
           "lineAlpha": 0,
+          "fillColorsField": "fdiColor",
           "title": "12H00 Forecast",
           "type": "column",
           "valueField": "value2"
         },{
-          "balloonText": "Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Wind Direction : [[windDirection]] <br> Rain : [[rain]] <br> FDI : [[value1]]",
+          "balloonText": "<h6>Measured:</h6>Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Wind Direction : [[windDirection]] <br> Rain : [[rain]] <br> FDI : [[value1]]",
           "lineThickness": 3,
           "connect": true,
           "title": "FDI",
           "lineColor": "#FFFFFF",
+          "colorField":"fdiColor",
           "type": "smoothedLine",
           "valueField": "value1"
         },{
@@ -481,3 +530,4 @@ function render_chart(){
 
 // END FDI CHART
 });
+

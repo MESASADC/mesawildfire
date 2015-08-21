@@ -328,7 +328,7 @@
                 "rh_pct": 68,
                 "LFDI": [
                     11,
-                    "0000ff"
+                    "red"
                 ],
                 "temp_c": 6,
                 "firedanger": 11,
@@ -451,7 +451,7 @@
                 "rh_pct": 68,
                 "LFDI": [
                     45,
-                    "0000ff"
+                    "ffa500"
                 ],
                 "temp_c": 6,
                 "firedanger": 11,
@@ -576,7 +576,7 @@
                 "rh_pct": 68,
                 "LFDI": [
                     5,
-                    "0000ff"
+                    "blue"
                 ],
                 "temp_c": 6,
                 "firedanger": 11,
