@@ -1,8 +1,0 @@
-current_dir="$(readlink -f $(dirname $0))"
-
-docker build -t sqitch $current_dir
-
-set -x
-
-sudo ln -sf $current_dir/sqitch /usr/local/bin/sqitch
-

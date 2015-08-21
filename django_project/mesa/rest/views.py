@@ -1,5 +1,5 @@
 
-from mesa.rest.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast
+from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast
 from mesa.rest.serializers import ConfigSerializer, AfModisSerializer, FdiPointSerializer, FdiMeasurementSerializer, FdiForecastSerializer
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view

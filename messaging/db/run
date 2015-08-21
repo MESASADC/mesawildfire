@@ -1,5 +1,0 @@
-#!/bin/bash
-
-docker run -it --rm -p 8112:8000 --name mesa_django --link mesa_db_1:db -v $PWD/ENV:/ENV -v $PWD/start.sh:/start.sh -v $PWD:/django-project mesa/django $*
-
-

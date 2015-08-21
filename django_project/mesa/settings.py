@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-    'mesa.rest',
+    'mesa',
+#    'mesa.rest',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,7 +113,7 @@ STATIC_URL = '/static/'
 
 # MESA REST API
 
-NOTIFY_SAVE_AMQP_CONN_URI = 'amqp://vhost1:password1@172.17.0.17:5672/vhost1'
-NOTIFY_SAVE_AMQP_EXCHANGE = 'my_funnel'
+NOTIFY_SAVE_AMQP_CONN_URI = os.environ.get('MESA_FT_AMQP_URI') #'amqp://vhost1:password1@172.17.0.17:5672/vhost1'
+NOTIFY_SAVE_AMQP_EXCHANGE = os.environ.get('MESA_FT_AMQP_EXCHANGE')
 
 
