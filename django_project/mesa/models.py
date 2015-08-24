@@ -143,7 +143,7 @@ def _notification(event, source):
 @receiver(post_save, dispatch_uid='post_save_notify')
 def post_save_notify_amqp(sender, **kwargs):
     logging.debug('post_save_notify_amqp: %s' % sender.__name__)
-    if sender.notify:
+    if sender.__dict__.get('notify', False):
         event = 'created' if kwargs.get('created', False) else 'updated'
         logging.debug('post_save_notify_amqp: %s %s' % (sender.__name__, event))
         logging.info('Acquiring connection: %s' % settings.NOTIFY_SAVE_AMQP_CONN_URI)
