@@ -192,8 +192,8 @@ $(document).ready(function(){
     }
 
 
-
   $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
+  
   // Add event listener for updating the FDI graph
   $('table.fdi-table tbody').on('click','tr',function() {    
       update_graph(tableFdi.row(this).index());
@@ -202,6 +202,7 @@ $(document).ready(function(){
   });
 
 
+ $("table.fdi-table tbody tr").addClass('cursor'); //Pointer Cursor
 //Get fire-table data.
 $.get("http://146.64.28.95:3000/fire", function(table_data,status){ 
        
@@ -480,7 +481,7 @@ function render_chart(){
         }],
 
         "graphs": [{
-          "balloonText": '<h6>Forecast:</h6> Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Rain : [[rain]] <br> FDI : [[value2]]',
+          "balloonText": "",
           "columnWidth": 15,
           "fillColors": "blue",
           "fillAlphas": 0.4,
@@ -524,10 +525,20 @@ function render_chart(){
           "enabled": true
         }
       });
-     }
+
+
+
+chart.addListener("clickGraphItem", handleClick)
+function handleClick(event){
+    console.log(event);
+    event.graph.balloonText = '<h6>Forecast:</h6> Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Rain : [[rain]] <br> FDI : [[value2]]';
+
+  }
+
+
 
       
-
+}
 // END FDI CHART
 });
 

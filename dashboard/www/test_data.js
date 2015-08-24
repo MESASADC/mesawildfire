@@ -328,7 +328,7 @@
                 "rh_pct": 68,
                 "LFDI": [
                     11,
-                    "red"
+                    "ff0000"
                 ],
                 "temp_c": 6,
                 "firedanger": 11,
@@ -476,7 +476,7 @@
                 "ws_kmh": 4.68,
                 "rh_pct": 54,
                 "LFDI": [
-                    87,
+                    30,
                     "00ff00"
                 ],
                 "temp_c": 8.4,
@@ -576,7 +576,7 @@
                 "rh_pct": 68,
                 "LFDI": [
                     5,
-                    "blue"
+                    "0000ff"
                 ],
                 "temp_c": 6,
                 "firedanger": 11,
@@ -705,7 +705,7 @@
                 "rh_pct": 88,
                 "LFDI": [
                    43,
-                   "ffa500"
+                   "0000ff"
                 ],
                 "dc": 1598,
                 "temp_c": 27,
@@ -733,7 +733,7 @@
                 "rh_pct": 88,
                 "LFDI": [
                    41,
-                   "ffa500"
+                   "0000ff"
                 ],
                 "vwind_ms": 2,
                 "dc": 1604,
@@ -760,7 +760,7 @@
                 "rh_pct": 88,
                 "LFDI": [
                    41,
-                   "ffa500"
+                   "0000ff"
                 ],
                 "vwind_ms": 2,
                 "dc": 1604,
@@ -788,7 +788,7 @@
                 "vwind_ms": 5,
                 "LFDI": [
                    34,
-                   "ffff00"
+                   "0000ff"
                 ],
                 "temp_c": 31,
                 "dc": 1607,
@@ -815,7 +815,7 @@
                 "vwind_ms": -1,
                 "LFDI": [
                    59,
-                   "ffa500"
+                   "ffff00"
                 ],
                 "temp_c": 27,
                 "dc": 1587,
@@ -840,7 +840,7 @@
                 "rh_pct": 93,
                 "LFDI": [
                    36,
-                   "ffff00"
+                   "0000ff"
                 ],
                 "vwind_ms": 6,
                 "dc": 1601,
@@ -862,13 +862,13 @@
                 "temp_k": 295,
                 "FWI": [
                    29,
-                   "ffff00"
+                   "0000ff"
                 ],
                 "uwind_ms": 2,
                 "rh_pct": 90,
                 "LFDI": [
                    29,
-                   "ffff00"
+                   "0000ff"
                 ],
                 "dc": 1594,
                 "temp_c": 22,
@@ -889,13 +889,13 @@
                 "temp_k": 297,
                 "FWI": [
                    50,
-                   "ffa500"
+                   "ffff00"
                 ],
                 "uwind_ms": 1,
                 "rh_pct": 70,
                 "LFDI": [
                    50,
-                   "ffa500"
+                   "ffff00"
                 ],
                 "dc": 1591,
                 "temp_c": 24,
