@@ -8,10 +8,19 @@ body {
   background: radial-gradient(ellipse at center, #2d2d2d 0%, #161616 50%, #000000 100%);
 }
 
+tr.fdi-table td
+{ 
+  background-color: #BDBDBD;
+}
+
+.cursor
+{ 
+   cursor: pointer; 
+}
+
 .navbar-offset {
   margin-top: 50px;
 }
-
 
 td.details-control {
   background: url('images/details_open.png') no-repeat center center;

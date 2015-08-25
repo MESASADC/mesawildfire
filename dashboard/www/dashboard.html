@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
     <title>MESA Wildfire Terminal</title>
 
-
-    <!--
-
+    
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ol3/3.6.0/ol.min.css"/>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
@@ -23,8 +21,9 @@
     </script>
     <link rel="stylesheet" href="http://cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css"/>
     <script src="http://cdn.datatables.net/responsive/1.0.6/js/dataTables.responsive.min.js"></script>
-    -->
 
+
+    <!--
       <link rel="stylesheet" href="offline/ol.min.css" />
       <link rel="stylesheet" href="offline/bootstrap.min.css" />
       <link rel="stylesheet" href="offline/font-awesome.min.css" />
@@ -39,11 +38,18 @@
       </script>
       <link rel="stylesheet" href="offline/dataTables.responsive.css" />
       <script src="offline/dataTables.responsive.min.js"></script>
+    -->
 
     <!-- local -->
     <link rel="stylesheet" href="style.css"/>
     <script src="test_data.js"></script>
     <script src="dashboard.js"></script>
+
+    <!-- wow.js -->
+    <link rel="stylesheet" href="animate.css"/>
+    <script src="wow.min.js"></script>
+
+
 
 
 </head>
@@ -62,7 +68,7 @@
                 </button>
 
         <a href="http://mesasadc.org" target="_blank">
-            <img src="images/mesa-logo-.png" style="height: 50px;"/>
+            <img src="images/mesa-logo-.png" style="height:100px;margin-bottom:20px"/>
             </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -138,7 +144,8 @@
             </tfoot>
         </table>
     </div>
-    <div class="col-md-12" style="padding-top:20px;">
+    <div class="col-md-12" style="padding-top:30px;">
+    <div class = "span3 wow bounceInLeft animated">
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -158,9 +165,11 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
 
         <div class="col-md-4">
+        <div class = "span3 wow bounceInDown center animated">
             <div class="panel panel-default">
                 <div class="panel-heading">
                         <h4 class="panel-title">
@@ -178,6 +187,7 @@
                             <thead>
                             <tr>
                                 <th></th>
+                               <th>Type</th>
                                 <th>Name</th>
                                 <th>Current FDI</th>
                                 <th>Wind</th>
@@ -193,7 +203,9 @@
                 </div>
             </div>
         </div>
+        </div>
         <div class="col-md-4">
+          <div class = "span3 wow bounceInRight animated">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -213,6 +225,7 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
 </div>
 <div class="mini-submenu mini-submenu-left pull-left">
