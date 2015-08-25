@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import mesa.rest.models
+import mesa.models
 import django.contrib.gis.db.models.fields
 
 
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('frp', models.FloatField()),
                 ('btemp', models.FloatField()),
             ],
-            bases=(models.Model, mesa.rest.models.NotifySave),
+            bases=(models.Model, mesa.models.NotifySave),
         ),
         migrations.CreateModel(
             name='ConfigSetting',
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('type', models.CharField(default=b'str', max_length=20, choices=[(b'int', b'Integer'), (b'float', b'Float'), (b'str', b'String')])),
                 ('value', models.CharField(max_length=100, null=True, blank=True)),
             ],
-            bases=(models.Model, mesa.rest.models.NotifySave),
+            bases=(models.Model, mesa.models.NotifySave),
         ),
         migrations.CreateModel(
             name='FdiMeasurement',
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
                 ('temp_c', models.FloatField()),
                 ('date_time', models.DateTimeField(null=True, blank=True)),
             ],
-            bases=(models.Model, mesa.rest.models.NotifySave),
+            bases=(models.Model, mesa.models.NotifySave),
         ),
         migrations.CreateModel(
             name='FdiPoint',
@@ -64,16 +64,16 @@ class Migration(migrations.Migration):
                 ('station_name', models.CharField(default=None, max_length=40, unique=True, null=True, blank=True)),
                 ('station_id', models.CharField(default=None, max_length=40, unique=True, null=True, blank=True)),
             ],
-            bases=(models.Model, mesa.rest.models.NotifySave),
+            bases=(models.Model, mesa.models.NotifySave),
         ),
         migrations.AddField(
             model_name='fdimeasurement',
             name='fdi_point',
-            field=models.ForeignKey(blank=True, to='rest.FdiPoint', null=True),
+            field=models.ForeignKey(blank=True, to='mesa.FdiPoint', null=True),
         ),
         migrations.RunSQL(
-            sql="""CREATE OR REPLACE VIEW rest_fdiforecast AS SELECT 0 id, 0 rain_mm, 0 windspd_kmh, 0 winddir_deg, 0 rh_pct, 0 fdi_value, '0'::varchar fdi_rgb, 0 fwi_value, '0'::varchar fwi_rgb, 0 temp_c, '=now()'::timestamp date_time, null::int fdi_point_id;""",
-            reverse_sql='DROP VIEW IF EXISTS rest_fdiforecast CASCADE;',
+            sql="""CREATE OR REPLACE VIEW mesa_fdiforecast AS SELECT 0 id, 0 rain_mm, 0 windspd_kmh, 0 winddir_deg, 0 rh_pct, 0 fdi_value, '0'::varchar fdi_rgb, 0 fwi_value, '0'::varchar fwi_rgb, 0 temp_c, '=now()'::timestamp date_time, null::int fdi_point_id;""",
+            reverse_sql='DROP VIEW IF EXISTS mesa_fdiforecast CASCADE;',
             state_operations=[migrations.CreateModel(
                 name='FdiForecast',
                 fields=[

@@ -20,3 +20,12 @@ db:
     - USERNAME=docker
     - PASS=docker
 
+
+#rabbitmq:
+#  image: rabbitmq:3-management
+#  hostname: rabbitmq
+#  ports:
+#   - "15672:15672"
+
+    
+
