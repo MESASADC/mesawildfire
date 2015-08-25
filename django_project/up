@@ -1,1 +1,3 @@
-docker-compose --project=mesa up $*
+docker-compose --project=mesa up -d $*
+
+docker logs -f mesa_db_1

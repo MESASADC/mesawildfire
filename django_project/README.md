@@ -15,6 +15,10 @@ To configure:
     $ cp ENV.example ENV
     $ nano ENV
 
+To start PostGIS database:
+    
+    $ ./up
+
 To start REST interface:
 
     # Requires PostGIS DB at connections details as in ENV

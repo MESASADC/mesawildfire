@@ -1,13 +1,13 @@
-django:
-  image: mesa/django
-  ports:
-   - "8112:8000"
-  volumes:
-   - ENV:/ENV
-   - start.sh:/start.sh
-   - .:/django-project
-  links:
-   - db
+#django:
+#  image: mesa/django
+#  ports:
+#   - "8112:8000"
+#  volumes:
+#   - ENV:/ENV
+#   - start.sh:/start.sh
+#   - .:/django-project
+#  links:
+#   - db
 
 db:
   image: kartoza/postgis
