@@ -195,7 +195,7 @@ $(document).ready(function(){
         var rgb = extract_rgb(td.css("background-color"));
         var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
         (o > 125) ? td.css('color', 'black') : td.css('color', 'white'); 
-
+        td.css('border', '1px solid grey')
     }
 
 
@@ -376,19 +376,6 @@ function parse_historic(json){
         });
 
       $("#station-name").html('<i class="fa fa-line-chart"></i>  FDI Graph:' +json.station_name );
-/*
-      $('.fdi-table').on('mouseover', '.weather-station-select', function() {
-
-          $(this).css("background-color",colorr );
-      }).
-      on('mouseout', '.weather-station-select', function() {
-
-          $(this).css("background-color", "white");
-
-      });
-*/
-
-
      
     }
     console.log(LFDILOCAL);
