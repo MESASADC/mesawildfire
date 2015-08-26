@@ -134,6 +134,19 @@
 },
 {
     "fields": {
+        "name": "Point Zero",
+        "point": "SRID=4326;POINT (0.0000000000000000 0.0000000000000000)",
+        "lon": 0.0,
+        "station_id": "00",
+        "lat": 0.0,
+        "station_name": "ZERO",
+        "type": "wstation"
+    },
+    "model": "mesa.fdipoint",
+    "pk": 2
+},
+{
+    "fields": {
         "rain_mm": 0.0,
         "date_time": "2015-08-25T11:00:00Z",
         "windspd_kmh": 0.0,

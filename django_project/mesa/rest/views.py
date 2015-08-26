@@ -1,6 +1,6 @@
 
-from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast
-from mesa.rest.serializers import ConfigSerializer, AfModisSerializer, FdiPointSerializer, FdiMeasurementSerializer, FdiForecastSerializer
+from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast, FdiTable
+from mesa.rest.serializers import ConfigSerializer, AfModisSerializer, FdiPointSerializer, FdiMeasurementSerializer, FdiForecastSerializer, FdiTableSerializer
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -25,6 +25,13 @@ class FdiPointViewSet(viewsets.ModelViewSet):
     """
     queryset = FdiPoint.objects.all()
     serializer_class = FdiPointSerializer
+
+class FdiTableViewSet(viewsets.ModelViewSet):
+    """
+    FdiTable data for Fire Danger Index, can be weather station or just a location
+    """
+    queryset = FdiTable.objects.all()
+    serializer_class = FdiTableSerializer
 
 
 class FdiMeasurementViewSet(viewsets.ModelViewSet):

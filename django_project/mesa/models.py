@@ -129,6 +129,38 @@ class FdiForecast(View):
 
     fdi_point = models.ForeignKey(FdiPoint, blank=True, null=True)
 
+class FdiTable(View):
+    """ 
+    A Django model that provides read-only access to a database view that provides 
+    FdiTable rows based on a join between FdiPoints and FdiMeasurements and FdiForecasts. 
+    """
+    type_choices = (('wstation', 'Weather station'), ('poi', 'Point of interest'))
+
+    id = models.IntegerField(primary_key=True)   # The FdiPoint ID
+
+    name = models.CharField(max_length=40, blank=False, unique=True)
+    type = models.CharField(max_length=20, blank=True, choices=type_choices, default='poi')
+    point = models.PointField()
+    lon = models.FloatField()
+    lat = models.FloatField()
+
+    station_name = models.CharField(max_length=40, blank=True, null=True, unique=True, default=None)
+ 
+    rain_mm = models.FloatField()
+    windspd_kmh = models.FloatField()
+    winddir_deg = models.FloatField()
+    rh_pct = models.FloatField()
+    fdi_value = models.IntegerField()
+    fdi_rgb = models.CharField(max_length=10, blank=True, null=False, default='')
+    temp_c = models.FloatField()
+    date_time = models.DateTimeField(blank=True, null=True)
+
+    is_forecast = models.BooleanField()
+
+
+    def __str__(self):
+        return '{0} ({1})'.format(self.name, self.type)
+
 
 def _notification(event, source):
     return {
