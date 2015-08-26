@@ -4,7 +4,7 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast, FdiTable
+from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast, FdiTable, Fire
 
 
 class AfModisSerializer(GeoFeatureModelSerializer):
@@ -13,6 +13,13 @@ class AfModisSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = AfModis
         geo_field = "point"
+
+class FireSerializer(GeoFeatureModelSerializer):
+    """ A class to serialize fires as GeoJSON compatible data """
+            
+    class Meta:
+        model = Fire
+        geo_field = "geom"
 
 class FdiPointSerializer(GeoFeatureModelSerializer):
     """ A class to serialize FDI points of interest as GeoJSON compatible data """

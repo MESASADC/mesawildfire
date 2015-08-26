@@ -56,10 +56,8 @@ class NotifySave(object):
     """ Class to add as parent to classes who should notify on save"""
     pass
 
-
 class ConfigSetting(models.Model, NotifySave):
 
-    notify = True
     type_choices = (('int', 'Integer'), ('float', 'Float'), ('str', 'String'))
     
     name = models.CharField(max_length=50, blank=False, primary_key=True)
@@ -78,6 +76,21 @@ class AfModis(models.Model, NotifySave):
     sat = models.CharField(max_length=20, blank=True, default='')
     frp = models.FloatField()
     btemp = models.FloatField()
+
+
+class Fire(models.Model, NotifySave):
+
+    status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('active', 'Active'), ('out', 'Out'))
+
+    geom = models.MultiPolygonField()
+    first_seen = models.DateTimeField(blank=True, null=True)
+    last_seen = models.DateTimeField(blank=True, null=True)
+    description = models.CharField(max_length=50, blank=True, default='')
+    status = models.CharField(max_length=20, blank=True, choices=status_choices, default='')
+    max_frp = models.FloatField()
+    current_fdi = models.FloatField()
+    start_fdi = models.FloatField()
+    max_fdi = models.FloatField()
 
 
 class FdiPoint(models.Model, NotifySave):
@@ -175,7 +188,7 @@ def _notification(event, source):
 @receiver(post_save, dispatch_uid='post_save_notify')
 def post_save_notify_amqp(sender, **kwargs):
     logging.debug('post_save_notify_amqp: %s' % sender.__name__)
-    if sender.__dict__.get('notify', False):
+    if issubclass(sender, NotifySave):
         event = 'created' if kwargs.get('created', False) else 'updated'
         logging.debug('post_save_notify_amqp: %s %s' % (sender.__name__, event))
         logging.info('Acquiring connection: %s' % settings.NOTIFY_SAVE_AMQP_CONN_URI)
