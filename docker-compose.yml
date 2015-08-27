@@ -1,7 +1,7 @@
 dashboard:
   build: dashboard
   ports:
-   - "8008:80"
+   - "5080:80"
   volumes:
    - dashboard/sites:/etc/nginx/sites-enabled
    - dashboard/www:/var/www
@@ -12,7 +12,7 @@ db:
   image: kartoza/postgis
   hostname: postgis
   ports:
-   - "15432:5432"
+   - "55432:5432"
   volumes:
     - ./postgres_data:/var/lib/postgresql
   environment:
@@ -22,6 +22,8 @@ db:
 geoserver:
   image: kartoza/geoserver
   hostname: geoserver
+  ports:
+   - "58080:8080"
   volumes:
     - ./geoserver_data:/opt/geoserver/data_dir
   links:
@@ -43,7 +45,7 @@ rabbitmq:
   image: rabbitmq:3-management
   hostname: rabbitmq
   ports:
-   - "15672:15672"
+   - "55672:15672"
   environment:
    - RABBITMQ_DEFAULT_USER=user
    - RABBITMQ_DEFAULT_PASS=password
