@@ -9,20 +9,6 @@ from rest_framework.reverse import reverse
 from rest_framework import viewsets
 
 
-def model_viewset(name, model, serializer_class, readonly=False, doc="Model ViewSet", **kwargs):
-    """ Function to produce ViewSet classes in a more concise manner.
-        Example:
-            doc = " Fire as detected and updated over time "
-            FireViewSet = model_viewset('FireViewSet', models.Fire, serializers.FireSerializer, doc=doc)
-        See: https://jakevdp.github.io/blog/2012/12/01/a-primer-on-python-metaclasses/
-    """
-    base_class = viewsets.ModelViewSet if not readonly else viewsets.ReadOnlyModelViewSet
-    attr = kwargs
-    attr['queryset'] = model.objects.all()
-    attr['serializer_class'] = serializer_class 
-    attr['__doc__'] = doc
-    return type(name, (base_class,), attr)
-
 class ConfigViewSet(viewsets.ModelViewSet):
     """
     Configuration settings
@@ -64,17 +50,12 @@ class FdiForecastViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 
-FireViewSet = model_viewset('FireViewSet', models.Fire, serializers.FireSerializer, doc = 
-    """ Fire as detected and updated over time """)
-
-'''
 class FireViewSet(viewsets.ModelViewSet):
     """
     Fire as detected and updated over time
     """
     queryset = models.Fire.objects.all()
     serializer_class = serializers.FireSerializer
-'''
 
 class AfModisViewSet(viewsets.ModelViewSet):
     """
