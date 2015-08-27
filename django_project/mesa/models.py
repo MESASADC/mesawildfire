@@ -192,13 +192,17 @@ def post_save_notify_amqp(sender, **kwargs):
         event = 'created' if kwargs.get('created', False) else 'updated'
         logging.debug('post_save_notify_amqp: %s %s' % (sender.__name__, event))
         logging.info('Acquiring connection: %s' % settings.NOTIFY_SAVE_AMQP_CONN_URI)
-        with connections[Connection(settings.NOTIFY_SAVE_AMQP_CONN_URI)].acquire(block=True) as conn:
-            logging.info('Got connection. Acquiring producer...')
-            with producers[conn].acquire(block=True, timeout=10) as producer:
-                logging.info('Got producer. Publishing to: %s' % settings.NOTIFY_SAVE_AMQP_EXCHANGE)
-                producer.publish(
-                    _notification(event, sender.__name__),
-                    exchange=settings.NOTIFY_SAVE_AMQP_EXCHANGE,
-                    routing_key='notify.ui.db.%s.%s' % (event, sender.__name__),
-                    serializer='json')
-                logging.info('Published.')
+        try:
+            with connections[Connection(settings.NOTIFY_SAVE_AMQP_CONN_URI)].acquire(block=True) as conn:
+                logging.info('Got connection. Acquiring producer...')
+                with producers[conn].acquire(block=True, timeout=10) as producer:
+                    logging.info('Got producer. Publishing to: %s' % settings.NOTIFY_SAVE_AMQP_EXCHANGE)
+                    producer.publish(
+                        _notification(event, sender.__name__),
+                        exchange=settings.NOTIFY_SAVE_AMQP_EXCHANGE,
+                        routing_key='notify.ui.db.%s.%s' % (event, sender.__name__),
+                        serializer='json')
+                    logging.info('Published.')
+        except Exception, e:
+            logging.warn('Failed to publish. Reason: %s' % e
+    
