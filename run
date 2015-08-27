@@ -1,0 +1,3 @@
+SERVICE=${1:-django}
+
+docker-compose run $SERVICE
