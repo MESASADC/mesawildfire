@@ -27,20 +27,23 @@ geoserver:
   links:
     - db
 
-django:
-  build: django_project
-  ports:
-   - "8112:8000"
-  volumes:
-   - django_project/ENV:/ENV
-   - django_project/start.sh:/start.sh
-   - django_project/:/django_project
-  links:
-   - db
-   - rabbitmq
+#django:
+#  build: django_project
+#  ports:
+#   - "8112:8000"
+#  volumes:
+#   - django_project/ENV:/ENV
+#   - django_project/start.sh:/start.sh
+#   - django_project/:/django_project
+#  links:
+#   - db
+#   - rabbitmq
 
 rabbitmq:
   image: rabbitmq:3-management
   hostname: rabbitmq
   ports:
    - "15672:15672"
+  environment:
+   - RABBITMQ_DEFAULT_USER=user
+   - RABBITMQ_DEFAULT_PASS=password

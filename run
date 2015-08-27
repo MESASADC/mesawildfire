@@ -1,3 +1,2 @@
-SERVICE=${1:-django}
 
-docker-compose run $SERVICE
+docker-compose run --rm $*

@@ -11,7 +11,7 @@ import datetime
 from functools import partial
 
 from django.conf import settings
-
+from mesa import models
 
 async = Hub()
 
@@ -122,15 +122,20 @@ class BasePersistConsumer(Queue):
         message.ack()
 
     def _persist(self, message):
-        raise NotImplementedError('Abstract persist method needs to be overridden')
+        raise NotImplementedError('Abstract method needs to be overridden')
 
 
-class ModelPersistConsumer(BasePersistConsumer):
-
+class BaseModelPersistConsumer(BasePersistConsumer):
+    
+    field_map = {}
+    
+    def model(self):
+        raise NotImplementedError('Abstract method needs to be overridden')
+    
     def _persist(self, message, data):
 
         try:
-            pass
+            obj = model()
         except Exception, e:
             raise e
 
