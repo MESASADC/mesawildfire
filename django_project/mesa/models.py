@@ -204,5 +204,5 @@ def post_save_notify_amqp(sender, **kwargs):
                         serializer='json')
                     logging.info('Published.')
         except Exception, e:
-            logging.warn('Failed to publish. Reason: %s' % e
+            logging.warn('Failed to publish. Reason: %s' % e)
     
