@@ -1,1 +1,1 @@
-docker-compose up --no-recreate $*
+docker-compose -p mesa up --no-recreate $*
