@@ -145,18 +145,26 @@ function read_server_data(server_data){
   for(var x = 0;x < server_data.features.length;x++){
 
     var data = server_data.features[x];
-    DATAA.push({
+    var today = new Date();
+    if (data.properties.date_time != null){
+      var date = new Date(data.properties.date_time);
+      //if (date.getDate() == today.getDate()){
+          DATAA.push({
 
-        type:data.properties.type,
-        station: data.properties.name,
-        fdi: data.properties.fdi_value,
-        fdiColour: data.properties.fdi_rgb,
-        wind : data.properties.windspd_kmh,
-        temp : data.properties.temp_c,
-        relativeH : data.properties.rh_pct,
-        rain :data.properties.rain_mm
+              type:data.properties.type,
+              station: data.properties.name,
+              fdi: data.properties.fdi_value,
+              fdiColour: data.properties.fdi_rgb,
+              wind : data.properties.windspd_kmh,
+              temp : data.properties.temp_c,
+              relativeH : data.properties.rh_pct,
+              rain :data.properties.rain_mm,
+              date: data.properties.date_time
 
-    });
+          }); 
+       
+      //}   
+    }
 
 
   }
@@ -177,10 +185,10 @@ function extract_rgb(rgb_string){
 
   $(document).ready(function(){
 
-//$.get("http://mesa.afis.co.za/rest/FdiPointData/?format=json", function(table_data,status){ 
+$.get("http://localhost:8112/rest/FdiPointData/?format=json", function(table_data,status){ 
       
-      read_server_data(server_data);
-      //console.log(table_data)
+      read_server_data(table_data);
+
       var tableFdi = $('table.fdi-table').DataTable({
 
         "data": DATAA,
@@ -244,29 +252,31 @@ function extract_rgb(rgb_string){
           [1, 'asc']
           ]
         });
-//});  
+
+       var x = $("#fdi_table").find("tr");
+      for (var row = 2; row < x.length; row++)
+      {
+        var td = $($(x[row]).find("td")[3]);
+        var fdi = td.text();
+        var data = DATAA[row-2];
+        td.css("background-color",data.fdiColour);
+        var rgb = extract_rgb(td.css("background-color"));
+        var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
+        (o > 125) ? td.css('color', 'black') : td.css('color', 'white'); 
+        td.css('border', '1px solid grey')
+      }
+
+      $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
+       $("table.fdi-table tbody tr").addClass('cursor');
+
+      parse_historic(table_data);
+      declare_graph_data();
+      render_chart();
+
+});  
 
 
 
-
-
-
-
-var x = $("#fdi_table").find("tr");
-for (var row = 2; row < x.length; row++)
-{
-  var td = $($(x[row]).find("td")[3]);
-  var fdi = td.text();
-  var data = DATAA[row-2];
-  td.css("background-color",data.fdiColour);
-  var rgb = extract_rgb(td.css("background-color"));
-  var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
-  (o > 125) ? td.css('color', 'black') : td.css('color', 'white'); 
-  td.css('border', '1px solid grey')
-}
-
-
-$("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
 
   // Add event listener for updating the FDI graph
   $('table.fdi-table tbody').on('click','tr',function() {    
@@ -276,8 +286,6 @@ $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
   });
 
 
- $("table.fdi-table tbody tr").addClass('cursor'); //Pointer Cursor
- $("#chartdiv").addClass('cursor');
 
 //Get fire-table data.
 //$.get(FIREURL, function(table_data,status){ 
@@ -308,13 +316,13 @@ $("td.weather-station-select").html('<i class="fa fa-line-chart"></i>');
     "data": "lon"
   }, {
    "data": "date_time"
- }, {
+  }, {
   "data": "src"
-}, {
+  }, {
   "data": "btemp"
-},{
+  },{
   "data": "sat"
-},{
+  },{
   "data": "frp"
 }],
 "order": [
@@ -470,43 +478,10 @@ function parse_historic(server_data){
   
 };
 
-
-
-
-/*
-function parse_forecast(json){
-
-  for(key in json){
-    var date = new Date(key);
-    date.setHours(12);
-    date.setMinutes(0);
-    LFDIFORECAST.push({
-      date: date,
-      fdi: parseFloat(json[key].LFDI[0]),
-      fdiColor: json[key].LFDI[1],
-      rain: parseFloat(json[key].rain_mm),
-      windSpeed: parseFloat(json[key].ws_kmh),
-      relativeHumidity: parseFloat(json[key].rh_pct),
-      temperature: parseFloat(json[key].temp_c)
-    });
-
-  }
-  console.log(LFDIFORECAST);
-};
-*/
-
-function compare(a,b) {
-  if (a.date < b.date)
-    return -1;
-  if (a.date > b.date)
-    return 1;
-  return 0;
-}
-
-
 function declare_graph_data(){
   graph_data = [];
-  for (var i = 0; i < LFDIFORECAST.length; i++){                      
+  for (var i = 0; i < LFDIFORECAST.length; i++){  
+   if (LFDIFORECAST[i].date != null){                
     graph_data.push({
       date: new Date(LFDIFORECAST[i].date),
       value2: LFDIFORECAST[i].fdi,
@@ -519,8 +494,11 @@ function declare_graph_data(){
       is_forecast :LFDIFORECAST[i].is_forecast
     });
   }
+  }
 
   for (var i =0; i < LFDILOCAL.length; i++){
+
+    if(LFDILOCAL[i].date != null){
     graph_data.push({
       date: new Date(LFDILOCAL[i].date),
       value1: LFDILOCAL[i].fdi,
@@ -532,6 +510,7 @@ function declare_graph_data(){
       windDirection: LFDILOCAL[i].windDirection,
       is_forecast : LFDILOCAL[i].is_forecast
     });
+   }
   }
 
   graph_data.sort(compare);
@@ -542,6 +521,13 @@ function declare_graph_data(){
 
 
 
+function compare(a,b) {
+  if (a.date < b.date)
+    return -1;
+  if (a.date > b.date)
+    return 1;
+  return 0;
+}
 
 
 
@@ -552,11 +538,12 @@ function update_graph(weather_station_index){
  render_chart();
 }*/
 
+/*
 parse_historic(server_data);
 //parse_forecast(ForeCast);
 declare_graph_data();
 render_chart();
-//read_server_data(server_data);
+//read_server_data(server_data);*/
 
 
 
@@ -603,7 +590,7 @@ function render_chart(){
     }],
 
     "graphs": [{
-      "balloonText": "",
+      "balloonText": "[[is_forecast]]",
       "columnWidth": 15,
       "fillColors": "black",
       "fillAlphas": 0.4,

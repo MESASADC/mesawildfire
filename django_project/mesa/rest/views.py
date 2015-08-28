@@ -1,5 +1,6 @@
 
 from mesa import models 
+from django.db.models import Max
 from mesa.rest import serializers 
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
@@ -28,7 +29,7 @@ class FdiPointDataViewSet(viewsets.ModelViewSet):
     """
     FdiTable data for Fire Danger Index, can be weather station or just a location
     """
-    queryset = models.FdiPointData.objects.all() #latest('date_time')
+    queryset = models.FdiPointData.objects.all()
     serializer_class = serializers.FdiPointDataSerializer
 
     
@@ -42,7 +43,7 @@ class FdiPointDataViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(fdi_value__isnull=False)
         latest_only = self.request.query_params.get('latest_only', None)
         if latest_only is not None:
-            queryset = [queryset.latest('date_time')]
+            queryset = queryset.order_by('id', '-date_time').distinct('id') # note: only postgresql allows distinct with column
         return queryset
 
 

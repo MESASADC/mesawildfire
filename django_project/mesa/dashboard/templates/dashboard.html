@@ -1,3 +1,4 @@
+{% load static %}
 <html>
 
 <head>
@@ -41,18 +42,18 @@
     -->
 
     <!-- local -->
-    <link rel="stylesheet" href="style.css"/>
-    <script src="test_data.js"></script>
-    <script src="dashboard.js"></script>
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <script src="{% static "js/test_data.js" %}"></script>
+    <script src="{% static "js/dashboard.js" %}"></script>
 
     <!-- wow.js -->
-    <link rel="stylesheet" href="animate.css"/>
-    <script src="wow.min.js"></script>
+    <link rel="stylesheet" href="{% static "css/animate.css" %}"/>
+    <script src="{% static "js/wow.min.js" %}"></script>
 
-    <script src="vex/js/vex.combined.min.js"></script>
+    <!--script src="vex/js/vex.combined.min.js"></script>
     <script>vex.defaultOptions.className = 'vex-theme-plain';</script>
     <link rel="stylesheet" href="vex/css/vex.css" />
-    <link rel="stylesheet" href="vex/css/vex-theme-plain.css" />
+    <link rel="stylesheet" href="vex/css/vex-theme-plain.css" /-->
 
 
 
@@ -73,7 +74,7 @@
                 </button>
 
         <a href="http://mesasadc.org" target="_blank">
-            <img src="images/mesa-logo-.png" style="height:100px;margin-bottom:20px;"/>
+            <img src="{% static "images/mesa-logo-.png" %}" style="height:100px;margin-bottom:20px;"/>
             </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -101,7 +102,7 @@
                     <!--button type="submit" class="btn btn-default" id ="clic" >Submit</button-->
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="http://www.mesasadc.org" target="_blank">MESA SADC Website</a></li>
+                    <li><a href="#" target="_blank">MESA SADC Website</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                         <ul class="dropdown-menu">
