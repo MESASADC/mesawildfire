@@ -323,121 +323,111 @@
         "distance_m": 4497.378442236,
         "data": [
             {
+                "id": 1,
                 "rain_mm": null,
-                "ws_kmh": 2.16,
+                "windspd_kmh": 2.16,
                 "rh_pct": 68,
-                "LFDI": [
-                    11,
-                    "ff0000"
-                ],
+                "fdi_value": 11,
+                "fdi_rgb":"ff0000",
                 "temp_c": 6,
-                "firedanger": 11,
-                "winddirection_deg": 94,
-                "localtime": "2015-07-27 02:00:00"
+                "winddir_deg": 94,
+                "date_time": "2015-07-27 02:00:00",
+                "fdi_point": 1
             },
-            {
+            {   "id": 2,
                 "rain_mm": null,
-                "ws_kmh": 5.04,
+                "windspd_kmh": 5.04,
                 "rh_pct": 70,
-                "LFDI": [
-                    15,
-                    "0000ff"
-                ],
+                "fdi_value": 15,
+                "fdi_rgb":"0000ff",
                 "temp_c": 5.1,
-                "firedanger": 15,
-                "winddirection_deg": 122,
-                "localtime": "2015-07-27 04:00:00"
+                "winddir_deg": 122,
+                "date_time": "2015-07-27 04:00:00", 
+                "fdi_point": 1
             },
-            {
+            { 
+                "id": 3,
                 "rain_mm": null,
-                "ws_kmh": 4.68,
+                "windspd_kmh": 4.68,
                 "rh_pct": 54,
-                "LFDI": [
-                    24,
-                    "00ff00"
-                ],
+                "fdi_value": 24,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 8.4,
-                "firedanger": 24,
-                "winddirection_deg": 110,
-                "localtime": "2015-07-27 06:00:00"
+                "winddir_deg": 110,
+                "date_time": "2015-07-27 06:00:00", 
+                "fdi_point": 1
+            },
+            {   
+                "id": 4,
+                "rain_mm": null,
+                "windspd_kmh": 5.4,
+                "rh_pct": 38,
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
+                "temp_c": 13.4,
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 08:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 5,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb": "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 08:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 10:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 6,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 10:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 12:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 7,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":   "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 12:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 14:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 8,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 14:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 16:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 9,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":   "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 16:00:00"
-            },
-            {
-                "rain_mm": null,
-                "ws_kmh": 5.4,
-                "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
-                "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 18:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 18:00:00", 
+                "fdi_point": 1
             }
         ]},
         {
@@ -445,122 +435,112 @@
         "station_name": "JOHANNESBURG UNIVERSITY ",
         "distance_m": 4497.378442236,
         "data": [
-            {
+                        {
+                "id": 1,
                 "rain_mm": null,
-                "ws_kmh": 2.16,
+                "windspd_kmh": 2.16,
                 "rh_pct": 68,
-                "LFDI": [
-                    45,
-                    "ffa500"
-                ],
+                "fdi_value": 11,
+                "fdi_rgb":"ff0000",
                 "temp_c": 6,
-                "firedanger": 11,
-                "winddirection_deg": 94,
-                "localtime": "2015-07-27 02:00:00"
+                "winddir_deg": 94,
+                "date_time": "2015-07-27 02:00:00",
+                "fdi_point": 1
             },
-            {
+            {   "id": 2,
                 "rain_mm": null,
-                "ws_kmh": 5.04,
+                "windspd_kmh": 5.04,
                 "rh_pct": 70,
-                "LFDI": [
-                    12,
-                    "0000ff"
-                ],
+                "fdi_value": 15,
+                "fdi_rgb":"0000ff",
                 "temp_c": 5.1,
-                "firedanger": 15,
-                "winddirection_deg": 122,
-                "localtime": "2015-07-27 04:00:00"
+                "winddir_deg": 122,
+                "date_time": "2015-07-27 04:00:00", 
+                "fdi_point": 1
             },
-            {
+            { 
+                "id": 3,
                 "rain_mm": null,
-                "ws_kmh": 4.68,
+                "windspd_kmh": 4.68,
                 "rh_pct": 54,
-                "LFDI": [
-                    30,
-                    "00ff00"
-                ],
+                "fdi_value": 24,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 8.4,
-                "firedanger": 24,
-                "winddirection_deg": 110,
-                "localtime": "2015-07-27 06:00:00"
+                "winddir_deg": 110,
+                "date_time": "2015-07-27 06:00:00", 
+                "fdi_point": 1
+            },
+            {   
+                "id": 4,
+                "rain_mm": null,
+                "windspd_kmh": 5.4,
+                "rh_pct": 38,
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
+                "temp_c": 13.4,
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 08:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 5,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    64,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb": "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 08:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 10:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 6,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 10:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 12:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 7,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    62,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":   "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 12:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 14:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 8,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 14:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 16:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 9,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    35,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":   "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 16:00:00"
-            },
-            {
-                "rain_mm": null,
-                "ws_kmh": 5.4,
-                "rh_pct": 38,
-                "LFDI": [
-                    21,
-                    "00ff00"
-                ],
-                "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 18:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 18:00:00", 
+                "fdi_point": 1
             }
         ],
         "station_id": "0513435A4"
@@ -571,128 +551,120 @@
         "distance_m": 4497.378442236,
         "data": [
             {
+                "id": 1,
                 "rain_mm": null,
-                "ws_kmh": 2.16,
+                "windspd_kmh": 2.16,
                 "rh_pct": 68,
-                "LFDI": [
-                    5,
-                    "0000ff"
-                ],
+                "fdi_value": 11,
+                "fdi_rgb":"ff0000",
                 "temp_c": 6,
-                "firedanger": 11,
-                "winddirection_deg": 94,
-                "localtime": "2015-07-27 02:00:00"
+                "winddir_deg": 94,
+                "date_time": "2015-07-27 02:00:00",
+                "fdi_point": 1
             },
-            {
+            {   "id": 2,
                 "rain_mm": null,
-                "ws_kmh": 5.04,
+                "windspd_kmh": 5.04,
                 "rh_pct": 70,
-                "LFDI": [
-                    20,
-                    "0000ff"
-                ],
+                "fdi_value": 15,
+                "fdi_rgb":"0000ff",
                 "temp_c": 5.1,
-                "firedanger": 15,
-                "winddirection_deg": 122,
-                "localtime": "2015-07-27 04:00:00"
+                "winddir_deg": 122,
+                "date_time": "2015-07-27 04:00:00", 
+                "fdi_point": 1
             },
-            {
+            { 
+                "id": 3,
                 "rain_mm": null,
-                "ws_kmh": 4.68,
+                "windspd_kmh": 4.68,
                 "rh_pct": 54,
-                "LFDI": [
-                    50,
-                    "00ff00"
-                ],
+                "fdi_value": 24,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 8.4,
-                "firedanger": 24,
-                "winddirection_deg": 110,
-                "localtime": "2015-07-27 06:00:00"
+                "winddir_deg": 110,
+                "date_time": "2015-07-27 06:00:00", 
+                "fdi_point": 1
+            },
+            {   
+                "id": 4,
+                "rain_mm": null,
+                "windspd_kmh": 5.4,
+                "rh_pct": 38,
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
+                "temp_c": 13.4,
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 08:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 5,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    60,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb": "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 08:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 10:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 6,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    70,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 10:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 12:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 7,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    80,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":   "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 12:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 14:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 8,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    80,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":  "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 14:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 16:00:00", 
+                "fdi_point": 1
             },
             {
+                "id": 9,
                 "rain_mm": null,
-                "ws_kmh": 5.4,
+                "windspd_kmh": 5.4,
                 "rh_pct": 38,
-                "LFDI": [
-                    80,
-                    "00ff00"
-                ],
+                "fdi_value": 35,
+                "fdi_rgb":   "00ff00",
                 "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 16:00:00"
-            },
-            {
-                "rain_mm": null,
-                "ws_kmh": 5.4,
-                "rh_pct": 38,
-                "LFDI": [
-                    80,
-                    "00ff00"
-                ],
-                "temp_c": 13.4,
-                "firedanger": 35,
-                "winddirection_deg": 40,
-                "localtime": "2015-07-27 18:00:00"
+                "winddir_deg": 40,
+                "date_time": "2015-07-27 18:00:00", 
+                "fdi_point": 1
             }
         ],
         "station_id": "0513435A4"
       }
     ];
 
-    ForeCast = {
+
+
+ ForeCast = {
 
              "2015-07-25": {
                 "rain_mm": 0,
@@ -911,5 +883,175 @@
                 "ws_kmh": 21.9
              }
           };
+/*------------------------------------------------------------------------------------------*/
 
+
+server_data = {
+
+    "type": "FeatureCollection",
+    "features": [{
+
+            "id": 1,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+              },
+            "properties": {
+                "name": "CSIR Office",
+                "type": "wstation",
+                "lon": 0,
+                "lat": 0,
+                "station_name": "WS_CSIR_OFFICE",
+                "rain_mm": 0,
+                "windspd_kmh": 0,
+                "winddir_deg": 0,
+                "rh_pct": 0,
+                "fdi_value": 10,
+                "fdi_rgb": "#00FF00",
+                "temp_c": 0,
+                "date_time": "2015-08-25T11:00:00Z",
+                "is_forecast": false
+            }
+        },
+        {
+            "id": 1,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "CSIR Office",
+                "type": "wstation",
+                "lon": 0,
+                "lat": 0,
+                "station_name": "WS_CSIR_OFFICE",
+                "rain_mm": 1,
+                "windspd_kmh": 1,
+                "winddir_deg": 1,
+                "rh_pct": 1,
+                "fdi_value": 20,
+                "fdi_rgb": "#0000FF",
+                "temp_c": 1,
+                "date_time": "2015-08-25T12:00:00Z",
+                "is_forecast": false
+            }
+        },
+        {
+            "id": 1,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "CSIR Office",
+                "type": "wstation",
+                "lon": 0,
+                "lat": 0,
+                "station_name": "WS_CSIR_OFFICE",
+                "rain_mm": 2,
+                "windspd_kmh": 2,
+                "winddir_deg": 2,
+                "rh_pct": 2,
+                "fdi_value": 30,
+                "fdi_rgb": "#FF0000",
+                "temp_c": 2,
+                "date_time": "2015-08-25T13:00:00Z",
+                "is_forecast": false
+            }
+        },
+        {
+            "id": 1,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "CSIR Office",
+                "type": "wstation",
+                "lon": 0,
+                "lat": 0,
+                "station_name": "WS_CSIR_OFFICE",
+                "rain_mm": null,
+                "windspd_kmh": null,
+                "winddir_deg": null,
+                "rh_pct": null,
+                "fdi_value": 45,
+                "fdi_rgb": null,
+                "temp_c": null,
+                "date_time": "2015-08-25T12:00:00Z",
+                "is_forecast": true
+            }
+        },
+        {
+            "id": 2,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Point Zero",
+                "type": "wstation",
+                "lon": 0,
+                "lat": 0,
+                "station_name": "ZERO",
+                "rain_mm": null,
+                "windspd_kmh": null,
+                "winddir_deg": null,
+                "rh_pct": null,
+                "fdi_value": 56,
+                "fdi_rgb": null,
+                "temp_c": null,
+                "date_time": "2015-08-25T13:00:00Z",
+                "is_forecast": false
+            }
+        },
+        {
+            "id": 2,
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    0,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Point Zero",
+                "type": "wstation",
+                "lon": 0,
+                "lat": 0,
+                "station_name": "ZERO",
+                "rain_mm": null,
+                "windspd_kmh": null,
+                "winddir_deg": null,
+                "rh_pct": null,
+                "fdi_value": 50,
+                "fdi_rgb": null,
+                "temp_c": null,
+                "date_time": "2015-08-26T13:00:00Z",
+                "is_forecast": true
+            }
+        }
+    ]
+};
 

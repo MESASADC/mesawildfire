@@ -28,8 +28,22 @@ class FdiPointDataViewSet(viewsets.ModelViewSet):
     """
     FdiTable data for Fire Danger Index, can be weather station or just a location
     """
-    queryset = models.FdiPointData.objects.all()
+    queryset = models.FdiPointData.objects.all() #latest('date_time')
     serializer_class = serializers.FdiPointDataSerializer
+
+    
+    def get_queryset(self):
+        """
+        Optionally restricts the returned results via query parameter in the URL.
+        """
+        queryset = models.FdiPointData.objects.all()
+        fdi_value__notnull = self.request.query_params.get('fdi_value__notnull', None)
+        if fdi_value__notnull is not None:
+            queryset = queryset.filter(fdi_value__isnull=False)
+        latest_only = self.request.query_params.get('latest_only', None)
+        if latest_only is not None:
+            queryset = [queryset.latest('date_time')]
+        return queryset
 
 
 class FdiMeasurementViewSet(viewsets.ModelViewSet):

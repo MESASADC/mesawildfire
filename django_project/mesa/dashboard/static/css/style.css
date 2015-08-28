@@ -18,17 +18,22 @@ tr.fdi-table td
    cursor: pointer; 
 }
 
+#pointer
+{ 
+   cursor: pointer; 
+}
+
 .navbar-offset {
   margin-top: 50px;
 }
 
 td.details-control {
-  background: url('../images/details_open.png') no-repeat center center;
+  background: url('images/details_open.png') no-repeat center center;
   cursor: pointer;
 }
 
 tr.shown td.details-control {
-  background: url('../images/details_close.png') no-repeat center center;
+  background: url('images/details_close.png') no-repeat center center;
 }
 
 table.dataTable th {
@@ -69,6 +74,15 @@ table.dataTable td {
   bottom: 50px;
   right: .5em;
   z-index: 40;
+}
+
+#fire-table-search{
+
+   border-radius: 44px 44px 44px 44px;
+  -moz-border-radius: 44px 44px 44px 44px;
+  -webkit-border-radius: 44px 44px 44px 44px;
+   border: 3px solid #cccccc;
+
 }
 
 #chartdiv {
