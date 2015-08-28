@@ -78,4 +78,10 @@ class FirePixelViewSet(viewsets.ModelViewSet):
     queryset = models.FirePixel.objects.all()
     serializer_class = serializers.FirePixelSerializer
 
+class FireFeatureViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Fire features
+    """
+    queryset = models.FireFeature.objects.all()
+    serializer_class = serializers.FireFeatureSerializer
 

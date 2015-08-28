@@ -11,6 +11,7 @@ router.register(r'FdiForecast', views.FdiForecastViewSet)
 router.register(r'FdiPointData', views.FdiPointDataViewSet)
 router.register(r'Fire', views.FireViewSet)
 router.register(r'FirePixel', views.FirePixelViewSet)
+router.register(r'FireFeature', views.FireFeatureViewSet)
 
 
 # Wire up our API using automatic URL routing.
