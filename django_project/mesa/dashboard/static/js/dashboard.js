@@ -145,18 +145,26 @@ function read_server_data(server_data){
   for(var x = 0;x < server_data.features.length;x++){
 
     var data = server_data.features[x];
-    DATAA.push({
+    var today = new Date();
+    if (data.properties.date_time != null){
+      var date = new Date(data.properties.date_time);
+      //if (date.getDate() == today.getDate()){
+          DATAA.push({
 
-        type:data.properties.type,
-        station: data.properties.name,
-        fdi: data.properties.fdi_value,
-        fdiColour: data.properties.fdi_rgb,
-        wind : data.properties.windspd_kmh,
-        temp : data.properties.temp_c,
-        relativeH : data.properties.rh_pct,
-        rain :data.properties.rain_mm
+              type:data.properties.type,
+              station: data.properties.name,
+              fdi: data.properties.fdi_value,
+              fdiColour: data.properties.fdi_rgb,
+              wind : data.properties.windspd_kmh,
+              temp : data.properties.temp_c,
+              relativeH : data.properties.rh_pct,
+              rain :data.properties.rain_mm,
+              date: data.properties.date_time
 
-    });
+          }); 
+       
+      //}   
+    }
 
 
   }
@@ -472,7 +480,8 @@ function parse_historic(server_data){
 
 function declare_graph_data(){
   graph_data = [];
-  for (var i = 0; i < LFDIFORECAST.length; i++){                      
+  for (var i = 0; i < LFDIFORECAST.length; i++){  
+   if (LFDIFORECAST[i].date != null){                
     graph_data.push({
       date: new Date(LFDIFORECAST[i].date),
       value2: LFDIFORECAST[i].fdi,
@@ -485,8 +494,11 @@ function declare_graph_data(){
       is_forecast :LFDIFORECAST[i].is_forecast
     });
   }
+  }
 
   for (var i =0; i < LFDILOCAL.length; i++){
+
+    if(LFDILOCAL[i].date != null){
     graph_data.push({
       date: new Date(LFDILOCAL[i].date),
       value1: LFDILOCAL[i].fdi,
@@ -498,6 +510,7 @@ function declare_graph_data(){
       windDirection: LFDILOCAL[i].windDirection,
       is_forecast : LFDILOCAL[i].is_forecast
     });
+   }
   }
 
   graph_data.sort(compare);
@@ -577,7 +590,7 @@ function render_chart(){
     }],
 
     "graphs": [{
-      "balloonText": "",
+      "balloonText": "[[is_forecast]]",
       "columnWidth": 15,
       "fillColors": "black",
       "fillAlphas": 0.4,
