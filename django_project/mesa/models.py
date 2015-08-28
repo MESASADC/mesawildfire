@@ -65,28 +65,46 @@ class ConfigSetting(models.Model, NotifySave):
     value = models.CharField(max_length=100, blank=True, null=True)
 
 
-class AfModis(models.Model, NotifySave):
+class Fire(models.Model, NotifySave):
+
+    status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
+
+    description = models.CharField(max_length=50, blank=True, default='')
+    status = models.CharField(max_length=20, blank=True, choices=status_choices, default='')
+
+class FirePixel(models.Model, NotifySave):
 
     type = models.CharField(max_length=40, blank=True, default='')
     point = models.PointField()
-    lon = models.FloatField()
-    lat = models.FloatField()
+    vsize = models.FloatField(blank=False, default=0) 
+    hsize = models.FloatField(blank=False, default=0) 
     date_time = models.DateTimeField(blank=True, null=True)
-    src = models.CharField(max_length=20, blank=True, default='')
-    sat = models.CharField(max_length=20, blank=True, default='')
-    frp = models.FloatField()
-    btemp = models.FloatField()
+    src = models.CharField(max_length=20, blank=True, null=False, default='')
+    sat = models.CharField(max_length=20, blank=True, null=False, default='')
+    frp = models.FloatField(blank=True)
+    btemp = models.FloatField(blank=True)
+
+    fire = models.ForeignKey(Fire, blank=True, null=True)
+    
+    @property
+    def lat(self):
+        return point.y
+
+    @property
+    def lon(self):
+        return point.x
 
 
-class Fire(models.Model, NotifySave):
+class FireFeature(View, NotifySave):
 
-    status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('active', 'Active'), ('out', 'Out'))
+    status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
 
-    geom = models.MultiPolygonField()
-    first_seen = models.DateTimeField(blank=True, null=True)
-    last_seen = models.DateTimeField(blank=True, null=True)
     description = models.CharField(max_length=50, blank=True, default='')
     status = models.CharField(max_length=20, blank=True, choices=status_choices, default='')
+
+    border = models.PolygonField()
+    first_seen = models.DateTimeField()
+    last_seen = models.DateTimeField()
     max_frp = models.FloatField()
     current_fdi = models.FloatField()
     start_fdi = models.FloatField()
@@ -142,7 +160,7 @@ class FdiForecast(View):
 
     fdi_point = models.ForeignKey(FdiPoint, blank=True, null=True)
 
-class FdiTable(View):
+class FdiPointData(View):
     """ 
     A Django model that provides read-only access to a database view that provides 
     FdiTable rows based on a join between FdiPoints and FdiMeasurements and FdiForecasts. 
@@ -157,7 +175,7 @@ class FdiTable(View):
     lon = models.FloatField()
     lat = models.FloatField()
 
-    station_name = models.CharField(max_length=40, blank=True, null=True, unique=True, default=None)
+    station_name = models.CharField(max_length=40, blank=True, null=True)
  
     rain_mm = models.FloatField()
     windspd_kmh = models.FloatField()
@@ -169,10 +187,6 @@ class FdiTable(View):
     date_time = models.DateTimeField(blank=True, null=True)
 
     is_forecast = models.BooleanField()
-
-
-    def __str__(self):
-        return '{0} ({1})'.format(self.name, self.type)
 
 
 def _notification(event, source):

@@ -13,22 +13,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='AfModis',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.CharField(default=b'', max_length=40, blank=True)),
-                ('point', django.contrib.gis.db.models.fields.PointField(srid=4326)),
-                ('lon', models.FloatField()),
-                ('lat', models.FloatField()),
-                ('date_time', models.DateTimeField(null=True, blank=True)),
-                ('src', models.CharField(default=b'', max_length=20, blank=True)),
-                ('sat', models.CharField(default=b'', max_length=20, blank=True)),
-                ('frp', models.FloatField()),
-                ('btemp', models.FloatField()),
-            ],
-            bases=(models.Model, mesa.models.NotifySave),
-        ),
-        migrations.CreateModel(
             name='ConfigSetting',
             fields=[
                 ('name', models.CharField(max_length=50, serialize=False, primary_key=True)),
@@ -98,7 +82,7 @@ class Migration(migrations.Migration):
         ),
     ]
     
-    fdi_table_select = """
+    fdi_point_data_select = """
         SELECT
                   mesa_fdipoint.id, 
                   mesa_fdipoint.name, 
@@ -147,35 +131,49 @@ class Migration(migrations.Migration):
  
     operations += [
         migrations.RunSQL(
-            sql="CREATE OR REPLACE VIEW mesa_fditable AS %s;" % fdi_table_select,
-            reverse_sql='DROP VIEW IF EXISTS mesa_fditable CASCADE;',
+            sql="CREATE OR REPLACE VIEW mesa_fdipointdata AS %s;" % fdi_point_data_select,
+            reverse_sql='DROP VIEW IF EXISTS mesa_fdipointdata CASCADE;',
             state_operations=[migrations.CreateModel(
-                name='FdiTable',
+                name='FdiPointData',
                 fields=[
-                    ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                    ('name', models.CharField(unique=True, max_length=40)),
-                    ('type', models.CharField(default=b'poi', max_length=20, blank=True, choices=[(b'wstation', b'Weather station'), (b'poi', b'Point of interest')])),
-                    ('station_name', models.CharField(default=None, max_length=40, unique=True, null=True, blank=True)),
-                    ('station_id', models.CharField(default=None, max_length=40, unique=True, null=True, blank=True)),
-                    ('fdi_value', models.IntegerField()),
-                    ('fdi_rgb', models.CharField(default=b'', max_length=10, blank=True)),
-                    ('point', django.contrib.gis.db.models.fields.PointField(srid=4326)),
-                    ('lon', models.FloatField()),
-                    ('lat', models.FloatField()),
-                    ('rain_mm', models.FloatField(null=True, blank=True)),
-                    ('windspd_kmh', models.FloatField()),
-                    ('winddir_deg', models.FloatField()),
-                    ('rh_pct', models.FloatField()),
-                    ('temp_c', models.FloatField()),
-                    ('date_time', models.DateTimeField(null=True, blank=True)),
-                    ('is_forecast', models.BooleanField()),
-                ],
-                options={
-                    'abstract': False,
-                    'managed': False,
-                },
-            )],
-        )
+                        ('id', models.IntegerField(serialize=False, primary_key=True)),
+                        ('name', models.CharField(unique=True, max_length=40)),
+                        ('type', models.CharField(default=b'poi', max_length=20, blank=True, choices=[(b'wstation', b'Weather station'), (b'poi', b'Point of interest')])),
+                        ('point', django.contrib.gis.db.models.fields.PointField(srid=4326)),
+                        ('lon', models.FloatField()),
+                        ('lat', models.FloatField()),
+                        ('station_name', models.CharField(max_length=40, null=True, blank=True)),
+                        ('rain_mm', models.FloatField()),
+                        ('windspd_kmh', models.FloatField()),
+                        ('winddir_deg', models.FloatField()),
+                        ('rh_pct', models.FloatField()),
+                        ('fdi_value', models.IntegerField()),
+                        ('fdi_rgb', models.CharField(default=b'', max_length=10, blank=True)),
+                        ('temp_c', models.FloatField()),
+                        ('date_time', models.DateTimeField(null=True, blank=True)),
+                        ('is_forecast', models.BooleanField()),
+                    ],
+                    options={
+                        'abstract': False,
+                        'managed': False,
+                    },
+                )],
+        ),
+        migrations.CreateModel(
+            name='FirePixel',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('type', models.CharField(default=b'', max_length=40, blank=True)),
+                ('point', django.contrib.gis.db.models.fields.PointField(srid=4326)),
+                ('vsize', models.FloatField(default=0)),
+                ('hsize', models.FloatField(default=0)),
+                ('date_time', models.DateTimeField(null=True, blank=True)),
+                ('src', models.CharField(default=b'', max_length=20, blank=True)),
+                ('sat', models.CharField(default=b'', max_length=20, blank=True)),
+                ('frp', models.FloatField(blank=True)),
+                ('btemp', models.FloatField(blank=True)),
+            ],
+            bases=(models.Model, mesa.models.NotifySave),
+        ),
     
     ]
-

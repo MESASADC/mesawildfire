@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework_gis',
     'mesa',
-#    'mesa.rest',
+    'mesa.dashboard',
 )
 
 MIDDLEWARE_CLASSES = (

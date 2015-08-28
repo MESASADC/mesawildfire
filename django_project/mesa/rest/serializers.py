@@ -4,28 +4,28 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from mesa.models import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast, FdiTable, Fire
+from mesa import models
 
 
-class AfModisSerializer(GeoFeatureModelSerializer):
-    """ A class to serialize MODIS active fire locations as GeoJSON compatible data """
+class FirePixelSerializer(GeoFeatureModelSerializer):
+    """ A class to serialize active fire pixels as GeoJSON compatible data """
             
     class Meta:
-        model = AfModis
+        model = models.FirePixel
         geo_field = "point"
 
 class FireSerializer(GeoFeatureModelSerializer):
     """ A class to serialize fires as GeoJSON compatible data """
             
     class Meta:
-        model = Fire
-        geo_field = "geom"
+        model = models.Fire
+        geo_field = "border"
 
 class FdiPointSerializer(GeoFeatureModelSerializer):
     """ A class to serialize FDI points of interest as GeoJSON compatible data """
             
     class Meta:
-        model = FdiPoint
+        model = models.FdiPoint
         geo_field = "point"
         fields = ('name', 'id', 'url', 'type', 'point', 'lat', 'lon', 'station_id', 'station_name')
 
@@ -33,20 +33,20 @@ class FdiMeasurementSerializer(ModelSerializer):
     """ A class to serialize FDI points of interest as GeoJSON compatible data """
             
     class Meta:
-        model = FdiMeasurement
+        model = models.FdiMeasurement
 
 
 class FdiForecastSerializer(ModelSerializer):
     """ A class to serialize FDI points of interest as GeoJSON compatible data """
             
     class Meta:
-        model = FdiForecast
+        model = models.FdiForecast
 
-class FdiTableSerializer(GeoFeatureModelSerializer):
-    """ A class to serialize FDI table data as GeoJSON compatible data """
+class FdiPointDataSerializer(GeoFeatureModelSerializer):
+    """ A class to serialize FDI point data as GeoJSON compatible data """
             
     class Meta:
-        model = FdiTable
+        model = models.FdiPointData
         geo_field = "point"
 
 
@@ -54,7 +54,7 @@ class FdiTableSerializer(GeoFeatureModelSerializer):
 class ConfigSerializer(ModelSerializer):
     
     class Meta:
-        model = ConfigSetting
+        model = models.ConfigSetting
 
     def validate(self, data):
         

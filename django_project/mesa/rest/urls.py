@@ -8,8 +8,9 @@ router.register(r'ConfigSetting', views.ConfigViewSet)
 router.register(r'FdiPoint', views.FdiPointViewSet)
 router.register(r'FdiMeasurement', views.FdiMeasurementViewSet)
 router.register(r'FdiForecast', views.FdiForecastViewSet)
-router.register(r'FdiPointData', views.FdiTableViewSet)
+router.register(r'FdiPointData', views.FdiPointDataViewSet)
 router.register(r'Fire', views.FireViewSet)
+router.register(r'FirePixel', views.FirePixelViewSet)
 
 
 # Wire up our API using automatic URL routing.

@@ -125,17 +125,12 @@ class BasePersistConsumer(Queue):
         raise NotImplementedError('Abstract method needs to be overridden')
 
 
-class BaseModelPersistConsumer(BasePersistConsumer):
-    
-    field_map = {}
-    
-    def model(self):
-        raise NotImplementedError('Abstract method needs to be overridden')
+class FirePixelPersistConsumer(BasePersistConsumer):
     
     def _persist(self, message, data):
 
         try:
-            obj = model()
+            obj = models.FirePixel()
         except Exception, e:
             raise e
 

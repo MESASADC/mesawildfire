@@ -1,7 +1,6 @@
 
-from mesa import models #import ConfigSetting, AfModis, FdiPoint, FdiMeasurement, FdiForecast, FdiTable
+from mesa import models 
 from mesa.rest import serializers 
-#import ConfigSerializer, AfModisSerializer, FdiPointSerializer, FdiMeasurementSerializer, FdiForecastSerializer, FdiTableSerializer
 from rest_framework import generics, permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -25,12 +24,12 @@ class FdiPointViewSet(viewsets.ModelViewSet):
     queryset = models.FdiPoint.objects.all()
     serializer_class = serializers.FdiPointSerializer
 
-class FdiTableViewSet(viewsets.ModelViewSet):
+class FdiPointDataViewSet(viewsets.ModelViewSet):
     """
     FdiTable data for Fire Danger Index, can be weather station or just a location
     """
-    queryset = models.FdiTable.objects.all()
-    serializer_class = serializers.FdiTableSerializer
+    queryset = models.FdiPointData.objects.all()
+    serializer_class = serializers.FdiPointDataSerializer
 
 
 class FdiMeasurementViewSet(viewsets.ModelViewSet):
@@ -49,7 +48,6 @@ class FdiForecastViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.FdiForecastSerializer
 
 
-
 class FireViewSet(viewsets.ModelViewSet):
     """
     Fire as detected and updated over time
@@ -57,11 +55,12 @@ class FireViewSet(viewsets.ModelViewSet):
     queryset = models.Fire.objects.all()
     serializer_class = serializers.FireSerializer
 
-class AfModisViewSet(viewsets.ModelViewSet):
+
+class FirePixelViewSet(viewsets.ModelViewSet):
     """
-    Active fire pixels as detected by MODIS
+    Active fire pixels as detected by satellite
     """
-    queryset = models.AfModis.objects.all()
-    serializer_class = serializers.AfModisSerializer
+    queryset = models.FirePixel.objects.all()
+    serializer_class = serializers.FirePixelSerializer
 
 
