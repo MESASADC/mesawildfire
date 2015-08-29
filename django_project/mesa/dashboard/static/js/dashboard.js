@@ -334,19 +334,6 @@ $(document).ready(function() {
 
 
 
-    var graph_data = Array();
-
-    Object.size = function(obj) {
-        var size = 0,
-            key;
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) size++;
-        }
-        return size;
-    };
-
-
-
 
     function compare(a, b) {
         if (a.date < b.date)
@@ -411,7 +398,7 @@ $(document).ready(function() {
             }],
 
             "graphs": [{
-                "balloonText": "[[is_forecast]]",
+                /*"balloonText": "[[is_forecast]]",
                 "columnWidth": 15,
                 "fillColors": "black",
                 "fillAlphas": 0.4,
@@ -419,7 +406,7 @@ $(document).ready(function() {
                 "title": "12H00 Forecast",
                 "type": "column",
                 "valueField": "forecast_fdi"
-            }, {
+            }, {*/
                 "balloonText": "[[is_forecast]]",
                 "lineThickness": 3,
                 "connect": true,
@@ -427,14 +414,14 @@ $(document).ready(function() {
                 "lineColor": "#FFFFFF",
                 "type": "smoothedLine",
                 "valueField": "actual_fdi"
-            }, {
+            /*}, {
                 "balloonText": "",
                 "lineThickness": 3,
                 "connect": true,
                 "title": "date",
                 "lineColor": "#FFFFFF",
                 "type": "smoothedLine",
-                "valueField": "date"
+                "valueField": "date"*/
             }],
             "zoomOutButtonRollOverAlpha": 0.15,
             "chartCursor": {
@@ -455,7 +442,6 @@ $(document).ready(function() {
             
         });
 
-        alert('done');
 
 
         /*
@@ -483,7 +469,7 @@ $(document).ready(function() {
     $.get(FDI_CHART_URL, function(result, status) {
         
   
-        graph_data = [];
+        var graph_data = [];
 
         result.features.forEach(function (feature) {
 
@@ -511,6 +497,9 @@ $(document).ready(function() {
             } else {
                 weather.actual_fdi = properties.fdi_value;
             };
+
+            console.log(weather)
+            debugvar= weather.date;
             
             graph_data.push(weather);
         
