@@ -1,13 +1,3 @@
-dashboard:
-  build: dashboard
-  ports:
-   - "5080:80"
-  volumes:
-   - ./dashboard/sites:/etc/nginx/sites-enabled
-   - ./dashboard/www:/var/www
-  links:
-   - geoserver
-
 db:
   image: kartoza/postgis
   hostname: postgis

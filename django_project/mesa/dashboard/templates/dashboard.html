@@ -67,7 +67,7 @@
                             <span class="icon-bar"></span>
                         </button>
                         <a href="http://mesasadc.org" target="_blank">
-                            <img src="{% static "images/mesa-logo-.png" %}" style="height:100px;margin-bottom:20px;"/>
+                            <!--<img src="{% static "images/mesa-logo-.png" %}" style="height:100px;margin-bottom:20px;" /> -->
                         </a>
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -121,33 +121,25 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>pk</th>
-                                <th>type</th>
-                                <th>geom</th>
-                                <th>lat</th>
-                                <th>lon</th>
-                                <th>date_time</th>
-                                <th>src</th>
-                                <th>btemp</th>
-                                <th>sat</th>
-                                <th>frp</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Area</th>
+                                <th>Current FDI</th>
+                                <th>Max FRP</th>
                             </tr>
                         </thead>
+<!--
                         <tfoot>
                             <tr>
                                 <th></th>
-                                <th>pk</th>
-                                <th>type</th>
-                                <th>geom</th>
-                                <th>lat</th>
-                                <th>lon</th>
-                                <th>date_time</th>
-                                <th>src</th>
-                                <th>btemp</th>
-                                <th>sat</th>
-                                <th>frp</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Area</th>
+                                <th>Current FDI</th>
+                                <th>Max FRP</th>
                             </tr>
                         </tfoot>
+-->
                     </table>
                 </div>
                 <div class="col-md-12" style="padding-top:30px;">
@@ -192,14 +184,14 @@
                                                 <thead>
                                                     <tr>
                                                         <!--th>id</th><th>rain_mm</th><th>windspd_kmh</th><th>winddir_deg</th><th>rh_pct</th><th>fdi_value</th><th>fdi_rgb</th><th>fwi_value</th><th>fwi_rgb</th><th>temp_c</th><th>date_time</th><th>fdi_point</th-->
-                                                        <th></th>
-                                                        <th>Type</th>
+                                                        <th><!--Station Id--></th>
+                                                        <th><!--Type--></th>
                                                         <th>Name</th>
                                                         <th>Current FDI</th>
-                                                        <th>Wind</th>
+                                                        <!--<th>Wind</th>
                                                         <th>Temp</th>
                                                         <th>RH</th>
-                                                        <th>Rain</th>
+                                                        <th>Rain</th>-->
                                                     </tr>
                                                 </thead>
                                             </table>

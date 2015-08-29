@@ -23,9 +23,11 @@ tr.fdi-table td
    cursor: pointer; 
 }
 
+/*
 .navbar-offset {
   margin-top: 50px;
 }
+*/
 
 td.details-control {
   background: url('images/details_open.png') no-repeat center center;
@@ -163,7 +165,7 @@ body {
   /* Set the fixed height of the footer here */
   height: 10px;
 }
-
+/*
 .logo  {
     text-align: center;
     margin-top: 30px;
@@ -175,3 +177,4 @@ body {
     padding: 15px;
     border-radius: 4px;
 }
+*/

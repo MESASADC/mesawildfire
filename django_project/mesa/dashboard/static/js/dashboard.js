@@ -135,39 +135,39 @@ $(document).ready(function() {
             tableData.push(row);
             fdiColors[row.fdi_value] = row.fdi_rgb;
         });
-        debugvar = fdiColors;
 
         var tableFdi = $('table.fdi-table').DataTable({
 
             data: tableData,
             deferRender: true,
             dom: "tS",
-            scrollY: "60%",
+            scrollY: "90%",
             scrollCollapse: true,
-            scrollX: "60%",
+            scrollX: "90%",
             stateSave: true,
             paging: false,
             columns: [{
-                    "className": 'fdi-point-select',
+                    "className": 'hidden station_id',
                     "orderable": false,
-                    "data": null,
+                    "data": "id",
                     "defaultContent": ' '
                 },
                 {
+                    "className": "type",
                     "data": "type"
                 }, {
                     "data": "name"
                 }, {
-                    "className": 'fdi',
+                    "className": "fdi",
                     "data": "fdi_value"
-                }, {
+                /*}, {
                     "data": "windspd_kmh"
                 }, {
                     "data": "temp_c"
                 }, {
                     "data": "rh_pct"
                 }, {
-                    "data": "rain_mm"
+                    "data": "rain_mm"*/
                 }
 
             ],
@@ -177,7 +177,6 @@ $(document).ready(function() {
         });
 
         for (tr in $("#fdi_table").find("tr")) {
-            debugvar = tr;
             var td_fdi = $(tr).find("td.fdi").toArray();
             td_fdi.forEach(function(td) {
                 var fdiValue = $(td).text();
@@ -187,9 +186,26 @@ $(document).ready(function() {
                 var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
                 (o > 125) ? $(td).css('color', 'black'): $(td).css('color', 'white');
             });
+            var td_type = $(tr).find("td.type").toArray();
+            td_type.forEach(function(td) {
+                var type = $(td).text();
+                if (type == 'wstation') {
+                    $(td).addClass("fa fa-tint");
+                    $(td).html('');
+                } else if (type == 'poi') {
+                    $(td).addClass("fa fa-map-marker");
+                    $(td).html('');
+                }
+            });
+
         }
 
-        $("td.fdi-point-select").html('<i class="fa fa-line-chart"></i>');
+        $('#fdi-table-search').on('keyup', function() {
+            tableFdi.search(this.value).draw();
+        });
+
+
+        //$("td.fdi-point-select").html('<i class="fa fa-line-chart"></i>');
         $("table.fdi-table tbody tr").addClass('cursor');
 
     });
@@ -199,7 +215,7 @@ $(document).ready(function() {
     //Get fire-table data.
     $.get(FIREURL, function(table_data, status) {
 
-        var table = $('table.fire-table').DataTable({
+        var tableFire = $('table.fire-table').DataTable({
             data: table_data,
             deferRender: true,
             dom: "tS",
@@ -213,112 +229,99 @@ $(document).ready(function() {
                 "data": null,
                 "defaultContent": ''
             }, {
-                "data": "pk"
+                "data": "description"
             }, {
-                "data": "type"
+                "data": "status"
             }, {
-                "data": "geom"
+                "data": "status"
             }, {
-                "data": "lat"
+                "data": "current_fdi"
             }, {
-                "data": "lon"
-            }, {
-                "data": "date_time"
-            }, {
-                "data": "src"
-            }, {
-                "data": "btemp"
-            }, {
-                "data": "sat"
-            }, {
-                "data": "frp"
+                "data": "max_frp"
             }],
             "order": [
                 [1, 'asc']
             ]
         });
 
-    });
+        $('#fire-table-search').on('keyup', function() {
+            tableFire.search(this.value).draw();
+        });
+
+        /* Formatting function for row details - modify as you need */
+
+        var custom_names = {
+            "first_observed": "First Observation",
+            "last_observed": "First Observation",
+            "fdi_first": "FDI at first observation",
+            "fdi_last": "FDI at last observation"
+        };
 
 
-    /* Formatting function for row details - modify as you need */
+        /* Formatting function for row details - modify as you need */
+/*        function format(d) {
+            var visible_columns = $(".dataTable").find("th.sorting, th.sorting-asc,th.sorting-desc");
 
-    var custom_names = {
-        "first_observed": "First Observation",
-        "last_observed": "First Observation",
-        "fdi_first": "FDI at first observation",
-        "fdi_last": "FDI at last observation"
-    };
-
-    /* Formatting function for row details - modify as you need */
-    function format(d) {
-        var visible_columns = $(".dataTable").find("th.sorting, th.sorting-asc,th.sorting-desc");
-
-        var visible_column_names = Array();
-        for (var i = 0; i < visible_columns.length; i++) {
-            visible_column_names.push($(visible_columns[i]).text());
-        }
-        visible_columns = unique(visible_column_names);
-
-        var displaying_keys = Array();
-        for (key in d) {
+            var visible_column_names = Array();
             for (var i = 0; i < visible_columns.length; i++) {
-                var my_key = visible_columns[i].trim().toLowerCase();
-                my_key = my_key.replace(/[^\w\s]/gi, '').trim().replace(/ /g, '_');
-                if (key == my_key) {
-                    displaying_keys.push(key);
-                    break;
+                visible_column_names.push($(visible_columns[i]).text());
+            }
+            visible_columns = unique(visible_column_names);
+
+            var displaying_keys = Array();
+            for (key in d) {
+                for (var i = 0; i < visible_columns.length; i++) {
+                    var my_key = visible_columns[i].trim().toLowerCase();
+                    my_key = my_key.replace(/[^\w\s]/gi, '').trim().replace(/ /g, '_');
+                    if (key == my_key) {
+                        displaying_keys.push(key);
+                        break;
+                    }
                 }
             }
-        }
 
-        var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
-        for (key in d) {
-            if (displaying_keys.indexOf(key) == -1) {
-                var string;
-                if (custom_names[key] !== null)
-                    string = custom_names[key];
-                else
-                    string = key.charAt(0).toUpperCase() + "" + key.substring(1).replace(/_/g, ' ');
+            var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
+            for (key in d) {
+                if (displaying_keys.indexOf(key) == -1) {
+                    var string;
+                    if (custom_names[key] !== null)
+                        string = custom_names[key];
+                    else
+                        string = key.charAt(0).toUpperCase() + "" + key.substring(1).replace(/_/g, ' ');
 
-                html += '<tr>' +
-                    '<td>' + string + ':</td>' +
-                    '<td>' + d[key] + '</td>' +
-                    '</tr>';
+                    html += '<tr>' +
+                        '<td>' + string + ':</td>' +
+                        '<td>' + d[key] + '</td>' +
+                        '</tr>';
+                }
             }
+            html += '</table>';
+            return html;
         }
-        html += '</table>';
-        return html;
-    }
 
+        // Add event listener for opening and closing details
+        $('table.fire-table tbody').on('click', 'td.details-control', function() {
+            var tr = $(this).closest('tr');
+            var wms_image = "<image style='width:200px; height:200px; display:inline;'/>";
+            var row = table.row(tr);
 
-    // Add event listener for opening and closing details
-    $('table.fire-table tbody').on('click', 'td.details-control', function() {
-        var tr = $(this).closest('tr');
-        var wms_image = "<image style='width:200px; height:200px; display:inline;'/>";
-        var row = table.row(tr);
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                // Open this row
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+                tr.parent().find('td[colspan=7]').parent().prepend(wms_image);
+            }
+        });
 
-        if (row.child.isShown()) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-            tr.parent().find('td[colspan=7]').parent().prepend(wms_image);
-        }
+*/
+
     });
 
-
-    $('#fire-table-search').on('keyup', function() {
-        table.search(this.value).draw();
-    });
-
-    $('#fdi-table-search').on('keyup', function() {
-        tableFdi.search(this.value).draw();
-    });
 
 
 
@@ -335,6 +338,17 @@ $(document).ready(function() {
 
 
 
+
+    // Add event listener for updating the FDI graph
+    $('table.fdi-table').on('click', 'tr', function() {
+        var station_id = $(this).find('td.station_id').text();
+        render_chart(station_id);
+        //$("table.fdi-table tbody tr").removeClass('fdi-table');
+        //$(this).addClass('fdi-table');
+    });
+
+
+
     function compare(a, b) {
         if (a.date < b.date)
             return -1;
@@ -343,24 +357,70 @@ $(document).ready(function() {
         return 0;
     }
 
-    // Add event listener for updating the FDI graph
-    $('table.fdi-table tbody').on('click', 'tr', function() {
-        update_graph(tableFdi.row(this).index());
-        $("table.fdi-table tbody tr").removeClass('fdi-table');
-        $(this).addClass('fdi-table');
+    var graph_data = {};
+
+    $.get(FDI_CHART_URL, function(result, status) {
+  
+        var selected = null;
+         
+        result.features.forEach(function (feature) {
+
+            var properties = feature.properties;
+
+            var station_id = feature.id;
+
+            var weather = {
+                station_id: station_id,
+                station_name: properties.name,
+                type: properties.type,
+                fdi: properties.fdi_value,
+                fdiColour: properties.fdi_rgb,
+                wind: properties.windspd_kmh,
+                temp: properties.temp_c,
+                relativeH: properties.rh_pct,
+                rain: properties.rain_mm,
+                date: new Date(properties.date_time),
+                temperature: properties.temp_c,
+                windSpeed: properties.windspd_kmh,
+                windDirection: properties.winddir_deg,
+                is_forecast: properties.is_forecast
+            };
+            
+            if (properties.is_forecast) {
+                weather.forecast_fdi = properties.fdi_value;
+            } else {
+                weather.actual_fdi = properties.fdi_value;
+            };
+            
+            if (selected === null) {
+                selected = station_id;
+            };
+            
+            if (graph_data[station_id] === undefined) {
+                graph_data[station_id] = [];
+            };
+          
+            graph_data[station_id].push(weather);
+        
+        });
+        
+        for (key in graph_data) {
+            if (graph_data.hasOwnProperty(key)) {
+                graph_data[key].sort(compare);
+            }
+        }
+            
+        render_chart(selected);
+
     });
 
+    function render_chart(station_id) {
 
-
-
-
-
-    function render_chart(graph_data) {
       var chart = AmCharts.makeChart("chartdiv", {
             "type": "serial",
             "theme": "dark",
             "marginRight": 80,
-            "dataProvider": graph_data,
+            "dataProvider": graph_data[station_id],
             "valueAxes": [{
                 "maximum": 100,
                 "minimum": 0,
@@ -407,7 +467,7 @@ $(document).ready(function() {
                 "type": "column",
                 "valueField": "forecast_fdi"
             }, {*/
-                "balloonText": "[[is_forecast]]",
+                "balloonText": "[[actual_fdi]]",
                 "lineThickness": 3,
                 "connect": true,
                 "title": "FDI",
@@ -465,51 +525,6 @@ $(document).ready(function() {
     }
     // END FDI CHART
 
-
-    $.get(FDI_CHART_URL, function(result, status) {
-        
-  
-        var graph_data = [];
-
-        result.features.forEach(function (feature) {
-
-            var properties = feature.properties;
-
-            var weather = {
-
-                //type: properties.type,
-                //station: properties.name,
-                //fdi: properties.fdi_value,
-                fdiColour: properties.fdi_rgb,
-                wind: properties.windspd_kmh,
-                temp: properties.temp_c,
-                relativeH: properties.rh_pct,
-                rain: properties.rain_mm,
-                date: properties.date_time,
-                temperature: properties.temp_c,
-                windSpeed: properties.windspd_kmh,
-                windDirection: properties.winddir_deg,
-                //is_forecast: properties.is_forecast
-            };
-            
-            if (properties.is_forecast) {
-                weather.forecast_fdi = properties.fdi_value;
-            } else {
-                weather.actual_fdi = properties.fdi_value;
-            };
-
-            console.log(weather)
-            debugvar= weather.date;
-            
-            graph_data.push(weather);
-        
-        });
-        
-        console.log(graph_data);
-        
-        render_chart(graph_data);
-
-    });
 
 
 });
