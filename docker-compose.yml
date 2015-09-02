@@ -35,6 +35,7 @@ rabbitmq:
   image: rabbitmq:3-management
   hostname: rabbitmq
   ports:
+   - "5672:5672"
    - "55672:15672"
   environment:
    - RABBITMQ_DEFAULT_USER=user

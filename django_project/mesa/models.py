@@ -67,10 +67,14 @@ class ConfigSetting(models.Model, NotifySave):
 
 class Fire(models.Model, NotifySave):
 
-    status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
+    #status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
+    status_choices = {'detected': 'Detected', 'confirmed': 'Confirmed', 'out': 'Out'}
 
     description = models.CharField(max_length=50, blank=True, default='')
-    status = models.CharField(max_length=20, blank=True, choices=status_choices, default='')
+    status = models.CharField(max_length=20, blank=True, choices=status_choices.items(), default='')
+
+    def __str__(self):
+        return '{0} ({1})'.format(self.description, self.status_choices.get(self.status, '_'))
 
 class FirePixel(models.Model, NotifySave):
 
@@ -103,12 +107,16 @@ class FireFeature(View, NotifySave):
     status = models.CharField(max_length=20, blank=True, choices=status_choices, default='')
 
     border = models.PolygonField()
+    area = models.FloatField()
     first_seen = models.DateTimeField()
     last_seen = models.DateTimeField()
     max_frp = models.FloatField()
-    current_fdi = models.FloatField()
-    start_fdi = models.FloatField()
-    max_fdi = models.FloatField()
+    max_frp_date = models.DateTimeField()
+    current_fdi = models.IntegerField()
+    current_fdi_date = models.DateTimeField()
+    start_fdi = models.IntegerField()
+    max_fdi = models.IntegerField()
+    max_fdi_date = models.DateTimeField()
 
 
 class FdiPoint(models.Model, NotifySave):
@@ -192,7 +200,7 @@ class FdiPointData(View):
 def _notification(event, source):
     return {
             "type": "notify.ui.db",
-            "version": "m.0.1",
+            "version": "m01",
             "event": event,
             "source": source,
             "timestamp": timezone.now().isoformat()
@@ -205,15 +213,15 @@ def post_save_notify_amqp(sender, **kwargs):
     if issubclass(sender, NotifySave):
         event = 'created' if kwargs.get('created', False) else 'updated'
         logging.debug('post_save_notify_amqp: %s %s' % (sender.__name__, event))
-        logging.info('Acquiring connection: %s' % settings.NOTIFY_SAVE_AMQP_CONN_URI)
+        logging.info('Acquiring connection: %s' % settings.AMQP_CONN_URI)
         try:
-            with connections[Connection(settings.NOTIFY_SAVE_AMQP_CONN_URI)].acquire(block=True) as conn:
+            with connections[Connection(settings.AMQP_CONN_URI)].acquire(block=True) as conn:
                 logging.info('Got connection. Acquiring producer...')
                 with producers[conn].acquire(block=True, timeout=10) as producer:
-                    logging.info('Got producer. Publishing to: %s' % settings.NOTIFY_SAVE_AMQP_EXCHANGE)
+                    logging.info('Got producer. Publishing to: %s' % settings.AMQP_EXCHANGE)
                     producer.publish(
                         _notification(event, sender.__name__),
-                        exchange=settings.NOTIFY_SAVE_AMQP_EXCHANGE,
+                        exchange=settings.AMQP_EXCHANGE,
                         routing_key='notify.ui.db.%s.%s' % (event, sender.__name__),
                         serializer='json')
                     logging.info('Published.')

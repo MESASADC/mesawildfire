@@ -111,9 +111,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# MESA REST API
+# MESA AMQP comms
 
-NOTIFY_SAVE_AMQP_CONN_URI = os.environ.get('MESA_FT_AMQP_URI') #'amqp://vhost1:password1@172.17.0.17:5672/vhost1'
-NOTIFY_SAVE_AMQP_EXCHANGE = os.environ.get('MESA_FT_AMQP_EXCHANGE')
+AMQP_CONN_URI = os.environ.get('MESA_FT_AMQP_URI')
+AMQP_EXCHANGE = os.environ.get('MESA_FT_AMQP_EXCHANGE')
 
 

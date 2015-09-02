@@ -15,10 +15,10 @@ class Command(BaseCommand):
     #    parser.add_argument('some_arg', nargs='+', type=int)
 
     def handle(self, *args, **options):
-        try:
-            amqp.async_run_forever()
-        except Exception, e:
-            self.stdout.write(exception_message(e))
-            raise CommandError(e)
+        #try:
+        amqp.async_run_forever()
+        #except Exception, e:
+        #    self.stdout.write(exception_message(e))
+            #raise CommandError(e)
 
         self.stdout.write('Done running comms.')

@@ -6,7 +6,6 @@ from rest_framework.validators import UniqueValidator
 
 from mesa import models
 
-
 class FirePixelSerializer(GeoFeatureModelSerializer):
     """ A class to serialize active fire pixels as GeoJSON compatible data """
             

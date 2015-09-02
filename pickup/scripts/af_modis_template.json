@@ -1,6 +1,6 @@
 {
     "type": "af_modis",
-    "version": "m.0.1",
+    "version": "m01",
     "id": {{ id }},
     "location": {
         "type": "Feature",
