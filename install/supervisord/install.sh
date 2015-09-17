@@ -8,6 +8,8 @@ apt-get install -y supervisor
 cp init.d/supervisord /etc/init.d/supervisord
 chmod +x /etc/init.d/supervisord
 
+cp conf.d/* /etc/supervisor/conf.d/
+
 update-rc.d supervisord defaults
 
 service supervisord stop

@@ -1,8 +1,5 @@
 #! /bin/sh
 #
-# Downloaded from:
-# http://bazaar.launchpad.net/~ubuntu-branches/ubuntu/trusty/supervisor/trusty/view/head:/debian/supervisor.init
-#
 # skeleton	example file to build /etc/init.d/ scripts.
 #		This file should be used to construct scripts for /etc/init.d.
 #
@@ -10,7 +7,6 @@
 #		Modified for Debian
 #		by Ian Murdock <imurdock@gnu.ai.mit.edu>.
 #               Further changes by Javier Fernandez-Sanguino <jfs@debian.org>
-#               Modified by sbilly <superli.1980@gmail.com> Added supervisorctl to status
 #
 # Version:	@(#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl
 #
@@ -29,9 +25,9 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/bin/supervisord
-SUPERVISORCTL=/usr/bin/supervisorctl
 NAME=supervisord
 DESC=supervisor
+CTL=supervisorctl
 
 test -x $DAEMON || exit 0
 
@@ -108,7 +104,7 @@ case "$1" in
 	;;
   stop)
 	echo -n "Stopping $DESC: "
-	start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE
+	start-stop-daemon --stop --quiet --oknodo --pidfile $PIDFILE 
 	echo "$NAME."
 	;;
   force-stop)
@@ -156,11 +152,11 @@ case "$1" in
     echo -n "$NAME is "
     if running ;  then
         echo "running"
+        $CTL $DAEMON_OPTS status
     else
-        echo " not running."
+        echo "not running."
         exit 1
     fi
-    $SUPERVISORCTL $DAEMON_OPTS status
     ;;
   *)
 	N=/etc/init.d/$NAME
