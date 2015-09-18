@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Script to install MESA Wildfire software unto a vinilla Ubuntu machine
+
+set -x
+
+# General
+apt-get update
+apt-get upgrade -y
+apt-get install -y git 
+
+
+# Install Docker
+apt-get install -y linux-image-extra-`uname -r`
+sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
+sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+apt-get update
+apt-get install -y lxc-docker
+
+
+# Install GeoNode
+git clone https://github.com/GeoNode/geonode
+docker build -t geonode geonode
+
+
+# Install supervisord
+# See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
+apt-get install -y supervisor
+cp supervisor/init.d/supervisor /etc/init.d/supervisor
+chmod +x /etc/init.d/supervisor
+cp supervisor/conf.d/* /etc/supervisor/conf.d/
+update-rc.d supervisor defaults
+service supervisor stop
+service supervisor start
+service supervisor status
+
+
+# Install PostGIS
+docker pull kartoza/postgis
+
+
+# Install Geoserver
+docker pull kartoza/geoserver
+
+
+# Install RabbitMQ
+docker pull rabbitmq:3-management
+
+
+# Install Nginx
+apt-get install -y nginx
+
+
+

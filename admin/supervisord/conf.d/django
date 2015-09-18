@@ -1,0 +1,11 @@
+# Use supervisor to restart docker containers, specifically for when services it depends on is not ready
+# https://coderwall.com/p/aqcbzw/server-deployments-on-ubuntu-with-docker-and-supervisor
+
+[program:django]
+autorestart=true
+autostart=true
+command=docker run --name supervisor_django -a stdout -a stderr --rm=true -p 58000:80 django
+
+
+# TODO: check HTTP GET 
+# http://superlance.readthedocs.org/en/latest/httpok.html
