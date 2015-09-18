@@ -1,7 +1,8 @@
 Admin scripts
 =============
 
-Installation on a vinilla Ubuntu OS. 
+
+Installation on a vanilla Ubuntu OS. 
 ------------------------------------
 
 Recommended: Ubuntu Desktop 12.04 64-bit
@@ -28,6 +29,7 @@ Start by cloning the whole repo to the target machine:
     $ sudo ./install
 </pre>
 
+
 Starting up:
 ------------
 
@@ -40,7 +42,6 @@ Manual procedure:
     $ sudo service start supervisor
     $ sudo service status supervisor
 </pre>
-
 
 
 Checking the status of the system:
