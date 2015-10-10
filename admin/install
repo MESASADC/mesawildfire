@@ -4,10 +4,13 @@
 
 set -x
 
+HERE=$(readlink -f `dirname $0`)
+MESA_ROOT=$(readlink -f $HERE/..)
+
 # General
 apt-get update
 apt-get upgrade -y
-apt-get install -y git 
+apt-get install -y git
 
 
 # Install Docker
@@ -26,9 +29,14 @@ docker build -t geonode geonode
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
 apt-get install -y supervisor
-cp supervisor/init.d/supervisor /etc/init.d/supervisor
+cp $HERE/supervisord/init.d/supervisor /etc/init.d/supervisor
 chmod +x /etc/init.d/supervisor
-cp supervisor/conf.d/* /etc/supervisor/conf.d/
+FILES=$HERE/supervisord/conf.d/*
+for f in $FILES; do
+  TARGET=/etc/supervisor/conf.d/$(basename $f)
+  cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
+  echo "$f --> $TARGET"
+done;
 update-rc.d supervisor defaults
 service supervisor stop
 service supervisor start
@@ -49,6 +57,3 @@ docker pull rabbitmq:3-management
 
 # Install Nginx
 apt-get install -y nginx
-
-
-
