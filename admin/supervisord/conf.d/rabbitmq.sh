@@ -1,11 +1,16 @@
 #!/bin/bash
 
+MESA_ROOT="install script will set this"
+
+source $MESA_ROOT/django_project/ENV
+
 trap "{ echo Stopping rabbitmq docker; docker stop supervisor_rabbitmq; exit 0; }" EXIT
 
 docker rm -f supervisor_rabbitmq &> /dev/null
 
 # Start Postgresql:
-docker run --name supervisor_rabbitmq -a stdout -a stderr --rm -p 56720:5672 -p 56721:15672 rabbitmq:3-management
+docker run --name supervisor_rabbitmq -a stdout -a stderr --rm -p 56720:5672 -p 56721:15672 -e RABBITMQ_DEFAULT_USER=$RABBITMQ_USER -e RABBITMQ_DEFAULT_PASS=$RABBITMQ_PASS rabbitmq:3-management
+
 RESULT=$?
 echo RESULT=$RESULT
 
