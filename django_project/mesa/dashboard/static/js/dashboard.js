@@ -2,7 +2,8 @@
 // CONSTANTS
 
 var FDI_URL = "/rest/FdiPointData/?format=json";
-var FIRE_URL = "/rest/FireFeature/?format=json";
+var FIRE_URL = "/rest/FireEvent/?format=json";
+var NUM_INITIAL_FIRES = 20;
 
 // GLOBALS
 
@@ -32,22 +33,37 @@ $(function() {
 
     var fireStyle = new ol.style.Style({
         stroke: new ol.style.Stroke({
-            color: 'red',
+            color: 'black',
             width: 3
         }),
         fill: new ol.style.Fill({
-            color: 'rgba(0, 0, 255, 0.1)'
+            color: 'rgba(100, 100, 100, 0.1)'
         })
     });
 
-
     var firesVector = new ol.layer.Vector({
         source: new ol.source.Vector({
-            projection: 'EPSG:3857',
+            projection: 'EPSG:4326',
             url: '/rest/FireFeature/?format=json',
             format: new ol.format.GeoJSON()
         }),
         style: fireStyle
+    });
+    
+    var firesWMS = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:mesa_firefeature'},
+          serverType: 'geoserver'
+        })
+    });
+
+    var firePixelWMS = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:mesa_firepixel_area'},
+          serverType: 'geoserver'
+        })
     });
 
     /**
@@ -82,11 +98,12 @@ $(function() {
 
 
     var map = new ol.Map({
+        //projection: 'EPSG:4326',
+        layers: [ raster, firesWMS, firePixelWMS ],
         target: "map",
-        layers: [ raster, firesVector ],
         view: new ol.View({
-            center: [0, 0],
-            zoom: 2
+            center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 10
         }),
         overlays: [overlay],
         controls: ol.control.defaults().extend([
@@ -369,14 +386,23 @@ $(document).ready(function() {
 
 
     // get fire data.
-    $.get(FIRE_URL, function(result, status) {
-
+    $.get(FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0', function(data, status) {
+        
         var tableData = [];
+        var fires;
+        var remaining;
+        
+        if (data.hasOwnProperty('results')) {
+            fires = data.results;
+            remaining = data.count - fires.length; 
+        }
+        else {
+            fires = data;
+            remaining = 0;
+        };
 
-        result.features.forEach(function (feature) {
-            var row = feature.properties;
-            row.id = feature.id;
-            tableData.push(row);
+        fires.forEach(function (fire) {
+            tableData.push(fire);
         });
 
         fireTable = $('#fire-table').DataTable({
@@ -388,7 +414,12 @@ $(document).ready(function() {
             paging: true,
             scroller: true,
             stateSave: true,
-            initComplete: function () {
+            "initComplete": function( settings, json ) {
+                if (remaining > 0) {
+                    $.get(FIRE_URL + '&limit=' + remaining + '&offset=' + NUM_INITIAL_FIRES, function(data, status) {
+                        fireTable.rows.add(data.results).draw();
+                    });
+                };
             },
             "columns": [{
                 "className": 'details-control',

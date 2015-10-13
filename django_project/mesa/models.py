@@ -68,10 +68,11 @@ class ConfigSetting(models.Model, NotifySave):
 class Fire(models.Model, NotifySave):
 
     #status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
-    status_choices = {'detected': 'Detected', 'confirmed': 'Confirmed', 'out': 'Out'}
+    status_choices = {'hotspot': 'Hotspot', 'merged': 'Merged', 'confirmed': 'Confirmed', 'out': 'Out'}
 
-    description = models.CharField(max_length=50, blank=True, default='')
+    description = models.CharField(max_length=100, blank=True, default='')
     status = models.CharField(max_length=20, blank=True, choices=status_choices.items(), default='')
+    border = models.PolygonField()
 
     def __str__(self):
         return '{0} ({1})'.format(self.description, self.status_choices.get(self.status, '_'))
@@ -100,6 +101,9 @@ class FirePixel(models.Model, NotifySave):
 
 
 class FireFeature(View, NotifySave):
+    
+    class Meta:
+        db_table = 'mesa_firefeature_fast'
 
     status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
 

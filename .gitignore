@@ -10,9 +10,9 @@ ENV
 
 *.pyc
 *~
-<<<<<<< HEAD
-=======
-*.pyc
->>>>>>> persistence
+*.log
 
 venv
+
+volumes
+

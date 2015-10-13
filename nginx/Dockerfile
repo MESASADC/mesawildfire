@@ -14,7 +14,9 @@ EXPOSE 80
 EXPOSE 443
 
 # Use baseimage-docker's init system.
-CMD ["/sbin/my_init"]
+#ENTRYPOINT ["/sbin/my_init"]
+
+CMD ["nginx", "-g", "daemon off;"]
 
 
 

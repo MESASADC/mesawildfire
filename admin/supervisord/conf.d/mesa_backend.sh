@@ -7,11 +7,11 @@ trap "{ echo Stopping mesa_backend docker; docker stop supervisor_mesa_backend; 
 docker rm -f supervisor_mesa_backend &> /dev/null
 
 # Make sure Postgresql and RabbitMQ is up and accepting connections:
-docker run --link supervisor_postgis --rm=true martin/wait
-docker run --link supervisor_rabbitmq --rm=true martin/wait
+docker run --link supervisor_postgis --rm martin/wait
+docker run --link supervisor_rabbitmq --rm martin/wait
 
 # Start django:
-docker run --rm -a stdout -a stderr --name supervisor_mesa_backend --link supervisor_postgis:postgis --link supervisor_rabbitmq:rabbitmq -v $MESA_ROOT/django_project/ENV:/ENV -v $MESA_ROOT/django_project/start.sh:/start.sh -v $MESA_ROOT/django_project:/django_project mesa_django /django_project/manage.py mesa_comms
+docker run -t --rm -a stdout -a stderr --name supervisor_mesa_backend --link supervisor_postgis:postgis --link supervisor_rabbitmq:rabbitmq -v $MESA_ROOT/django_project/ENV:/ENV -v $MESA_ROOT/django_project/start.sh:/start.sh -v $MESA_ROOT/django_project:/django_project mesa_django /django_project/manage.py mesa_comms
 
 RESULT=$?
 

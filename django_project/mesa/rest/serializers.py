@@ -13,11 +13,13 @@ class FirePixelSerializer(GeoFeatureModelSerializer):
         model = models.FirePixel
         geo_field = "point"
 
-class FireSerializer(ModelSerializer):
+class FireEventSerializer(ModelSerializer):
     """ A class to serialize fires as GeoJSON compatible data """
             
     class Meta:
-        model = models.Fire
+        model = models.FireFeature
+        fields = ['id', 'description', 'status', 'area', 'first_seen', 'last_seen', 'max_frp', 'max_frp_date', 'current_fdi', 'current_fdi_date', 'start_fdi', 'max_fdi', 'max_fdi_date']
+
 
 class FireFeatureSerializer(GeoFeatureModelSerializer):
     """ A class to serialize fires as GeoJSON compatible data """

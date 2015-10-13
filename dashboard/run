@@ -1,3 +1,0 @@
-set -x
-
-docker run -it --rm -p 8800:80 -v /home/rvddool/dev/mesa/dashboard/sites:/etc/nginx/sites-enabled -v /home/rvddool/dev/mesa/dashboard/www:/var/www/ rvddool/nginx 

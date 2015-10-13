@@ -84,10 +84,14 @@ class ConsumingExchange(Exchange):
         logging.info("Binding queue '%s' to exchange '%s' with:" % (queue.name, exchange))
         routing_keys = routing_keys or ['#']
         for rk in routing_keys:
-            queue.bind_to(exchange=exchange, routing_key=rk)
-            logging.debug("rk: %s" % rk)
+            try:
+                logging.debug("rk: %s" % rk)
+                queue.bind_to(exchange=exchange, routing_key=rk)
+            except Exception, e:
+                logging.exception(str(e))
+        logging.info('Done: binding')
 
-        consumer_tag = '%s::%s::funnel' % (self.name, queue.name)
+        consumer_tag = '%s::%s::consuming_exchange' % (self.name, queue.name)
         queue.consume(consumer_tag, callback=self._consumer_producer_callback, no_ack=True)
 
         self._queues.append(queue)
@@ -130,19 +134,18 @@ class BasePersistConsumer(Queue):
         logging.info("Binding persist queue '%s' to exchange '%s' with:" % (self.name, exchange.name))
         routing_keys = routing_keys or ['#']
         for rk in routing_keys:
-            self.bind_to(exchange=exchange, routing_key=rk)
-            logging.debug("rk: %s" % rk)
-
+            try:
+                logging.debug("rk: %s" % rk)
+                self.bind_to(exchange=exchange, routing_key=rk)
+            except Exception, e:
+                logging.exception(str(e))
+        logging.info('Done: binding')
         consumer_tag = '%s::%s::persist' % (exchange.name, self.name)
         logging.debug("preconsume consumer_tag: {}".format(consumer_tag))
         self.consume(consumer_tag, callback=self._consumer_callback, no_ack=True)
         self.connection.register_with_event_loop(async)
         logging.debug("postconsume consumer_tag: {}".format(consumer_tag))
-
         return consumer_tag
-
-
-
 
     def _persist(self, message):
         raise NotImplementedError('Abstract method needs to be overridden')
@@ -193,7 +196,7 @@ class FirePixelPersistConsumer(BasePersistConsumer):
             obj.save()
             logging.debug("Succesfully stored FirePixel record in the database".format(msg_type, msg_version))
         except Exception, e:
-            print str(e)
+            logging.exception(str(e))
             raise e
 
 
@@ -205,8 +208,9 @@ import signal
 def async_run_forever():
     logging.info("Setting up AMQP exchanges, consumers, producers...")
 
-    funnel = ConsumingExchange(settings.AMQP_EXCHANGE, conn=settings.AMQP_CONN_URI)
-    funnel.bind_queue(queue='af_modis', exchange='csir', routing_keys=['af_modis.#'])
+    consuming_exchange = ConsumingExchange(settings.AMQP_EXCHANGE, conn=settings.AMQP_CONN_URI)
+    consuming_exchange.declare()
+    consuming_exchange.bind_queue(queue='af_modis', exchange='csir', routing_keys=['af_modis.#'])
 
     fire_pixel_persistance = FirePixelPersistConsumer('firepixel')
     fire_pixel_persistance.declare()
