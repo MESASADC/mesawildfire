@@ -63,14 +63,6 @@ class FdiForecastViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = serializers.FdiForecastSerializer
 
 
-class FireEventViewSet(viewsets.ModelViewSet):
-    """
-    Fire as detected and updated over time
-    """
-    queryset = models.FireFeature.objects.all()
-    serializer_class = serializers.FireEventSerializer
-
-
 class FirePixelViewSet(viewsets.ModelViewSet):
     """
     Active fire pixels as detected by satellite
@@ -84,4 +76,13 @@ class FireFeatureViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = models.FireFeature.objects.all()
     serializer_class = serializers.FireFeatureSerializer
+
+
+class FireEventViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Fire as detected and updated over time
+    """
+    queryset = models.FireEvent.objects.all()
+    serializer_class = serializers.FireEventSerializer
+
 

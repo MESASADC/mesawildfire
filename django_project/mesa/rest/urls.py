@@ -9,7 +9,7 @@ router.register(r'FdiPoint', views.FdiPointViewSet)
 router.register(r'FdiMeasurement', views.FdiMeasurementViewSet)
 router.register(r'FdiForecast', views.FdiForecastViewSet)
 router.register(r'FdiPointData', views.FdiPointDataViewSet)
-router.register(r'FireEvent', views.FireEventViewSet, base_name='FireEvent')
+router.register(r'FireEvent', views.FireEventViewSet)
 router.register(r'FirePixel', views.FirePixelViewSet)
 router.register(r'FireFeature', views.FireFeatureViewSet)
 

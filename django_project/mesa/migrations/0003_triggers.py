@@ -114,7 +114,7 @@ class Migration(migrations.Migration):
                         SELECT id FROM neighbours WHERE distance_m < 3000 ORDER BY distance_m ASC LIMIT 1   
                     ); 
                     IF NEW.fire_id IS NULL THEN
-                        INSERT INTO mesa_fire (description, status, border) SELECT 'hotspot #' || NEW.id, 'hotspot', st_buffer(NEW.point, 2::double precision * GREATEST(NEW.hsize, NEW.vsize)) RETURNING id INTO NEW.fire_id;
+                        INSERT INTO mesa_fire (description, status, border) SELECT 'Fire #' || NEW.id, 'hotspot', st_buffer(NEW.point, 2::double precision * GREATEST(NEW.hsize, NEW.vsize)) RETURNING id INTO NEW.fire_id;
                     END IF;
                     RETURN NEW;
                 END
@@ -176,8 +176,5 @@ class Migration(migrations.Migration):
             reverse_sql = """
                 DROP TRIGGER IF EXISTS mesa_firepixel_after_insert ON mesa_firepixel;
             """,
-        ),
-
-
-
+        )
     ]

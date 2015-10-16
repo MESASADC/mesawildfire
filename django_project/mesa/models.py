@@ -13,6 +13,10 @@ logfile='/dev/stdout'
 logging.basicConfig(filename=logfile,level=logging.DEBUG, format='[%(levelname)s] %(message)s')
 
 
+#fire_status_choices = (('hotspot', 'Hotspot'), ('merged', 'Merged'), ('confirmed', 'Confirmed'), ('out', 'Out'))
+fire_status_choices = {'hotspot': 'Hotspot', 'merged': 'Merged', 'confirmed': 'Confirmed', 'out': 'Out'}
+
+
 class ViewManager(models.Manager):
     """ Django model manager class to enable read-only access to a database view"""
 
@@ -67,11 +71,8 @@ class ConfigSetting(models.Model, NotifySave):
 
 class Fire(models.Model, NotifySave):
 
-    #status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
-    status_choices = {'hotspot': 'Hotspot', 'merged': 'Merged', 'confirmed': 'Confirmed', 'out': 'Out'}
-
     description = models.CharField(max_length=100, blank=True, default='')
-    status = models.CharField(max_length=20, blank=True, choices=status_choices.items(), default='')
+    status = models.CharField(max_length=20, blank=True, choices=fire_status_choices.items(), default='')
     border = models.PolygonField()
 
     def __str__(self):
@@ -102,13 +103,8 @@ class FirePixel(models.Model, NotifySave):
 
 class FireFeature(View, NotifySave):
     
-    class Meta:
-        db_table = 'mesa_firefeature_fast'
-
-    status_choices = (('detected', 'Detected'), ('confirmed', 'Confirmed'), ('out', 'Out'))
-
     description = models.CharField(max_length=50, blank=True, default='')
-    status = models.CharField(max_length=20, blank=True, choices=status_choices, default='')
+    status = models.CharField(max_length=20, blank=True, choices=fire_status_choices.items(), default='')
 
     border = models.PolygonField()
     area = models.FloatField()
@@ -121,6 +117,29 @@ class FireFeature(View, NotifySave):
     start_fdi = models.IntegerField()
     max_fdi = models.IntegerField()
     max_fdi_date = models.DateTimeField()
+
+class FireEvent(View, NotifySave):
+
+    description = models.CharField(max_length=50, blank=True, default='')
+    status = models.CharField(max_length=20, blank=True, choices=fire_status_choices.items(), default='')
+
+    area = models.FloatField()
+    first_seen = models.DateTimeField()
+    last_seen = models.DateTimeField()
+    max_frp = models.FloatField()
+    max_frp_date = models.DateTimeField()
+    current_fdi = models.IntegerField()
+    current_fdi_date = models.DateTimeField()
+    start_fdi = models.IntegerField()
+    max_fdi = models.IntegerField()
+    max_fdi_date = models.DateTimeField()
+
+    vbox_west = models.FloatField()
+    vbox_east = models.FloatField()
+    vbox_south = models.FloatField()
+    vbox_north = models.FloatField()
+    centroid_x = models.FloatField()
+    centroid_y = models.FloatField()
 
 
 class FdiPoint(models.Model, NotifySave):

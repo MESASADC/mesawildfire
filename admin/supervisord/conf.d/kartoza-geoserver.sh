@@ -10,7 +10,7 @@ docker rm -f supervisor_geoserver &> /dev/null
 docker run --link supervisor_postgis --rm martin/wait
 
 # Start Geoserver:
-docker run --name supervisor_geoserver --link supervisor_postgis:postgis -a stdout -a stderr --rm -v $MESA_ROOT/volumes/geoserver:/opt/geoserver/data_dir -p 58080:8080 kartoza/geoserver
+docker run --name supervisor_geoserver --link supervisor_postgis:postgis -a stdout -a stderr --rm -v $MESA_ROOT/volumes/geoserver_data:/opt/geoserver/data_dir -v $MESA_ROOT/volumes/geoserver_extensions:/usr/local/tomcat/webapps/ROOT/WEB-INF/ -p 58080:8080 kartoza/geoserver
 RESULT=$?
 
 # Avoid Supervisor restarting immediately

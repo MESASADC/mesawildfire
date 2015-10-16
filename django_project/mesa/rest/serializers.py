@@ -1,8 +1,9 @@
 from django.forms import widgets
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from rest_framework import serializers
+from rest_framework import serializers, filters
 from rest_framework.validators import UniqueValidator
+
 
 from mesa import models
 
@@ -14,11 +15,10 @@ class FirePixelSerializer(GeoFeatureModelSerializer):
         geo_field = "point"
 
 class FireEventSerializer(ModelSerializer):
-    """ A class to serialize fires as GeoJSON compatible data """
+    """ A class to serialize fires for an event table, excludes geometry """
             
     class Meta:
-        model = models.FireFeature
-        fields = ['id', 'description', 'status', 'area', 'first_seen', 'last_seen', 'max_frp', 'max_frp_date', 'current_fdi', 'current_fdi_date', 'start_fdi', 'max_fdi', 'max_fdi_date']
+        model = models.FireEvent
 
 
 class FireFeatureSerializer(GeoFeatureModelSerializer):
@@ -42,6 +42,10 @@ class FdiMeasurementSerializer(ModelSerializer):
     class Meta:
         model = models.FdiMeasurement
 
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('date_time')
+    ordering = ('date_time',)
+
 
 class FdiForecastSerializer(ModelSerializer):
     """ A class to serialize FDI points of interest as GeoJSON compatible data """
@@ -49,12 +53,21 @@ class FdiForecastSerializer(ModelSerializer):
     class Meta:
         model = models.FdiForecast
 
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('date_time')
+    ordering = ('date_time',)
+
+
 class FdiPointDataSerializer(GeoFeatureModelSerializer):
     """ A class to serialize FDI point data as GeoJSON compatible data """
             
     class Meta:
         model = models.FdiPointData
         geo_field = "point"
+
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('date_time')
+    ordering = ('date_time',)
 
 
 

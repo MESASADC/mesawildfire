@@ -3,12 +3,15 @@
 
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
-var NUM_INITIAL_FIRES = 20;
+var NUM_INITIAL_FIRES = 8;
+var FIRE_THUMBNAIL_URL = "http://localhost/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:day-natural.c,mesa:mesa_firefeature,mesa:mesa_firepixel_area&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
 
 // GLOBALS
 
 var fdiTable;
 var fireTable;
+var map;
+var defaultView;
 
 
 // BEGIN LAYOUT
@@ -27,8 +30,9 @@ function unique(list) {
 $(function() {
     // BEGIN OPEN LAYERS
 
-    var raster = new ol.layer.Tile({
-        source: new ol.source.OSM()
+    var backdrop = new ol.layer.Tile({
+        source: new ol.source.OSM(),
+        preload: 20
     });
 
     var fireStyle = new ol.style.Style({
@@ -66,6 +70,16 @@ $(function() {
         })
     });
 
+    var msgWMS = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:day-natural.c'},
+          serverType: 'geoserver'
+        }),
+        minResolution: 2000
+    });
+
+
     /**
      * Elements that make up the info popup.
      */
@@ -95,16 +109,18 @@ $(function() {
         duration: 250
       }
     }));
+    
+    defaultView = new ol.View({
+        center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
+        zoom: 10,
+        minZoom: 4
+    });
 
-
-    var map = new ol.Map({
+    map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ raster, firesWMS, firePixelWMS ],
+        layers: [ backdrop, msgWMS, firesWMS, firePixelWMS ],
         target: "map",
-        view: new ol.View({
-            center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
-            zoom: 10
-        }),
+        view: defaultView,
         overlays: [overlay],
         controls: ol.control.defaults().extend([
             //new ol.control.FullScreen() not working properly
@@ -292,8 +308,6 @@ $(document).ready(function() {
             
         });
 
-        render_chart(selected);
-
 
         var fdiTableData = [];
         var last;
@@ -312,7 +326,10 @@ $(document).ready(function() {
                     last = null;
                 }
             }
+
         };
+        
+        render_chart(selected);
     
         fdiTable = $('#fdi-table').DataTable({
 
@@ -415,10 +432,12 @@ $(document).ready(function() {
             scroller: true,
             stateSave: true,
             "initComplete": function( settings, json ) {
+                // the idea is to load a small subset of fires first to speed up rendering the table on page load
                 if (remaining > 0) {
                     $.get(FIRE_URL + '&limit=' + remaining + '&offset=' + NUM_INITIAL_FIRES, function(data, status) {
                         fireTable.rows.add(data.results).draw();
                     });
+                    //flyToPoint(row(1).select();
                 };
             },
             "columns": [{
@@ -479,7 +498,7 @@ $(document).ready(function() {
 
 
         /* Formatting function for row details - modify as you need */
-        function format(d) {
+        function row_detail(d) {
             var visible_columns = $(".dataTable").find("th.sorting, th.sorting-asc,th.sorting-desc");
 
             var visible_column_names = Array();
@@ -503,7 +522,7 @@ $(document).ready(function() {
             var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
             html += 
                 '<tr>' +
-                    '<th rowspan="' + displaying_keys.length + '"><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:200px; height:200px;"/></th>' +
+                    '<th rowspan="' + displaying_keys.length + '"><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:200px; height:200px;" src="' + FIRE_THUMBNAIL_URL + d.vbox_west + ',' + d.vbox_south + ',' + d.vbox_east + ',' + d.vbox_north + '"/></th>' +
                     '<td colspan="2" class="fire-detail-title">Additional info:</td>'+
                 '</tr>';
             
@@ -525,10 +544,32 @@ $(document).ready(function() {
             return html;
         }
 
+
+        function flyToPoint(lon, lat) {
+            var duration = 2000;
+            var start = +new Date();
+            var from = defaultView.getCenter();
+            var to = ol.proj.fromLonLat([lon, lat]);
+            var wgs84 = new ol.Sphere(6378137);
+            var distance = wgs84.haversineDistance(from, to); 
+
+            var pan = ol.animation.pan({
+                duration: duration,
+                source: from,
+                start: start
+            });
+            var bounce = ol.animation.bounce({
+                duration: duration,
+                resolution: Math.log(distance / 1000000) * defaultView.getResolution(),
+                start: start
+            });
+            map.beforeRender(pan, bounce);
+            defaultView.setCenter(to);
+        };
+
         // Add event listener for opening and closing details
         $('#fire-table tbody').on('click', 'td.details-control', function() {
             var tr = $(this).closest('tr');
-            var wms_image = "<image style='width:200px; height:200px; display:inline;'/>";
             var row = fireTable.row(tr);
 
             if (row.child.isShown()) {
@@ -537,13 +578,29 @@ $(document).ready(function() {
                 tr.removeClass('shown');
             }
             else {
-                // Open this row
-                var child = row.child(format(row.data()));
+                // Open this row, close others
+                $('#fire-table tbody tr.shown').removeClass('shown');
+                var child = row.child(row_detail(row.data()));
                 child.show();
                 tr.addClass('shown');
-                tr.parent().find('td[colspan=7]').parent().prepend(wms_image);
+                row.scrollTo();
             }
         });
+        
+        $('#fire-table tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            fireTable.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            var row = fireTable.row($(this));
+            if (row) {
+                var data = row.data();
+                flyToPoint(data.centroid_x, data.centroid_y);
+            };
+        }
+    } );
 
         /*$('#fire-table tbody tr').each( function () {
             var row = fireTable.row(this);
@@ -580,6 +637,8 @@ $(document).ready(function() {
     function render_chart(point_id) {
         
         $("#point-name").html("FDI: " + fdiData[point_id][0].point_name);
+        
+        fdiData[point_id] 
 
         var chart = AmCharts.makeChart("chartdiv", {
             "type": "serial",

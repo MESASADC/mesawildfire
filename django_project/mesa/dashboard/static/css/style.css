@@ -5,9 +5,22 @@ body {
 
 body {
   overflow: hidden;
-  background: radial-gradient(ellipse at center, #2d2d2d 0%, #161616 50%, #000000 100%);
+
+  background-color: #2d2d2d;
+  background-image: url('../images/banner.jpg'), url('../images/banner-repeatx.jpg');
+  background-repeat: no-repeat, repeat-x;
+
 }
 
+.navbar-brand img {
+    height: 70px;
+    background-color: white; 
+    border-radius: 5px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 20px;
+}
 
 .cursor
 { 

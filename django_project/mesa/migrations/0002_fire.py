@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('description', models.CharField(default=b'', max_length=100, blank=True)),
-                ('status', models.CharField(default=b'', max_length=20, blank=True, choices=[(b'confirmed', b'Confirmed'), (b'merged', b'Merged'), (b'hotspot', b'Hotspot'), (b'out', b'Out')])),
+                ('status', models.CharField(default=b'', max_length=20, blank=True, choices=mesa.models.fire_status_choices.items())),
                 ('border', django.contrib.gis.db.models.fields.PolygonField(default=None, srid=4326)),
             ],
             bases=(models.Model, mesa.models.NotifySave),
@@ -78,8 +78,7 @@ class Migration(migrations.Migration):
                 DROP INDEX IF EXISTS index_mesa_firepixel_point;
             """,
         ),
-
-
+            
         migrations.RunSQL(
             sql = """
                 CREATE OR REPLACE VIEW mesa_firefeature AS
@@ -109,14 +108,17 @@ class Migration(migrations.Migration):
                 fields=[
                     ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                     ('description', models.CharField(default=b'', max_length=50, blank=True)),
-                    ('status', models.CharField(default=b'', max_length=20, blank=True, choices=[(b'detected', b'Detected'), (b'confirmed', b'Confirmed'), (b'out', b'Out')])),
-                    ('border', django.contrib.gis.db.models.fields.PolygonField(srid=4326)),
+                    ('status', models.CharField(default=b'', max_length=20, blank=True, choices=mesa.models.fire_status_choices.items())),
+                    ('area', models.FloatField()),
                     ('first_seen', models.DateTimeField()),
                     ('last_seen', models.DateTimeField()),
                     ('max_frp', models.FloatField()),
+                    ('max_frp_date', models.DateTimeField()),
                     ('current_fdi', models.FloatField()),
+                    ('current_fdi_date', models.DateTimeField()),
                     ('start_fdi', models.FloatField()),
                     ('max_fdi', models.FloatField()),
+                    ('max_fdi_date', models.DateTimeField()),
                 ],
                 options={
                     'abstract': False,
@@ -124,6 +126,7 @@ class Migration(migrations.Migration):
                 },
                 bases=(models.Model, mesa.models.NotifySave),
             )]
+
         ),
         
         
@@ -156,14 +159,17 @@ class Migration(migrations.Migration):
                 fields=[
                     ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                     ('description', models.CharField(default=b'', max_length=50, blank=True)),
-                    ('status', models.CharField(default=b'', max_length=20, blank=True, choices=[(b'detected', b'Detected'), (b'confirmed', b'Confirmed'), (b'out', b'Out')])),
-                    ('border', django.contrib.gis.db.models.fields.PolygonField(srid=4326)),
+                    ('status', models.CharField(default=b'', max_length=20, blank=True, choices=mesa.models.fire_status_choices.items())),
+                    ('area', models.FloatField()),
                     ('first_seen', models.DateTimeField()),
                     ('last_seen', models.DateTimeField()),
                     ('max_frp', models.FloatField()),
+                    ('max_frp_date', models.DateTimeField()),
                     ('current_fdi', models.FloatField()),
+                    ('current_fdi_date', models.DateTimeField()),
                     ('start_fdi', models.FloatField()),
                     ('max_fdi', models.FloatField()),
+                    ('max_fdi_date', models.DateTimeField()),
                 ],
                 options={
                     'abstract': False,
@@ -172,6 +178,6 @@ class Migration(migrations.Migration):
                 bases=(models.Model, mesa.models.NotifySave),
             )]
         ),
-
+    
 
     ]
