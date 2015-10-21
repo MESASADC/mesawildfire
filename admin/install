@@ -4,18 +4,23 @@
 
 set -x
 
+HERE=$(readlink -f `dirname $0`)
+MESA_ROOT=$(readlink -f $HERE/..)
+
 # General
 apt-get update
 apt-get upgrade -y
-apt-get install -y git 
+apt-get install -y git
 
 
-# Install Docker
-apt-get install -y linux-image-extra-`uname -r`
-sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
-sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+# Install Docker - https://docs.docker.com/installation/ubuntulinux/
+apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/source.d/docker.list
 apt-get update
-apt-get install -y lxc-docker
+apt-get purge lxc-docker*
+apt-cache policy docker-engine
+sudo apt-get install docker-engine
+sudo docker run hello-world
 
 
 # Install GeoNode
@@ -26,9 +31,19 @@ docker build -t geonode geonode
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
 apt-get install -y supervisor
-cp supervisor/init.d/supervisor /etc/init.d/supervisor
+cp $HERE/supervisord/init.d/supervisor /etc/init.d/supervisor
 chmod +x /etc/init.d/supervisor
-cp supervisor/conf.d/* /etc/supervisor/conf.d/
+
+cd $HERE/supervisord
+./update_conf
+
+#FILES=$HERE/supervisord/conf.d/*
+#for f in $FILES; do
+#  TARGET=/etc/supervisor/conf.d/$(basename $f)
+#  cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
+#  echo "$f --> $TARGET"
+#done;
+
 update-rc.d supervisor defaults
 service supervisor stop
 service supervisor start
@@ -48,7 +63,6 @@ docker pull rabbitmq:3-management
 
 
 # Install Nginx
-apt-get install -y nginx
-
-
+cd $MESA_ROOT/nginx
+./build
 

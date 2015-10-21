@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Script to install MESA Wildfire software unto a vinilla Ubuntu machine
+
+#set -x
+
+HERE=$(readlink -f `dirname $0`)
+MESA_ROOT=$(readlink -f $HERE/../..)
+
+FILES=$HERE/conf.d/*
+for f in $FILES; do
+  TARGET=/etc/supervisor/conf.d/$(basename $f)
+  cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
+  echo "$f --> $TARGET"
+done;
+
+
+
+

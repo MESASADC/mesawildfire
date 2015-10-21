@@ -1,10 +1,12 @@
 Admin scripts
 =============
 
-Installation on a vinilla Ubuntu OS. 
+
+Installation on a vanilla Ubuntu OS. 
 ------------------------------------
 
-Recommended: Ubuntu Desktop 12.04 64-bit
+Recommended: Ubuntu Desktop 14.04 64-bit
+
 
 **Step 1: Preparation:**
 
@@ -12,21 +14,29 @@ Recommended: Ubuntu Desktop 12.04 64-bit
 
 Copy the contents of the ./admin/ directory in this repo to the target machine.
 
+
+OR
+
+
 ***Option 2***
 
 Start by cloning the whole repo to the target machine:
 
 <pre>
     $ sudo apt-get install git
-    $ git clone git@github.com:MESASADC/mesawildfire.git
+    $ git clone https://github.com/MESASADC/mesawildfire.git
+    $ chmod +x ./mesawildfire/admin/install
 </pre>
+
+
 
 **Step 2: Install the Wildfire software and its dependencies:**
 
 <pre>
-    $ cd ./admin
+    $ cd ./mesawildfire/admin/
     $ sudo ./install
 </pre>
+
 
 Starting up:
 ------------
@@ -42,22 +52,26 @@ Manual procedure:
 </pre>
 
 
-
 Checking the status of the system:
 ----------------------------------
 
-Docker:
+*Docker:*
 <pre>
     $ sudo docker ps
 </pre>
 
-Supervisord:
+*Supervisord:*
+
 <pre>
     $ sudo service supervisor status
 </pre>
 
-Logs:
+or open in your browser: http://localhost:9090/
+
+*Logs:*
 <pre>
     $ sudo tail -f /var/log/supervisor/*
 </pre>
+
+or click on application names in your browser: http://localhost:9090/
 
