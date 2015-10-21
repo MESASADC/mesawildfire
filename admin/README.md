@@ -7,11 +7,16 @@ Installation on a vanilla Ubuntu OS.
 
 Recommended: Ubuntu Desktop 14.04 64-bit
 
+
 **Step 1: Preparation:**
 
 ***Option 1***
 
 Copy the contents of the ./admin/ directory in this repo to the target machine.
+
+
+OR
+
 
 ***Option 2***
 
@@ -22,6 +27,8 @@ Start by cloning the whole repo to the target machine:
     $ git clone https://github.com/MESASADC/mesawildfire.git
     $ chmod +x ./mesawildfire/admin/install
 </pre>
+
+
 
 **Step 2: Install the Wildfire software and its dependencies:**
 
