@@ -21,6 +21,13 @@ apt-get update
 apt-get install -y lxc-docker
 
 
+apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+
+/etc/apt/source.d/docker.list
+  deb https://apt.dockerproject.org/repo ubuntu-trusty main
+
+
+
 # Install GeoNode
 git clone https://github.com/GeoNode/geonode
 docker build -t geonode geonode
@@ -31,12 +38,14 @@ docker build -t geonode geonode
 apt-get install -y supervisor
 cp $HERE/supervisord/init.d/supervisor /etc/init.d/supervisor
 chmod +x /etc/init.d/supervisor
+
 FILES=$HERE/supervisord/conf.d/*
 for f in $FILES; do
   TARGET=/etc/supervisor/conf.d/$(basename $f)
   cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
   echo "$f --> $TARGET"
 done;
+
 update-rc.d supervisor defaults
 service supervisor stop
 service supervisor start
@@ -56,4 +65,6 @@ docker pull rabbitmq:3-management
 
 
 # Install Nginx
-apt-get install -y nginx
+cd $MESA_ROOT/nginx
+./build
+
