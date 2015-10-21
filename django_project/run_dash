@@ -1,0 +1,2 @@
+docker run --name run_mesa_rest -p "8112:8000" -v $PWD/ENV:/ENV -v $PWD/start.sh:/start.sh -v $PWD:/django_project -it --rm mesa_django $*
+

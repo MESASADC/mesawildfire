@@ -1,0 +1,1 @@
+docker run --name run_mesa_comms  -v $PWD/ENV:/ENV -v $PWD/start.sh:/start.sh -v $PWD:/django_project -it --rm mesa_django /django_project/manage.py mesa_comms $*

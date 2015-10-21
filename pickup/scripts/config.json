@@ -1,0 +1,8 @@
+{
+  "amqp_host" : "localhost",
+  "amqp_port" : "56720",
+  "amqp_vhost": "",
+  "amqp_user" : "user",
+  "amqp_pass" : "password",
+  "amqp_exchange" : "csir"
+}
