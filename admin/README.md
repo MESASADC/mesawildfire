@@ -5,7 +5,7 @@ Admin scripts
 Installation on a vanilla Ubuntu OS. 
 ------------------------------------
 
-Recommended: Ubuntu Desktop 12.04 64-bit
+Recommended: Ubuntu Desktop 14.04 64-bit
 
 **Step 1: Preparation:**
 
