@@ -1,4 +1,3 @@
 #!/bin/bash
 
-docker run -d -p 8111:8000 -p 8181:8080 geonode
-
+docker run -d --name geonode --link supervisor_postgis:postgis -p 8111:8000 -p 8080:8080 -v $PWD/local_settings.py:/geonode/geonode/local_settings.py -v $PWD/data:/geonode/geoserver/data geonode

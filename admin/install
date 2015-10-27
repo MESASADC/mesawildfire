@@ -28,6 +28,29 @@ git clone https://github.com/GeoNode/geonode
 docker build -t geonode geonode
 
 
+# Install PostGIS
+docker pull kartoza/postgis
+
+
+# Install Geoserver
+docker pull kartoza/geoserver
+
+
+# Install RabbitMQ
+docker pull rabbitmq:3-management
+
+
+# Install Nginx
+cd $MESA_ROOT/nginx
+./build
+
+
+# Install MESA Wildfire application
+cd $MESA_ROOT/django_project
+./build
+./manage migrate
+
+
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
 apt-get install -y supervisor
@@ -49,25 +72,4 @@ service supervisor stop
 service supervisor start
 service supervisor status
 
-
-# Install PostGIS
-docker pull kartoza/postgis
-
-
-# Install Geoserver
-docker pull kartoza/geoserver
-
-
-# Install RabbitMQ
-docker pull rabbitmq:3-management
-
-
-# Install Nginx
-cd $MESA_ROOT/nginx
-./build
-
-
-# Install MESA Wildfire application
-cd $MESA_ROOT/django_project
-./build
 

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <title>MESA Weather WMS-T</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.7.0/ol.css" type="text/css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.7.0/ol.js"></script>
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+        <!-- ExtJS -->
+        <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/4.2.1/examples/shared/include-ext.js"></script>
+        <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/4.2.1/examples/shared/options-toolbar.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://cdn.sencha.com/ext/gpl/4.2.1/examples/shared/example.css" />
+        <link rel="stylesheet" type="text/css" href="custom_ext_styles.css">
+
+    </head>
+    <body>
+        <div id="test-map"></div>
+        <div id="custom-slider"></div>
+        <script>
+            Ext.require('Ext.slider.*');
+            Ext.application({
+                name: 'OL3EXT4',
+                launch: function () {
+                    var slider = Ext.create('Ext.slider.Single', {
+                        //renderTo: 'custom-slider',
+                        width: 1000,
+                        minValue: 0,
+                        hideLabel: true,
+                        maxValue: 100,
+                        increment: 1,
+                        animate: true,
+                        tipText: function(thumb){
+                            return Ext.String.format('<b>{0}% complete</b>', thumb.value);
+                        },
+                        listeners: {
+                            change: function() {
+                                //console.log(time_array)
+                                //updatemapLayer(time_array, snow)
+                                //time_list = [ "2009-10-01T00:00:00.000Z", "2009-11-01T00:00:00.000Z", "2009-12-01T00:00:00.000Z" ]
+                                time_list = ["2015-10-19T12:49:00Z", "2015-10-19T13:01:00Z"]; // list that holds time stamps... get this from geoserver
+                                tick = slider.getValues();
+                                for (i=0; i<time_list.length; i++) {
+                                    //console.log(tick)
+                                    //console.log(time[i])
+                                    if(tick == i ) {
+                                        console.log(tick);
+                                        console.log(time_list[i]);
+                                        //console.log(elev_list[i]);
+                                        mesa.getSource().updateParams({'time':time_list[i]});   // this is how you change parameters of a layer to load a different time stamp
+                                    }
+                                }
+
+
+                            }
+                        },
+                    });
+
+                    /*var time = "2009-12-01T00:00:00.000Z"; //set this to the earliest time value
+                    var snow = new ol.layer.Image({
+                        source: new ol.source.ImageWMS({
+                            url: 'http://localhost:8080/geoserver/ict4eo/wms',
+                            params: {'LAYERS':'ict4eo:snow', 'time':time},
+                            serverType: 'geoserver'
+                        })
+                    });
+                    */
+                    var time = "2015-10-19T12:49:00Z"; //set this to the earliest time value
+                    var mesa = new ol.layer.Image({
+                        source: new ol.source.ImageWMS({
+                            url: 'http://localhost:8080/geoserver/mesa/wms',
+                            params: {'LAYERS':'mesa:mesaframes', 'time':time},
+                            serverType: 'geoserver'
+                        })
+                    });
+
+                    /*var states_an = new ol.layer.Image({
+                                    source: new ol.source.ImageWMS({
+                                        url: 'http://localhost:8080/geoserver/topp/wms/animate',
+                                        params: {'LAYERS': 'topp:states',
+                                            'SERVICE': 'animate',
+                                            'format_options':'gif_loop_continuosly:true',
+                                            'aparam': 'cql_filter',
+                                            'avalues': '-90;40,-60',
+                                        },
+                                        serverType: 'geoserver'
+                                    })
+                                }); */
+
+
+
+
+
+
+                    var mappanel = Ext.create('Ext.panel.Panel', {
+                        title: "Weather Time Map",
+                        layout: 'fit',
+                        html: "<div id='test-map'></div>", // The map will be drawn inside
+                        listeners: {
+                            afterrender: function () {
+
+                                var states = new ol.layer.Image({
+                                    source: new ol.source.ImageWMS({
+                                        url: 'http://localhost:8080/geoserver/topp/wms',
+                                        params: {'LAYERS': 'topp:states'},
+                                        serverType: 'geoserver'
+                                    })
+                                });
+
+                                var background = new ol.layer.Tile({
+                                      source: new ol.source.BingMaps({
+                                        imagerySet: 'Aerial',
+                                        key: 'Ak-dzM4wZjSqTlzveKz5u0d4IQ4bRzVI309GxmkgSVr1ewS6iPSrOvOKhA-CJlm3'
+                                    })
+                                });
+
+                                var OSM = new ol.layer.Tile({
+                                    source: new ol.source.OSM(),
+                                });
+
+                                var layers = [
+                                    OSM, // find equivalent in wgs84
+                                    //background,
+                                    //states,
+                                    //snow,
+                                    mesa,
+                                    //states_an
+                                ];
+
+                                this.map = new ol.Map({
+                                    target: 'test-map',
+                                    renderer: 'canvas',
+                                    layers: layers,
+                                    view: new ol.View({
+                                        //projection: 'EPSG:4326',
+                                        //center: [20, 20],
+                                        projection: 'EPSG:3857',
+                                        center: ol.proj.transform([20, -20], 'EPSG:4326', 'EPSG:3857'),
+                                        zoom: 4
+                                    })
+                                });
+
+                            },
+                            //The resize handle is necessary to set the map!
+                            resize: function () {
+                                var size = [document.getElementById(this.id + "-body").offsetWidth, document.getElementById(this.id + "-body").offsetHeight];
+                                console.log(size);
+                                this.map.setSize(size);
+                            }
+                        }
+                    });
+
+                    var play_button = Ext.create('Ext.Button', {
+                        text: 'Animate',
+                        renderTo: Ext.getBody(),
+                        handler: function() {
+                            //alert('You clicked the button!');
+                            //listenerKey = map1.on('postcompose', animate);
+                        }
+                    });
+
+                    Ext.create('Ext.container.Viewport', {
+                        layout: 'border',
+                        items: [{
+                                region: 'north',
+                                items: [
+                                    mappanel
+                                ]
+                            },{
+                                region: 'south',
+                                items: [
+                                    slider, play_button
+                                ]
+                            }]
+                    });
+
+                }
+            });
+
+            // ------- getfeatureinfo --------------------------------//
+            //function getTimeSteps(){
+
+            // -------- Get Time steps from WMSGetCapabilities ---//
+            var parser = new ol.format.WMSCapabilities();
+            var url = "http://localhost:8080/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities";
+            $.ajax({
+                url: url,
+                success: function(result){
+                    console.log("success: geoserver engaged")
+                },
+                error: function(err,status,thrown){
+                    //console.log(err)
+                    console.log(" ERROR: " + err + " STATUS: " + status + " " + thrown);
+                },
+                complete: function (xhr,status) {
+                    console.log('Complete=>  showing status as: '+ status);
+                    response = parser.read(xhr.responseText);
+                    capability = response.Capability;
+                    //list of layers
+                    var layers = capability.Layer.Layer;
+                    for (i=0; i<layers.length; i++){
+                        name = layers[i].Name;
+                        //console.log(name);
+                        if(name == "mesa:mesa_frames"){ // HARDCODE ALERT!! === this hardcoding is just for testing
+                            wmstlayer = layers[8]; // HARDCODE ALERT!! === need to find a way to access this
+                            console.log(wmstlayer);
+                            time_str = wmstlayer.Dimension[0].values; // HARDCODE ALERT!! === need to find the number of items in this array before jsut assingning
+                            timeSteps = time_str.split(',')// convert time string to array
+                            timeDict(timeSteps);
+                        };
+                    };
+                    //console.log(timeSteps)
+                    // -- merge parameters back to layer and redraw --//
+                    /*for (i=0; i<timeSteps.length; i++){
+                        //snow.mergeNewParams({'time':timeSteps[i]}); // merge parameters to the snow layer
+                        time = timeSteps[i];
+                        // --add wms-t layer from geoserver to map---
+                        //snow.render();
+                        //console.log(time);
+                        return time
+                    };*/
+
+                }
+            });
+
+            // ---- intermediate time function ------------------------//
+            function timeDict(timeSteps) {
+                time_array = {time: [], steps: []};
+                n_ticks = timeSteps.length;
+                //create an array of time steps
+                min_tick= 1;
+                var max_tick = n_ticks;
+                for (var i=min_tick;i<=max_tick;i++) {
+                  time_array.steps.push(i);
+                };
+                // -- create array of times
+                for (i=0; i<timeSteps.length; i++){
+                    time_array.time.push(timeSteps[i]);  // time steps
+                };
+                return(time_array);
+            };
+
+            // ----update snow layer on map --------------------------//
+            function updatemapLayer(time_array, snow){
+            // not used .. code in slider function directly
+            };
+
+            //};
+
+
+        </script>
+    </body>
+</html>
+
+

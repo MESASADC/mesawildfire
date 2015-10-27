@@ -1,0 +1,5 @@
+sudo service supervisor start
+
+sleep 5
+
+sudo service supervisor status
