@@ -60,6 +60,9 @@ cd $MESA_ROOT/django_project
 ./build
 ./manage migrate --noinput
 
+# Install ingest scripts
+sudo apt-get install -y python-jinja2 incron python-kombu
+
 
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
