@@ -72,7 +72,7 @@
                     var time = "2015-10-19T12:49:00Z"; //set this to the earliest time value
                     var mesa = new ol.layer.Image({
                         source: new ol.source.ImageWMS({
-                            url: 'http://localhost:8080/geoserver/mesa/wms',
+                            url: '/geoserver/mesa/wms',
                             params: {'LAYERS':'mesa:mesaframes', 'time':time},
                             serverType: 'geoserver'
                         })
@@ -105,7 +105,7 @@
 
                                 var states = new ol.layer.Image({
                                     source: new ol.source.ImageWMS({
-                                        url: 'http://localhost:8080/geoserver/topp/wms',
+                                        url: '/geoserver/topp/wms',
                                         params: {'LAYERS': 'topp:states'},
                                         serverType: 'geoserver'
                                     })
@@ -186,7 +186,7 @@
 
             // -------- Get Time steps from WMSGetCapabilities ---//
             var parser = new ol.format.WMSCapabilities();
-            var url = "http://localhost:8080/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities";
+            var url = "/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities";
             $.ajax({
                 url: url,
                 success: function(result){
