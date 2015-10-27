@@ -5,23 +5,23 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 SITEURL = "http://localhost:8111/"
 
 DATABASES = {
-    'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'gis',
-         'USER': 'docker',
-         'PASSWORD': 'docker',
-         'HOST' : 'postgis',
-         'PORT' : '5432',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': utils.get_env('GEONODE_DB_NAME'),
+        'USER': utils.get_env('GEONODE_DB_USER'),
+        'PASSWORD': utils.get_env('GEONODE_DB_PASS'),
+        'HOST': utils.get_env('GEONODE_DB_HOST'),
+        'PORT': utils.get_env('GEONODE_DB_PORT'),
+        # Name to be used for unit testing db
+        'TEST_NAME': 'afis-test',    
      },
     # vector datastore for uploads
     'datastore' : {
-        #'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'ENGINE': '', # Empty ENGINE name disables 
-        'NAME': 'geonode',
-        'USER' : 'geonode',
-        'PASSWORD' : 'geonode',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', # Empty ENGINE name disables 
+        'NAME': utils.get_env('GEONODE_DB_NAME'),
+        'USER': utils.get_env('GEONODE_DB_USER'),
+        'PASSWORD': utils.get_env('GEONODE_DB_PASS'),
+        'HOST': utils.get_env('GEONODE_DB_HOST'),
+        'PORT': utils.get_env('GEONODE_DB_PORT'),
     }
 }
 
@@ -31,8 +31,8 @@ OGC_SERVER = {
         'BACKEND' : 'geonode.geoserver',
         'LOCATION' : 'http://localhost:8080/geoserver/',
         'PUBLIC_LOCATION' : 'http://localhost:8080/geoserver/',
-        'USER' : 'admin',
-        'PASSWORD' : 'geoserver',
+        'USER': utils.get_env('GEONODE_OGC_USER'),
+        'PASSWORD': utils.get_env('GEONODE_OGC_PASS'),
         'MAPFISH_PRINT_ENABLED' : True,
         'PRINT_NG_ENABLED' : True,
         'GEONODE_SECURITY_ENABLED' : True,
@@ -64,8 +64,8 @@ CATALOGUE = {
         # 'URL': 'http://localhost:8080/deegree-csw-demo-3.0.4/services',
 
         # login credentials (for GeoNetwork)
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'USER': utils.get_env('GEONODE_CSW_USER'),
+        'PASSWORD': utils.get_env('GEONODE_CSW_PASS'),
     }
 }
 

@@ -10,10 +10,16 @@ VOLUMES=$MESA_ROOT/volumes
 
 export DEBIAN_FRONTEND=noninteractive
 
+
+# Customize settings
+cp $MESA_ROOT/django_project/ENV.example MESA_ROOT/django_project/ENV
+nano $MESA_ROOT/django_project/ENV
+
+
 # General
 apt-get update
 apt-get upgrade -y
-apt-get install -y git
+apt-get install -y git nano vi
 
 
 # Install Docker - https://docs.docker.com/installation/ubuntulinux/
@@ -27,8 +33,7 @@ sudo docker run hello-world
 
 
 # Install GeoNode
-git clone https://github.com/GeoNode/geonode
-docker build -t geonode geonode
+docker build -t geonode https://github.com/GeoNode/geonode.git
 mkdir $VOLUMES/geonode_data/workspaces
 cp -r $MESA_ROOT/admin/geoserver/mesa $VOLUMES/geonode_data/workspaces/
 
@@ -52,7 +57,6 @@ cd $MESA_ROOT/nginx
 
 # Install MESA Wildfire application
 cd $MESA_ROOT/django_project
-cp ENV.example ENV
 ./build
 ./manage migrate --noinput
 
