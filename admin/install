@@ -54,7 +54,7 @@ cd $MESA_ROOT/nginx
 cd $MESA_ROOT/django_project
 cp ENV.example ENV
 ./build
-./manage migrate
+./manage migrate --noinput
 
 
 # Install supervisord
