@@ -47,6 +47,7 @@ cd $MESA_ROOT/nginx
 
 # Install MESA Wildfire application
 cd $MESA_ROOT/django_project
+cp ENV.example ENV
 ./build
 ./manage migrate
 
