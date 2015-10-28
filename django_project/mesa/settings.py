@@ -118,7 +118,6 @@ REST_FRAMEWORK = {
 
 # MESA AMQP comms
 
-AMQP_CONN_URI = os.environ.get('MESA_FT_AMQP_URI')
-AMQP_EXCHANGE = os.environ.get('MESA_FT_AMQP_EXCHANGE')
-
+MESA_FT_AMQP_URI = os.environ.get('MESA_FT_AMQP_URI')
+MESA_FT_AMQP_EXCHANGE = os.environ.get('MESA_FT_AMQP_EXCHANGE')
 

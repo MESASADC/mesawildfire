@@ -208,9 +208,9 @@ import signal
 def async_run_forever():
     logging.info("Setting up AMQP exchanges, consumers, producers...")
 
-    consuming_exchange = ConsumingExchange(settings.AMQP_EXCHANGE, conn=settings.AMQP_CONN_URI)
+    consuming_exchange = ConsumingExchange(settings.MESA_FT_AMQP_EXCHANGE, conn=settings.MESA_FT_AMQP_URI)
     consuming_exchange.declare()
-    consuming_exchange.bind_queue(queue='af_modis', exchange='csir', routing_keys=['af_modis.#'])
+    consuming_exchange.bind_queue(queue='af_modis', exchange=settings.CSIR_AMQP_EXCHANGE, conn=settings.CSIR_AMQP_URI, routing_keys=['af_modis.#'])
 
     fire_pixel_persistance = FirePixelPersistConsumer('firepixel')
     fire_pixel_persistance.declare()
