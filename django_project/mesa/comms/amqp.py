@@ -64,7 +64,6 @@ class ConsumingExchange(Exchange):
             raise ValueError('No valid connection available')
         conn.register_with_event_loop(async)
 
-        channel = channel or self._channel
         if channel is None:
             # connection should provide a default channel
             channel = conn.default_channel
@@ -108,7 +107,7 @@ class BasePersistConsumer(Queue):
     
     def __init__(self, name, channel=None):
         
-        self.connection = Connection(settings.AMQP_CONN_URI)
+        self.connection = Connection(settings.MESA_FT_AMQP_URI)
         channel = channel or self.connection.default_channel
         super(BasePersistConsumer, self).__init__(name=name, channel=channel)
 
@@ -127,7 +126,7 @@ class BasePersistConsumer(Queue):
 
     def bind_queue(self, exchange=None, routing_keys=None, **kwargs):
         
-        exchange = exchange or settings.AMQP_EXCHANGE
+        exchange = exchange or settings.MESA_FT_AMQP_EXCHANGE
         if type(exchange) == str:
             exchange = Exchange(exchange)
 
