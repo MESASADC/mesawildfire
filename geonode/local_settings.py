@@ -5,23 +5,22 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 SITEURL = "http://localhost:8111/"
 
 DATABASES = {
+    'default' : {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': utils.get_env('GEONODE_DB_NAME'),
-        'USER': utils.get_env('GEONODE_DB_USER'),
-        'PASSWORD': utils.get_env('GEONODE_DB_PASS'),
-        'HOST': utils.get_env('GEONODE_DB_HOST'),
-        'PORT': utils.get_env('GEONODE_DB_PORT'),
-        # Name to be used for unit testing db
-        'TEST_NAME': 'afis-test',    
+        'NAME': 'geonode',
+        'USER': 'docker',
+        'PASSWORD': 'docker',
+        'HOST': 'postgis',
+        'PORT': 5432,
      },
     # vector datastore for uploads
     'datastore' : {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis', # Empty ENGINE name disables 
-        'NAME': utils.get_env('GEONODE_DB_NAME'),
-        'USER': utils.get_env('GEONODE_DB_USER'),
-        'PASSWORD': utils.get_env('GEONODE_DB_PASS'),
-        'HOST': utils.get_env('GEONODE_DB_HOST'),
-        'PORT': utils.get_env('GEONODE_DB_PORT'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geonode',
+        'USER': 'docker',
+        'PASSWORD': 'docker',
+        'HOST': 'postgis',
+        'PORT': 5432,
     }
 }
 
@@ -31,8 +30,8 @@ OGC_SERVER = {
         'BACKEND' : 'geonode.geoserver',
         'LOCATION' : 'http://localhost:8080/geoserver/',
         'PUBLIC_LOCATION' : 'http://localhost:8080/geoserver/',
-        'USER': utils.get_env('GEONODE_OGC_USER'),
-        'PASSWORD': utils.get_env('GEONODE_OGC_PASS'),
+        'USER': 'mesa',
+        'PASSWORD': 'mesa',
         'MAPFISH_PRINT_ENABLED' : True,
         'PRINT_NG_ENABLED' : True,
         'GEONODE_SECURITY_ENABLED' : True,
@@ -42,7 +41,7 @@ OGC_SERVER = {
         'WPS_ENABLED' : True,
         'LOG_FILE': '%s/geoserver/data/logs/geoserver.log' % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
         # Set to name of database in DATABASES dictionary to enable
-        'DATASTORE': '', #'datastore',
+        'DATASTORE': 'datastore',
     }
 }
 
@@ -64,8 +63,8 @@ CATALOGUE = {
         # 'URL': 'http://localhost:8080/deegree-csw-demo-3.0.4/services',
 
         # login credentials (for GeoNetwork)
-        'USER': utils.get_env('GEONODE_CSW_USER'),
-        'PASSWORD': utils.get_env('GEONODE_CSW_PASS'),
+        'USER': 'mesa',
+        'PASSWORD': 'mesa',
     }
 }
 
