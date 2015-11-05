@@ -24,6 +24,8 @@ DATABASES = {
     }
 }
 
+POSTGIS_VERSION = (2,1)
+
 # OGC (WMS/WFS/WCS) Server Settings
 OGC_SERVER = {
     'default' : {

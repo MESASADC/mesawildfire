@@ -12,7 +12,7 @@ docker rm -f supervisor_geonode &> /dev/null
 docker run --link supervisor_postgis --rm martin/wait
 
 # Create Geonode DB if not exists
-docker exec supervisor_postgis su - postgres -c "createdb -O $GEONODE_DB_USER -T template_postgis geonode"
+docker exec supervisor_postgis su - postgres -c "createdb -T template_postgis geonode"
 docker exec supervisor_postgis su - postgres -c "psql -c '\l'"
 
 # Start Geoserver:
