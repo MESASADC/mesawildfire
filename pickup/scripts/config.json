@@ -4,5 +4,5 @@
   "amqp_vhost": "",
   "amqp_user" : "user",
   "amqp_pass" : "password",
-  "amqp_exchange" : "csir"
+  "amqp_exchange" : "mesa_terminal"
 }

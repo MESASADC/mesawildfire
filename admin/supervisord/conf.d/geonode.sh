@@ -21,5 +21,5 @@ RESULT=$?
 
 # Avoid Supervisor restarting immediately
 sleep 10
-exit($RESULT)
+exit $RESULT
 

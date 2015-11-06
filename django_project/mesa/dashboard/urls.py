@@ -3,7 +3,7 @@ from django.contrib import admin
 from mesa.dashboard import views
 
 urlpatterns = [
-    #url(r'^', views.dashboard, name='dashboard'),
-    url(r'^', views.wmst, name='wmst'),
+    url(r'^', views.dashboard, name='dashboard'),
+    #url(r'^', views.wmst, name='wmst'),
 ]
 

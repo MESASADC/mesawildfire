@@ -236,15 +236,15 @@ def post_save_notify_amqp(sender, **kwargs):
     if issubclass(sender, NotifySave):
         event = 'created' if kwargs.get('created', False) else 'updated'
         logging.debug('post_save_notify_amqp: %s %s' % (sender.__name__, event))
-        logging.info('Acquiring connection: %s' % settings.AMQP_CONN_URI)
+        logging.info('Acquiring connection: %s' % settings.MESA_FT_AMQP_URI)
         try:
-            with connections[Connection(settings.AMQP_CONN_URI)].acquire(block=True) as conn:
+            with connections[Connection(settings.MESA_FT_AMQP_URI)].acquire(block=True) as conn:
                 logging.info('Got connection. Acquiring producer...')
                 with producers[conn].acquire(block=True, timeout=10) as producer:
-                    logging.info('Got producer. Publishing to: %s' % settings.AMQP_EXCHANGE)
+                    logging.info('Got producer. Publishing to: %s' % settings.MESA_FT_AMQP_URI)
                     producer.publish(
                         _notification(event, sender.__name__),
-                        exchange=settings.AMQP_EXCHANGE,
+                        exchange=settings.MESA_FT_AMQP_EXCHANGE,
                         routing_key='notify.ui.db.%s.%s' % (event, sender.__name__),
                         serializer='json')
                     logging.info('Published.')
