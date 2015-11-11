@@ -1,0 +1,14 @@
+# YAML
+/tmp:
+  include: 't*'
+  exclude: '123'
+  cmd: echo Received {path}/{file}
+
+../amesd_lfdi:
+  re: true,
+  include: 'AMESD_SADC_CSIR-(?P<var>[^-]+)-(?P<fcstts>\d{10})-(?P<refts>\d{10}).tif'
+  cmd: raster2pgsql -s 4326 -a -M %(tif)s rasters.%(dbtable)s | $HOME/Apps/bin/pginsert-customize.py -d %(metaopt)s variable "'%(var)s'" forecast_utc "'%(datetime)s'" %(sqllog)s | env PGPASSWORD='afisdb#' /usr/bin/psql -d weather -h 146.64.28.34 -p 5432 -U afisuser
+
+#/code:
+#    exclude: '*.sw?'
+#    exclude: '.*'
