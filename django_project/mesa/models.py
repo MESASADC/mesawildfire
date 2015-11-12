@@ -76,7 +76,7 @@ class Fire(models.Model, NotifySave):
     border = models.PolygonField()
 
     def __str__(self):
-        return '{0} ({1})'.format(self.description, self.status_choices.get(self.status, '_'))
+        return '{0} ({1})'.format(self.description, fire_status_choices.get(self.status, '_'))
 
 class FirePixel(models.Model, NotifySave):
 
