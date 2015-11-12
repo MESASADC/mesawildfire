@@ -10,7 +10,7 @@ import re
 import logging
 import logging.config
 from kombu import Connection, Exchange, Queue
-from subprocess import Popen
+from subprocess import Popen, PIPE
 from datetime import datetime
 
 description = """Pattern-match incoming file and publish event to AMQP exchange"""
@@ -19,7 +19,9 @@ script_dir = os.path.abspath(os.path.dirname(__file__))
 
 def load_config(config_file):
     logger = logging.getLogger(__name__)
-    if os.path.isabs(config_file):
+    if os.path.exists(config_file):
+        cf = os.path.abspath(config_file)
+    elif os.path.isabs(config_file):
         cf = config_file
     else:
         cf = os.path.join(script_dir, config_file)
@@ -136,8 +138,6 @@ def main(argv=None):
     def check_dir(d):
         if not os.path.isdir(d): raise argparse.ArgumentTypeError("must be an existing directory")
         return d
-    def check_file(f):
-        return f
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument("incron_dir", type=check_dir, \
         help="specifies incoming directory")
@@ -145,10 +145,12 @@ def main(argv=None):
         help="specifies incoming file")
     parser.add_argument("incron_event", \
         help="specifies incoming event")
-    parser.add_argument("-a", "--amqp", default="config.json", metavar='JSON', \
+    parser.add_argument("-a", "--amqp", metavar='JSON', \
         help="specifies AMQP configuration file")
     parser.add_argument("-c", "--config", default="fse2amqp.yml", metavar='YAML', \
         help="specifies filename pattern file")
+    parser.add_argument("-e", "--env", \
+        help="specifies script which sets environment variables")
     parser.add_argument("--body", 
         help="specifies message body format: {}".format(defvals["body"]))
     parser.add_argument("--rk", \
@@ -164,13 +166,23 @@ def main(argv=None):
     setup_logging(args.verbosity)
     logger = logging.getLogger(__name__)
 
-    try:
-        if not os.path.isabs(args.amqp):
-            args.amqp = os.path.join(script_dir, args.amqp)
-        amqp = json.loads(open(args.amqp).read())
-        uri = 'amqp://{amqp_user}:{amqp_pass}@{amqp_host}:{amqp_port}/{amqp_vhost}'.format(**amqp)
-    except Exception, err:
-        parser.error("Failed to load AMQP configuration from {}: {}".format(args.amqp, err))
+    if args.env:
+        if not os.path.exists(args.env) and not os.path.isabs(args.env):
+            args.env = os.path.join(script_dir, args.env)
+        if not os.path.exists(args.env):
+            parser.error("Non-existent environment script: {}".format(args.env))
+        p = Popen(['bash', '-c', 'source {} && env'.format(args.env)], stdout=PIPE, stderr=PIPE)
+        source_env = {tup[0].strip(): tup[1].strip() for tup in map(lambda s: s.strip().split('=', 1), p.stdout)}
+    else:
+        source_env = {}
+    if args.amqp:
+        try:
+            if not os.path.exists(args.amqp) and not os.path.isabs(args.amqp):
+                args.amqp = os.path.join(script_dir, args.amqp)
+            amqp = json.loads(open(args.amqp).read())
+            uri = 'amqp://{amqp_user}:{amqp_pass}@{amqp_host}:{amqp_port}/{amqp_vhost}'.format(**amqp)
+        except Exception, err:
+            parser.error("Failed to load AMQP configuration from {}: {}".format(args.amqp, err))
 
     config = load_config(args.config)
     # Precompile match expressions and perform minimal check
@@ -186,38 +198,43 @@ def main(argv=None):
         logger.debug("Skip unmatched file: {} {}".format(args.incron_dir, args.incron_file))
         return 0
     dic = os.environ.copy()
-    if isinstance(m, dict): dic.update(m)
+    dic.update(source_env)
+    if isinstance(matched, dict): dic.update(matched)
     dic.update({
         'path': os.path.join(args.incron_dir, args.incron_file),
         'dir': args.incron_dir,
         'file': args.incron_file,
         'event': args.incron_event,
+        'script_dir': script_dir,
     })
     logger.info('Processing: {path} for {event}'.format(**dic))
-    try:
-        logger.debug('Trying to establish AMQP connection: {}'.format(uri))
-        
-        # Connect to rabbitmq server
-        with Connection(uri) as conn:
-            conn.connect()
-            logger.debug('Connection established: {}'.format(uri))
-            exchange = Exchange(amqp['amqp_exchange'], type='topic', channel=conn.default_channel)
-            exchange.declare()
-            body = args.body.format(**dic)
-            rk = args.rk.format(**dic)
-            exchange.publish(body, rk)
-            count += 1
-            logger.info('Published %d af_modis messages' % count)
-    except Exception, err:
-        dic['err'] = err
-        logging.exception('Failed to process: {path} for {event}: {err}'.format(**dic))
+    if args.amqp:
+        try:
+            logger.debug('Trying to establish AMQP connection: {}'.format(uri))
+            
+            # Connect to rabbitmq server
+            with Connection(uri) as conn:
+                conn.connect()
+                logger.debug('Connection established: {}'.format(uri))
+                exchange = Exchange(amqp['amqp_exchange'], type='topic', channel=conn.default_channel)
+                exchange.declare()
+                body = args.body.format(**dic)
+                rk = args.rk.format(**dic)
+                exchange.publish(body, rk)
+                logger.info('Published %d af_modis messages' % count)
+        except Exception, err:
+            dic['err'] = err
+            logging.exception('Failed to process: {path} for {event}: {err}'.format(**dic))
     now = datetime.utcnow()
     if args.incron_dir in rulematcher.cmds:
         for cmd in rulematcher.cmds[args.incron_dir]:
             try:
                 cmd = now.strftime(cmd).format(**dic)
                 logger.debug("execute {} ...".format(cmd))
-                Popen(cmd, shell=True)
+                p = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
+                stdout, stderr = p.communicate()
+                if p.returncode != 0:
+                    logger.error("exited with {} stdout={} stderr={}".format(p.returncode, stdout, stderr))
             except Exception, err:
                 logger.warning("Popen error: {}: {}".format(cmd, err))
     return 0

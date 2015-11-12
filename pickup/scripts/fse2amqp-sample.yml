@@ -1,13 +1,15 @@
-# YAML
 /tmp:
   include: 't*'
   exclude: '123'
   cmd: echo Received {path}/{file}
 
+# incron pickup script has to source ENV so that MESA_* variables are set 
 ../amesd_lfdi:
   re: true,
-  include: 'AMESD_SADC_CSIR-(?P<var>[^-]+)-(?P<fcstts>\d{10})-(?P<refts>\d{10}).tif'
-  cmd: raster2pgsql -s 4326 -a -M %(tif)s rasters.%(dbtable)s | $HOME/Apps/bin/pginsert-customize.py -d %(metaopt)s variable "'%(var)s'" forecast_utc "'%(datetime)s'" %(sqllog)s | env PGPASSWORD='afisdb#' /usr/bin/psql -d weather -h 146.64.28.34 -p 5432 -U afisuser
+  # MESA_SADC_FDI_SAfri_v1.2015-10-23T12:00Z.2015-10-22T06:00Z.lfdid.tif
+  include: 'MESA_SADC_FDI_SAfri_v1.(?P<fcstts>[^\.]+).(?P<refts>[^\.]+).(?P<var>[^\.]+).tif'
+  #cmd: raster2pgsql -s 4326 -a -M {path} mesa_firedanger >sql
+  cmd: raster2pgsql -s 4326 -a -M {path} mesa_firedanger |{script_dir}/pginsert-customize.py --delete variable "'{var}'" forecast_utc "'{fcstts}'" reference_utc "'{refts}'" | PGPASSWORD='{MESA_DB_PASS}' psql -d {MESA_DB_NAME} -h {MESA_DB_HOST} -p {MESA_DB_PORT} -U {MESA_DB_USER}
 
 #/code:
 #    exclude: '*.sw?'
