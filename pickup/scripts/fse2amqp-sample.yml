@@ -4,12 +4,11 @@
   cmd: echo Received {path}/{file}
 
 # incron pickup script has to source ENV so that MESA_* variables are set 
-../amesd_lfdi:
+/home/mesa/mesa-terminal/pickup/dbcras_tif:
   re: true,
   # MESA_SADC_FDI_SAfri_v1.2015-10-23T12:00Z.2015-10-22T06:00Z.lfdid.tif
   include: 'MESA_SADC_FDI_SAfri_v1.(?P<fcstts>[^\.]+).(?P<refts>[^\.]+).(?P<var>[^\.]+).tif'
-  #cmd: raster2pgsql -s 4326 -a -M {path} mesa_firedanger >sql
-  cmd: raster2pgsql -s 4326 -a -M {path} mesa_firedanger |{script_dir}/pginsert-customize.py --delete variable "'{var}'" forecast_utc "'{fcstts}'" reference_utc "'{refts}'" | PGPASSWORD='{MESA_DB_PASS}' psql -d {MESA_DB_NAME} -h {MESA_DB_HOST} -p {MESA_DB_PORT} -U {MESA_DB_USER}
+  cmd: docker run --link supervisor_postgis:postgis --rm -v {dir}:{dir}:ro -v {script_dir}:{script_dir}:ro kartoza/postgis bash -c "raster2pgsql -s 4326 -a -M {path} mesa_firedanger |{script_dir}/pginsert-customize.py --delete variable \"'{var}'\" forecast_utc \"'{fcstts}'\" reference_utc \"'{refts}'\" | PGPASSWORD='{MESA_DB_PASS}' psql -d {MESA_DB_NAME} -h {MESA_DB_HOST} -p {MESA_DB_PORT} -U {MESA_DB_USER}"
 
 #/code:
 #    exclude: '*.sw?'

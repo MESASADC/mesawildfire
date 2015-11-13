@@ -197,8 +197,9 @@ def main(argv=None):
     if not matched:
         logger.debug("Skip unmatched file: {} {}".format(args.incron_dir, args.incron_file))
         return 0
-    dic = os.environ.copy()
-    dic.update(source_env)
+    # Initialize with environment variables then override with runtime
+    dic = source_env.copy()
+    dic.update(os.environ)
     if isinstance(matched, dict): dic.update(matched)
     dic.update({
         'path': os.path.join(args.incron_dir, args.incron_file),
@@ -235,6 +236,8 @@ def main(argv=None):
                 stdout, stderr = p.communicate()
                 if p.returncode != 0:
                     logger.error("exited with {} stdout={} stderr={}".format(p.returncode, stdout, stderr))
+                else:
+                    logger.debug("OK stdout={} stderr={}".format(stdout, stderr))
             except Exception, err:
                 logger.warning("Popen error: {}: {}".format(cmd, err))
     return 0
