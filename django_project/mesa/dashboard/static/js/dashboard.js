@@ -217,18 +217,27 @@ var simpleDate = (function() {
     };
     
     var chkMultiple = function(amount, type) {
-        return (amount > 1) ? amount + " " + type + "s":"a " + type;
+        return (amount > 1) ? amount + " " + type + "s": "one " + type;
     };
     
     return function(thedate) {
+        console.log(thedate);        
         thedate = new Date(thedate);
+        console.log(thedate);        
         var dateStr, amount, denomination,
             current = new Date().getTime(),
             diff = (current - thedate.getTime()) / 1000; // work with seconds
+        console.log(current);
+        console.log(diff);
 
-        if (diff < 0) { // future
-            return thedate.toLocaleString();
-        } else if(diff > measures.year) {
+        var future = diff < 0;
+        diff = Math.abs(diff);
+
+        //if (diff < 0) { // future
+        //    return thedate.toLocaleString();
+        //} else
+
+        if(diff > measures.year) {
             denomination = "year";
         } else if(diff > measures.month) {
             denomination = "month";
@@ -241,11 +250,19 @@ var simpleDate = (function() {
         } else if(diff > measures.minute) {
             denomination = "minute";
         } else {
-            dateStr = "a few seconds ago";
+            if (future) {
+                dateStr = "in a few seconds";
+            } else {
+                dateStr = "a few seconds ago";
+            };
             return dateStr;
-        }
+        };
         amount = Math.round(diff/measures[denomination]);
-        dateStr = "about " + chkMultiple(amount, denomination) + " ago";
+        if (future) {
+            dateStr = "in about " + chkMultiple(amount, denomination);
+        } else {
+            dateStr = "about " + chkMultiple(amount, denomination) + " ago";
+        };
         return dateStr;
     };
     

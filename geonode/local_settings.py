@@ -2,7 +2,7 @@ import os
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-SITEURL = "http://localhost:8111/"
+SITEURL = "http://mesa.dhcp.meraka.csir.co.za:8111/"
 
 DATABASES = {
     'default' : {
@@ -31,12 +31,12 @@ OGC_SERVER = {
     'default' : {
         'BACKEND' : 'geonode.geoserver',
         'LOCATION' : 'http://localhost:8080/geoserver/',
-        'PUBLIC_LOCATION' : 'http://localhost:8080/geoserver/',
+        'PUBLIC_LOCATION' : 'http://mesa.dhcp.meraka.csir.co.za:8080/geoserver/',
         'USER': 'admin',
         'PASSWORD': 'geoserver',
         'MAPFISH_PRINT_ENABLED' : True,
         'PRINT_NG_ENABLED' : True,
-        'GEONODE_SECURITY_ENABLED' : True,
+        'GEONODE_SECURITY_ENABLED' : False,
         'GEOGIG_ENABLED' : True,
         'WMST_ENABLED' : True,
         'BACKEND_WRITE_ENABLED': True,

@@ -189,7 +189,10 @@ class FdiForecast(View):
     temp_c = models.FloatField()
     date_time = models.DateTimeField(blank=True, null=True)
 
-    fdi_point = models.ForeignKey(FdiPoint, blank=True, null=True)
+    fdi_point = models.ForeignKey(FdiPoint, primary_key=True)
+   
+    class Meta:
+        unique_together = ('fdi_point', 'date_time')
 
 class FdiPointData(View):
     """ 
@@ -198,7 +201,8 @@ class FdiPointData(View):
     """
     type_choices = (('wstation', 'Weather station'), ('poi', 'Point of interest'))
 
-    id = models.IntegerField(primary_key=True)   # The FdiPoint ID
+    #id = models.IntegerField(primary_key=True)   # The FdiPoint ID
+    fdi_point = models.ForeignKey(FdiPoint, primary_key=True)
 
     name = models.CharField(max_length=40, blank=False, unique=True)
     type = models.CharField(max_length=20, blank=True, choices=type_choices, default='poi')
@@ -215,9 +219,12 @@ class FdiPointData(View):
     fdi_value = models.IntegerField()
     fdi_rgb = models.CharField(max_length=10, blank=True, null=False, default='')
     temp_c = models.FloatField()
-    date_time = models.DateTimeField(blank=True, null=True)
+    date_time = models.DateTimeField()
 
     is_forecast = models.BooleanField()
+
+    class Meta:
+        unique_together = ('fdi_point', 'date_time', 'is_forecast')
 
 
 def _notification(event, source):
