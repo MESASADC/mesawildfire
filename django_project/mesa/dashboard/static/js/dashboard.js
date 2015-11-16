@@ -124,7 +124,8 @@ $(function() {
         overlays: [overlay],
         controls: ol.control.defaults().extend([
             //new ol.control.FullScreen() not working properly
-        ])
+        ]),
+
     });
     
     // select interaction working on "singleclick"
@@ -546,12 +547,28 @@ $(document).ready(function() {
 
 
         function flyToPoint(lon, lat) {
-            var duration = 2000;
             var start = +new Date();
             var from = defaultView.getCenter();
             var to = ol.proj.fromLonLat([lon, lat]);
+
+            // Determine zoom level needed to see from and to points at the same time             
+            var distanceX = Math.abs(to[0] - from[0]);
+            var distanceY = Math.abs(to[1] - from[1]);
+            var startPixel = map.getPixelFromCoordinate(from);
+            var endPixel = map.getPixelFromCoordinate(to);
+            var distancePixelX = Math.abs(endPixel[0] - startPixel[0]);
+            var distancePixelY = Math.abs(endPixel[1] - startPixel[1]);
+            var mapSizeX = map.getSize()[0];
+            var mapSizeY = map.getSize()[1];
+            
+            var ratioX = distancePixelX / mapSizeX; 
+            var ratioY = distancePixelY / mapSizeY; 
+            var ratio = Math.max(ratioX, ratioY);
+
             var wgs84 = new ol.Sphere(6378137);
-            var distance = wgs84.haversineDistance(from, to); 
+            var geodesicDistance = wgs84.haversineDistance(from, to); 
+
+            var duration = 1000 * Math.max(0.5, Math.min(2, Math.abs(ratio)));
 
             var pan = ol.animation.pan({
                 duration: duration,
@@ -560,7 +577,7 @@ $(document).ready(function() {
             });
             var bounce = ol.animation.bounce({
                 duration: duration,
-                resolution: Math.log(distance / 1000000) * defaultView.getResolution(),
+                resolution: defaultView.getResolution() * Math.max(1, Math.abs(ratio)),
                 start: start
             });
             map.beforeRender(pan, bounce);
