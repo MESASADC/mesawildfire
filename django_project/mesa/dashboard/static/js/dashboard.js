@@ -667,13 +667,13 @@ $(document).ready(function() {
                 "minimum": 0,
                 "axisAlpha": 0.4,
                 "guides": [{}, {
-                    "lineColor": "#4e0000",
+                    "lineColor": "#0000FF",
                     "lineThickness": 3,
                     "lineAlpha": 0,
                     "value": 0,
                     "toValue": 20
                 }, {
-                    "lineColor": "#0000FF",
+                    "lineColor": "#00FF00",
                     "lineThickness": 3,
                     "lineAlpha": 1,
                     "value": 20,
