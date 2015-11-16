@@ -3,3 +3,4 @@ django
 djangorestframework
 djangorestframework-gis
 kombu
+pyyaml
