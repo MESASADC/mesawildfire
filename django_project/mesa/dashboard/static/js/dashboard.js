@@ -26,6 +26,95 @@ function unique(list) {
     return result;
 }
 
+$(function() {
+    /*window.onload = function () {
+    // Use SockJS
+    Stomp.WebSocketClass = SockJS;
+     
+    // Connection parameters
+    var mq_username = "guest",
+        mq_password = "guest",
+        mq_vhost    = "/",
+        mq_url      = 'http://127.0.0.1:32775/stomp',
+     
+        // The queue we will read. The /topic/ queues are temporary
+        // queues that will be created when the client connects, and
+        // removed when the client disconnects. They will receive
+        // all messages published in the "amq.topic" exchange, with the
+        // given routing key, in this case "mymessages"
+    mq_queue    = "/testing/tests";
+     
+
+    // This will be called upon successful connection
+    function on_connect() {
+      console.log('Connected to RabbitMQ-Web-Stomp');
+      console.log(client);
+      client.subscribe(mq_queue, on_message);
+    }
+     
+    // This will be called upon a connection error
+    function on_connect_error() {
+     console.log('Connection failed!');
+    }
+     
+    // This will be called upon arrival of a message
+    function on_message(m) {
+      console.log('message received'); 
+      console.log(m);
+      console.log(m.body);
+    }
+     
+      // Create a client
+      var client = Stomp.client(mq_url);
+      // Connect
+      client.connect(mq_username,mq_password,on_connect,on_connect_error,mq_vhost);
+    }*/
+
+
+    window.onload = function () {
+
+        var ws = new SockJS('http://localhost:32775/stomp/');
+        var client = Stomp.over(ws);
+
+        client.heartbeat.outgoing = 0;
+        client.heartbeat.incoming = 0;
+
+        var onConnect = function() {
+          client.subscribe('/queue/testing', function(d) {
+            console.log(JSON.parse(d.body));
+          });
+        };
+
+        var on_connect = function(x) {
+           console.log(x);
+          client.subscribe("/exchange/amq.topic", function(d) {
+              //client.send('/queue/testing', {"content-type":"text/plain"}, "data datad");
+              
+              console.log(d.body);
+          });
+
+      };
+
+        // This will be called upon arrival of a message
+        var onMessage = function(m) {
+          console.log('message received'); 
+          console.log(m);
+          console.log(m.body);
+        }
+
+        var onError = function(e) {
+          console.log('ERROR', e);
+        };
+        
+        var onDebug = function(m) {
+          console.log('DEBUG', m);
+        };
+        client.onmessage = onMessage;
+        //client.debug = onDebug;
+        client.connect('guest', 'guest', on_connect, onError, '/');
+        };
+    
+});
 
 $(function() {
     // BEGIN OPEN LAYERS
@@ -603,6 +692,38 @@ $(document).ready(function() {
             map.beforeRender(pan, bounce);
             defaultView.setCenter(to);
         };
+        /*
+        var ws = new SockJS('http://127.0.0.1:32775/stomp');
+        var client = Stomp.over(ws);
+
+        client.heartbeat.outgoing = 0;
+        client.heartbeat.incoming = 0;
+
+        var onDebug = function(m) {
+          console.log('DEBUG', m);
+        };
+
+        var onConnect = function() {
+          client.subscribe('/queue/testing', function(d) {
+            console.log(JSON.parse(d.body));
+          });
+        };
+
+        var onError = function(e) {
+          console.log('ERROR', e);
+        };
+
+        client.debug = onDebug;
+        window.onload = function () {
+        client.connect('guest', 'guest', onConnect, onError, '/');
+        }
+        */
+
+        
+
+     
+
+
 
         // Add event listener for opening and closing details
         $('#fire-table tbody').on('click', 'td.details-control', function() {
