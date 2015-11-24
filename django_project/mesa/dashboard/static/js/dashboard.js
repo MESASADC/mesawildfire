@@ -563,6 +563,9 @@ $(document).ready(function() {
         }
 
 
+
+
+
         function flyToPoint(lon, lat) {
             var start = +new Date();
             var from = defaultView.getCenter();
