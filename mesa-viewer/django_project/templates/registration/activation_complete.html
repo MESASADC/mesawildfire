@@ -1,0 +1,13 @@
+{% extends "registration_base.html" %}
+{% load i18n %}
+
+{% block js %}
+{{block.super}}
+{% endblock %}
+
+{% block regcontent %}
+<div class="dialog_banner"></div>
+<h2>Account activation:</h2>
+<p>{% trans "Your account has been activated successfuly." %}</p>
+<a href="/" class='button' id='return-button'>Return</a>
+{% endblock %}

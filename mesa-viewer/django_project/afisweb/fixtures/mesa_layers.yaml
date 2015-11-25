@@ -1,0 +1,30 @@
+
+-   fields: {as_open_layer: "lyr1 = new OpenLayers.Layer.WMS(\n\
+                'Active Fire Pixels Today','http://dashboard.mesa.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:mesa_firepixel',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr1.id] = 'lyr1';", content_type: 14,
+        description: Active Fire Pixels Today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:mesa_firepixel',
+        legend_group: 1,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000,
+        name: Active Fire Pixels Today, owner: 2, url: 'http://dashboard.mesa.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 1
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1}
+  model: afisweb.userwmslayer
+  pk: 1
+

@@ -1,0 +1,31 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+{% block css %}
+    <link type="text/css" href="{{STATIC_URL}}css/style.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/extra.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/layout.css" rel="stylesheet" media="screen" />
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.8.13.custom.min.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.fancybox-1.2.6.pack.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.layout.min-1.2.0.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/jquery.jbanner.js"></script>
+{% endblock %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Advanced Fire Information System</title>
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico"/>
+    <link rel="icon" href="{{STATIC_URL}}images/favicon.ico"/>
+  </head>
+  <body class="ui-state-default no-background no-border" {% block onloadjs %}{% endblock %}>
+{% block body%}
+    {% block regcontent %}{% endblock %}
+{% endblock %}
+  </body>
+</html>
+
+
+

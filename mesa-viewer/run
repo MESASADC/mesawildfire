@@ -1,0 +1,62 @@
+#!/bin/bash
+
+source ENV
+
+DAEMON="-d"
+INTERACTIVE="-i -t --rm"
+RUN_MODE=${RUN_MODE:-$DAEMON}
+
+# Variables that will be set by the Fern framework
+RUN_NAME=${RUN_NAME:-"afis-viewer"}
+IMAGE_NAME=${IMAGE_NAME:-"afis-viewer"}
+
+# Specify a host user to run as
+if [ -n $RUN_USER ];  then
+    RUN_UID=$(id -u $RUN_USER)
+    RUN_GID=$(id -g $RUN_USER)
+fi
+
+if [ $# -gt 0 ]; then
+  cmd="$*"
+else
+  cmd="python /tmp/django_project/manage.py runserver 0.0.0.0:$AFIS_VIEWER_PORT"
+fi
+
+
+# Run as the current user, unless specified otherwise
+CURRENT_UID=$(id -u)
+CURRENT_GID=$(id -g)
+RUN_UID=${RUN_UID:-$CURRENT_UID}
+RUN_GID=${RUN_GID:-$CURRENT_GID}
+
+echo Image: $IMAGE_NAME
+echo Container: $RUN_NAME
+echo Uid: $RUN_UID
+echo Gid: $RUN_GID
+echo Cmd: $cmd
+
+set -x
+docker stop $RUN_NAME
+docker rm -f $RUN_NAME
+docker run --name $RUN_NAME \
+$RUN_MODE \
+-v $PWD/docker_runtime:/tmp/runtime \
+-v $PWD/django_project:/tmp/django_project \
+-v $PWD/public:/tmp/public \
+-v $PWD/logs:/tmp/logs \
+-p 8005:$AFIS_VIEWER_PORT \
+-e RUN_UID=$RUN_UID \
+-e RUN_GID=$RUN_GID \
+-e AFIS_VIEWER_DATABASE_NAME=$AFIS_VIEWER_DATABASE_NAME \
+-e AFIS_VIEWER_DATABASE_USER=$AFIS_VIEWER_DATABASE_USER \
+-e AFIS_VIEWER_DATABASE_PASS=$AFIS_VIEWER_DATABASE_PASS \
+-e AFIS_VIEWER_DATABASE_HOST=$AFIS_VIEWER_DATABASE_HOST \
+-e AFIS_VIEWER_DATABASE_PORT=$AFIS_VIEWER_DATABASE_PORT \
+-e AFIS_VIEWER_STATIC_ROOT=${AFIS_VIEWER_STATIC_ROOT:-/tmp/django_project/static_root} \
+-e DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-settings.afis_web_basic} \
+$EXTRA_DOCKER_RUN_OPT \
+$IMAGE_NAME $cmd
+
+if [ $RUN_MODE == $DAEMON  ]; then
+	docker logs -f $RUN_NAME
+fi

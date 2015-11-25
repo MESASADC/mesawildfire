@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{% load jqueryjs %} {# custom tag defined in templatetags/ #}
+{% load analytical %} {# django-analytical package #}
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    {% analytical_head_top %}
+{% block css %}
+    <link type="text/css" href="{{STATIC_URL}}css/style.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/extra.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/ol.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}js/theme/default/google.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/googlemaps.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/layout.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/tablecloth.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/jquery.fancybox-1.2.6.css" rel="stylesheet" media="screen" />
+    <link type="text/css" href="{{STATIC_URL}}css/smoothness/jquery-ui-1.8.custom.css" rel="stylesheet" media="screen" />
+    <!--[if lt IE 7]>
+       <link rel="stylesheet" type="text/css" href="style/ie6.css" />
+    <![endif]-->
+{% endblock %}
+{% block js %}
+    {% jqueryjs %}
+{% endblock %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Advanced Fire Information System</title>
+    <link rel="shortcut icon" href="{{STATIC_URL}}images/favicon.ico"/>
+    <link rel="icon" href="{{STATIC_URL}}images/favicon.ico"/>
+    {% analytical_head_bottom %}
+  </head>
+  <body class="ui-state-default no-background no-border" {% block onloadjs %}{% endblock %}>
+    {% analytical_body_top %}
+    {# note the order in which you add these is significant #}
+    {# order below is optimised so that east side bar is overlapped by N and S panels #}
+    <div class="ui-layout-north ui-widget-header" id="header">
+      {% block header %}{% endblock %}    
+    </div> 
+    <div class="ui-layout-east">
+      {% block east %}{% endblock %}
+    </div>
+     <div id="center" class="ui-layout-center">
+      {% block body %}{% endblock %}
+    </div> 
+    <div id="footer" class="ui-layout-south">
+        {% block footer %}{% endblock %}
+    </div>
+    {% analytical_body_bottom %}
+   </body>
+</html>

@@ -1,0 +1,14 @@
+{% load i18n %}
+{% blocktrans %}
+Your email account has been registered and activated for Advanced Fire Information System services.
+
+The registration was performed via the following site: http://{{ host }}/
+
+You can log in at http://{{ host }}/ using "{{ username }}" as your username and the password entered during the registration process.
+
+Go to http://www.afis.co.za/ for more information about the different AFIS service offerings.
+
+If you believe this registration was an error or you would like to deactivate the relevant account, please email support@afis.co.za with your request.
+
+Welcome to AFIS, we hope to exceed your expectations!
+{% endblocktrans %}

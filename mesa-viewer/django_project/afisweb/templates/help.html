@@ -1,0 +1,145 @@
+<h1>Using the Map and the Site's Features</h1>
+<div>
+  <img src="/static/images/afislogo.png" alt="">
+</div>
+<h2>Advanced Fire Information System</h2>
+<p>
+This page provides a map interface to Active Fires observed by:
+<ul>
+<li>MODIS instrument on board the NASA Aqua and Terra satellites</li>
+<li>SEVERI sensor on board Meteosat Second Generation satellites</li>
+</ul>
+Active Fires are essentially parts of an image taken by the instruments
+that are considered "hotspots". [<a href="http://webpages.icav.up.pt/Pessoas/neftali/ITC_thesis/Susan%20Philip-thesis.pdf" target="_new">details</a>]
+</p>
+<p>Use the viewer to navigate to the area of
+interest and then click on any Active Fire feature to view the
+attribute information associated with that observation.</p>
+<h2>Map Control Widgets</h2>
+<table border="0">
+<tbody>
+  <tr>
+    <td><img src="/static/images/icons/pan.png"></td>
+    <td>Pan the map</td>
+  </tr>
+  <tr>
+    <td><img src="/static/images/icons/identify.png"></td>
+    <td>Get details on a marker</td>
+  </tr>
+  <tr>
+    <td><img src="/static/images/icons/measure-line.png"></td>
+    <td>Measure the distance between two points</td>
+  </tr>
+  <tr>
+    <td><img src="/static/images/icons/measure-line.png"></td>
+    <td>Measure the area of a polygon</td>
+  </tr>
+  <tr>
+    <td><img src="/static/images/icons/firereport.png"></td>
+    <td>Get fire report on a point of interest. Where data is available, it includes:
+      <ul>
+        <li>Fire danger rating for the next few days based on weather forecast
+        <li>How long ago the place last burned
+        <li>Burn frequency
+        <li>Current curing percentage
+        <li>Curing history
+        <li>Real-time data received from nearby weather stations and computed fire danger rating
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><img src="/static/images/icons/zoom-in.png"></td>
+    <td>Zoom in</td>
+  </tr>
+  <tr>
+    <td><img src="/static/images/icons/zoom-out.png"></td>
+    <td>Zoom out</td>
+  </tr>
+</td>
+  </tr>
+  <tr>
+  </tr>
+</tbody>
+</table>
+<p>
+</p>
+<h2>Frequently Asked Questions</h2>
+<table  border="0">
+<tbody>
+  <tr>
+    <th>How do I navigate around the map?</th>
+  </tr>
+  <tr>
+    <td>There are several methods available for zooming in and out as well as panning:<br>
+    <ol>
+      <li>Zooming:
+        <ul>
+          <li>Using the Zoom in/out functionality available in the map toolbar above the map legend.
+              The map will zoom based upon the current centre of the map.</li>
+          <li>Using the mousewheel (not supported by all browsers), roll the
+              mousewheel backwards or forwards while hovering over the map. The map will zoom
+              around the location of the mouse pointer.</li>
+        </ul>
+      </li>
+      <li>Panning:
+        <ul>
+          <li>Dragging the map - hold down the left mouse button and drag the map, then release the mouse button.</li>
+        </ul>
+      </li>
+    </ol>
+    <p>While navigating the map, it is useful to know the current map
+       scale. The scalebar is provided at the bottom right of the map.
+       At the bottom left of the map, map coordinates of the mouse pointer are provided in
+       Decimal Degrees.</p>
+    </td>
+  </tr>
+  <tr>
+    <th>How do I change the available map layers?</th>
+  </tr>
+  <tr>
+    <td>
+      <p>You can decide wich layers to view on the map by checking/unchecking the checkbox that
+         is displayed next to each layer in the legend. </p>
+      <p>You can change the base layer (the layer drawn below all other layers) by clicking 
+         on the 'base layer' button on the toolbar at the top of the page.</p>
+   </td>
+ </tr>
+  <tr>
+    <th>What is the coordinate system of the map?</th>
+  </tr>
+  <tr>
+    <td>The data is displayed using the 'Google spherical mercator' projection. For display purposes coordinates are shown as decimal degrees.</td>
+  </tr>
+  <tr>
+    <th>Can I view the Active Fires in Google Earth?</th>
+  </tr>
+  </tr>
+  <tr>
+    <td>Yes, download the kml file for each Active Fire point layer from the following links:
+      <ul>
+        <li><a href="http://ict4eo.meraka.csir.co.za:8080/geoserver/wms/kml_reflect?layers=ict4eo:hotspot_observations_12hour" target="_blank">Active Fires in the last 12 hours</a></li>
+        <li><a href="http://ict4eo.meraka.csir.co.za:8080/geoserver/wms/kml_reflect?layers=ict4eo:hotspot_observations_12hr_24hr" target="_blank">Active Fires in the last 12-24 hour period</a></li>
+        <li><a href="http://ict4eo.meraka.csir.co.za:8080/geoserver/wms/kml_reflect?layers=ict4eo:hotspot_observations_24hr_6week" target="_blank">Active Fires in the last 24 hour to 6 week period</a></li>
+        <li><a href="http://ict4eo.meraka.csir.co.za:8080/geoserver/wms/kml_reflect?layers=ict4eo:hotspot_observations" target="_blank">Active Fires since June 2007</a></li>
+      </ul>
+      and open it in Google Earth.
+    </td>
+  </tr>
+  <tr>
+    <th>What software did you use to create this site?</th>
+  </tr>
+  <tr>
+    <td>
+      <p>
+      This site is built using Free and Open Source Software technologies:
+      </p>
+      <ul>
+        <li>The map viewer is courtesy of the OpenLayers project at <a href="http://www.openlayers.org/" target="_blank">www.openlayers.org</a></li>
+        <li>The map server is courtesy of the Geoserver project at <a href="http://geoserver.org/" target="_blank">geoserver.org</a></li>
+        <li>The map database is courtesy of the PostGIS project at <a href="http://postgis.refractions.net/" target="_blank">postgis.refractions.net</a></li>
+        <li>The map navigation icons provided courtesy of Robert Szczepanek <a href="http://robert.szczepanek.pl/icons.php">GIS Icons Project</a></li>
+      </ul>
+    </td>
+  </tr>
+  </tbody>
+</table>

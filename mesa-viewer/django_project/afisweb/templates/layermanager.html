@@ -1,0 +1,31 @@
+{# jquery magic to let the lists be draggable-droppable #}
+{# see http://jqueryui.com/demos/sortable/#connect-lists #}
+<script type="text/javascript">
+  $(".connectedSortable").sortable({
+      connectWith: '.connectedSortable'
+    });
+    $("#available-layers, #selected-layers").disableSelection();
+</script>
+
+<div id="lists-container">
+  <div style="float: right;">
+    <label for="available-layers-list">Available layers</label><br />
+    {# lists all deleted layers for that user, #}
+    {# i.e. the one that can be added to the legend #}
+    <ul id="available-layers" class="connectedSortable">
+      {% for myObject in myDeletedObjects %}
+        <li class="ui-state-default" id="{{ myObject.wmslayer.id }}" name="{{ myObject.wmslayer.name }}">{{ myObject.wmslayer.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div>
+    <label for="selected-layers-container">Legend layers</label><br />
+    {# lists all not deleted layers for that user, #}
+    {# i.e. the ones that can be removed from the legend #}
+    <ul id="selected-layers" class="connectedSortable">
+      {% for myObject in myNonDeletedObjects %}
+        <li class="ui-state-highlight" id="{{ myObject.wmslayer.id }}" name="{{ myObject.wmslayer.name }}">{{ myObject.wmslayer.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

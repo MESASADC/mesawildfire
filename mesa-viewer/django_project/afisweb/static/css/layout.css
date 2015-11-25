@@ -1,0 +1,8 @@
+/*  See http://layout.jquery-dev.net/  */
+.ui-layout-pane { background: transparent; }
+.ui-layout-toggler { background-color: #999; }
+.ui-layout-toggler:hover { background-color: #FC6; }
+.ui-layout-west { padding-left: 8px; padding-right: 5px; }
+.ui-layout-north, .ui-layout-south, .ui-layout-center {overflow: hidden }
+.ui-layout-center { padding: 0.2em; }
+.ui-layout-south { z-index: 10000; }

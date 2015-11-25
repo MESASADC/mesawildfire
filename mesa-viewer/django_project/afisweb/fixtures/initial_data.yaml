@@ -1,0 +1,783 @@
+-   fields: {mime_type: image/png, name: png}
+    model: afisweb.imageformat
+    pk: 1
+-   fields: {mime_type: image/jpeg, name: jpg}
+    model: afisweb.imageformat
+    pk: 2
+
+
+-   fields: {name: Aankoms, position: POINT (30.8682400000000001 -26.1631500000000017)}
+    model: afisweb.placename
+    pk: 1
+
+
+-   fields: {
+        description: MODIS / VIIRS,
+        layer: 'openafis:af_modis_merged_datetime',
+        name: MODIS / VIIRS,
+        style: af_modis_pt}
+    model: afisweb.sensor
+    pk: 1
+-   fields: {
+        description: MSG / GOES,
+        layer: 'openafis:af_msg_abba_datetime',
+        name: MSG / GOES,
+        style: af_msg_pt}
+    model: afisweb.sensor
+    pk: 2
+
+-   fields: {
+        description: Layers without groups,
+        order: 999999,
+        title: Other}
+    model: afisweb.legendgroup
+    pk: 0
+-   fields: {
+        description: Active Fire (Low Earth Orbit),
+        order: 1,
+        title: Active Fire (Low Earth Orbit)}
+    model: afisweb.legendgroup
+    pk: 1
+-   fields: {
+        description: Active Fire (Geostationary),
+        order: 2,
+        title: Active Fire (Geostationary)}
+    model: afisweb.legendgroup
+    pk: 2
+-   fields: {
+        description: Burned Area,
+        order: 6,
+        title: Burned Area}
+    model: afisweb.legendgroup
+    pk: 3
+-   fields: {
+        description: Satellite Images,
+        order: 4,
+        title: Satellite Images}
+    model: afisweb.legendgroup
+    pk: 4
+-   fields: {
+        description: Weather Stations,
+        order: 5,
+        title: Weather Stations}
+    model: afisweb.legendgroup
+    pk: 5
+-   fields: {
+        description: Organisation Specific,
+        order: 9,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 6
+-   fields: {
+        description: Geo-tagged Photos,
+        order: 7,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 7
+-   fields: {
+        description: Additional,
+        order: 10,
+        title: Additional}
+    model: afisweb.legendgroup
+    pk: 8
+-   fields: {
+        description: Date Queries,
+        order: 3,
+        title: Date Queries}
+    model: afisweb.legendgroup
+    pk: 9
+
+
+-   fields:
+        date_joined: 2014-08-15 15:33:50.007000
+        email: ''
+        first_name: ''
+        groups: []
+        is_active: true
+        is_staff: false
+        is_superuser: false
+        last_login: 2014-08-15 15:33:50.007000
+        last_name: ''
+        password: ''
+        user_permissions: []
+        username: anonymous
+    model: auth.user
+    pk: 1
+-   fields:
+        date_joined: 2014-08-29 11:40:48.990265
+        email: rvddool@csir.co.za
+        first_name: ''
+        groups: []
+        is_active: true
+        is_staff: true
+        is_superuser: true
+        last_login: 2014-08-29 11:41:19.097132
+        last_name: ''
+        password: pbkdf2_sha256$10000$JCacovYsi92P$zSmfgBW0nTBUZUaRkZba3ll7ssgwEp3uWAqFMy9wEc0=
+        user_permissions: []
+        username: rvddool
+    model: auth.user
+    pk: 2
+-   fields:
+        date_joined: 2014-10-1 11:40:48.990265
+        email: afis.eoapps@gmail.com
+        first_name: 'password is: password'
+        groups: []
+        is_active: true
+        is_staff: true
+        is_superuser: true
+        last_login: 2014-10-1 11:41:19.097132
+        last_name: ''
+        password: pbkdf2_sha256$10000$Gjabuq6YKARM$wSFjMJ0W4zgah481G0zgtNFdnISBvd1QHV+9f5oxddE=
+        user_permissions: []
+        username: test
+    model: auth.user
+    pk: 3
+
+-   fields: {as_open_layer: "lyr1 = new OpenLayers.Layer.WMS(\n\
+                'Active Fire Clusters Today','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:af_clusterfire',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr1.id] = 'lyr1';", content_type: 14,
+        description: Active Fire Clusters Today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_clusterfire',
+        legend_group: 1,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 6500000,
+        name: Active Fire Clusters Today, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 1
+
+-   fields: {as_open_layer: "lyr3079 = new OpenLayers.Layer.WMS(\n\
+                'VIIRS 375m Active Fires Last 48 Hours','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:af_v375_localtime_48h',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr3079.id] = 'lyr3079';", content_type: 14,
+        description: VIIRS 375m Active Fires Last 48 Hours, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_v375_localtime_48h',
+        legend_group: 1,
+        show_legend_image: true,
+        legend_style: af_v375_legend,
+        max_scale: 1, min_scale: 35000000,
+        name: VIIRS 375m Active Fires Last 48 Hours, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 3079
+
+-   fields: {as_open_layer: "lyr2478 = new OpenLayers.Layer.WMS(\n\
+                'AFIS app Geotagged Photo uploads (last 7 days)','http://global.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:geophotos_7d',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2478.id] = 'lyr2478';", content_type: 14,
+        description: AFIS app Geotagged Photo uploads (last 7 days), image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:geophotos_7d',
+        legend_group: 2,
+        show_legend_image: true,
+        legend_style: af_geophoto_legend,
+        max_scale: 1, min_scale: 80000000,
+        name: AFIS app Geotagged Photo uploads (last 7 days), owner: 2, url: 'http://global.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2478
+
+-   fields: {as_open_layer: "lyr2459 = new OpenLayers.Layer.WMS(\n\
+                'MSG / GOES Active Fires Last 48 Hours','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:openafis:af_msg_localtime_48h',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2459.id] = 'lyr2459';", content_type: 14,
+        description: MSG / GOES Active Fires Last 48 Hours, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_msg_localtime_48h',
+        legend_group: 2,
+        show_legend_image: true,
+        legend_style: af_msg_legend,
+        max_scale: 1, min_scale: 35000000,
+        name: MSG / GOES Active Fires Last 48 Hours, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2459
+
+-   fields: {as_open_layer: "lyr2461 = new OpenLayers.Layer.WMS(\n\
+                'MODIS / VIIRS Active Fires Last 48 Hours','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:af_modis_localtime_48h',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2461.id] = 'lyr2461';", content_type: 14,
+        description: MODIS Active Fires for the last 48 hour rolling period from now(). Observation centroids, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_modis_localtime_48h',
+        legend_group: 1,
+        show_legend_image: true,
+        legend_style: af_modis_legend,        
+        max_scale: 1, min_scale: 35000000,
+        name: MODIS / VIIRS Active Fires Last 48 Hours, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2461
+
+-   fields: {as_open_layer: "lyr2462 = new OpenLayers.Layer.WMS(\n\
+                'MSG / GOES Active Fires Today','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:af_modis_localtime_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2462.id] = 'lyr2462';", content_type: 14,
+        description: MSG / GOES Active Fires Today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_modis_localtime_today',
+        legend_group: 1,
+        show_legend_image: true,
+        legend_style: af_msg_legend,
+        max_scale: 1, min_scale: 35000000,
+        name: MSG / GOES Active Fires Today, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2462
+
+-   fields: {as_open_layer: "lyr2543 = new OpenLayers.Layer.WMS(\n\
+                'Current fire danger and wind','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:w_aws_latest_fdwind_localtime',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 2500000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2543.id] = 'lyr2543';", content_type: 14,
+        description: Latest LFDI based on data from automatic weather stations, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:w_aws_latest_fdwind_localtime',
+        legend_group: 5,
+        show_legend_image: true,
+        legend_style: aws_LabelOnPoint_legend,
+        max_scale: 1, min_scale: 2500000,
+        name: Current fire danger and wind, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2543
+
+-   fields: {as_open_layer: "lyr2879 = new OpenLayers.Layer.WMS(\n\
+                'Next satellite overpass coverage','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:next_overpass_swath',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2879.id] = 'lyr2879';", content_type: 14,
+        description: Next MODIS / VIIRS pass over SAfri, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:next_overpass_swath',
+        legend_group: 8,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 80000000,
+        name: Next satellite overpass coverage, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2879
+
+-   fields: {as_open_layer: "lyr1797 = new OpenLayers.Layer.WMS(\n\
+                'MODIS True Colour: Latest','http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS',\n\
+                    {\n\
+                        layers: 'modis_tc_0',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                    }
+                );\n\
+                gLayersDict[lyr1797.id] = 'lyr1797';", content_type: 14,
+        description: "MODIS True Colour: Latest", image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'modis_tc_0',
+        legend_group: 4,
+        show_legend_image: false,
+        max_scale: 1, min_scale: 80000000,
+        name: "MODIS True Colour: Latest", owner: 2, url: 'http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS'}
+    model: afisweb.wmslayer
+    pk: 1797
+
+-   fields: {as_open_layer: "lyr199 = new OpenLayers.Layer.WMS(\n\
+                'MODIS Burned Areas Last 4 Months','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:ba_modis_giglio_last_4month',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 2500000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr199.id] = 'lyr199';", content_type: 14,
+        description: "MODIS 500 Metre Burned Area Product for the last 4 months from now(). This nominally represents the latest \"season\". This product is more web friendly than the full burned area product, but can still return hundreds of thousands of polygons, so be careful",
+         image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:ba_modis_giglio_last_4month',
+        legend_group: 3,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 2500000,
+        name: MODIS Burned Areas Last 4 Months, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 199
+
+-   fields: {as_open_layer: "lyr1798 = new OpenLayers.Layer.WMS(\n\
+                'MODIS: Latest','http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS',\n\
+                    {\n\
+                        layers: 'modis_fc_0',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                    }
+                );\n\
+                gLayersDict[lyr1798.id] = 'lyr1798';", content_type: 14,
+        description: "MODIS False Colour: Latest",
+         image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'modis_fc_0',
+        legend_group: 4,
+        show_legend_image: false,
+        max_scale: 1, min_scale: 80000000,
+        name: "MODIS False Colour: Latest", owner: 2, url: 'http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS'}
+    model: afisweb.wmslayer
+    pk: 1798
+
+-   fields: {as_open_layer: "lyr1799 = new OpenLayers.Layer.WMS(\n\
+                'MODIS','http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS',\n\
+                    {\n\
+                        layers: 'modis_tc_1',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                    }
+                );\n\
+                gLayersDict[lyr1799.id] = 'lyr1799';", content_type: 14,
+        description: "MODIS True Colour: Previous",
+         image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'modis_tc_1',
+        legend_group: 4,
+        show_legend_image: false,
+        max_scale: 1, min_scale: 80000000,
+        name: "MODIS True Colour: Previous", owner: 2, url: 'http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS'}
+    model: afisweb.wmslayer
+    pk: 1799
+
+-   fields: {as_open_layer: "lyr1800 = new OpenLayers.Layer.WMS(\n\
+                'MODIS','http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS',\n\
+                    {\n\
+                        layers: 'modis_fc_1',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                    }
+                );\n\
+                gLayersDict[lyr1800.id] = 'lyr1800';", content_type: 14,
+        description: "MODIS False Colour: Previous",
+         image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'modis_fc_1',
+        legend_group: 4,
+        show_legend_image: false,
+        max_scale: 1, min_scale: 80000000,
+        name: "MODIS False Colour: Previous", owner: 2, url: 'http://afis.meraka.org.za/cgi-bin/mapserv?map=MODIS'}
+    model: afisweb.wmslayer
+    pk: 1800
+
+-   fields: {as_open_layer: "lyr1801 = new OpenLayers.Layer.WMS(\n\
+                'NLC','http://afis.meraka.org.za/cgi-bin/mapserv?map=NLC',\n\
+                    {\n\
+                        layers: 'nlc_2000',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                    }
+                );\n\
+                gLayersDict[lyr1801.id] = 'lyr1801';", content_type: 14,
+        description: Land Cover (NLC 2000),
+         image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'nlc_2000',
+        legend_group: 8,
+        show_legend_image: false,
+        max_scale: 1, min_scale: 80000000,
+        name: Land Cover (NLC 2000), owner: 2, url: 'http://afis.meraka.org.za/cgi-bin/mapserv?map=NLC'}
+    model: afisweb.wmslayer
+    pk: 1801
+
+-   fields: {as_open_layer: "lyr3062 = new OpenLayers.Layer.WMS(\n\
+                'VIIRS 375m Active Fires Today','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:af_v375_localtime_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr3062.id] = 'lyr3062';", content_type: 14,
+        description: VIIRS 375m Active Fires Today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_v375_localtime_today',
+        legend_group: 1,
+        show_legend_image: true,
+        legend_style: af_v375_legend,
+        max_scale: 1, min_scale: 35000000,
+        name: VIIRS 375m Active Fires Today, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 3062
+
+-   fields: {as_open_layer: "lyr2460 = new OpenLayers.Layer.WMS(\n\
+                'MODIS / VIIRS Active Fires Today','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:af_modis_localtime_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr2460.id] = 'lyr2460';", content_type: 14,
+        description: MODIS Active Fire pixel centroids since midnight, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:af_modis_localtime_today',
+        legend_group: 1,
+        show_legend_image: true,
+        legend_style: af_modis_legend,
+        max_scale: 1, min_scale: 35000000,
+        name: MODIS / VIIRS Active Fires Today, owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 2460
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 2, wmslayer: 1}
+  model: afisweb.userwmslayer
+  pk: 1
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1}
+  model: afisweb.userwmslayer
+  pk: 2
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 3079}
+  model: afisweb.userwmslayer
+  pk: 3
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2478}
+  model: afisweb.userwmslayer
+  pk: 4
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 3062}
+  model: afisweb.userwmslayer
+  pk: 5
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2460}
+  model: afisweb.userwmslayer
+  pk: 6
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2462}
+  model: afisweb.userwmslayer
+  pk: 7
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2461}
+  model: afisweb.userwmslayer
+  pk: 8
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2543}
+  model: afisweb.userwmslayer
+  pk: 9
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1797}
+  model: afisweb.userwmslayer
+  pk: 10
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 199}
+  model: afisweb.userwmslayer
+  pk: 11
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1798}
+  model: afisweb.userwmslayer
+  pk: 12
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1799}
+  model: afisweb.userwmslayer
+  pk: 13
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1800}
+  model: afisweb.userwmslayer
+  pk: 14
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 1801}
+  model: afisweb.userwmslayer
+  pk: 15
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2459}
+  model: afisweb.userwmslayer
+  pk: 16
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 1, wmslayer: 2879}
+  model: afisweb.userwmslayer
+  pk: 17
+
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: false,
+    order: 1, user: 3, wmslayer: 1}
+  model: afisweb.userwmslayer
+  pk: 21
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: false,
+    order: 1, user: 3, wmslayer: 3079}
+  model: afisweb.userwmslayer
+  pk: 22
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2478}
+  model: afisweb.userwmslayer
+  pk: 23
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 3062}
+  model: afisweb.userwmslayer
+  pk: 25
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2460}
+  model: afisweb.userwmslayer
+  pk: 26
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2462}
+  model: afisweb.userwmslayer
+  pk: 27
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2461}
+  model: afisweb.userwmslayer
+  pk: 28
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2543}
+  model: afisweb.userwmslayer
+  pk: 29
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 1797}
+  model: afisweb.userwmslayer
+  pk: 30
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 199}
+  model: afisweb.userwmslayer
+  pk: 41
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 1798}
+  model: afisweb.userwmslayer
+  pk: 42
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 1799}
+  model: afisweb.userwmslayer
+  pk: 43
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 1800}
+  model: afisweb.userwmslayer
+  pk: 44
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 1801}
+  model: afisweb.userwmslayer
+  pk: 45
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2459}
+  model: afisweb.userwmslayer
+  pk: 46
+
+- fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+    has_access: true,
+    order: 1, user: 3, wmslayer: 2879}
+  model: afisweb.userwmslayer
+  pk: 47
+
+-   fields: {
+        description: Layers without groups,
+        order: 999999,
+        title: Other}
+    model: afisweb.legendgroup
+    pk: 0
+-   fields: {
+        description: Active Fire (Low Earth Orbit),
+        order: 1,
+        title: Active Fire (Low Earth Orbit)}
+    model: afisweb.legendgroup
+    pk: 1
+-   fields: {
+        description: Active Fire (Geostationary),
+        order: 2,
+        title: Active Fire (Geostationary)}
+    model: afisweb.legendgroup
+    pk: 2
+-   fields: {
+        description: Burned Area,
+        order: 6,
+        title: Burned Area}
+    model: afisweb.legendgroup
+    pk: 3
+-   fields: {
+        description: Satellite Images,
+        order: 4,
+        title: Satellite Images}
+    model: afisweb.legendgroup
+    pk: 4
+-   fields: {
+        description: Weather Stations,
+        order: 5,
+        title: Weather Stations}
+    model: afisweb.legendgroup
+    pk: 5
+-   fields: {
+        description: Organisation Specific,
+        order: 9,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 6
+-   fields: {
+        description: Geo-tagged Photos,
+        order: 7,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 7
+-   fields: {
+        description: Additional,
+        order: 10,
+        title: Additional}
+    model: afisweb.legendgroup
+    pk: 8
+-   fields: {
+        description: Date Queries,
+        order: 3,
+        title: Date Queries}
+    model: afisweb.legendgroup
+    pk: 9
+

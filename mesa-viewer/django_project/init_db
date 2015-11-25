@@ -1,0 +1,8 @@
+DEV=${DEV:-werner}
+
+docker rm -f afis-postgis
+docker run -p 15432:5432 --name="afis-postgis" -d kartoza/postgis
+timeout 40s docker logs -f afis-postgis
+source ../venv/bin/activate
+python manage.py syncdb --settings=settings.dev_${DEV}_init
+python manage.py syncdb --settings=settings.dev_${DEV}

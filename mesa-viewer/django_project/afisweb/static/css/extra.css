@@ -1,0 +1,190 @@
+#manage-button {
+    }
+
+#manage-button.down {
+    background: #777
+    }
+
+.legend-manage-icon {
+    display: none;
+    }
+
+.layer-deleted {
+    display: none;
+    }
+
+#sortableLegend
+{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.no-close .ui-dialog-titlebar-close {display: none }
+
+div.dialog_banner
+{
+    display: block;
+    height: 100px;
+    width: 100%;
+    background-image: url(/static/images/afisdialogbanner.png);
+    background-repeat: no-repeat;
+}
+
+ul.errorlist li
+{
+    color: #DD0000;    
+}
+
+div.hidden {display: none }
+
+/*#mobileapp {
+  background: none;
+  border: none;
+  vertical-align: bottom;
+}
+
+a#mobileapp span.ui-button-text {
+  padding: 0;
+  margin-top: 0;
+}
+*/
+
+#fdi_forecasts.notice-button {
+  background: none;
+  border: none;
+  vertical-align: bottom;
+}
+
+#mobileapp.notice-button {
+  background: none;
+  border: none;
+  vertical-align: bottom;
+}
+
+a.notice-button span.ui-button-text {
+  padding: 0;
+  margin-top: 0;
+}
+
+
+/* JQuery UI: IE has layout issues when sorting (see #5413) */
+.accordian-group { zoom: 1 }
+
+.accordion .head {
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: auto;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: grey;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-color: rgb(170, 170, 170);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(170, 170, 170);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(170, 170, 170);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(170, 170, 170);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    height: 16px;
+    line-height: 17.1599998474121px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 1px;
+    outline-color: rgb(33, 33, 33);
+    outline-style: none;
+    outline-width: 0px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 5px;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    visibility: visible;
+    width: 100%;
+    zoom: 1;
+}
+.accordion .head:hover {
+    background-color: rgb(98, 98, 98);
+}
+
+.accordion div{
+    -webkit-background-clip: border-box;
+    -webkit-background-origin: padding-box;
+    -webkit-background-size: auto;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(255, 255, 255);
+    background-image: none;
+    background-origin: padding-box;
+    background-size: auto;
+    border-bottom-color: rgb(170, 170, 170);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(170, 170, 170);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(170, 170, 170);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(34, 34, 34);
+    border-top-style: none;
+    border-top-width: 0px;
+    color: rgb(34, 34, 34);
+    display: block;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-bottom: 2px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: -2px;
+    overflow-x: auto;
+    overflow-y: auto;
+    padding-left: 0px;
+    position: relative;
+    text-decoration: none;
+    top: 1px;
+    visibility: visible;
+    width: 100%;
+    zoom: 1;
+}
+
+.accordion ul{
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+.sortableLegend{
+    padding-left: 15px;
+}

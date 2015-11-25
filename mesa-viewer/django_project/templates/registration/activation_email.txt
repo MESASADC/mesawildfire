@@ -1,0 +1,6 @@
+{% load i18n %}
+{% trans "Please activate your new AFIS account by following this link: " %}
+
+http://afis.meraka.org.za{% url registration_activate activation_key %}
+
+{% blocktrans %}The link is valid for {{ expiration_days }} days.{% endblocktrans %}

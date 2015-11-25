@@ -1,0 +1,46 @@
+{% extends "registration_base.html" %}
+{% load i18n %}
+
+{% block js %}
+{{block.super}}
+{% endblock %}
+
+{% block regcontent %}
+  <form method="post" id="login-form" action="/login/">
+    {% csrf_token %}
+    <div id="reg_dialog_banner" class="dialog_banner"></div>
+    <p><b>The AFIS Viewer is a free service</b>.</p>
+    <p>Once-off registration and login is required to enable us to
+    improve the system and provide an even better service.</p>
+    <div id="login-registration-links" class="hidden"><p>You can <a id="register-link" href="#"><u><b>REGISTER HERE</b></u></a> or
+    <a id="password-reset-link" href="#"><u>reset your password.</u></a></p></div>
+    <p>(New users: use your email address as username)</p>
+    {% if form.non_field_errors %}
+      {% for err in form.non_field_errors %}
+        <p><strong>{{ err }}</strong></p>
+      {% endfor %}
+    {% endif %}
+    <p><label for="id_username">Username:</label> <input id="id_username" type="text" name="username" /></p>
+    <p><label for="id_password">Password:</label> <input type="password" name="password" id="id_password" /></p>
+    {# max_length on the username field gives problems { form.as_p } #}
+    <input type="submit" value="Log in" />
+    <input type="hidden" name="next" value="{{ next }}" />
+    <p><a id="login-support-link" target="_blank" href="mailto:support@afis.co.za?Subject=Login%20problems:%20AFIS%20Viewer"><u>Login problems?</u></a></p>
+  </form>
+
+  <script>
+    var loginForm = $('#login-form');
+    // login-form-wrapper is set in afis.js line 922
+    var formWrapper = $('#login-form-wrapper');
+    loginForm.submit(function(e){
+      e.preventDefault();
+      $.post(loginForm.attr('action'), loginForm.serialize(), function(data){
+        if (data.success) {
+          window.location.href = data.redirect_to;
+        } else {
+          formWrapper.html(data);
+        }
+      });
+    });
+  </script>
+{% endblock %}

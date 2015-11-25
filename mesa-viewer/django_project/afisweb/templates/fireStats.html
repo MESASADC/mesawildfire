@@ -1,0 +1,7 @@
+{% if modis_last_update %}Latest MODIS update {{ modis_last_update|safe }} | {% endif %}
+{% if modis_next_update %}Next MODIS update {{ modis_next_update|safe }} | {% endif %}
+<!--<em><a id="latest-modis-true-colour-swath" href="#">latest swath</a></em>-->
+{% if msg_last_update %}Latest MSG update {{ msg_last_update|safe }} | {% endif %}
+{% if msg_next_update %}Next MSG update {{ msg_next_update|safe }} | {% endif %}
+{% if advertisement %}{{ advertisement|safe }}{% endif %}
+

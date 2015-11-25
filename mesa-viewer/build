@@ -1,0 +1,41 @@
+#!/bin/bash
+source ENV
+# This build script can be used to build a Docker.io image for this application.
+# The Fern deployment framework will call this script with the following environment variables set:
+#   * IMAGE_NAME: provides a Fern specific name for the image
+#
+# Preconditions / dependencies that this specific build script assumes:
+#   * REQUIREMENTS.txt exists
+#   * Jinja2 is available ( pip install jinja2 )
+#   * Dockerfile.template exists
+#   * OS environment provides variables used in Dockerfile.template
+#   * Docker daemon is installed and running ( apt-get install lxc-docker )
+
+# Remove collected staticfiles for a smaller docker context upload
+rm -r static_root/js 2> /dev/null
+rm -r static_root/css 2> /dev/null
+rm -r static_root/images 2> /dev/null
+
+# Specify the docker image name to be built. Used by Fern to specify a standardized image name for deployment.
+IMAGE_NAME=${IMAGE_NAME:-"mesa_viewer"}
+
+# Read the Python package requirements into an environment variable, before rendering Dockerfile template.
+export PIP_REQUIREMENTS=$(cat REQUIREMENTS.txt)
+
+# Python code to do the template rendering using Jinja2
+cat << EOT > .render_template.py
+from jinja2 import Environment, FileSystemLoader;
+import os
+loader = FileSystemLoader('$PWD');
+env = Environment(loader=loader);
+template = env.get_template('Dockerfile.template');
+template.stream(**os.environ).dump('$PWD/Dockerfile');
+EOT
+
+# Render Dockerfile.template to Dockerfile
+echo "Rendering (overwriting) Dockerfile from Dockerfile.template using Jinja2..."
+python .render_template.py
+
+# Build the docker image
+echo "Building docker image: $IMAGE_NAME"
+docker build --rm -t $IMAGE_NAME .

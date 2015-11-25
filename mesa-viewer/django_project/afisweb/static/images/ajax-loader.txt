@@ -1,0 +1,3 @@
+The ajax-loader image was generated using this great web site: http://www.ajaxload.info/
+
+Tim

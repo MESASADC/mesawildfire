@@ -1,0 +1,153 @@
+import os
+from middleware.stripwhitespace import StripWhitespaceMiddleware
+#from middleware.prettify import PrettifyMiddleware
+
+#Needed if you are on windows and using the geodjango installer
+#GEOS_LIBRARY_PATH="C:\\Program Files (x86)\\GeoDjango\\bin\\geos_c.dll"
+
+LOCAL_JQUERY=True
+LOCAL_OPENLAYERS=True
+USE_GOOGLE=True # Set to False for debugging. 
+AFIS_WMS_URL = 'http://afis.meraka.org.za/geoserver/wms'
+#Used for fetching firestats
+AFIS_WFS_URL = 'http://afis.meraka.org.za/geoserver/wfs'
+
+# So that users sessions are forgotten when they reopen their browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+
+
+
+ROOT_PROJECT_FOLDER = os.path.dirname(__file__)
+# We previously added these two lines
+# When setting up project wide templates
+MEDIA_ROOT = os.path.join(ROOT_PROJECT_FOLDER,'static')
+MEDIA_URL = '/static/'
+# directory where to store cached asLegend images
+LEGEND_IMAGE_ROOT = os.path.join(MEDIA_ROOT, 'images','legend')
+LEGEND_IMAGE_URL = os.path.join('/static', 'images','legend')
+# directory where to store cached fire stats
+FIRE_ROOT = os.path.join(MEDIA_ROOT, 'fire_stats')
+FIRE_STATS_REFRESH_TIME = 3600
+# a list of one or more proxies to use for server side
+# web requests (e.g. getfeatureinfo) set to None to use environment var settings or no proxy
+PROXIES={'http': 'http://proxy.meraka.csir.co.za:3128'}
+#add trailing slash to urls
+APPEND_SLASH=True
+
+# Added by Tim - tells django which clients may 
+# receive debug messages...
+INTERNAL_IPS = ('127.0.0.1','41.27.68.53')
+# Also added for logging disabled for prod machine
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+# Disabled for prod machine
+LOGGING_OUTPUT_ENABLED=DEBUG
+LOGGING_LOG_SQL=DEBUG
+
+ADMINS = (
+    ('Tim Sutton', 'tim@linfiniti.com'),
+    ('Graeme McFerren', 'gmcferren@csir.co.za'),
+)
+
+MANAGERS = ADMINS
+
+DATABASES = {
+    'default': {
+      'ENGINE' : 'postgresql_psycopg2', # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+      'NAME' : 'afis',             # Or path to database file if using sqlite3.
+      'USER' : 'XXXXXX',         # Not used with sqlite3.
+      'PASSWORD' : 'XXXXXXX',      # Not used with sqlite3.
+      'HOST' : 'localhost',        # Set to empty string for localhost. Not used with sqlite3.
+      'PORT' : '5432',             # Set to empty string for default. Not used with sqlite3.
+      'TEST_NAME' : 'afis-test',            # Name to be used for unit testing db
+    }
+}
+
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
+
+TIME_ZONE = 'Africa/Johannesburg'
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = 'en-us'
+
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = True
+
+# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
+# trailing slash.
+# Examples: "http://foo.com/media/", "/media/".
+ADMIN_MEDIA_PREFIX = '/media/'
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = '8q0qjt=01sg-0bz6wc_(kh3i5wfb*!kv2qr8k_6^h5^b4&)8)1'
+
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.app_directories.load_template_source',
+#     'django.template.loaders.eggs.load_template_source',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'middleware.stripwhitespace.StripWhitespaceMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
+    # Added by Tim for advanced loggin options
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # Dont use this it will break template rendered html
+    #'middleware.prettify.PrettifyMiddleware',
+)
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+    )
+
+ROOT_URLCONF = 'urls'
+
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(ROOT_PROJECT_FOLDER, 'templates'),
+)
+
+# For django registration
+ACCOUNT_ACTIVATION_DAYS = 2  
+EMAIL_HOST = 'localhost' 
+DEFAULT_FROM_EMAIL = 'noreply@email.com' 
+#where to take the user after they logged in
+LOGIN_REDIRECT_URL = '/'  
+#where to take the user if they try to access a page requiring a logged in user 
+LOGIN_URL = '/accounts/login/' 
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'registration',
+    #add these two lines for admin
+    'django.contrib.admin',
+    'django.contrib.gis',
+    'afisweb',
+    'debug_toolbar',
+)

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block css %}{{block.super}}{% endblock %}
+{% block js %}{{block.super}}{% endblock %}
+
+{% block header %}
+    <a href="/"><img style="height:90px;" src="{{STATIC_URL}}images/mesa-logo.png" id="logo" alt="MESA Logo"/></a>
+    {% include 'maintoolbar.html' %}
+{% endblock %}
+
+{% block body %}
+  {% block content %}{% endblock %}
+{% endblock %}
+
+{% block east %}
+  {% block sidebar %}{% endblock %}
+{% endblock %}
+
+{% block footer %}
+    &copy; CSIR Meraka Institute, South Africa, 2009.{% if user.is_authenticated %} You are logged in as {{user}} {% endif %}
+{% endblock %}      

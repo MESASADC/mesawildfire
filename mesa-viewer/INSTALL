@@ -1,0 +1,88 @@
+AFIS Django Viewer
+This document describes the procedure for setting up the AFIS Django Viewer.
+Tim Sutton 2009
+
+
+------------------------------------------------------------------------
+
+
+  1. For the terminally lazy
+  2. Deploying a live site using wsgi
+  3. Creating a new super user
+
+
+------------------------------------------------------------------------
+
+
+  1. For the terminally lazy
+  ==========================
+
+  mkdir afis
+  cd afis
+  svn co https://divenos.meraka.csir.co.za/svn/project-oafis/viewers/afis_django_viewer
+  sudo easy_install virtualenv
+  virtualenv --no-site-packages python
+  source python/bin/activate
+  easy_install pip
+  cd afis_django_viewer
+  pip install -r REQUIREMENTS.txt
+  cd afis_django_viewer
+
+  sudo apt-get install postgresql-8.3-postgis
+
+Copy the settings template:
+
+  cp settings.py.templ settings.py
+
+Then run the createdb script:
+
+  ./createdb.sh
+
+Modify settings.py to include the correct username and pwd for the
+db connection.
+
+Some of the models require the auth_users table to exist first and 
+the anonymous user to be present. To achiev this do:
+
+comment out
+
+  'afisweb',
+
+in INSTALLED_APPS section of settings.py then do:
+
+  run syncdb
+
+Next use admin ui to add the anonymous user.
+
+Now uncomment afisweb app from settings.py and rerun syncdb
+
+Then run the viewer using the embedded test server:
+
+  python manage.py runserver
+
+Then point your browser at:
+
+  http://localhost:8000
+
+
+  2. Deploying a live site using wsgi
+  ===================================
+
+  cd /etc/apache/sites-available
+  sudo cp <path to afis>/afis_django_viewer/apache/apache.virtenv.conf.example afis.conf
+
+Now modify afis.conf to your needs (making sure paths and web url are correct) then:
+
+  sudo a2ensite afis.conf
+  sudo /etc/init.d/apache2 reload
+
+
+  3. Creating a new super user
+  ============================
+
+If you restored the system from a database dump or for some reason need to 
+add another superuser account you can do:
+
+  source ../python/bin/activate
+  python manage.py createsuperuser
+

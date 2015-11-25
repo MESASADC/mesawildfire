@@ -1,0 +1,210 @@
+/*--------------------- CSS for AFIS WebSite ----------------------------*
+ *
+ *      Tim Sutton, Linfiniti Consulting CC, tim AT linfiniti.com
+ *
+ *-------------------- Page layout styling ------------------------------*/
+/* 
+ * body
+ *   header
+ *   content | sidebar
+ *   footer
+ *
+ */
+
+body 
+{
+  font-family: Verdana,Arial,sans-serif;
+  font-size: 12px;
+  background: #fff;
+  border: none;
+}
+
+#header
+{
+  background-image: url(/static/images/header_background.png);
+  background-position: top left;
+  //background-repeat: x; 
+}
+
+.place-dialog-field
+{
+  padding: 3px;
+}
+
+/* Override ol css to hide google popup */
+
+.olLayerGoogleCopyright {
+  visibility: hidden;
+}
+
+/*-------------------- Inheriting jquery for non widget elements ------*/
+
+.ui-widget-header h1, 
+.ui-widget-header h2, 
+.ui-widget-header h3, 
+.ui-widget-header h4,
+.ui-widget-header p
+{
+  color: black; 
+  font-family: inherit;
+}
+
+
+/*-------------------- Additional styling ------------------------------*/
+
+/* suppress jquery theme gradients on body and footer */
+.ui-widget-content, .ui-corner-all.no-background, .ui-state-default.no-background
+{
+  background-image: none;
+}
+
+.float-right
+{
+  float: right;
+}
+.float-left
+{
+  float: left;
+}
+.clear-both
+{
+  clear: both;
+}
+
+.legend-image 
+{
+  padding-left: 25px;
+  padding-top: 5px;
+}
+
+#layers 
+{
+  padding: 5px;
+  width: 100%;
+}
+
+#map-widgets
+{
+  /* could set min-height to wrap around scalebar, but message will stretch the
+   * box a bit more and can be annoying for someone ;) */
+  position:relative;
+  height: 80px;
+}
+
+#scalebar
+{
+  position:absolute;
+  top:0;
+  right:0;
+  float: right;
+}
+
+#map-controls label
+{
+  float: left;
+}
+
+label
+{
+  font-weight: bold;
+  display: table-cell; 
+  vertical-align: middle
+}
+
+.horizontal /* used for laying out forms */
+{
+  float:left;
+  height: 40px;
+}
+
+.widget-title
+{
+  font-weight: normal;
+  font-size: 1.2em;
+  padding: 3px;
+  padding-left: 1em;
+}
+
+img 
+{
+  border: 0px;
+}
+
+.hidden
+{
+  display: none;
+}
+
+#map
+{
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+}
+
+#tabs
+{
+  background: #fff;
+  padding: 0px;
+}
+
+#layers
+{
+  width: 95%;
+}
+
+.mapinfo
+{
+  padding-top: 2px;
+  padding-left: 4px;
+}
+
+#menu
+{ 
+  position: absolute; 
+  z-index: 100; 
+  top: 10px; 
+  right: 8px; 
+  padding: 0.2em;
+}
+
+/*-------------------- Get Feature Info related ------*/
+.scrollable
+{
+  overflow: auto;
+}
+table caption
+{
+  font-weight: bold;
+}
+
+
+/* --------------------------------------------
+ *   For layer manager
+ * ------------------------------------------- */
+#lists-container
+{
+}
+.connectedSortable 
+{ 
+  float: left;
+  list-style-type: none; 
+  background: #eee; 
+  padding: 5px; 
+  width: 143px;
+}
+#selected-layers, #available-layers-list
+{
+  margin: 0; 
+  padding: 10px; 
+  float: left; 
+  margin-right: 10px; 
+}
+#selected-layers li, #available-layers-list li 
+{ 
+  margin: 5px 5px 5px 5px; 
+  padding-left: 10px; 
+  font-size: 1.2em;
+  width: 120px; 
+}
+

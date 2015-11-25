@@ -1,0 +1,18 @@
+{% block css %}{{block.super}}{% endblock %}
+{% block js %}{{block.super}}{% endblock %}
+{% block body %}
+    <div id="page">
+      <div id="header"> 
+        {% block header %}{% endblock %}
+      </div>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+      <div id="prefooter">
+        {% block prefooter %}{% endblock %}
+      </div>
+      <div id="footer"> 
+        &copy; CSIR Meraka Institute, South Africa, 2009.
+      </div>
+    </div>
+{% endblock %}

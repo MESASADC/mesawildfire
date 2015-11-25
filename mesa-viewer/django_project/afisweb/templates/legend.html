@@ -1,0 +1,69 @@
+{# jquery magic to let the legend be draggable-droppable #}
+{# see http://jqueryui.com/demos/sortable/#connect-lists #}
+<script type="text/javascript">
+  $(".sortableLegend").disableSelection();
+  $('.accordion .head').click(function() {
+      $(this).next().toggle('slow');
+      return false;
+  }).next().hide();
+
+  $('.accordion').css("list-style-type","none");
+  $('.accordion').css("margin-top","0px");
+  $('.accordion').css("padding-left","0px");
+  //$('.accordion li').css("display","block");
+
+  $('.accordion .head').first().next().show();
+</script>
+<ul class="accordion">
+{% for legend in myLegends %}
+    <li id='legend_group-{{legend.wmslayer__legend_group__pk}}' >
+        <h3 class="head">{{legend.wmslayer__legend_group__title}}</h3>
+        <div id='legend_group-{{legend.wmslayer__legend_group__pk_content}}'>
+            <ul class="sortableLegend">
+            {% for myObject in myObjects %}
+                    {% if myObject.wmslayer.legend_group.pk == legend.wmslayer__legend_group__pk %}
+                        {% if myObject.wmslayer.id %}
+
+                            {% if myObject.is_deleted %}
+                            <li id='legend-{{myObject.wmslayer.id}}' class='layer-deleted'>
+                            {% else %}
+                            <li id='legend-{{myObject.wmslayer.id}}' class='layer-not-deleted'>
+                            {% endif %}
+
+                            {% if myObject.has_access %}
+                                <a id='legend-restore-{{myObject.wmslayer.id}}' class="legend-restore-icon" href="#"><img  {% if myObject.is_default %}class="legend-manage-icon legend-restore-icon legend-default"{% else %}class="legend-manage-icon legend-restore-icon"{% endif %} width="24" src="/static/images/icons/no.png" alt="Layer has been deleted." title="Layer has been deleted."></a>
+                                <a id='legend-delete-{{myObject.wmslayer.id}}' class="legend-delete-icon" href="#"><img {% if myObject.is_default %}class="legend-manage-icon legend-delete-icon legend-default"{% else %}class="legend-manage-icon legend-delete-icon"{% endif %} width="24" src="/static/images/icons/yes.png" alt="Layer has not been deleted." title="Layer has not been deleted."></a>
+                            {% endif %}
+
+                            {% if myObject.has_access %}
+                                {% if myObject.is_visible %}
+                                    <input type=checkbox id='layer-{{myObject.wmslayer.id}}-checkbox' name='{{myObject.wmslayer.name}}' class='ui-state-default ui-corner-all layer-checkbox' checked />
+                                {% else %}
+                                    <input type=checkbox id='layer-{{myObject.wmslayer.id}}-checkbox' name='{{myObject.wmslayer.name}}' class='ui-state-default ui-corner-all layer-checkbox' />
+                                {% endif %}
+                            {% else %}
+                                <input type=checkbox class='premium_layer' name='{{myObject.wmslayer.name}}' class='ui-state-default ui-corner-all layer-checkbox' disabled/>
+                            {% endif %}
+
+                            {% if myObject.has_access %}
+                                <a href="#" id='legend-toggle-{{myObject.wmslayer.id}}' class="ui-state-default ui-corner-all legend-toggle">{{ myObject.wmslayer.layerShortName }}</a><br/>
+                            {% else %}
+                                <a href="#" id='premium_layer' class="ui-state-default ui-corner-all legend-toggle">(<span style="color: #B89300 ;font-weight:bold;">Premium</span>) {{ myObject.wmslayer.layerShortName }}</a><br/>
+                            {% endif %}
+
+                            {% if myObject.wmslayer.show_legend_image %}
+                                {% if myObject.has_access %}
+                                    {{ myObject.wmslayer.asLegend|safe }}
+                                {% endif %}
+                              {% endif %}
+
+                            </li>
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ul>
+        </div>
+    </li>
+{% endfor %}
+</ul>
+<br><br><br>

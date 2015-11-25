@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head></head><body>
+
+{% block js %}
+<a id="top_firereport" href="#" ></a>
+<script language="javascript" type="text/javascript" src="/static/js/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="/static/js/flot/jquery.flot.time.js"></script>
+<script language="javascript" type="text/javascript" src="/static/js/flot/jquery.flot.threshold.js"></script>
+<script language="javascript" type="text/javascript" src="/static/js/flot/jquery.flot.selection.js"></script>
+<script language="javascript" type="text/javascript" src="/static/js/flot/jquery.flot.symbol.js"></script>
+{% endblock %}
+<center><b><u><p style="font-size:17px"> Fire/Vegetation Information </p></u></b></center>
+<ul>
+
+<p>
+  {% for key, value in Summary.items %}
+  	{% if key == 'lastBurnDate' %}
+          <li> Last burned:<b> {{value}} years ago</b></li>
+        {% endif %}
+  {% endfor%}
+</p>
+
+
+<p>
+  {% for key, value in Summary.items %}
+  	{% if key == 'frequency' %}
+         <li> Fire frequency: <b> {{value}} / decade</b></li>
+        {% endif %} 
+  {% endfor%}
+</p>
+
+
+<p>
+  {% for key, value in location.items %}
+  	{% if key == 'landCoverClass' %}
+          <li> Land Cover Class: <b>{{value}}</b></li>
+        {% endif %}
+  {% endfor%}
+</p>
+
+
+<p>
+ <li> Curing: <b> {{curingNoFill|last}}%</b> </li>  
+
+</p>
+</ul>
+
+
+<center><b><u><p style="font-size:17px">Fire Danger Forecast for:   
+{% for key, value in location.items %} 
+  	{% if key == 'placeName' %}
+           {{value}}
+        {% endif %} 
+  {% endfor%},  
+  {% for key, value in location.items %}
+  	{% if key == 'lat' %}
+           LAT: {{value}}
+        {% endif %}
+  {% endfor%}, 
+  {% for key, value in location.items %}
+  	{% if key == 'lon' %}
+           LON: <b>{{value}}</b>
+        {% endif %} 
+  {% endfor%}</p></u></b></center>
+
+<table id="FDI_table" width="100" border="0" cellpadding="0" cellspacing="1">
+	<tr>
+        <td></td>	
+	{% for key in days %}
+	<th style="text-align:center"> {{key}}</th>
+	{% endfor%}
+	</tr>
+	<tr">
+         <td></td> 	
+	{% for key in dates %}
+	<th style="text-align:center"> {{key}}</th>
+	{% endfor%}
+	</tr>
+	<tr>
+        <th>FDI</th>	
+	{% for key in FDI %}  
+	<td style = "background-color:#{{key.1}}; text-align:center;color:#{{key.2}}"> {{key.0}}</td>
+	{% endfor%}
+	</tr>
+        {% if FPI %} 
+	<tr>
+        <th>FPI</th>	
+	{% for key in FPI %}  
+	<td style="background-color:#{{key.1}}; text-align:center;color:#{{key.2}}"> {{key.0}}</td>
+	{% endfor%}
+	</tr>
+        {% endif %}
+	<tr>
+	<tr>
+        <th>Temperature</th>	
+	{% for key in Temp %}
+	<td style="text-align:center"> {{key}} °C</td>
+	{% endfor%}
+	</tr>
+	<tr>
+         <th>Humidity</th>	
+	{% for key in Humidity %}
+	<td style="text-align:center"> {{key}}%</td>
+	{% endfor%}
+	</tr>
+	<tr>
+        <th>Wind speed</th>	
+	{% for key in Wind %}
+	<td style="text-align:center"> {{key}} kph</td>
+	{% endfor%}
+	</tr>
+</table>
+
+{% for station in weather_stationInfo %}
+ 	{% if forloop.first %}
+ 	<center><b><u><p style="font-size:17px"> Real Time Weather Station(s) Data </p></u></b></center>
+	 {% endif %}
+ <table>
+    {% for readings in detailed_weatherInfo %}
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}
+        <tr><td></td><th colspan={{readings|length}} class="centerText">Station Name: {{station.station_name}}, Distance from location: {{station.distance_m|floatformat:0}} km </th></tr>
+       {% endif %}      
+    {% endfor%}
+
+
+    <tr>
+    <th>Localtime</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center">{{raindata.localtime}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+	    <tr>
+    <th>LFDI</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center; background-color:#{{raindata.LFDI.1}}; color:#{{raindata.LFDI.2}}">{{raindata.LFDI.0|floatformat:0}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+ 
+    <tr>
+    <th>Rainfall [mm]</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center">{{raindata.rain_mm}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+    <tr>
+    <th>Windspeed [kmh]</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center">{{raindata.ws_kmh|floatformat:0}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+    <tr>
+    <th>Humidity [%]</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center">{{raindata.rh_pct}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+    <tr>
+    <th>Temp. [°C]</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center">{{raindata.temp_c|floatformat:0}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+    <tr>
+    <th>Wind Direction [deg.]</th>
+    {% for readings in detailed_weatherInfo %} 
+       {% if forloop.counter0 == forloop.parentloop.counter0 %}     
+        {% for raindata in readings %}
+          <td style="text-align:center">{{raindata.winddirection_deg}}</td>
+        {% endfor %}  
+       {% endif %}      
+    {% endfor%}
+    </tr>
+ </table>
+ {% endfor %}
+</body>
+</html>
+

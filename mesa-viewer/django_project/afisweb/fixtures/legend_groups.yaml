@@ -1,0 +1,62 @@
+
+-   fields: {
+        description: Layers without groups,
+        order: 999999,
+        title: Other}
+    model: afisweb.legendgroup
+    pk: 0
+-   fields: {
+        description: Active Fire (Low Earth Orbit),
+        order: 1,
+        title: Active Fire (Low Earth Orbit)}
+    model: afisweb.legendgroup
+    pk: 1
+-   fields: {
+        description: Active Fire (Geostationary),
+        order: 2,
+        title: Active Fire (Geostationary)}
+    model: afisweb.legendgroup
+    pk: 2
+-   fields: {
+        description: Burned Area,
+        order: 6,
+        title: Burned Area}
+    model: afisweb.legendgroup
+    pk: 3
+-   fields: {
+        description: Satellite Images,
+        order: 4,
+        title: Satellite Images}
+    model: afisweb.legendgroup
+    pk: 4
+-   fields: {
+        description: Weather Stations,
+        order: 5,
+        title: Weather Stations}
+    model: afisweb.legendgroup
+    pk: 5
+-   fields: {
+        description: Organisation Specific,
+        order: 9,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 6
+-   fields: {
+        description: Geo-tagged Photos,
+        order: 7,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 7
+-   fields: {
+        description: Additional,
+        order: 10,
+        title: Additional}
+    model: afisweb.legendgroup
+    pk: 8
+-   fields: {
+        description: Date Queries,
+        order: 3,
+        title: Date Queries}
+    model: afisweb.legendgroup
+    pk: 9
+

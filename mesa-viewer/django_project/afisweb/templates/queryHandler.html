@@ -1,0 +1,4 @@
+<%String data = request.getParameter("data");%>
+<jsp:include page="QueryHandlerServlet">
+<jsp:param name="data" value="<%= data %>" />
+</jsp:include>

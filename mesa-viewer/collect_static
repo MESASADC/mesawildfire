@@ -1,0 +1,3 @@
+#!/bin/bash
+env ./run python /tmp/django_project/manage.py collectstatic --noinput
+
