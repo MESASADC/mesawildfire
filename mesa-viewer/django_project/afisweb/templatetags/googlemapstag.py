@@ -48,7 +48,9 @@ def CustomLayer():
                                    "{host}",{{
                                     srs: 'EPSG:4326',
                                     layers: "{namespace}:{layer_name}",
-                                    transparent:"true",
-                                    format: "image/gif"
+                                    transparent: false,
+                                    format: "image/png",
+                                    isBaseLayer: true
                                     }});
         '''.format(**layer)
+

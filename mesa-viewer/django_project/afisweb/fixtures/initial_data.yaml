@@ -54,7 +54,7 @@
 -   fields: {
         description: Geo-tagged Photos,
         order: 7,
-        title: Organisation Specific}
+        title: Geo-tagged Photos}
     model: afisweb.legendgroup
     pk: 7
 -   fields: {
@@ -117,7 +117,7 @@
     model: auth.user
     pk: 3
 
--   fields: {as_open_layer: "lyr0 = new OpenLayers.Layer.WMS(\n\
+-   fields: {as_open_layer: "lyr1000 = new OpenLayers.Layer.WMS(\n\
                 'AFIS app Geotagged Photo uploads (last 7 days)','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
                     {\n\
                         layers: 'openafis:geophotos_7d',\n\
@@ -131,19 +131,19 @@
                         opacity: 0.6\n\
                     }
                 );\n\
-                gLayersDict[lyr0.id] = 'lyr0';", content_type: 14,
+                gLayersDict[lyr1000.id] = 'lyr1000';", content_type: 14,
         description: AFIS app Geotagged Photo uploads (last 7 days), image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'openafis:geophotos_7d',
         legend_group: 7,
         show_legend_image: true,
-        legend_style: af_geophoto_legend,
+        legend_style: geophoto_legend,
         max_scale: 1, min_scale: 80000000,
         name: AFIS app Geotagged Photo uploads (last 7 days), owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
     model: afisweb.wmslayer
-    pk: 0
+    pk: 1000
 
-fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
         has_access: true,
-        order: 1, user: 1, wmslayer: 0}
+        order: 1, user: 1, wmslayer: 1000}
     model: afisweb.userwmslayer
-    pk: 0
+    pk: 1000

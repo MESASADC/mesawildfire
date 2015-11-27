@@ -4,7 +4,8 @@
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
 var NUM_INITIAL_FIRES = 8;
-var FIRE_THUMBNAIL_URL = "http://localhost/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:day-natural.c,mesa:mesa_firefeature,mesa:mesa_firepixel_area&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
+var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:fires_today,mesa:firepixel_polygons_today&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
+
 
 // GLOBALS
 
@@ -119,9 +120,27 @@ $(function() {
 $(function() {
     // BEGIN OPEN LAYERS
 
-    var backdrop = new ol.layer.Tile({
+    var backdrop_osm = new ol.layer.Tile({
         source: new ol.source.OSM(),
-        preload: 20
+        preload: 10
+    });
+
+    
+    var backdrop = new ol.layer.Tile({
+        source: new ol.source.TileWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:custom_background'},
+          serverType: 'geoserver'
+        }),
+        preload: 10
+    });
+
+    var gadm2 = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:gadm2'},
+          serverType: 'geoserver'
+        })
     });
 
     var fireStyle = new ol.style.Style({
@@ -146,7 +165,7 @@ $(function() {
     var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:mesa_firefeature'},
+          params: {'LAYERS': 'mesa:fires_today'},
           serverType: 'geoserver'
         })
     });
@@ -154,7 +173,7 @@ $(function() {
     var firePixelWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:mesa_firepixel_area'},
+          params: {'LAYERS': 'mesa:firepixel_polygons_today'},
           serverType: 'geoserver'
         })
     });
@@ -201,13 +220,14 @@ $(function() {
     
     defaultView = new ol.View({
         center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
-        zoom: 10,
-        minZoom: 4
+        zoom: 6,
+        minZoom: 4,
+        maxZoom: 12
     });
 
     map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ backdrop, msgWMS, firesWMS, firePixelWMS ],
+        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS ],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -310,14 +330,14 @@ var simpleDate = (function() {
     };
     
     return function(thedate) {
-        console.log(thedate);        
+        //console.log(thedate);        
         thedate = new Date(thedate);
-        console.log(thedate);        
+        //console.log(thedate);        
         var dateStr, amount, denomination,
             current = new Date().getTime(),
             diff = (current - thedate.getTime()) / 1000; // work with seconds
-        console.log(current);
-        console.log(diff);
+        //console.log(current);
+        //console.log(diff);
 
         var future = diff < 0;
         diff = Math.abs(diff);

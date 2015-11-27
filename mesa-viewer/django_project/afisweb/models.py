@@ -233,7 +233,7 @@ class WmsLayer( Layer ):
       if (not self.legend_style is None) and (self.legend_style != ''):
         myFetchUrl += r'&style='+self.legend_style
       # .. and store into filesystem
-      logging.debug('GET %s -> %s' % (myFetchUrl, myLocalPath))
+      logging.info('GET %s -> %s' % (myFetchUrl, myLocalPath))
       urllib.urlretrieve(myFetchUrl, myLocalPath)
     else:
       logging.info('Using cached LegendGraphic %s' % myLocalPath)

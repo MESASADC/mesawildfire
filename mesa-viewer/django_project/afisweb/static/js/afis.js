@@ -68,6 +68,7 @@ function formatMouseCoordinates(lonLat) {
 }
 
 
+/*
 if (!(typeof urlQuerystringLat === 'undefined') && !(typeof urlQuerystringLon === 'undefined')) {    
     gDefaultLat = urlQuerystringLat;
     gDefaultLon = urlQuerystringLon;
@@ -124,18 +125,23 @@ if (!(typeof urlQuerystringLat === 'undefined') && !(typeof urlQuerystringLon ==
     gDefaultLat = 9;
     gDefaultLon = 4;
     gZoomLevel = 5;
-/*} else if (location.hostname.indexOf('ca.us.') == 0) {
+} else if (location.hostname.indexOf('ca.us.') == 0) {
     userLocation = 'california';
     gDefaultLat = 36.4;
     gDefaultLon = -117.36;
     gZoomLevel = 6;
-*/
 } else {
-    userLocation = 'lookup';
+    userLocation = 'sadc';
     gDefaultLat = 0;
     gDefaultLon = 0;
     gZoomLevel = 3;
 }
+*/
+
+userLocation = 'sadc';
+gDefaultLat = -18.25;
+gDefaultLon = 25;
+gZoomLevel = 4;
 
 
 if (!(typeof urlQuerystringZoom === 'undefined') && urlQuerystringZoom >= 1 && urlQuerystringZoom <= 18) {

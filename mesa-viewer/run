@@ -40,6 +40,8 @@ docker stop $RUN_NAME
 docker rm -f $RUN_NAME
 docker run --name $RUN_NAME \
 $RUN_MODE \
+--link supervisor_postgis:postgis \
+--link supervisor_geoserver:geoserver \
 -v $PWD/docker_runtime:/tmp/runtime \
 -v $PWD/django_project:/tmp/django_project \
 -v $PWD/public:/tmp/public \
