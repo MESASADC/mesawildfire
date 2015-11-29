@@ -236,6 +236,17 @@ $(function() {
         ]),
 
     });
+
+    var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
+
+    function refreshLayers() {
+        layersToRefresh.forEach(function(layer) {
+            layer.getSource().changed();
+        }); 
+    }; 
+
+    setInterval(refreshLayers, 10000);
+    
     
     // select interaction working on "singleclick"
     var selectSingleClick = new ol.interaction.Select();
@@ -314,7 +325,7 @@ function compare_date(a, b) {
 
 var simpleDate = (function() {
     // Turns Javascript Date Objects into human readable form
-    
+     
     var measures = {
         second: 1,
         minute: 60,
@@ -324,27 +335,40 @@ var simpleDate = (function() {
         month: 2592000,
         year: 31536000
     };
-    
+ 
     var chkMultiple = function(amount, type) {
         return (amount > 1) ? amount + " " + type + "s": "one " + type;
     };
+
+    function only_HH_MM(date) {
+       var localeSpecificTime = date.toLocaleTimeString();
+       return localeSpecificTime.replace(/:\d+$/, '');
+    };
     
-    return function(thedate) {
-        //console.log(thedate);        
+    return function(thedate, before) {
+
+        if (!measures.hasOwnProperty(before)) 
+            before = 'hour';
+
+        before = (typeof before === 'undefined') ? 'hour' : before;
+        
         thedate = new Date(thedate);
-        //console.log(thedate);        
         var dateStr, amount, denomination,
             current = new Date().getTime(),
             diff = (current - thedate.getTime()) / 1000; // work with seconds
-        //console.log(current);
-        //console.log(diff);
 
         var future = diff < 0;
-        diff = Math.abs(diff);
-
-        //if (diff < 0) { // future
-        //    return thedate.toLocaleString();
-        //} else
+        diff = Math.abs(diff);  // use absolute diff together with future boolean from now on
+ 
+        // if the interval is larger than the specified denomination
+        if (diff >= measures[before]) {
+            var isToday = (thedate.toDateString() == (new Date()).toDateString());
+            if (isToday) {
+                return only_HH_MM(thedate) + ' today';
+            } else {
+                return thedate.toLocaleString();
+            };
+        };
 
         if(diff > measures.year) {
             denomination = "year";
@@ -927,6 +951,12 @@ $(document).ready(function() {
     }
     // END FDI CHART
 
+
+    function refresh_tables_and_chart() {
+
+    };
+
+    setInterval(refresh_tables_and_chart, 60000);
 
 
 });
