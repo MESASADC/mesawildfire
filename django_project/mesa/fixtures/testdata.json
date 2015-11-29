@@ -197,4 +197,29 @@
     },
     "model": "mesa.firepixel",
     "pk": 6
-}]
+}
+{
+    "fields": {
+        "type": "int",
+        "value": 360
+    },
+    "model": "mesa.configsetting",
+    "pk": "FireFeatureTemporalMinutes"
+}
+{
+    "fields": {
+        "type": "int",
+        "value": 5
+    },
+    "model": "mesa.configsetting",
+    "pk": "FireFeatureActiveFlagDays"
+}
+{
+    "fields": {
+        "type": "float",
+        "value": 0.03
+    },
+    "model": "mesa.configsetting",
+    "pk": "FireFeatureDistanceDegrees"
+}
+]

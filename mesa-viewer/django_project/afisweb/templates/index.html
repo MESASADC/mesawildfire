@@ -1,0 +1,67 @@
+{% extends "contentAndSidebarBase.html" %}
+{% load googlemapstag %} {# Custom tag defined in templatetags/ #}
+{% load openlayersjs %} {# Custom tag defined in templatetags/ #}
+{% load misc_tags %} {# Custom tag defined in templatetags/ #}
+
+{% block js %}
+    {% if myUseGoogleFlag %}
+    <script src="//maps.google.com/maps/api/js?v=3.9&sensor=false"></script>
+    {% endif %}
+
+    {% openlayersjs %}
+    {# jquery stuff must be **after** openlayers #}
+    {{ block.super }}
+    <script type="text/javascript">
+        {% if lat %}var urlQuerystringLat = {{lat}};{% endif %}
+        {% if lon %}var urlQuerystringLon = {{lon}};{% endif %}
+        {% if zoom %}var urlQuerystringZoom = {{zoom}};{% endif %}
+    </script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/afis.js?v={% version_string %}"></script>
+    <script type="text/javascript" src="addBackdropLayers.js"></script>
+    <script type="text/javascript" src="addDataLayers.js"></script>
+
+    {% if autorefresh %}
+    <script type="text/javascript">
+        // alert("{{ browser }}");
+        setInterval(function() {
+          location.reload();
+        }, 60000);
+    </script>
+
+
+    {% endif %}
+
+{% endblock %}
+
+{% block onloadjs %}{% if user.is_authenticated %}onload="init_for_user();"{% else %}onload="init_not_authenticated();"{% endif %}{% endblock %}
+
+{% block content %}
+  <div id="map"></div>
+{% endblock %}
+
+{% block sidebar %}
+  {# don't prettify this by adding line breaks - the jquery buttonset #}
+  {# will interject spaces between tool buttons if you do #}
+  <div id="map-controls">
+    <input type="radio" id="pan-button" name="mapcontrol-button" value="pan" checked="checked"/><label for="pan-button" class="button" ><img title="Pan the map" src="{{STATIC_URL}}images/icons/pan.png" alt="pan"/></label><input type="radio" id="identify-button" name="mapcontrol-button" value="identify" /><label for="identify-button" class="button" ><img title="Point query on the map" src="{{STATIC_URL}}images/icons/identify.png" alt="identify"/></label><input type="radio" id="measure-line-button" name="mapcontrol-button" value="line" /><label for="measure-line-button" class="button" ><img title="Measure a line on the map" src="{{STATIC_URL}}images/icons/measure-line.png" alt="measure-line"/></label><input type="radio" id="measure-polygon-button" name="mapcontrol-button" value="polygon" /><label for="measure-polygon-button" class="button" ><img title="Measure an area on the map" src="{{STATIC_URL}}images/icons/measure-polygon.png" alt="measure-polygon"/></label><input type="radio" id="zoom-in-button" name="mapcontrol-button" value="zoomin" /><label for="zoom-in-button" class="button" ><img title="Zoom in" src="{{STATIC_URL}}images/icons/zoom-in.png" alt="zoom in"/></label><input type="radio" id="zoom-out-button" name="mapcontrol-button" value="zoomout" /><label for="zoom-out-button" class="button" ><img title="Zoom out" src="{{STATIC_URL}}images/icons/zoom-out.png" alt="zoom out"/></label>
+  </div>
+  {% if user.is_authenticated %}
+  <div id="toolbar-buttons">
+    <a href="#" id="manage-button" class="button"><img title="Manage layers" src="{{STATIC_URL}}images/icons/gear.png" alt="manage layers"/></a>
+  </div>
+  {% endif %}
+  {# ui-layout-content to make legend scrollable - see http://layout.jquery-dev.net/documentation.cfm#Content-Scrolling #}
+  <div id='layers' class='ui-layout-content ui-widget-content ui-corner-bottom'></div>
+{% endblock %}
+
+{% block footer %}
+  <div id="map-widgets" class="ui-layout-south ui-state-default ui-widget-content ui-corner-bottom">
+    <div id="coordinates" class="mapinfo"></div>
+    {% if user.is_authenticated %}<div id="coordinates2" class="mapinfo"></div>{% endif %}
+    <div id="scalebar"></div>
+    <div id="output" class="mapinfo"></div>
+    {% if advertisement %}<div id="advertisement" class="advertisement">{{ advertisement|safe }}</div>{% endif %}
+    <div id="messages" class="mapinfo"></div>
+  </div>
+  <div id="query-results" class="hidden">Query results will be displayed here when you click on a feature on the map.</div>
+{% endblock %}

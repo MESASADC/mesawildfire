@@ -4,7 +4,7 @@
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
 var NUM_INITIAL_FIRES = 8;
-var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:day-natural.c,mesa:mesa_firefeature,mesa:mesa_firepixel_area&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
+var FIRE_THUMBNAIL_URL = "http://localhost/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:day-natural.c,mesa:mesa_firefeature,mesa:mesa_firepixel_area&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
 
 // GLOBALS
 
@@ -26,13 +26,120 @@ function unique(list) {
     return result;
 }
 
+$(function() {
+    /*window.onload = function () {
+    // Use SockJS
+    Stomp.WebSocketClass = SockJS;
+     
+    // Connection parameters
+    var mq_username = "guest",
+        mq_password = "guest",
+        mq_vhost    = "/",
+        mq_url      = 'http://127.0.0.1:32775/stomp',
+     
+        // The queue we will read. The /topic/ queues are temporary
+        // queues that will be created when the client connects, and
+        // removed when the client disconnects. They will receive
+        // all messages published in the "amq.topic" exchange, with the
+        // given routing key, in this case "mymessages"
+    mq_queue    = "/testing/tests";
+     
+
+    // This will be called upon successful connection
+    function on_connect() {
+      console.log('Connected to RabbitMQ-Web-Stomp');
+      console.log(client);
+      client.subscribe(mq_queue, on_message);
+    }
+     
+    // This will be called upon a connection error
+    function on_connect_error() {
+     console.log('Connection failed!');
+    }
+     
+    // This will be called upon arrival of a message
+    function on_message(m) {
+      console.log('message received'); 
+      console.log(m);
+      console.log(m.body);
+    }
+     
+      // Create a client
+      var client = Stomp.client(mq_url);
+      // Connect
+      client.connect(mq_username,mq_password,on_connect,on_connect_error,mq_vhost);
+    }*/
+
+
+    window.onload = function () {
+
+        var ws = new SockJS('http://localhost:32775/stomp/');
+        var client = Stomp.over(ws);
+
+        client.heartbeat.outgoing = 0;
+        client.heartbeat.incoming = 0;
+
+        var onConnect = function() {
+          client.subscribe('/queue/testing', function(d) {
+            console.log(JSON.parse(d.body));
+          });
+        };
+
+        var on_connect = function(x) {
+           console.log(x);
+          client.subscribe("/exchange/amq.topic", function(d) {
+              //client.send('/queue/testing', {"content-type":"text/plain"}, "data datad");
+              
+              console.log(d.body);
+          });
+
+      };
+
+        // This will be called upon arrival of a message
+        var onMessage = function(m) {
+          console.log('message received'); 
+          console.log(m);
+          console.log(m.body);
+        }
+
+        var onError = function(e) {
+          console.log('ERROR', e);
+        };
+        
+        var onDebug = function(m) {
+          console.log('DEBUG', m);
+        };
+        client.onmessage = onMessage;
+        //client.debug = onDebug;
+        client.connect('guest', 'guest', on_connect, onError, '/');
+        };
+    
+});
 
 $(function() {
     // BEGIN OPEN LAYERS
 
-    var backdrop = new ol.layer.Tile({
+    var backdrop_osm = new ol.layer.Tile({
         source: new ol.source.OSM(),
-        preload: 20
+        preload: 10
+    });
+
+    
+    var backdrop = new ol.layer.Tile({
+        source: new ol.source.TileWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:custom_background'},
+          serverType: 'geoserver'
+        }),
+        preload: 10
+    });
+
+    var gadm2 = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:gadm2'},
+          serverType: 'geoserver'
+        })
     });
 
     var fireStyle = new ol.style.Style({
@@ -57,7 +164,7 @@ $(function() {
     var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:mesa_firefeature'},
+          params: {'LAYERS': 'mesa:fires_today'},
           serverType: 'geoserver'
         })
     });
@@ -65,7 +172,7 @@ $(function() {
     var firePixelWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:mesa_firepixel_area'},
+          params: {'LAYERS': 'mesa:firepixel_polygons_today'},
           serverType: 'geoserver'
         })
     });
@@ -112,13 +219,14 @@ $(function() {
     
     defaultView = new ol.View({
         center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
-        zoom: 10,
-        minZoom: 4
+        zoom: 6,
+        minZoom: 4,
+        maxZoom: 12
     });
 
     map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ backdrop, msgWMS, firesWMS, firePixelWMS ],
+        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS ],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -127,6 +235,17 @@ $(function() {
         ]),
 
     });
+
+    var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
+
+    function refreshLayers() {
+        layersToRefresh.forEach(function(layer) {
+            layer.getSource().changed();
+        }); 
+    }; 
+
+    setInterval(refreshLayers, 10000);
+    
     
     // select interaction working on "singleclick"
     var selectSingleClick = new ol.interaction.Select();
@@ -205,7 +324,7 @@ function compare_date(a, b) {
 
 var simpleDate = (function() {
     // Turns Javascript Date Objects into human readable form
-    
+     
     var measures = {
         second: 1,
         minute: 60,
@@ -215,27 +334,40 @@ var simpleDate = (function() {
         month: 2592000,
         year: 31536000
     };
-    
+ 
     var chkMultiple = function(amount, type) {
         return (amount > 1) ? amount + " " + type + "s": "one " + type;
     };
+
+    function only_HH_MM(date) {
+       var localeSpecificTime = date.toLocaleTimeString();
+       return localeSpecificTime.replace(/:\d+$/, '');
+    };
     
-    return function(thedate) {
-        console.log(thedate);        
+    return function(thedate, before) {
+
+        if (!measures.hasOwnProperty(before)) 
+            before = 'hour';
+
+        before = (typeof before === 'undefined') ? 'hour' : before;
+        
         thedate = new Date(thedate);
-        console.log(thedate);        
         var dateStr, amount, denomination,
             current = new Date().getTime(),
             diff = (current - thedate.getTime()) / 1000; // work with seconds
-        console.log(current);
-        console.log(diff);
 
         var future = diff < 0;
-        diff = Math.abs(diff);
-
-        //if (diff < 0) { // future
-        //    return thedate.toLocaleString();
-        //} else
+        diff = Math.abs(diff);  // use absolute diff together with future boolean from now on
+ 
+        // if the interval is larger than the specified denomination
+        if (diff >= measures[before]) {
+            var isToday = (thedate.toDateString() == (new Date()).toDateString());
+            if (isToday) {
+                return only_HH_MM(thedate) + ' today';
+            } else {
+                return thedate.toLocaleString();
+            };
+        };
 
         if(diff > measures.year) {
             denomination = "year";
@@ -563,6 +695,9 @@ $(document).ready(function() {
         }
 
 
+
+
+
         function flyToPoint(lon, lat) {
             var start = +new Date();
             var from = defaultView.getCenter();
@@ -600,6 +735,38 @@ $(document).ready(function() {
             map.beforeRender(pan, bounce);
             defaultView.setCenter(to);
         };
+        /*
+        var ws = new SockJS('http://127.0.0.1:32775/stomp');
+        var client = Stomp.over(ws);
+
+        client.heartbeat.outgoing = 0;
+        client.heartbeat.incoming = 0;
+
+        var onDebug = function(m) {
+          console.log('DEBUG', m);
+        };
+
+        var onConnect = function() {
+          client.subscribe('/queue/testing', function(d) {
+            console.log(JSON.parse(d.body));
+          });
+        };
+
+        var onError = function(e) {
+          console.log('ERROR', e);
+        };
+
+        client.debug = onDebug;
+        window.onload = function () {
+        client.connect('guest', 'guest', onConnect, onError, '/');
+        }
+        */
+
+        
+
+     
+
+
 
         // Add event listener for opening and closing details
         $('#fire-table tbody').on('click', 'td.details-control', function() {
@@ -783,6 +950,12 @@ $(document).ready(function() {
     }
     // END FDI CHART
 
+
+    function refresh_tables_and_chart() {
+
+    };
+
+    setInterval(refresh_tables_and_chart, 60000);
 
 
 });

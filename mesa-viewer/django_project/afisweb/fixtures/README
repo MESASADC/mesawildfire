@@ -1,0 +1,6 @@
+Fixtures:
+
+* afisweb.yaml contains legacy fixtures but has lost synchronisation with the models, so is no longer loadable. For reference only.
+* initial_data.yaml is loaded automatically during syncdb: https://docs.djangoproject.com/en/dev/howto/initial-data/
+* placename.yaml contains the whole long list of placenames, placed in a seperate file for readability reasons, can be applied using loaddata command. Consider other ways of splitting the initial data fixtures?
+

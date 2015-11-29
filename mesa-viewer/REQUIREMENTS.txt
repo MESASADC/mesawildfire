@@ -1,0 +1,9 @@
+django==1.4.5
+django-registration==0.8
+django-debug-toolbar==1.2.2
+django-extensions==1.4.6
+psycopg2==2.5.4
+simplejson==3.6.5
+googlemaps==1.0.2
+PyYAML==3.11
+django-analytical==0.19.0

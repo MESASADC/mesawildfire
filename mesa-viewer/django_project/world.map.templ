@@ -1,0 +1,113 @@
+# Map file created from QGIS project file /home/XXXXX/dev/python/afis_django_viewer/world.qgs
+# Edit this file to customize for your map interface
+# (Created with PyQgis MapServer Export plugin)
+MAP
+  NAME "QGIS-MAP"
+  # Map image size
+  SIZE 100 100
+  UNITS dd
+  EXTENT -189.000188 -91.858031 189.000005 101.954184
+
+  #PROJECTION
+  #  "proj=merc"
+  #  "a=6378137"
+  #  "b=6378137"
+  #  "lat_ts=0.0"
+  #  "lon_0=0.0"
+  #  "x_0=0.0"
+  #  "y_0=0"
+  #  "k=1.0"
+  #  "units=m"
+  #  "nadgrids=@null"
+  #  "wktext"
+  #  "no_defs"
+  #END
+  PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+  END
+
+
+  # Background color for the map canvas -- change as desired
+  IMAGECOLOR 255 255 255
+  IMAGEQUALITY 95
+  IMAGETYPE jpeg
+
+  OUTPUTFORMAT
+    NAME jpeg
+    DRIVER 'GD/JPEG'
+    MIMETYPE 'image/jpeg'
+    IMAGEMODE RGBA
+    EXTENSION 'jpeg'
+  END
+  # Legend
+  LEGEND
+      IMAGECOLOR 255 255 255
+    STATUS ON
+    KEYSIZE 18 12
+    LABEL
+      TYPE BITMAP
+      SIZE MEDIUM
+      COLOR 0 0 89
+    END
+  END
+
+  # Web interface definition. Only the template parameter
+  # is required to display a map. See MapServer documentation
+  WEB
+    # Set IMAGEPATH to the path where MapServer should
+    # write its output.
+    IMAGEPATH '/tmp/'
+
+    # Set IMAGEURL to the url that points to IMAGEPATH
+    # as defined in your web server configuration
+    IMAGEURL '/tmp/'
+
+    # WMS server settings
+    METADATA
+      'ows_title'           'QGIS-MAP'
+      'ows_onlineresource'  'http://localhost/cgi-bin/mapserv?map=/tmp/world.map'
+      "ows_srs"             "EPSG:4326"
+    END
+
+    #Scale range at which web interface will operate
+    # Template and header/footer settings
+    # Only the template parameter is required to display a map. See MapServer documentation
+    TEMPLATE 'fooOnlyForWMSGetFeatureInfo'
+  END
+
+  LAYER
+    NAME 'worldadmin'
+    TYPE POLYGON
+    DUMP true
+    TEMPLATE fooOnlyForWMSGetFeatureInfo
+    EXTENT -189.000188 -91.858031 189.000005 101.954184
+    CONNECTIONTYPE postgis
+    CONNECTION "dbname='gis' host=localhost port=5432 user='XXXXX' password='YYYYYY' sslmode=disable"
+    DATA 'the_geom FROM "worldadmin" USING UNIQUE gid USING srid=4326'
+    METADATA
+      'ows_title' 'worldadmin'
+      "ows_srs"   "EPSG:4326"
+    END
+    STATUS OFF
+    TRANSPARENCY 100
+    PROJECTION
+    'proj=longlat'
+    'ellps=WGS84'
+    'datum=WGS84'
+    'no_defs'
+    END
+    CLASS
+       NAME 'worldadmin' 
+       STYLE
+         SYMBOL 0 
+         SIZE 7.0 
+         OUTLINECOLOR 0 0 0
+         COLOR 241 246 239
+       END
+    END
+  END
+
+END

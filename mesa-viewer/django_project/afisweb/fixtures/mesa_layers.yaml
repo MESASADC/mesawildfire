@@ -1,0 +1,120 @@
+-   fields: {as_open_layer: "lyr1 = new OpenLayers.Layer.WMS(\n\
+                'Active Fire Pixels Today','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:firepixel_polygons_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr1.id] = 'lyr1';", content_type: 14,
+        name: Active Fire Pixels Today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: Active Fire Pixels Today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:firepixel_polygons_today',
+        legend_group: 1, legend_style: '&scale=1',   # &scale=1 is a crude workaround for the fact that explicitly stating the style did not work.  
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 1
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 2, user: 1, wmslayer: 1}
+    model: afisweb.userwmslayer
+    pk: 1
+
+-   fields: {as_open_layer: "lyr2 = new OpenLayers.Layer.WMS(\n\
+                'Active Fires Today','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:fires_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr2.id] = 'lyr2';", content_type: 14,
+        name: Active Fires Today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: Active Fires Today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:fires_today',
+        legend_group: 1,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 2
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 1, user: 1, wmslayer: 2}
+    model: afisweb.userwmslayer
+    pk: 2
+
+
+-   fields: {as_open_layer: "lyr3 = new OpenLayers.Layer.WMS(\n\
+                'SADC country borders','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:sadc_borders',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr3.id] = 'lyr3';", content_type: 14,
+        name: SADC country borders, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: SADC country borders, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:sadc_borders',
+        legend_group: 8,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 3
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 1, user: 1, wmslayer: 3}
+    model: afisweb.userwmslayer
+    pk: 3
+
+-   fields: {as_open_layer: "lyr4 = new OpenLayers.Layer.WMS(\n\
+                'Admin boundaries','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:gadm2',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr4.id] = 'lyr4';", content_type: 14,
+        name: Admin boundaries, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: Admin boundaries, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:gadm2',
+        legend_group: 8,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 4
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 2, user: 1, wmslayer: 4}
+    model: afisweb.userwmslayer
+    pk: 4

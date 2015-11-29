@@ -1,0 +1,35 @@
+{% extends "registration_base.html" %}
+{% load i18n %}
+
+{% block js %}
+{{block.super}}
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+
+{% block regcontent %}
+<div class="dialog_banner"></div>
+<h2>Account activation:</h2>
+{% if account %}
+
+<p>{% trans "Account successfully activated" %}</p>
+
+{# <p><a href="{% url auth_login %}">{% trans "Log in" %}</a></p> #}
+
+<p><a href="http://afis.co.za/login">Log in (Southern Africa)</a></p>
+<p><a href="http://eastafrica.afis.co.za/login">Log in (Eastern Africa)</a></p>
+<p><a href="http://southamerica.afis.co.za/login">Log in (South America)</a></p>
+<p><a href="http://europe.afis.co.za/login">Log in (Europe)</a></p>
+<p><a href="http://easteurope.afis.co.za/login">Log in (East Europe)</a></p>
+
+{% else %}
+
+<p>{% trans "Account activation failed" %}</p>
+<p><a id="activation-support-link" target="_blank" href="mailto:support@afis.co.za?Subject=Account%20activation%20problems:%20AFIS%20Viewer"><u>Email support?</u></a></p>
+
+
+{% endif %}
+
+{% endblock %}

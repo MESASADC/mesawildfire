@@ -1,0 +1,31 @@
+FROM ubuntu:14.04
+
+MAINTAINER rvddool@csir.co.za
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN sed 's/main$/main universe multiverse/' -i /etc/apt/sources.list
+RUN apt-get update
+
+# install uwsgi first because it takes quite a while
+RUN apt-get install -y build-essential python python-dev python-setuptools
+RUN easy_install pip
+RUN pip install uwsgi
+
+# install additional packages
+RUN apt-get install -y postgresql-client libpq-dev libgeos-c1 nano vim
+
+# install python requirements specified in REQUIREMENTS.txt
+# using template for loop to avoid using ADD
+{%- for package in PIP_REQUIREMENTS.split('\n') %}
+RUN pip install {{ package }}
+{%- endfor %}
+
+# Patch GeoDjango 1.4: https://code.djangoproject.com/ticket/20036
+RUN sed -i "/\$.*/ {N; s/\$.*def geos_version_info/\.\*\$\'\)\ndef geos_version_info/g}"  /usr/local/lib/python2.7/dist-packages/django/contrib/gis/geos/libgeos.py
+
+EXPOSE 8000
+
+# Run CMD as RUN_USER to avoid security issues
+ENTRYPOINT ["/tmp/runtime/runuser.sh"]
+CMD ["/tmp/runtime/start.sh"]

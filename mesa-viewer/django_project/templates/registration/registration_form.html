@@ -1,0 +1,41 @@
+{% extends "registration_base.html" %}
+{% load i18n %}
+{% block regcontent %}
+<form action="/register/" method="post">
+    {% csrf_token %}
+    <div id="reg_dialog_banner" class="dialog_banner"></div>
+    <p>An activation link will be sent via email. Click on the link to
+    activate your login.</p>
+    {{ form.non_field_errors }}
+    {% csrf_token %}
+    <div class="fieldWrapper">
+        {{ form.email.errors }}
+        {{ form.username.errors }}
+        <label for="id_email">E-mail (username)</label>
+        {{ form.email }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.first_name.errors }}
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.last_name.errors }}
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password1.errors }}
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+    </div>
+    <div class="fieldWrapper">
+        {{ form.password2.errors }}
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+    </div>
+    <p><input type="submit" value="Submit" />
+    <p><a id="login-link" href="/"><u>Return to login screen</u></a></p>
+    <p><a id="registration-support-link" target="_blank" href="mailto:support@afis.co.za?Subject=Registration%20problems:%20AFIS%20Viewer"><u>Registration problems?</u></a></p>
+</form>
+{% endblock %}

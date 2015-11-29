@@ -1,0 +1,19 @@
+{% extends "registration_base.html" %}
+{% load i18n %}
+
+{% block js %}
+{{block.super}}
+<script type="text/javascript">$(function () { $("#return-button").button(); });</script>
+{% endblock %}
+
+{% block header %}
+    <img src="/static/images/afislogofull.png" id="logo"/>
+{% endblock %}
+
+{% block regcontent %}
+<center><h1>{% trans "You are now logged out" %}</h1>
+<p>Clicking the button below will take you back to the AFIS site an anonymous user.</p>
+<a href="/" id='return-button'>Return</a>
+</center>
+{% endblock %}
+

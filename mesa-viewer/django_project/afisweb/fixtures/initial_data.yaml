@@ -1,0 +1,149 @@
+-   fields: {mime_type: image/png, name: png}
+    model: afisweb.imageformat
+    pk: 1
+-   fields: {mime_type: image/jpeg, name: jpg}
+    model: afisweb.imageformat
+    pk: 2
+
+-   fields: {name: Aankoms, position: POINT (30.8682400000000001 -26.1631500000000017)}
+    model: afisweb.placename
+    pk: 1
+
+-   fields: {
+        description: Layers without groups,
+        order: 999999,
+        title: Other}
+    model: afisweb.legendgroup
+    pk: 0
+-   fields: {
+        description: Active Fire (Low Earth Orbit),
+        order: 1,
+        title: Active Fire (Low Earth Orbit)}
+    model: afisweb.legendgroup
+    pk: 1
+-   fields: {
+        description: Active Fire (Geostationary),
+        order: 2,
+        title: Active Fire (Geostationary)}
+    model: afisweb.legendgroup
+    pk: 2
+-   fields: {
+        description: Burned Area,
+        order: 6,
+        title: Burned Area}
+    model: afisweb.legendgroup
+    pk: 3
+-   fields: {
+        description: Satellite Images,
+        order: 4,
+        title: Satellite Images}
+    model: afisweb.legendgroup
+    pk: 4
+-   fields: {
+        description: Weather Stations,
+        order: 5,
+        title: Weather Stations}
+    model: afisweb.legendgroup
+    pk: 5
+-   fields: {
+        description: Organisation Specific,
+        order: 9,
+        title: Organisation Specific}
+    model: afisweb.legendgroup
+    pk: 6
+-   fields: {
+        description: Geo-tagged Photos,
+        order: 7,
+        title: Geo-tagged Photos}
+    model: afisweb.legendgroup
+    pk: 7
+-   fields: {
+        description: Additional,
+        order: 10,
+        title: Additional}
+    model: afisweb.legendgroup
+    pk: 8
+-   fields: {
+        description: Date Queries,
+        order: 3,
+        title: Date Queries}
+    model: afisweb.legendgroup
+    pk: 9
+
+
+-   fields:
+        date_joined: 2014-08-15 15:33:50.007000
+        email: ''
+        first_name: ''
+        groups: []
+        is_active: true
+        is_staff: false
+        is_superuser: false
+        last_login: 2014-08-15 15:33:50.007000
+        last_name: ''
+        password: ''
+        user_permissions: []
+        username: anonymous
+    model: auth.user
+    pk: 1
+-   fields:
+        date_joined: 2014-08-29 11:40:48.990265
+        email: rvddool@csir.co.za
+        first_name: ''
+        groups: []
+        is_active: true
+        is_staff: true
+        is_superuser: true
+        last_login: 2014-08-29 11:41:19.097132
+        last_name: ''
+        password: pbkdf2_sha256$10000$JCacovYsi92P$zSmfgBW0nTBUZUaRkZba3ll7ssgwEp3uWAqFMy9wEc0=
+        user_permissions: []
+        username: rvddool
+    model: auth.user
+    pk: 2
+-   fields:
+        date_joined: 2014-10-1 11:40:48.990265
+        email: afis.eoapps@gmail.com
+        first_name: 'password is: password'
+        groups: []
+        is_active: true
+        is_staff: true
+        is_superuser: true
+        last_login: 2014-10-1 11:41:19.097132
+        last_name: ''
+        password: pbkdf2_sha256$10000$Gjabuq6YKARM$wSFjMJ0W4zgah481G0zgtNFdnISBvd1QHV+9f5oxddE=
+        user_permissions: []
+        username: test
+    model: auth.user
+    pk: 3
+
+-   fields: {as_open_layer: "lyr1000 = new OpenLayers.Layer.WMS(\n\
+                'AFIS app Geotagged Photo uploads (last 7 days)','http://lb.afis.co.za/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'openafis:geophotos_7d',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 80000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 0.6\n\
+                    }
+                );\n\
+                gLayersDict[lyr1000.id] = 'lyr1000';", content_type: 14,
+        description: AFIS app Geotagged Photo uploads (last 7 days), image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'openafis:geophotos_7d',
+        legend_group: 7,
+        show_legend_image: true,
+        legend_style: geophoto_legend,
+        max_scale: 1, min_scale: 80000000,
+        name: AFIS app Geotagged Photo uploads (last 7 days), owner: 2, url: 'http://lb.afis.co.za/geoserver/wms'}
+    model: afisweb.wmslayer
+    pk: 1000
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 1, user: 1, wmslayer: 1000}
+    model: afisweb.userwmslayer
+    pk: 1000

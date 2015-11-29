@@ -1,0 +1,13 @@
+*.pyc
+*~
+*_nogit.*
+logs/*
+*.log
+django_project/static_root/*
+.project
+.idea
+*.dmp
+venv
+.render_template.py
+django_project/afisweb/static/images/legend/
+ENV

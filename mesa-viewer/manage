@@ -1,0 +1,1 @@
+env RUN_MODE=-it ./run python /tmp/django_project/manage.py $*

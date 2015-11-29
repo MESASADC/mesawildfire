@@ -1,0 +1,37 @@
+{# Smaller drop-down listing font to allow more items to be displayed #}
+<style type="text/css">
+.ui-menu .ui-menu-item {
+	font-size: 0.8em;
+}
+</style>
+<div class="place-dialog-field">
+  <label for="place-name">Place (start typing, then pick a place)</label>
+</div>
+<div class="place-dialog-field">
+  <input name="place-name" id="place-name" class="ui-state-default ui-corner-all">
+</div>
+<div class="place-dialog-field">
+  <label for="longitude">Longitude</label>
+</div>
+<div class="place-dialog-field">
+  <input id="longitude" type="text" name="latitude" value="" size="8"  class="ui-state-default ui-corner-all"/> 
+</div>
+<div class="place-dialog-field">
+  <label for="latitude">Latitude</label>
+</div>
+<div class="place-dialog-field">
+  <input id="latitude" type="text" name="latitude" value="" size="8"  class="ui-state-default ui-corner-all"/>  
+</div>
+<div class="place-dialog-field">
+  <label for="zoom-level">Zoom level</label>
+</div>
+<div class="place-dialog-field">
+  <input id="zoom-level" type="text" name="zoom-level" value="" size="4"  class="ui-state-default ui-corner-all"/>
+</div>
+{% if myUrl %}
+<p><font size="0.8em">
+To bookmark a place, append its (lat)itude and (lon)gitude in the URL.
+Optionally, include (zoom) level. E.g.<br>
+<code>http://{{ myUrl }}?lon=28.213&amp;lat=-25.682&amp;zoom=12</code>
+</font></p>
+{% endif %}

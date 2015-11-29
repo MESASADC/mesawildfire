@@ -1,0 +1,6 @@
+#!/bin/bash
+cp ENV.template ENV
+
+env AFIS_VIEWER_INIT=1 ./run python /tmp/django_project/manage.py syncdb
+env AFIS_VIEWER_INIT=0 ./run python /tmp/django_project/manage.py syncdb
+
