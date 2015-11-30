@@ -28,8 +28,8 @@ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/sou
 apt-get update
 apt-get purge -y lxc-docker*
 apt-cache policy docker-engine
-sudo apt-get install -y docker-engine
-sudo docker run hello-world
+apt-get install -y docker-engine
+docker run hello-world
 
 
 # Install GeoNode
@@ -40,6 +40,8 @@ cp -r $MESA_ROOT/admin/geoserver/mesa $VOLUMES/geonode_data/workspaces/
 
 # Install PostGIS
 docker pull kartoza/postgis
+mkdir -p $MESA_ROOT/volumes/postgis/9.4/main/
+cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/
 
 
 # Install Geoserver
@@ -61,7 +63,7 @@ cd $MESA_ROOT/django_project
 ./manage migrate --noinput
 
 # Install ingest scripts
-sudo apt-get install -y python-jinja2 incron python-kombu
+apt-get install -y python-jinja2 incron python-kombu
 
 
 # Install supervisord
