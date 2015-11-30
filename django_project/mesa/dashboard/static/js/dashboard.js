@@ -4,8 +4,7 @@
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
 var NUM_INITIAL_FIRES = 8;
-var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:fires_today,mesa:firepixel_polygons_today&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
-
+var FIRE_THUMBNAIL_URL = "http://localhost/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:day-natural.c,mesa:mesa_firefeature,mesa:mesa_firepixel_area&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
 
 // GLOBALS
 
