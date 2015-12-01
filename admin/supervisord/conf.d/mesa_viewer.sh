@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MESA_ROOT=/home/mesa/mesa-terminal
+MESA_ROOT="install script will set the directory"
 
 trap "{ echo Stopping mesa_viewer docker; docker stop supervisor_mesa_viewer; exit 0; }" EXIT
 
@@ -12,7 +12,12 @@ docker run --link supervisor_postgis --rm martin/wait
 docker run --link supervisor_geoserver --rm martin/wait
 
 echo "Give PostGIS docker time to start up"
-sleep 20
+sleep 10
+
+# Create Geonode DB if not exists
+docker exec supervisor_postgis su - postgres -c "createdb -T template_postgis viewer"
+docker exec supervisor_postgis su - postgres -c "psql -c '\l'"
+
 
 echo "Start viewer:"
 source $MESA_ROOT/mesa-viewer/ENV

@@ -6,10 +6,6 @@ upstream upstream_mesa_viewer  {
         server mesa_viewer:8000 max_fails=0;
 }
 
-upstream upstream_mesa_viewer_test  {
-        server mesa_viewer_test:8000 max_fails=0;
-}
-
 upstream upstream_geoserver  {
         server geoserver:8080 max_fails=0;
 }
@@ -44,7 +40,7 @@ server {
 
 server {
 
-	listen 8000;
+	listen 8002;
 
 	root /var/www;
 	index index.html index.htm;
@@ -55,7 +51,6 @@ server {
             proxy_set_header Host $host;
             proxy_pass http://upstream_mesa_viewer/;
 	}
-
 
 
 	location /geoserver/ {
