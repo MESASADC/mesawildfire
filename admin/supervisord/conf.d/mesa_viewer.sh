@@ -19,6 +19,10 @@ docker exec supervisor_postgis su - postgres -c "createdb -T template_postgis vi
 docker exec supervisor_postgis su - postgres -c "psql -c '\l'"
 
 
+# Create viewer DB if not exists
+docker exec supervisor_postgis su - postgres -c "createdb -T template_postgis viewer"
+docker exec supervisor_postgis su - postgres -c "psql -c '\l'"
+
 echo "Start viewer:"
 source $MESA_ROOT/mesa-viewer/ENV
 docker run --name supervisor_mesa_viewer -t \
@@ -41,6 +45,6 @@ python /tmp/django_project/manage.py runserver 0.0.0.0:8000
 RESULT=$?
 
 echo "Avoid Supervisor restarting immediately"
-sleep 10
+sleep 5
 exit $RESULT
 

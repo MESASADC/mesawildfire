@@ -13,6 +13,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Customize settings
 cp $MESA_ROOT/django_project/ENV.example $MESA_ROOT/django_project/ENV
+read -p "Press [Enter] key to open the editor"
 nano $MESA_ROOT/django_project/ENV
 
 
@@ -62,11 +63,17 @@ cd $MESA_ROOT/django_project
 ./build
 ./manage migrate --noinput
 
-# Install MESA Wildfire viewer
+
+# Initialize MESA Viewer application
 cd $MESA_ROOT/mesa-viewer
+cp ENV.example ENV
 ./build
-./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb  # The AFIS Viewer has an issue that requires a two step database initialization
-./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb
+RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb --noinput
+RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
+
+
+# Install ingest scripts
+sudo apt-get install -y python-jinja2 incron python-kombu
 
 # Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
