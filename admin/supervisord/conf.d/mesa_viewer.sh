@@ -14,11 +14,6 @@ docker run --link supervisor_geoserver --rm martin/wait
 echo "Give PostGIS docker time to start up"
 sleep 10
 
-# Create Geonode DB if not exists
-docker exec supervisor_postgis su - postgres -c "createdb -T template_postgis viewer"
-docker exec supervisor_postgis su - postgres -c "psql -c '\l'"
-
-
 # Create viewer DB if not exists
 docker exec supervisor_postgis su - postgres -c "createdb -T template_postgis viewer"
 docker exec supervisor_postgis su - postgres -c "psql -c '\l'"

@@ -5,6 +5,7 @@ from django.db import models, migrations
 import django.contrib.gis.db.models.fields
 import mesa.models
 
+''' ## skip for now to allow testing of install script
 class Migration(migrations.Migration):
 
     dependencies = [('mesa', '0004_fireevent'),]
@@ -131,3 +132,4 @@ class Migration(migrations.Migration):
         ),
     ]
 
+'''

@@ -73,9 +73,6 @@ RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py sy
 
 
 # Install ingest scripts
-sudo apt-get install -y python-jinja2 incron python-kombu
-
-# Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
 
 # Install supervisord
