@@ -40,7 +40,7 @@ server {
 
 server {
 
-	listen 8002;
+	listen 8000;
 
 	root /var/www;
 	index index.html index.htm;

@@ -41,7 +41,7 @@ docker run hello-world
 
 # Install PostGIS
 docker pull kartoza/postgis
-docker run --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis  # initialize data dir
+mkdir -p $MESA_ROOT/volumes/postgis/9.4/main/
 cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/
 
 
