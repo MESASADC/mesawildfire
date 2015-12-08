@@ -41,8 +41,8 @@ docker run hello-world
 
 # Install PostGIS
 docker pull kartoza/postgis
-mkdir -p $MESA_ROOT/volumes/postgis/9.4/main/
-cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/
+docker run -it --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data" # initialize data directory
+cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/  # allow login from any ip address
 
 
 # Install Geoserver
@@ -64,7 +64,7 @@ cd $MESA_ROOT/django_project
 ./manage migrate --noinput
 
 
-# Initialize MESA Viewer application
+# Initialize MESA Viewer
 cd $MESA_ROOT/mesa-viewer
 cp ENV.example ENV
 ./build
@@ -91,6 +91,7 @@ cd $HERE/supervisord
 #  echo "$f --> $TARGET"
 #done;
 
+# Make supervisor start up on boot
 update-rc.d supervisor defaults
 service supervisor stop
 service supervisor start
