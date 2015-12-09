@@ -41,7 +41,7 @@ docker run hello-world
 
 # Install PostGIS
 docker pull kartoza/postgis
-docker run -it --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data" # initialize data directory
+docker run -it --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
 cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/  # allow login from any ip address
 
 
@@ -74,6 +74,10 @@ RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py sy
 
 # Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
+
+# Install gsconfig scripts
+apt-get install python-pip
+pip install gsconfig
 
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu

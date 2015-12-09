@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 from geoserver.catalog import Catalog
-cat = Catalog("http://mesa.dhcp.meraka.csir.co.za/geoserver/rest/", "admin", "geoserver")
+cat = Catalog("http://localhost:8080/geoserver/rest/", "admin", "geoserver")
 
 
-namespace = 'mesa_3'
+namespace = 'mesa'
 
 workspace = cat.get_workspace(namespace)
 if workspace is None:
