@@ -13,6 +13,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Customize settings
 cp $MESA_ROOT/django_project/ENV.example $MESA_ROOT/django_project/ENV
+read -p "Press [Enter] key to open the editor"
 nano $MESA_ROOT/django_project/ENV
 
 
@@ -33,19 +34,19 @@ docker run hello-world
 
 
 # Install GeoNode
-docker build -t geonode https://github.com/GeoNode/geonode.git
-mkdir $VOLUMES/geonode_data/workspaces
-cp -r $MESA_ROOT/admin/geoserver/mesa $VOLUMES/geonode_data/workspaces/
+#docker build -t geonode https://github.com/GeoNode/geonode.git
+#mkdir $VOLUMES/geonode_data/workspaces
+#cp -r $MESA_ROOT/admin/geoserver/mesa $VOLUMES/geonode_data/workspaces/
 
 
 # Install PostGIS
 docker pull kartoza/postgis
-mkdir -p $MESA_ROOT/volumes/postgis/9.4/main/
-cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/
+docker run -it --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
+cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/  # allow login from any ip address
 
 
 # Install Geoserver
-#docker pull kartoza/geoserver
+docker pull kartoza/geoserver
 
 
 # Install RabbitMQ
@@ -62,9 +63,21 @@ cd $MESA_ROOT/django_project
 ./build
 ./manage migrate --noinput
 
+
+# Initialize MESA Viewer
+cd $MESA_ROOT/mesa-viewer
+cp ENV.example ENV
+./build
+RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb --noinput
+RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
+
+
 # Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
 
+# Install gsconfig scripts
+apt-get install python-pip
+pip install gsconfig
 
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
@@ -82,6 +95,7 @@ cd $HERE/supervisord
 #  echo "$f --> $TARGET"
 #done;
 
+# Make supervisor start up on boot
 update-rc.d supervisor defaults
 service supervisor stop
 service supervisor start

@@ -55,13 +55,66 @@ class Migration(migrations.Migration):
             name='fdi_point',
             field=models.ForeignKey(blank=True, to='mesa.FdiPoint', null=True),
         ),
+
+
         migrations.RunSQL(
-            sql="""CREATE OR REPLACE VIEW mesa_fdiforecast AS SELECT 0 id, 0 rain_mm, 0 windspd_kmh, 0 winddir_deg, 0 rh_pct, 0 fdi_value, '0'::varchar fdi_rgb, 0 fwi_value, '0'::varchar fwi_rgb, 0 temp_c, '=now()'::timestamp date_time, null::int fdi_point_id;""",
+            sql=""" 
+
+
+CREATE OR REPLACE FUNCTION fdi_colour(fdi integer)
+  RETURNS character varying AS
+$BODY$
+BEGIN
+
+CASE 
+    WHEN '[0,20]'::int4range @> fdi THEN
+        RETURN '#0000FF';
+    WHEN '[21,45]'::int4range @> fdi THEN
+        RETURN '#00FF00';
+    WHEN '[46,60]'::int4range @> fdi THEN
+        RETURN '#FFFF00';
+    WHEN '[61,75]'::int4range @> fdi THEN
+        RETURN '#FFA500';
+    WHEN '[76,100]'::int4range @> fdi THEN
+        RETURN '#FF0000';
+    ELSE
+        RETURN '#000000';
+END CASE;
+
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+CREATE EXTENSION tablefunc;
+
+CREATE OR REPLACE VIEW mesa_fdiforecast AS 
+ SELECT ct.t[1]::integer AS fdi_point_id,
+    ct.t[2]::timestamp without time zone AS date_time,
+    ct.fdi_value::integer AS fdi_value,
+    fdi_colour(ct.fdi_value::integer) AS fdi_rgb,
+    ct.fwi::integer AS fwi_value,
+    '#000000'::character varying AS fwi_rgb,
+    NULL::double precision AS rain_mm,
+    ct.rh_pct::integer AS rh_pct,
+    (ct.temp_k - 273.15::double precision)::integer AS temp_c,
+    sqrt(power(ct.uwind_ms, 2::double precision) + power(ct.vwind_ms, 2::double precision)) * 3.6::double precision AS windspd_kmh,
+    180::double precision * atan2(ct.uwind_ms, ct.vwind_ms) / pi() + 180::double precision AS winddir_deg,
+    ct.uwind_ms,
+    ct.vwind_ms
+   FROM crosstab('SELECT ARRAY[A.id::text, forecast_utc::text] AS t, variable, ST_Value(rast, A.point) AS value FROM mesa_fdipoint A
+INNER JOIN mesa_firedanger B ON ST_Intersects(A.point, rast)
+WHERE forecast_utc::DATE >= DATE ''yesterday'' 
+AND forecast_utc::DATE < DATE ''today'' + INTERVAL ''2 days''
+AND forecast_utc::time = time ''12:00''
+ORDER BY 1,2'::text, 'SELECT unnest(''{lfdid,fwi,rh_pct,temp_k,uwind_ms,vwind_ms}''::text[])'::text) ct(t text[], fdi_value double precision, fwi double precision, rh_pct double precision, temp_k double precision, uwind_ms double precision, vwind_ms double precision);
+
+""",
             reverse_sql='DROP VIEW IF EXISTS mesa_fdiforecast CASCADE;',
             state_operations=[migrations.CreateModel(
                 name='FdiForecast',
                 fields=[
-                    ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                    #('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                     ('rain_mm', models.FloatField(null=True, blank=True)),
                     ('windspd_kmh', models.FloatField()),
                     ('winddir_deg', models.FloatField()),
@@ -80,11 +133,12 @@ class Migration(migrations.Migration):
                 },
             )],
         ),
+
+
     ]
     
     fdi_point_data_select = """
-    CREATE OR REPLACE VIEW mesa_fdipointdata AS 
-        SELECT mesa_fdipoint.id AS fdi_point_id,
+    SELECT mesa_fdipoint.id AS fdi_point_id,
             mesa_fdipoint.name,
             mesa_fdipoint.type,
             mesa_fdipoint.station_name,
@@ -130,7 +184,7 @@ class Migration(migrations.Migration):
  
     operations += [
         migrations.RunSQL(
-            sql="CREATE OR REPLACE VIEW mesa_fdipointdata AS %s;" % fdi_point_data_select,
+            sql="CREATE OR REPLACE VIEW mesa_fdipointdata AS %s" % fdi_point_data_select,
             reverse_sql='DROP VIEW IF EXISTS mesa_fdipointdata CASCADE;',
             state_operations=[migrations.CreateModel(
                 name='FdiPointData',
