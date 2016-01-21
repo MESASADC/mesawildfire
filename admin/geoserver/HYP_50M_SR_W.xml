@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverageStore>
+   <name>HYP_50M_SR_W</name>
+   <workspace>mesa</workspace>
+    <type>GeoTIFF</type>
+    <description>Generated from GeoTIFF</description>
+   <enabled>true</enabled>
+    <url>file:data/mesa/rasters/HYP_50M_SR_W.tif</url>
+   <keywords>
+      <string>WCS</string>
+      <string>GeoTIFF</string>
+   </keywords>
+</coverageStore>
