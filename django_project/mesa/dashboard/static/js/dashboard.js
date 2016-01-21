@@ -4,18 +4,15 @@
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
 var NUM_INITIAL_FIRES = 8;
+
 var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:fires_today,mesa:firepixel_polygons_today&viewparams=prev_days:6&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
 
 // GLOBALS
-
 var fdiTable;
 var fireTable;
 var map;
 var defaultView;
-
-
 // BEGIN LAYOUT
-
 function unique(list) {
     var result = [];
     $.each(list, function(i, e) {
@@ -25,106 +22,14 @@ function unique(list) {
     });
     return result;
 }
-
-$(function() {
-    /*window.onload = function () {
-    // Use SockJS
-    Stomp.WebSocketClass = SockJS;
-     
-    // Connection parameters
-    var mq_username = "guest",
-        mq_password = "guest",
-        mq_vhost    = "/",
-        mq_url      = 'http://127.0.0.1:32775/stomp',
-     
-        // The queue we will read. The /topic/ queues are temporary
-        // queues that will be created when the client connects, and
-        // removed when the client disconnects. They will receive
-        // all messages published in the "amq.topic" exchange, with the
-        // given routing key, in this case "mymessages"
-    mq_queue    = "/testing/tests";
-     
-
-    // This will be called upon successful connection
-    function on_connect() {
-      console.log('Connected to RabbitMQ-Web-Stomp');
-      console.log(client);
-      client.subscribe(mq_queue, on_message);
-    }
-     
-    // This will be called upon a connection error
-    function on_connect_error() {
-     console.log('Connection failed!');
-    }
-     
-    // This will be called upon arrival of a message
-    function on_message(m) {
-      console.log('message received'); 
-      console.log(m);
-      console.log(m.body);
-    }
-     
-      // Create a client
-      var client = Stomp.client(mq_url);
-      // Connect
-      client.connect(mq_username,mq_password,on_connect,on_connect_error,mq_vhost);
-    }*/
-
-
-    window.onload = function () {
-
-        var ws = new SockJS('http://localhost:32775/stomp/');
-        var client = Stomp.over(ws);
-
-        client.heartbeat.outgoing = 0;
-        client.heartbeat.incoming = 0;
-
-        var onConnect = function() {
-          client.subscribe('/queue/testing', function(d) {
-            console.log(JSON.parse(d.body));
-          });
-        };
-
-        var on_connect = function(x) {
-           console.log(x);
-          client.subscribe("/exchange/amq.topic", function(d) {
-              //client.send('/queue/testing', {"content-type":"text/plain"}, "data datad");
-              
-              console.log(d.body);
-          });
-
-      };
-
-        // This will be called upon arrival of a message
-        var onMessage = function(m) {
-          console.log('message received'); 
-          console.log(m);
-          console.log(m.body);
-        }
-
-        var onError = function(e) {
-          console.log('ERROR', e);
-        };
-        
-        var onDebug = function(m) {
-          console.log('DEBUG', m);
-        };
-        client.onmessage = onMessage;
-        //client.debug = onDebug;
-        client.connect('guest', 'guest', on_connect, onError, '/');
-        };
-    
-});
-
 $(function() {
     // BEGIN OPEN LAYERS
-
     var backdrop_osm = new ol.layer.Tile({
         source: new ol.source.OSM(),
         preload: 10
     });
 
-    
+
     var backdrop = new ol.layer.Tile({
         source: new ol.source.TileWMS({
           url: '/geoserver/wms',
@@ -160,7 +65,7 @@ $(function() {
         }),
         style: fireStyle
     });
-    
+
     var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
@@ -186,14 +91,12 @@ $(function() {
         minResolution: 2000
     });
 
-
     /**
      * Elements that make up the info popup.
      */
     var container = document.getElementById('popup');
     var content = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
-
 
     /**
      * Add a click handler to hide the popup.
@@ -205,7 +108,6 @@ $(function() {
       return false;
     };
 
-
     /**
      * Create an overlay to anchor the popup to the map.
      */
@@ -216,7 +118,7 @@ $(function() {
         duration: 250
       }
     }));
-    
+
     defaultView = new ol.View({
         center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
         zoom: 6,
@@ -266,7 +168,7 @@ $(function() {
             );
         })
     });
-    
+
     /**
      * Add a click handler to the map to render the popup.
      */
@@ -277,9 +179,9 @@ $(function() {
         content.innerHTML = '<p>You clicked here:</p><code>' + hdms + '</code>';
       overlay.setPosition(coordinate);
     }); popup size issue
-    */  
+    */
 
-    
+
     var exportPNGElement = document.getElementById('export-png');
     if ('download' in exportPNGElement) {
         exportPNGElement.addEventListener('click', function(e) {
@@ -296,7 +198,7 @@ $(function() {
        */
       info.style.display = '';
     };
-    
+
 
 });
 
@@ -325,7 +227,7 @@ function compare_date(a, b) {
 
 var simpleDate = (function() {
     // Turns Javascript Date Objects into human readable form
-     
+
     var measures = {
         second: 1,
         minute: 60,
@@ -335,7 +237,7 @@ var simpleDate = (function() {
         month: 2592000,
         year: 31536000
     };
- 
+
     var chkMultiple = function(amount, type) {
         return (amount > 1) ? amount + " " + type + "s": "one " + type;
     };
@@ -344,14 +246,14 @@ var simpleDate = (function() {
        var localeSpecificTime = date.toLocaleTimeString();
        return localeSpecificTime.replace(/:\d+$/, '');
     };
-    
+
     return function(thedate, before) {
 
-        if (!measures.hasOwnProperty(before)) 
+        if (!measures.hasOwnProperty(before))
             before = 'hour';
 
         before = (typeof before === 'undefined') ? 'hour' : before;
-        
+
         thedate = new Date(thedate);
         var dateStr, amount, denomination,
             current = new Date().getTime(),
@@ -359,7 +261,7 @@ var simpleDate = (function() {
 
         var future = diff < 0;
         diff = Math.abs(diff);  // use absolute diff together with future boolean from now on
- 
+
         // if the interval is larger than the specified denomination
         if (diff >= measures[before]) {
             var isToday = (thedate.toDateString() == (new Date()).toDateString());
@@ -398,7 +300,7 @@ var simpleDate = (function() {
         };
         return dateStr;
     };
-    
+
 })();
 
 
@@ -411,17 +313,17 @@ $(document).ready(function() {
     $.get(FDI_URL, function(result, status) {
 
         var selected = null;
-                       
+
         result.features.forEach(function (feature) {
 
             var properties = feature.properties;
-            
+
             if (properties.fdi_value === null) {
                 return;
             }
 
             var point_id = feature.id;
-            
+
             var weather = {
                 point_id: point_id,
                 point_name: properties.name,
@@ -439,7 +341,7 @@ $(document).ready(function() {
                 is_forecast: properties.is_forecast,
                 forecast_actual: properties.is_forecast ? "Forecast" : "Actual"
             };
-            
+
             if (properties.is_forecast) {
                 weather.forecast_fdi = properties.fdi_value;
             } else {
@@ -449,24 +351,24 @@ $(document).ready(function() {
             if (fdiData[point_id] === undefined) {
                 fdiData[point_id] = [];
             };
-            
+
             fdiData[point_id].push(weather);
             fdiColors[weather.fdi] = weather.fdiColor; // perhaps rather have a js function to compute rgb?
-            
+
             if (selected === null) {
                 selected = point_id;
             };
-            
+
         });
 
 
         var fdiTableData = [];
         var last;
-        
+
         for (key in fdiData) {
             if (fdiData.hasOwnProperty(key)) {
                 fdiData[key].sort(compare_date);
-                if (fdiData[key].length > 0) { 
+                if (fdiData[key].length > 0) {
                     // after sorting, get the last value for the table
                     last = fdiData[key].pop();
                     // and put it back again
@@ -479,9 +381,9 @@ $(document).ready(function() {
             }
 
         };
-        
+
         render_chart(selected);
-    
+
         fdiTable = $('#fdi-table').DataTable({
 
             data: fdiTableData,
@@ -550,19 +452,19 @@ $(document).ready(function() {
             fdiTable.search(this.value).draw();
         });
 
-    }); // get fdi data 
+    }); // get fdi data
 
 
     // get fire data.
     $.get(FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0', function(data, status) {
-        
+
         var tableData = [];
         var fires;
         var remaining;
-        
+
         if (data.hasOwnProperty('results')) {
             fires = data.results;
-            remaining = data.count - fires.length; 
+            remaining = data.count - fires.length;
         }
         else {
             fires = data;
@@ -631,7 +533,7 @@ $(document).ready(function() {
                 [1, 'asc']
             ]
         });
-        
+
         debugvar = tableData;
 
         $('#fire-table-search').on('keyup', function() {
@@ -639,6 +541,7 @@ $(document).ready(function() {
         });
 
         /* Formatting function for row details - modify as you need */
+
 
         var key_names = {
             "first_seen": "First observation",
@@ -676,11 +579,11 @@ $(document).ready(function() {
             }
 
             var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
-            html += 
+            html +=
                 '<tr>' +
                     '<td><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:100px; height:100px;" src="' + FIRE_THUMBNAIL_URL + d.vbox_west + ',' + d.vbox_south + ',' + d.vbox_east + ',' + d.vbox_north + '"/></th>' +
                     '<td class="fire-detail-list"><ul class="fire-detail-list">';
-            
+
             for (key in d) {
                 if ( /*(visible_keys.indexOf(key) == -1) & */ (hide_keys.indexOf(key) == -1)) {
                     var name;
@@ -706,15 +609,12 @@ $(document).ready(function() {
         };
 
 
-
-
-
         function flyToPoint(lon, lat) {
             var start = +new Date();
             var from = defaultView.getCenter();
             var to = ol.proj.fromLonLat([lon, lat]);
 
-            // Determine zoom level needed to see from and to points at the same time             
+            // Determine zoom level needed to see from and to points at the same time
             var distanceX = Math.abs(to[0] - from[0]);
             var distanceY = Math.abs(to[1] - from[1]);
             var startPixel = map.getPixelFromCoordinate(from);
@@ -723,13 +623,13 @@ $(document).ready(function() {
             var distancePixelY = Math.abs(endPixel[1] - startPixel[1]);
             var mapSizeX = map.getSize()[0];
             var mapSizeY = map.getSize()[1];
-            
-            var ratioX = distancePixelX / mapSizeX; 
-            var ratioY = distancePixelY / mapSizeY; 
+
+            var ratioX = distancePixelX / mapSizeX;
+            var ratioY = distancePixelY / mapSizeY;
             var ratio = Math.max(ratioX, ratioY);
 
             var wgs84 = new ol.Sphere(6378137);
-            var geodesicDistance = wgs84.haversineDistance(from, to); 
+            var geodesicDistance = wgs84.haversineDistance(from, to);
 
             var duration = 1000 * Math.max(0.5, Math.min(2, Math.abs(ratio)));
 
@@ -746,38 +646,31 @@ $(document).ready(function() {
             map.beforeRender(pan, bounce);
             defaultView.setCenter(to);
         };
-        /*
-        var ws = new SockJS('http://127.0.0.1:32775/stomp');
-        var client = Stomp.over(ws);
 
-        client.heartbeat.outgoing = 0;
-        client.heartbeat.incoming = 0;
+        //RabbitMQ WebStomp
+        window.onload = function() {
 
-        var onDebug = function(m) {
-          console.log('DEBUG', m);
-        };
+            var ws = new SockJS('http://127.0.0.1:56723/stomp');
+            var client = Stomp.over(ws);
 
-        var onConnect = function() {
-          client.subscribe('/queue/testing', function(d) {
-            console.log(JSON.parse(d.body));
-          });
-        };
+            client.heartbeat.outgoing = 0;
+            client.heartbeat.incoming = 0;
 
-        var onError = function(e) {
-          console.log('ERROR', e);
-        };
+            var onDebug = function(m) {
+              console.log('DEBUG', m);
+            }
+            var onConnect = function() {
+              client.subscribe('/queue/firepixel', function(d) {
+                //Received Message
+                console.log(d.body);
+              });
+            };
+            var onError = function(e) {
+              console.log('ERROR', e);
+            };
 
-        client.debug = onDebug;
-        window.onload = function () {
-        client.connect('guest', 'guest', onConnect, onError, '/');
-        }
-        */
-
-        
-
-     
-
-
+            client.connect('user', 'password', onConnect, onError, '/');
+       }
 
         // Add event listener for opening and closing details
         $('#fire-table tbody').on('click', 'td.details-control', function() {
@@ -798,7 +691,7 @@ $(document).ready(function() {
                 row.scrollTo();
             }
         });
-        
+
         $('#fire-table tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -845,12 +738,12 @@ $(document).ready(function() {
         //$(this).addClass('fdi-table');
     });
 
-            
+
     function render_chart(point_id) {
-        
+
         $("#point-name").html("FDI: " + fdiData[point_id][0].point_name);
-        
-        fdiData[point_id] 
+
+        fdiData[point_id]
 
         var chart = AmCharts.makeChart("chartdiv", {
             "type": "serial",
@@ -935,7 +828,7 @@ $(document).ready(function() {
             "export": {
                 "enabled": true
             }
-            
+
         });
 
 
@@ -945,7 +838,7 @@ $(document).ready(function() {
         function handleClick(event){
           console.log(event);
           event.graph.balloonText = '<h6>Forecast:</h6> Temperature : [[temperature]] <br> Wind Speed : [[windSpeed]] <br> Relative Humidity : [[relativeHumidity]] <br> Rain : [[rain]] <br> FDI : [[value2]]';
-         
+
           vex.dialog.alert("Temperature:"+event.item.dataContext.temperature+"<br>"+
                            "Relative Humidity:"+event.item.dataContext.relativeHumidity+"<br>"+
                            "Wind Speed:"+event.item.dataContext.windSpeed+"<br>"+

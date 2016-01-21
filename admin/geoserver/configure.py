@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
 from geoserver.catalog import Catalog
+from geoserver.support import JDBCVirtualTable, JDBCVirtualTableGeometry, JDBCVirtualTableParam
 cat = Catalog("http://localhost:8080/geoserver/rest/", "admin", "geoserver")
 
+import sys, os
 
 namespace = 'mesa'
 
@@ -12,6 +14,7 @@ if workspace is None:
 
 
 import geoserver.util
+
 shapefile_plus_sidecars = geoserver.util.shapefile_and_friends("data/MESASADC")
 
 # shapefile_and_friends should look on the filesystem to find a shapefile
@@ -32,14 +35,12 @@ try:
 except Exception, e:
     print str(e)
 
-
 try:
     ds = cat.get_store('mesadb', workspace)
 except:
     ds = cat.create_datastore('mesadb', workspace)
     ds.connection_parameters.update(host='postgis', port='5432', database='gis', user='docker', passwd='docker', dbtype='postgis', schema='public')
     cat.save(ds)
-
 
 ft = cat.publish_featuretype('mesa_firepixel', ds, 'EPSG:4326', srs='EPSG:4326')
 cat.save(ft)
@@ -55,3 +56,17 @@ cat.save(ft)
 
 ft = cat.publish_featuretype('mesa_fireevent', ds, 'EPSG:4326', srs='EPSG:4326')
 cat.save(ft)
+
+
+os.system('curl -v -u "admin:geoserver" -XPOST -T fires_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+os.system('curl -v -u "admin:geoserver" -XPOST -T firepixel_polygons_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_fdipoint.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+
+os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores')
+os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/mesa_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesa_shapefiles/external.shp?configure=all"')
+
+os.system('curl -v -u "admin:geoserver" -XPOST -T user_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores')
+os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/user_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/user_shapefiles/external.shp?configure=all"')
+
+os.system('curl -v -u "admin:geoserver" -XPOST -T HYP_50M_SR_W.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores')
+os.system('curl -v -u "admin:geoserver" -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/rasters" "http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores/HYP_50M_SR_W/external.geotiff?configure=first')

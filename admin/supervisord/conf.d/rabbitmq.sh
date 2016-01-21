@@ -9,7 +9,7 @@ trap "{ echo Stopping rabbitmq docker; docker stop supervisor_rabbitmq; exit 0; 
 docker rm -f supervisor_rabbitmq &> /dev/null
 
 # Start Postgresql:
-docker run --name supervisor_rabbitmq -a stdout -a stderr --rm -p 56720:5672 -p 56721:15672 -v $MESA_ROOT/volumes/rabbitmq:/var/lib/rabbitmq -e RABBITMQ_DEFAULT_USER=$RABBITMQ_USER -e RABBITMQ_DEFAULT_PASS=$RABBITMQ_PASS rabbitmq:3-management
+docker run --name supervisor_rabbitmq -a stdout -a stderr --rm -p 56720:5672 -p 56721:15672 -p 56722:61613 -p 56723:15674  -v $MESA_ROOT/volumes/rabbitmq:/var/lib/rabbitmq -e RABBITMQ_DEFAULT_USER=$RABBITMQ_USER -e RABBITMQ_DEFAULT_PASS=$RABBITMQ_PASS mesa_rabbitmq
 
 RESULT=$?
 echo RESULT=$RESULT

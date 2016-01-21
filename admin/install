@@ -49,8 +49,10 @@ cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/  # allow login from an
 docker pull kartoza/geoserver
 
 
-# Install RabbitMQ
-docker pull rabbitmq:3-management
+#Install RabbitMQ
+#docker pull rabbitmq:3-management
+cd $HERE/rabbitmq
+./build
 
 
 # Install Nginx
