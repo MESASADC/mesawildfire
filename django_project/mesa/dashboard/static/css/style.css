@@ -184,3 +184,18 @@ body {
 .ol-popup-closer:after {
   content: "✖";
 }
+
+td.fire-detail-list {
+  height: 100px;
+}
+
+td.fire-detail-list ul {
+  overflow:hidden; 
+  overflow-y:scroll;
+  list-style-type: none;
+  max-height: 100px;
+}
+
+td.fire-detail-list ul li {
+  margin: 5px;
+}

@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
-
+from datetime import datetime, timedelta
 
 class ConfigViewSet(viewsets.ModelViewSet):
     """
@@ -82,7 +82,9 @@ class FireEventViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Fire as detected and updated over time
     """
-    queryset = models.FireEvent.objects.all()
+    queryset = models.FireEvent.objects.none()
     serializer_class = serializers.FireEventSerializer
-
+    
+    def get_queryset(self):
+        return models.FireEvent.objects.filter(last_seen__gte=datetime.today()-timedelta(days=6))
 

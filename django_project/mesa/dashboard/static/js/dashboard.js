@@ -4,7 +4,7 @@
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
 var NUM_INITIAL_FIRES = 8;
-var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:fires_today,mesa:firepixel_polygons_today&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
+var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:fires_today,mesa:firepixel_polygons_today&viewparams=prev_days:6&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
 
 // GLOBALS
 
@@ -164,7 +164,7 @@ $(function() {
     var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:fires_today'},
+          params: {'LAYERS': 'mesa:fires_today', 'viewparams': 'prev_days:6'},
           serverType: 'geoserver'
         })
     });
@@ -172,7 +172,7 @@ $(function() {
     var firePixelWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:firepixel_polygons_today'},
+          params: {'LAYERS': 'mesa:firepixel_polygons_today', 'viewparams': 'prev_days:6'},
           serverType: 'geoserver'
         })
     });
@@ -231,20 +231,21 @@ $(function() {
         view: defaultView,
         overlays: [overlay],
         controls: ol.control.defaults().extend([
+            new ol.control.ScaleLine()
             //new ol.control.FullScreen() not working properly
         ]),
 
     });
 
-    var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
+    //var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
 
-    function refreshLayers() {
-        layersToRefresh.forEach(function(layer) {
-            layer.getSource().changed();
-        }); 
-    }; 
+    //function refreshLayers() {
+    //    layersToRefresh.forEach(function(layer) {
+    //        layer.getSource().changed();
+    //    }); 
+    //}; 
 
-    setInterval(refreshLayers, 10000);
+    //setInterval(refreshLayers, 10000);
     
     
     // select interaction working on "singleclick"
@@ -605,7 +606,7 @@ $(document).ready(function() {
                     if (type == 'display') {
                         sqkm = data / Math.pow(10,6);
                         ha = data / Math.pow(10, 4);
-                        return ha.toFixed(2) + " ha";
+                        return ha.toFixed(1) + " ha";
                     } else {
                         return data;
                     }
@@ -639,13 +640,18 @@ $(document).ready(function() {
 
         /* Formatting function for row details - modify as you need */
 
-        var custom_names = {
+        var key_names = {
             "first_seen": "First observation",
             "last_seen": "Last observation",
             "start_fdi": "FDI at the first observation",
             "max_fdi": "Maximum FDI during the fire"
         };
 
+        var date_keys = [ "first_seen", "last_seen", "current_fdi_date", "max_fdi_date", "max_frp_date" ];
+
+        var number_keys = [ "area" ]; 
+
+        var hide_keys = [ "id", "vbox_west", "vbox_east", "vbox_north", "vbox_south", "centroid_x", "centroid_y" ];
 
         /* Formatting function for row details - modify as you need */
         function row_detail(d) {
@@ -657,13 +663,13 @@ $(document).ready(function() {
             }
             visible_columns = unique(visible_column_names);
 
-            var displaying_keys = Array();
+            var visible_keys = Array();
             for (key in d) {
                 for (var i = 0; i < visible_columns.length; i++) {
                     var my_key = visible_columns[i].trim().toLowerCase();
                     my_key = my_key.replace(/[^\w\s]/gi, '').trim().replace(/ /g, '_');
                     if (key == my_key) {
-                        displaying_keys.push(key);
+                        visible_keys.push(key);
                         break;
                     }
                 }
@@ -672,27 +678,32 @@ $(document).ready(function() {
             var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
             html += 
                 '<tr>' +
-                    '<th rowspan="' + displaying_keys.length + '"><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:200px; height:200px;" src="' + FIRE_THUMBNAIL_URL + d.vbox_west + ',' + d.vbox_south + ',' + d.vbox_east + ',' + d.vbox_north + '"/></th>' +
-                    '<td colspan="2" class="fire-detail-title">Additional info:</td>'+
-                '</tr>';
+                    '<td><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:100px; height:100px;" src="' + FIRE_THUMBNAIL_URL + d.vbox_west + ',' + d.vbox_south + ',' + d.vbox_east + ',' + d.vbox_north + '"/></th>' +
+                    '<td class="fire-detail-list"><ul class="fire-detail-list">';
             
             for (key in d) {
-                if (displaying_keys.indexOf(key) == -1) {
-                    var string;
-                    if (custom_names[key] !== undefined) {
-                        string = (d[key] instanceof Date) ? simpleDate(d[key]) : d[key];
-                        html += '<tr>' +
-                            '<td>' + custom_names[key] + ':</td>' +
-                            '<td>' + string + '</td>' +
-                        '</tr>';
+                if ( /*(visible_keys.indexOf(key) == -1) & */ (hide_keys.indexOf(key) == -1)) {
+                    var name;
+                    var value;
+                    if (key_names[key] !== undefined) {
+                        name = key_names[key];
                     } else {
-                        //string = key.charAt(0).toUpperCase() + "" + key.substring(1).replace(/_/g, ' ');
-                    }
-                }
-            }
-            html += '</table>';
+                        name = key.charAt(0).toUpperCase() + "" + key.substring(1).replace(/_/g, ' ');
+                    };
+                    if (date_keys.indexOf(key) > -1)
+                       value = simpleDate(d[key]);
+                    else if (key == "area")
+                       value = (parseFloat(d[key]) / Math.pow(10, 4)).toFixed(1) + " ha";
+                    else if (number_keys.indexOf(key) > -1)
+                       value = Math.round(parseFloat(d[key]) * 100 / 100).toFixed(2);
+                    else
+                       value = d[key];
+                    html += '<li><b>' + name + '</b> :  ' + value + '</li>';
+                };
+            };
+            html += '</ul></td></tr></table>';
             return html;
-        }
+        };
 
 
 

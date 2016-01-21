@@ -226,4 +226,6 @@ CUSTOM_LAYER = {
 	'layer_name':"custom_background"
 }
 
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-72611319-1'
+
 
