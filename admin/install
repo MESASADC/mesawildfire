@@ -21,7 +21,7 @@ nano $MESA_ROOT/django_project/ENV
 apt-get update
 apt-get upgrade -y
 apt-get install -y git nano vi
-
+apt-get install curl
 
 # Install Docker - https://docs.docker.com/installation/ubuntulinux/
 apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
@@ -48,7 +48,6 @@ cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/  # allow login from an
 # Install Geoserver
 docker pull kartoza/geoserver
 
-
 #Install RabbitMQ
 #docker pull rabbitmq:3-management
 cd $HERE/rabbitmq
@@ -59,19 +58,6 @@ cd $HERE/rabbitmq
 cd $MESA_ROOT/nginx
 ./build
 
-
-# Install MESA Wildfire application
-cd $MESA_ROOT/django_project
-./build
-./manage migrate --noinput
-
-
-# Initialize MESA Viewer
-cd $MESA_ROOT/mesa-viewer
-cp ENV.example ENV
-./build
-RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb --noinput
-RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
 
 
 # Install ingest scripts
@@ -104,3 +90,23 @@ service supervisor start
 service supervisor status
 
 
+#Add Geoserver layers 
+cd $MESA_ROOT/admin/geoserver
+python configure.py
+
+
+# Install MESA Wildfire application
+cd $MESA_ROOT/django_project
+./build
+./manage migrate --noinput
+
+
+# Initialize MESA Viewer
+cd $MESA_ROOT/mesa-viewer
+cp ENV.example ENV
+./build
+RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb --noinput
+RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
+
+# Restart dockers
+service supervisor restart
