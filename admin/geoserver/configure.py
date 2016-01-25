@@ -15,7 +15,7 @@ if workspace is None:
 
 import geoserver.util
 
-shapefile_plus_sidecars = geoserver.util.shapefile_and_friends("data/MESASADC")
+shapefile_plus_sidecars = geoserver.util.shapefile_and_friends("mesa_shapefiles/MESASADC")
 
 # shapefile_and_friends should look on the filesystem to find a shapefile
 # and related files based on the base path passed in
@@ -69,4 +69,4 @@ os.system('curl -v -u "admin:geoserver" -XPOST -T user_shapefiles.xml -H "Conten
 os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/user_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/user_shapefiles/external.shp?configure=all"')
 
 os.system('curl -v -u "admin:geoserver" -XPOST -T HYP_50M_SR_W.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores')
-os.system('curl -v -u "admin:geoserver" -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/rasters" "http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores/HYP_50M_SR_W/external.geotiff?configure=first')
+os.system('curl -v -u "admin:geoserver" -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/mesa_rasters" "http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores/HYP_50M_SR_W/external.geotiff?configure=first')

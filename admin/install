@@ -90,7 +90,12 @@ service supervisor start
 service supervisor status
 
 
-#Add Geoserver layers 
+#Add GeoServer layers 
+mkdir -p $MESA_ROOT/volumes/geoserver_data/data/mesa
+mkdir -p $MESA_ROOT/volumes/geoserver_data/data/mesa/user_shapefiles
+cp -r $HERE/geoserver/mesa_shapefiles $MESA_ROOT/volumes/geoserver_data/data/mesa/
+cp -r $HERE/geoserver/mesa_rasters $MESA_ROOT/volumes/geoserver_data/data/mesa/
+
 cd $MESA_ROOT/admin/geoserver
 python configure.py
 
