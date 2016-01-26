@@ -28,9 +28,22 @@ Start by cloning the whole repo to the target machine:
     $ chmod +x ./mesawildfire/admin/install
 </pre>
 
+**Step 2: Copy shapefiles and TIFF file:**
+
+Large spatial data files are not stored in Git. These need to be copied from an external source (such as a USB disk) before continuing with step 3.
+
+Copy Shapefiles(*.shp) into ./mesawildfire/admin/geoserver/mesa_shapefiles directory before installing Wildfire software.
+
+Copy TIFF file(*.tif) into ./mesawildfire/admin/geoserver/mesa_rasters directory before installing Wildfire software.
+
+<pre>
+    $ sudo cp /path/of/a/shapefile ./mesawildfire/admin/geoserver/mesa_shapefiles
+    $ sudo cp /path/of/a/tiff/file ./mesawildfire/admin/geoserver/mesa_rasters
+</pre>
 
 
-**Step 2: Install the Wildfire software and its dependencies:**
+
+**Step 3: Install the Wildfire software and its dependencies:**
 
 <pre>
     $ cd ./mesawildfire/admin/
