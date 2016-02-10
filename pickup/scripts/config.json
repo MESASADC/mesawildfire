@@ -1,5 +1,5 @@
 {
-  "amqp_host" : "localhost",
+  "amqp_host" : "mesa2.dhcp.meraka.csir.co.za",
   "amqp_port" : "56720",
   "amqp_vhost": "",
   "amqp_user" : "user",

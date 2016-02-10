@@ -18,13 +18,13 @@ def render_message_payload(template_dir, template_name, **kwargs):
     return template.render(**kwargs)
 
 script_dir = os.path.dirname(sys.argv[0])
-template_dir = os.path.join(os.path.dirname(sys.argv[0]), 'templates')
+template_dir = os.path.join(script_dir, 'templates')
 incron_dir = sys.argv[1]
 incron_file = sys.argv[2]
 incron_filepath = os.path.join(incron_dir, incron_file)
 incron_event = sys.argv[3]
 
-#logfile = os.path.join(script_dir, 'af_modis.log')
+#logfile = os.path.join(script_dir, 'af_viirs.log')
 logfile='/dev/stdout'
 logging.basicConfig(filename=logfile,level=logging.DEBUG, format='%(asctime)s :: %(message)s')
 
@@ -45,19 +45,24 @@ try:
         exchange = Exchange(config['amqp_exchange'], type='topic', channel=conn.default_channel)
         exchange.declare()
         count = 0
+        # FireLoc_npp_d20160207_t1325075_e1330490_b00001_c20160207134219914000_all-_dev.txt
+        loc_d = incron_file.find('_d')
+        YYYY_MM_DD = "{}-{}-{}".format(incron_file[loc_d+2:loc_d+6], incron_file[loc_d+6:loc_d+8], incron_file[loc_d+8:loc_d+10])
+        loc_t = incron_file.find('_t')
+        HH_MM_SS = "{}:{}:00".format(incron_file[loc_t+2:loc_t+4], incron_file[loc_t+4:loc_t+6])
         for line in open(incron_filepath):
-            # Compose message payload
-            lat, lon, btemp, frp, res, MM_DD_YYYY, HHMM, sat, confidence = line.split(',')
-            YYYY_MM_DD = "{}-{}-{}".format(MM_DD_YYYY[6:10], MM_DD_YYYY[0:2], MM_DD_YYYY[3:5])
-            HH_MM_SS = "{}:{}:00".format(HHMM[:2], HHMM[2:4])
-            body = render_message_payload(template_dir, "af_modis_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=btemp, frp=frp, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat=sat, confidence=confidence)
-            #logging.debug(body)
+            # Compose message payload 
+            # https://wiki.afis.co.za/index.php?title=NPP_notes#DRL_Fireloc 
+            lat, lon, bt13_k, scan, track, confidence, frp_mw = line.split(',')
+            frp_mw = frp_mw.strip()
+            body = render_message_payload(template_dir, "af_viirs_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=bt13_k, frp=frp_mw, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat='NPP', confidence=confidence)
+            logging.debug(body)
             # Publish message
-            rk = 'af_modis.m01.0.0.1.1'
+            rk = 'af_viirs.geo.0.0.1.1'
             exchange.publish(body, rk)
             count += 1
             #logging.debug('Published a message with rk: %s' % rk)
-        logging.info('Published %d af_modis messages' % count)
+        logging.info('Published %d af_viirs messages' % count)
     logging.info('Deleting succesfully processed file: %s' % incron_filepath)
     #os.remove(incron_filepath)
 except:

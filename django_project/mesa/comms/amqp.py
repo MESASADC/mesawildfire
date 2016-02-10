@@ -157,7 +157,10 @@ class FirePixelPersistConsumer(BasePersistConsumer):
     def __init__(self, name, channel=None):
         
         self.translators =  {'af_modis': {
-                                'm01': self.af_modis
+                                '0.1': self.af_modis
+                            },
+                            'af_viirs': {
+                                '0.1': self.af_viirs
                             }}
         super(FirePixelPersistConsumer, self).__init__(name=name, channel=channel)
 
@@ -166,6 +169,7 @@ class FirePixelPersistConsumer(BasePersistConsumer):
         fields = data['fields']
         obj.type = data['type']
         obj.point = Point(*data['location']['geometry']['coordinates'])
+        # approx pixel size in degrees 
         obj.vsize = 0.01
         obj.hsize = 0.01
         ddd = [int(v) for v in fields['date']['value'].split('-')]
@@ -178,9 +182,24 @@ class FirePixelPersistConsumer(BasePersistConsumer):
         obj.sat = fields['sat']['value']
         return obj
 
+    def af_viirs(self, data, obj):
+        fields = data['fields']
+        obj.type = data['type']
+        obj.point = Point(*data['location']['geometry']['coordinates'])
+        # approx pixel size in degrees 
+        obj.vsize = 0.005
+        obj.hsize = 0.005
+        ddd = [int(v) for v in fields['date']['value'].split('-')]
+        ttt = [int(v) for v in fields['time']['value'].split(':')]
+        dddttt = ddd + ttt
+        obj.date_time = dt.datetime(*dddttt )
+        obj.src = fields['src']['value']
+        obj.btemp = float(fields['btemp']['value'])
+        obj.frp = float(fields['frp']['value'])
+        obj.sat = fields['sat']['value']
+        return obj
                 
     def _persist(self, data):
-
         try:
             #logging.info("FirePixel ".format(msg_type, msg_version))
             msg_type = data.get('type', None)
@@ -207,19 +226,20 @@ import signal
 def async_run_forever():
     logging.info("Setting up AMQP exchanges, consumers, producers...")
 
-    try:
+    '''try:    not implementing the internet based message queue for MESA
         consuming_exchange = ConsumingExchange(settings.MESA_FT_AMQP_EXCHANGE, conn=settings.MESA_FT_AMQP_URI)
         consuming_exchange.declare()
         consuming_exchange.bind_queue(queue='af_modis', exchange=settings.CSIR_AMQP_EXCHANGE, conn=settings.CSIR_AMQP_URI, routing_keys=['af_modis.#'])
     except Exception, e:
         logging.exception(e)
         logging.warn('Failed to bind to CSIR exchange.')
-
+    '''
 
     fire_pixel_persistance = FirePixelPersistConsumer('firepixel')
     fire_pixel_persistance.declare()
     fire_pixel_persistance.purge()
     fire_pixel_persistance.bind_queue(routing_keys=['af_modis.#'])
+    fire_pixel_persistance.bind_queue(routing_keys=['af_viirs.#'])
     
 
     logging.info("AMQP running forever!")
