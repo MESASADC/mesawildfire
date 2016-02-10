@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<featureType>
+    <name>sadc_borders</name>
+    <nativeName>custom_background</nativeName>
+    <namespace>
+        <name>mesa</name>
+    </namespace>
+    <title>SADC borders</title>
+    <keywords>
+        <string>custom_background</string>
+        <string>features</string>
+    </keywords>
+    <nativeCRS>GEOGCS["GCS_WGS_1984", 
+  DATUM["D_WGS_1984", 
+    SPHEROID["WGS_1984", 6378137.0, 298.257223563]], 
+  PRIMEM["Greenwich", 0.0], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Longitude", EAST], 
+  AXIS["Latitude", NORTH]]</nativeCRS>
+    <srs>EPSG:4326</srs>
+    <nativeBoundingBox>
+        <minx>10.0</minx>
+        <maxx>65.0</maxx>
+        <miny>-50.0</miny>
+        <maxy>10.0</maxy>
+        <crs>GEOGCS["GCS_WGS_1984", 
+  DATUM["D_WGS_1984", 
+    SPHEROID["WGS_1984", 6378137.0, 298.257223563]], 
+  PRIMEM["Greenwich", 0.0], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Longitude", EAST], 
+  AXIS["Latitude", NORTH]]</crs>
+    </nativeBoundingBox>
+    <latLonBoundingBox>
+        <minx>10.0</minx>
+        <maxx>65.0</maxx>
+        <miny>-50.0</miny>
+        <maxy>10.0</maxy>
+        <crs>GEOGCS["WGS84(DD)", 
+  DATUM["WGS84", 
+    SPHEROID["WGS84", 6378137.0, 298.257223563]], 
+  PRIMEM["Greenwich", 0.0], 
+  UNIT["degree", 0.017453292519943295], 
+  AXIS["Geodetic longitude", EAST], 
+  AXIS["Geodetic latitude", NORTH]]</crs>
+    </latLonBoundingBox>
+    <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+    <enabled>true</enabled>
+    <metadata>
+        <entry key="cachingEnabled">false</entry>
+    </metadata>
+    <store class="dataStore">
+        <name>sadc_borders</name>
+    </store>
+    <maxFeatures>0</maxFeatures>
+    <numDecimals>0</numDecimals>
+    <overridingServiceSRS>false</overridingServiceSRS>
+    <circularArcPresent>false</circularArcPresent>
+   
+   <attributes>
+    <attribute>
+        <name>the_geom</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>com.vividsolutions.jts.geom.MultiPolygon</binding>
+    </attribute>
+    <attribute>
+        <name>FIPS</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.String</binding>
+        <length>2</length>
+    </attribute>
+    <attribute>
+        <name>ISO2</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.String</binding>
+        <length>2</length>
+    </attribute>
+    <attribute>
+        <name>ISO3</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.String</binding>
+        <length>3</length>
+    </attribute>
+    <attribute>
+        <name>UN</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Integer</binding>
+        <length>3</length>
+    </attribute>
+    <attribute>
+        <name>NAME</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.String</binding>
+        <length>50</length>
+    </attribute>
+    <attribute>
+        <name>AREA</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Integer</binding>
+        <length>7</length>
+    </attribute>
+    <attribute>
+        <name>POP2005</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Long</binding>
+        <length>10</length>
+    </attribute>
+    <attribute>
+        <name>REGION</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Integer</binding>
+        <length>3</length>
+    </attribute>
+    <attribute>
+        <name>SUBREGION</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Integer</binding>
+        <length>3</length>
+    </attribute>
+    <attribute>
+        <name>LON</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Double</binding>
+        <length>8</length>
+    </attribute>
+    <attribute>
+        <name>LAT</name>
+        <minOccurs>0</minOccurs>
+        <maxOccurs>1</maxOccurs>
+        <nillable>true</nillable>
+        <binding>java.lang.Double</binding>
+        <length>7</length>
+    </attribute>
+  </attributes>
+ </featureType>   

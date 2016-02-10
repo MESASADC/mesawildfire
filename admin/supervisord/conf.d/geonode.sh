@@ -20,6 +20,6 @@ docker run --name supervisor_geonode --link supervisor_postgis:postgis -a stdout
 RESULT=$?
 
 # Avoid Supervisor restarting immediately
-sleep 10
+sleep 1
 exit $RESULT
 

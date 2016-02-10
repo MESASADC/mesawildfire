@@ -1,0 +1,28 @@
+<dataStore>
+<name>mesa_shapefiles</name>
+<type>Directory of spatial files (shapefiles)</type>
+
+<enabled>true</enabled>
+
+<workspace>
+  <name>mesa</name>
+</workspace>
+
+<connectionParameters>
+    <entry key="memory mapped buffer">false</entry>
+    <entry key="timezone">Etc/UTC</entry>
+    <entry key="fstype">shape</entry>
+    <entry key="create spatial index">true</entry>
+    <entry key="charset">ISO-8859-1</entry>
+    <entry key="filetype">shapefile</entry>
+    <entry key="enable spatial index">true</entry>
+    <entry key="cache and reuse memory maps">true</entry>
+    <entry key="url">file:data/mesa</entry>
+    <entry key="namespace">http://mesasadc.org/mesa</entry>
+</connectionParameters>
+
+<__default>false</__default>
+<featureTypes>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesa_shapefiles/featuretypes.xml" type="application/xml"/>
+</featureTypes>
+</dataStore>

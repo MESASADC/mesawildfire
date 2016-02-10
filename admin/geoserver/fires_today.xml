@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<featureType>
+   <nativeCRS>EPSG:4326</nativeCRS>
+   <name>fires_today</name>
+   <title>fires_today</title>
+   <nativeBoundingBox>
+      <minx>10</minx>
+      <maxx>66</maxx>
+      <miny>-50</miny>
+      <maxy>10</maxy>
+      <crs>EPSG:4326</crs>
+   </nativeBoundingBox>
+   <latLonBoundingBox>
+      <minx>10</minx>
+      <maxx>66</maxx>
+      <miny>-50</miny>
+      <maxy>10</maxy>
+      <crs>GEOGCS["WGS84(DD)", DATUM["WGS84", SPHEROID["WGS84", 6378137.0, 298.257223563]], PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH]]</crs>
+   </latLonBoundingBox>
+   <enabled>true</enabled>
+   <srs>EPSG:4326</srs>
+   <metadata>
+      <entry key="JDBC_VIRTUAL_TABLE">
+         <virtualTable>
+            <name>fire_today</name>
+            <sql>SELECT * FROM mesa_firefeature WHERE date_trunc('day', last_seen) = date_trunc('day', timezone('GMT', now()+('%tzoffset%'||'MINUTE')::INTERVAL))</sql>
+            <escapeSql>false</escapeSql>
+            <geometry>
+               <name>newgeom</name>
+               <type>LineString</type>
+               <srid>4326</srid>
+            </geometry>
+         </virtualTable>
+      </entry>
+   </metadata>
+</featureType>

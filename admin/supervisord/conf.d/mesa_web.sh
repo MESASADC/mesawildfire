@@ -20,6 +20,6 @@ docker run -t --rm -a stdout -a stderr --name supervisor_mesa_web --link supervi
 RESULT=$?
 
 echo "Avoid Supervisor restarting immediately"
-sleep 10
+sleep 1
 exit $RESULT
 

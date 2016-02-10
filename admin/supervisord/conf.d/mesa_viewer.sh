@@ -40,6 +40,6 @@ python /tmp/django_project/manage.py runserver 0.0.0.0:8000
 RESULT=$?
 
 echo "Avoid Supervisor restarting immediately"
-sleep 5
+sleep 1
 exit $RESULT
 

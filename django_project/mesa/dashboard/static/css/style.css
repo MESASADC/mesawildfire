@@ -12,6 +12,8 @@ body {
 
 }
 
+tr.row_selected td{background-color:red !important;}
+
 .navbar-brand img {
     height: 70px;
     background-color: white; 

@@ -24,8 +24,8 @@ incron_file = sys.argv[2]
 incron_filepath = os.path.join(incron_dir, incron_file)
 incron_event = sys.argv[3]
 
-#logfile = os.path.join(script_dir, 'af_modis.log')
-logfile='/dev/stdout'
+logfile = os.path.join(script_dir, 'af_modis.log')
+#logfile='/dev/stdout'
 logging.basicConfig(filename=logfile,level=logging.DEBUG, format='%(asctime)s :: %(message)s')
 
 configfile = os.path.join(script_dir, 'config.json')
