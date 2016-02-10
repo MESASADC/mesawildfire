@@ -227,19 +227,46 @@ class FdiPointData(View):
         unique_together = ('fdi_point', 'date_time', 'is_forecast')
 
 
-def _notification(event, source):
-    return {
-            "type": "notify.ui.db",
-            "version": "m01",
-            "event": event,
-            "source": source,
-            "timestamp": timezone.now().isoformat()
+def _notification(event, instance):
+    
+    messages = []
+
+    message = {
+              "pk": instance.pk,
+              "rk": "notify.db.%s.%s" % (type(instance).__name__, event),
+              "version": "0.1",
+              "source": type(instance).__name__,
+              "event": event,
+              "timestamp": timezone.now().isoformat(),
+              "extra" : {}
         }
 
+    messages.append(message)
+    
+
+    if isinstance(sender, FirePixel):
+
+        fire_event = FireEvent.objects.get(pk=instance.fire_id)
+
+    	message = {
+                  "pk": fire_event.pk,
+                  "rk": "notify.db.FireEvent.cascaded",
+                  "version": "0.1",
+                  "source": type(instance).__name__,
+                  "event": event,
+                  "timestamp": timezone.now().isoformat(),
+                  "extra": { "fire_pixel": instance.pk }
+              }
+        
+        messages.append(message)
+
+      
+    return messages
 
 @receiver(post_save, dispatch_uid='post_save_notify')
 def post_save_notify_amqp(sender, **kwargs):
     logging.debug('post_save_notify_amqp: %s' % sender.__name__)
+    instance = kwargs.get('instance')
     if issubclass(sender, NotifySave):
         event = 'created' if kwargs.get('created', False) else 'updated'
         logging.debug('post_save_notify_amqp: %s %s' % (sender.__name__, event))
@@ -249,12 +276,16 @@ def post_save_notify_amqp(sender, **kwargs):
                 logging.info('Got connection. Acquiring producer...')
                 with producers[conn].acquire(block=True, timeout=10) as producer:
                     logging.info('Got producer. Publishing to: %s' % settings.MESA_FT_AMQP_URI)
-                    producer.publish(
-                        _notification(event, sender.__name__),
-                        exchange=settings.MESA_FT_AMQP_EXCHANGE,
-                        routing_key='notify.ui.db.%s.%s' % (event, sender.__name__),
-                        serializer='json')
-                    logging.info('Published.')
+                    messages = _notification(event, instance)
+                    for message in messages:
+                        rk = message.get('rk')
+                        if not rk:
+                            raise KeyError('Notification message should contain "rk" key')
+                        producer.publish(
+                            message,
+                            exchange=settings.MESA_FT_AMQP_EXCHANGE,
+                            routing_key=rk,
+                            serializer='json')
         except Exception, e:
             logging.warn('Failed to publish. Reason: %s' % e)
-    
+   

@@ -20,6 +20,6 @@ docker run -t --rm -a stdout -a stderr --name supervisor_nginx --link supervisor
 RESULT=$?
 
 # Avoid Supervisor restarting immediately
-sleep 10
+sleep 1
 exit $RESULT
 

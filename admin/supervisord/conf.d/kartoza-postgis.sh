@@ -13,5 +13,5 @@ echo RESULT=$RESULT
 
 # Avoid Supervisor restarting immediately
 echo Sleeping...
-sleep 10
+sleep 1
 exit $RESULT

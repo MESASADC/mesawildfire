@@ -5,7 +5,7 @@
     <type>GeoTIFF</type>
     <description>Generated from GeoTIFF</description>
    <enabled>true</enabled>
-    <url>file:data/mesa/rasters/HYP_50M_SR_W.tif</url>
+    <url>file:data/mesa/mesa_rasters/HYP_50M_SR_W.tif</url>
    <keywords>
       <string>WCS</string>
       <string>GeoTIFF</string>

@@ -12,6 +12,10 @@ var fdiTable;
 var fireTable;
 var map;
 var defaultView;
+var webStompSocket;
+var webStompClient;
+var fire_active_data;
+
 // BEGIN LAYOUT
 function unique(list) {
     var result = [];
@@ -22,6 +26,7 @@ function unique(list) {
     });
     return result;
 }
+
 $(function() {
     // BEGIN OPEN LAYERS
     var backdrop_osm = new ol.layer.Tile({
@@ -61,7 +66,7 @@ $(function() {
         source: new ol.source.Vector({
             projection: 'EPSG:4326',
             url: '/rest/FireFeature/?format=json',
-            format: new ol.format.GeoJSON()
+            format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
         }),
         style: fireStyle
     });
@@ -108,7 +113,7 @@ $(function() {
       return false;
     };
 
-    /**
+    /**ws
      * Create an overlay to anchor the popup to the map.
      */
     var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
@@ -128,7 +133,7 @@ $(function() {
 
     map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS ],
+        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS,firesVector],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -138,7 +143,6 @@ $(function() {
         ]),
 
     });
-
     //var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
 
     //function refreshLayers() {
@@ -150,24 +154,14 @@ $(function() {
     //setInterval(refreshLayers, 10000);
     
     
-    // select interaction working on "singleclick"
-    var selectSingleClick = new ol.interaction.Select();
-    map.addInteraction(selectSingleClick);
-    selectSingleClick.on('select', function () {
-        this.getFeatures().forEach( function (feat) {
-            console.log(feat);
-            var fireId = feat.getId();
-            //tr = $('#fire-table tbody tr[fire-id="' + fireId + '"]');
-            //var row = fireTable.row(tr);
-            //console.log(row);
-            //var i = fireTable.rows().indexOf(row);
-            //console.log(i);
-            //row.scrollTo(true);
-            console.log(
-                fireTable.$('#fire-table tbody tr[fire-id="' + fireId + '"]')
-            );
-        })
-    });
+    
+    
+    
+    
+
+    
+    
+    
 
     /**
      * Add a click handler to the map to render the popup.
@@ -474,9 +468,9 @@ $(document).ready(function() {
         fires.forEach(function (fire) {
             tableData.push(fire);
         });
-
+        
         fireTable = $('#fire-table').DataTable({
-            data: tableData,
+            data: tableData ,
             deferRender: true,
             dom: "tS",
             scrollY: "35%",
@@ -492,6 +486,7 @@ $(document).ready(function() {
                     });
                     //flyToPoint(row(1).select();
                 };
+                   
             },
             "columns": [{
                 "className": 'details-control',
@@ -499,21 +494,27 @@ $(document).ready(function() {
                 "data": null,
                 "defaultContent": ''
             }, {
+				"className" : 'hidde fireid',
+                "data": "id"
+            }, {
                 "data": "description"
             }, {
                 "data": "status"
-            }, {
+            },{
                 "data": "area",
                 "render": function ( data, type, row, meta ) {
-                    if (type == 'display') {
+					
+                    if (type == 'display') 
+                    {
                         sqkm = data / Math.pow(10,6);
                         ha = data / Math.pow(10, 4);
-                        return ha.toFixed(1) + " ha";
-                    } else {
-                        return data;
+                        return ha.toFixed(1) + " ha"; 
+                    } 
+                    else {
+                       return data;
                     }
                 }
-            }, {
+            },{
                 "className": "fdi",
                 "data": "current_fdi"
             }, {
@@ -533,7 +534,22 @@ $(document).ready(function() {
                 [1, 'asc']
             ]
         });
+        
+        
+        
+        
+		$('#fire-table tbody tr').each( function () {
+			
+			var row = fireTable.row(this);
+            $(row).attr('fire-id',row.data()['id']);
 
+			if (row & row.data()) {
+			     $(row).attr('fire-id', row.data()['id']);
+			}
+        });
+        
+        
+        
         debugvar = tableData;
 
         $('#fire-table-search').on('keyup', function() {
@@ -583,7 +599,7 @@ $(document).ready(function() {
                 '<tr>' +
                     '<td><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:100px; height:100px;" src="' + FIRE_THUMBNAIL_URL + d.vbox_west + ',' + d.vbox_south + ',' + d.vbox_east + ',' + d.vbox_north + '"/></th>' +
                     '<td class="fire-detail-list"><ul class="fire-detail-list">';
-
+                
             for (key in d) {
                 if ( /*(visible_keys.indexOf(key) == -1) & */ (hide_keys.indexOf(key) == -1)) {
                     var name;
@@ -647,30 +663,33 @@ $(document).ready(function() {
             defaultView.setCenter(to);
         };
 
-        //RabbitMQ WebStomp
-        window.onload = function() {
-
-            var ws = new SockJS('http://127.0.0.1:56723/stomp');
-            var client = Stomp.over(ws);
-
-            client.heartbeat.outgoing = 0;
-            client.heartbeat.incoming = 0;
-
+            //RabbitMQ WebStomp
+        
+            webStompSocket = new WebSocket('ws://'+document.location.hostname+':56723/ws');
+            webStompClient = Stomp.over(webStompSocket);
+            
+            webStompClient.heartbeat.outgoing = 0;
+            webStompClient.heartbeat.incoming = 0;
+            
             var onDebug = function(m) {
-              console.log('DEBUG', m);
+              console.log('WebStomp DEBUG', m.body);
             }
+            
             var onConnect = function() {
-              client.subscribe('/queue/firepixel', function(d) {
+				
+              webStompClient.subscribe('/exchange/mesa_terminal/notify.ui.#', function(d) {
                 //Received Message
-                console.log(d.body);
+                fire_active_data = JSON.parse(d.body);
+                fire_active_data = fire_active_data.properties;
+                fireTable.row.add(fire_active_data).draw();
+                
               });
             };
             var onError = function(e) {
-              console.log('ERROR', e);
+              console.log('WebStomp ERROR', e);
             };
+            webStompClient.connect('user', 'password', onConnect, onError, '/');
 
-            client.connect('user', 'password', onConnect, onError, '/');
-       }
 
         // Add event listener for opening and closing details
         $('#fire-table tbody').on('click', 'td.details-control', function() {
@@ -706,24 +725,85 @@ $(document).ready(function() {
             };
         }
     } );
+    
+    
+    function sleep(milliseconds) {
+      var start = new Date().getTime();
+	  for (var i = 0; i < 1e7; i++) {
+		if ((new Date().getTime() - start) > milliseconds){
+		  break;
+		}
+	  }
+   }
+    
+    
+    
+    //select interaction working on "singleclick"
+    var selectSingleClick = new ol.interaction.Select();
+    map.addInteraction(selectSingleClick);
+    /*selectSingleClick.on('select', function () {
+        this.getFeatures().forEach( function (feat) {
+            console.log(feat);
+            var fireId = feat.getId();
 
-        /*$('#fire-table tbody tr').each( function () {
-            var row = fireTable.row(this);
+            //tr = $('#fire-table tbody tr[fire-id="' + fireId + '"]');
+            //var row = fireTable.row(tr);
+            //console.log(row);
+            //var i = fireTable.rows().indexOf(row);
+            //console.log(i);
+            //row.scrollTo(true);
+            
+            
+            console.log(
+                fireTable.$('#fire-table tbody tr[fire-id="' + fireId + '"]')
+            );
+        })
+    });*/
+    
+    selectSingleClick.on('select', function(evt){
+		
+		if(evt.selected.length > 0){
+			
+			fireTable.$("#fire-table tbody tr").removeClass('selected');
+			var selected_fire_id = evt.selected[0].getId();
+			var rows = $("#fire-table").dataTable().fnGetNodes();
+			
+						
+			for(var i=0; i < rows.length; i++)
+			{
+				var table_fire_id = $(rows[i]).find("td.fireid").html();
+				
+				if(selected_fire_id == table_fire_id)
+				 {
+					console.log("ROW:"+String(i));
+					console.log("Row Index:"+String(rows[i].rowIndex));
+					console.log("Table ID:"+String(table_fire_id));
+					console.log("Selected Fire ID:"+String(selected_fire_id));
+					
+		            fireTable.$('tr:eq(' +  String(i) + ')').addClass('selected');
+		            fireTable.row('.selected').scrollTo();
+		            break;
+				 }
+
+			}
+			
+		}
+		
+ });
+    
+       /* $('#fire-table tbody tr').each( function () {
+            //var row = fireTable.row(this);
+            console.log(this);
+            $(this).attr('abcd', 1234);
             if (row & row.data()) {
-                $(this).attr('fire-id', row.data()['id']);
+                $(row).attr('fire-id', row.data()['id']);
             }
         });*/
 
 
     }); // get fire data
-
-
-
     // END FIRE EVENT TABLE
-
-
     // BEGIN FDI CHART
-
     var SECOND = 1000;
     var MINUTE = 60 * SECOND;
     var HOUR = 60 * MINUTE;
@@ -863,3 +943,4 @@ $(document).ready(function() {
 
 
 });
+

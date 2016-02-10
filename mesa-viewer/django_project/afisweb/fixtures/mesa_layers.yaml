@@ -62,7 +62,7 @@
 -   fields: {as_open_layer: "lyr3 = new OpenLayers.Layer.WMS(\n\
                 'SADC country borders','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
                     {\n\
-                        layers: 'mesa:sadc_borders',\n\
+                        layers: 'mesa:MESASADC',\n\
                         transparent: 'true',\n\
                         format: 'image/png'\n\
                     },\n\
@@ -76,7 +76,7 @@
                 gLayersDict[lyr3.id] = 'lyr3';", content_type: 14,
         name: SADC country borders, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: SADC country borders, image_format: 1, is_base_layer: false,
-        is_transparent: true, is_visible: true, layers: 'mesa:sadc_borders',
+        is_transparent: true, is_visible: true, layers: 'mesa:MESASADC',
         legend_group: 8,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
