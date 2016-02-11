@@ -238,8 +238,7 @@ def async_run_forever():
     fire_pixel_persistance = FirePixelPersistConsumer('firepixel')
     fire_pixel_persistance.declare()
     fire_pixel_persistance.purge()
-    fire_pixel_persistance.bind_queue(routing_keys=['af_modis.#'])
-    fire_pixel_persistance.bind_queue(routing_keys=['af_viirs.#'])
+    fire_pixel_persistance.bind_queue(routing_keys=['af_modis.#', 'af_viirs.#'])
     
 
     logging.info("AMQP running forever!")

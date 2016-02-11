@@ -15,6 +15,8 @@ var defaultView;
 var webStompSocket;
 var webStompClient;
 var fire_active_data;
+var fireStyle;
+var firesVector;
 
 // BEGIN LAYOUT
 function unique(list) {
@@ -25,6 +27,9 @@ function unique(list) {
         }
     });
     return result;
+}
+function log(log_msg){
+  console.log(log_msg);	
 }
 
 $(function() {
@@ -52,7 +57,7 @@ $(function() {
         })
     });
 
-    var fireStyle = new ol.style.Style({
+    fireStyle = new ol.style.Style({
         stroke: new ol.style.Stroke({
             color: 'black',
             width: 3
@@ -62,14 +67,7 @@ $(function() {
         })
     });
 
-    var firesVector = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            projection: 'EPSG:4326',
-            url: '/rest/FireFeature/?format=json',
-            format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
-        }),
-        style: fireStyle
-    });
+
 
     var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
@@ -133,7 +131,7 @@ $(function() {
 
     map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS,firesVector],
+        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -143,6 +141,8 @@ $(function() {
         ]),
 
     });
+    
+
     //var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
 
     //function refreshLayers() {
@@ -152,17 +152,7 @@ $(function() {
     //}; 
 
     //setInterval(refreshLayers, 10000);
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
+   
     /**
      * Add a click handler to the map to render the popup.
      */
@@ -174,7 +164,6 @@ $(function() {
       overlay.setPosition(coordinate);
     }); popup size issue
     */
-
 
     var exportPNGElement = document.getElementById('export-png');
     if ('download' in exportPNGElement) {
@@ -195,8 +184,6 @@ $(function() {
 
 
 });
-
-
 
 function extract_rgb(rgb_string) {
 
@@ -307,6 +294,7 @@ $(document).ready(function() {
     $.get(FDI_URL, function(result, status) {
 
         var selected = null;
+        alert(result);
 
         result.features.forEach(function (feature) {
 
@@ -377,7 +365,7 @@ $(document).ready(function() {
         };
 
         render_chart(selected);
-
+        
         fdiTable = $('#fdi-table').DataTable({
 
             data: fdiTableData,
@@ -623,6 +611,8 @@ $(document).ready(function() {
             html += '</ul></td></tr></table>';
             return html;
         };
+        
+
 
 
         function flyToPoint(lon, lat) {
@@ -677,19 +667,35 @@ $(document).ready(function() {
             
             var onConnect = function() {
 				
-              webStompClient.subscribe('/exchange/mesa_terminal/notify.ui.#', function(d) {
+              webStompClient.subscribe('/exchange/mesa_terminal/notify.db.FireEvent.#', function(d) {
                 //Received Message
                 fire_active_data = JSON.parse(d.body);
-                fire_active_data = fire_active_data.properties;
-                fireTable.row.add(fire_active_data).draw();
+                
+                pk_id = fire_active_data.pk;
+                
+                firesVector = new ol.layer.Vector({
+					source: new ol.source.Vector({
+						projection: 'EPSG:4326',
+						url: '/rest/FireFeature/'+pk_id+'/?format=json',
+						format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
+					}),
+					style: fireStyle
+				});
+                
+                map.addLayer(firesVector);
+                
+                $.get("http://"+document.location.hostname+"/rest/FireEvent/"+pk_id+"/?format=json",function(fire_event_data){
+				   fireTable.row.add(fire_event_data).draw();
+				   console.log("Added fire: "+fire_event_data.description+" ,in the table.");
+				});
                 
               });
             };
+            
             var onError = function(e) {
               console.log('WebStomp ERROR', e);
             };
             webStompClient.connect('user', 'password', onConnect, onError, '/');
-
 
         // Add event listener for opening and closing details
         $('#fire-table tbody').on('click', 'td.details-control', function() {
@@ -727,16 +733,14 @@ $(document).ready(function() {
     } );
     
     
-    function sleep(milliseconds) {
-      var start = new Date().getTime();
-	  for (var i = 0; i < 1e7; i++) {
-		if ((new Date().getTime() - start) > milliseconds){
-		  break;
-		}
-	  }
-   }
-    
-    
+	 function sleep(milliseconds) {
+		  var start = new Date().getTime();
+		  for (var i = 0; i < 1e7; i++) {
+			if ((new Date().getTime() - start) > milliseconds){
+			  break;
+			}
+		  }
+	   }
     
     //select interaction working on "singleclick"
     var selectSingleClick = new ol.interaction.Select();
@@ -764,7 +768,7 @@ $(document).ready(function() {
 		
 		if(evt.selected.length > 0){
 			
-			fireTable.$("#fire-table tbody tr").removeClass('selected');
+			fireTable.$("#fire-table tbody tr").removeClass('row_selected');
 			var selected_fire_id = evt.selected[0].getId();
 			var rows = $("#fire-table").dataTable().fnGetNodes();
 			
@@ -779,18 +783,16 @@ $(document).ready(function() {
 					console.log("Row Index:"+String(rows[i].rowIndex));
 					console.log("Table ID:"+String(table_fire_id));
 					console.log("Selected Fire ID:"+String(selected_fire_id));
+			
 					
-		            fireTable.$('tr:eq(' +  String(i) + ')').addClass('selected');
-		            fireTable.row('.selected').scrollTo();
+		            fireTable.$('tr:eq(' +  String(i) + ')').addClass('row_selected');
+		            fireTable.row('.row_selected').scrollTo();
 		            break;
 				 }
-
 			}
-			
 		}
-		
- });
-    
+    });
+ 
        /* $('#fire-table tbody tr').each( function () {
             //var row = fireTable.row(this);
             console.log(this);
@@ -799,7 +801,6 @@ $(document).ready(function() {
                 $(row).attr('fire-id', row.data()['id']);
             }
         });*/
-
 
     }); // get fire data
     // END FIRE EVENT TABLE

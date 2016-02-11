@@ -12,7 +12,7 @@ body {
 
 }
 
-tr.row_selected td{background-color:red !important;}
+tr.row_selected td{background-color:rgb(172, 186, 212) !important;}
 
 .navbar-brand img {
     height: 70px;
