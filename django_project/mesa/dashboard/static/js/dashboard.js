@@ -18,6 +18,7 @@ var fire_active_data;
 var fireStyle;
 var firesVector;
 
+
 // BEGIN LAYOUT
 function unique(list) {
     var result = [];
@@ -93,6 +94,19 @@ $(function() {
         }),
         minResolution: 2000
     });
+    
+     var firesVector = new ol.layer.Vector({
+		source: new ol.source.Vector({
+		projection: 'EPSG:4326',
+		url: '/rest/FireFeature/?format=json',
+		format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
+		
+		}),
+		style: fireStyle
+	});
+	
+	 
+                
 
     /**
      * Elements that make up the info popup.
@@ -131,7 +145,7 @@ $(function() {
 
     map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS],
+        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS,firesVector],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -141,7 +155,7 @@ $(function() {
         ]),
 
     });
-    
+
 
     //var layersToRefresh = [ msgWMS, firesWMS, firePixelWMS ];
 
@@ -436,9 +450,9 @@ $(document).ready(function() {
 
     }); // get fdi data
 
-
+    console.log("http://" + document.location.hostname + FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0');
     // get fire data.
-    $.get(FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0', function(data, status) {
+    $.get("http://" + document.location.hostname + FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0', function(data, status) {
 
         var tableData = [];
         var fires;
@@ -456,7 +470,7 @@ $(document).ready(function() {
         fires.forEach(function (fire) {
             tableData.push(fire);
         });
-        
+
         fireTable = $('#fire-table').DataTable({
             data: tableData ,
             deferRender: true,
@@ -482,7 +496,7 @@ $(document).ready(function() {
                 "data": null,
                 "defaultContent": ''
             }, {
-				"className" : 'hidde fireid',
+				"className" : 'hidden fireid',
                 "data": "id"
             }, {
                 "data": "description"
@@ -526,7 +540,7 @@ $(document).ready(function() {
         
         
         
-		$('#fire-table tbody tr').each( function () {
+		/*$('#fire-table tbody tr').each( function () {
 			
 			var row = fireTable.row(this);
             $(row).attr('fire-id',row.data()['id']);
@@ -534,7 +548,7 @@ $(document).ready(function() {
 			if (row & row.data()) {
 			     $(row).attr('fire-id', row.data()['id']);
 			}
-        });
+        });*/
         
         
         
@@ -670,24 +684,22 @@ $(document).ready(function() {
               webStompClient.subscribe('/exchange/mesa_terminal/notify.db.FireEvent.#', function(d) {
                 //Received Message
                 fire_active_data = JSON.parse(d.body);
-                
-                pk_id = fire_active_data.pk;
-                
-                firesVector = new ol.layer.Vector({
+                pk_id = fire_active_data.pk;                
+               /* var firesVector = new ol.layer.Vector({
 					source: new ol.source.Vector({
-						projection: 'EPSG:4326',
-						url: '/rest/FireFeature/'+pk_id+'/?format=json',
-						format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
+					projection: 'EPSG:4326',
+					url: '/rest/FireFeature/'+pk_id+'/?format=json',
+					format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
+					
 					}),
 					style: fireStyle
 				});
                 
-                map.addLayer(firesVector);
-                
+                map.addLayer(firesVector);*/
                 $.get("http://"+document.location.hostname+"/rest/FireEvent/"+pk_id+"/?format=json",function(fire_event_data){
 				   fireTable.row.add(fire_event_data).draw();
 				   console.log("Added fire: "+fire_event_data.description+" ,in the table.");
-				});
+		});
                 
               });
             };
@@ -718,8 +730,9 @@ $(document).ready(function() {
         });
 
         $('#fire-table tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
+        if ( $(this).hasClass('selected') && $(this).hasClass('row_selected') ) {
             $(this).removeClass('selected');
+            $(this).removeClass('row_selected');
         }
         else {
             fireTable.$('tr.selected').removeClass('selected');
@@ -727,7 +740,39 @@ $(document).ready(function() {
             var row = fireTable.row($(this));
             if (row) {
                 var data = row.data();
+                //console.log(data);
                 flyToPoint(data.centroid_x, data.centroid_y);
+                
+                $.get("http://mesa2.dhcp.meraka.csir.co.za/rest/FireFeature/"+data.id+"/?format=json",function(data){
+					
+					console.log(data.geometry.coordinates);
+					
+					var selectd = new ol.interaction.Select();
+					map.addInteraction(selectd);
+					
+					var feature = new ol.Feature({
+					  geometry: new ol.geom.Polygon(data.geometry.coordinates),
+					  
+					});
+					
+					feature.setStyle(new ol.style.Style({
+                        stroke: new ol.style.Stroke({color:'red',width:3}),
+                        fill: new ol.style.Fill({color: 'rgba(91, 53, 252, 0.1)'})
+                    }))
+                    
+					var selected_collection = selectd.getFeatures();
+					selected_collection.push(feature);
+					map.addInteraction(selectd);
+					
+					console.log(selected_collection);
+					console.log("executed");
+                });
+                
+                /*
+				var features = select.getFeatures(feature);
+				// now you have an ol.Collection of features that you can add features to
+				features.push(feature); */
+				
             };
         }
     } );
@@ -771,27 +816,46 @@ $(document).ready(function() {
 			fireTable.$("#fire-table tbody tr").removeClass('row_selected');
 			var selected_fire_id = evt.selected[0].getId();
 			var rows = $("#fire-table").dataTable().fnGetNodes();
+			var fire_available = false;
 			
-						
-			for(var i=0; i < rows.length; i++)
+			
+			if(rows.length != 0)
 			{
-				var table_fire_id = $(rows[i]).find("td.fireid").html();
-				
-				if(selected_fire_id == table_fire_id)
-				 {
-					console.log("ROW:"+String(i));
-					console.log("Row Index:"+String(rows[i].rowIndex));
-					console.log("Table ID:"+String(table_fire_id));
-					console.log("Selected Fire ID:"+String(selected_fire_id));
-			
+						
+				for(var i=0; i < rows.length; i++)
+				{
 					
-		            fireTable.$('tr:eq(' +  String(i) + ')').addClass('row_selected');
-		            fireTable.row('.row_selected').scrollTo();
-		            break;
-				 }
-			}
+					var table_fire_id = $(rows[i]).find("td.fireid").html();
+					
+					if(selected_fire_id == table_fire_id)
+					 {
+						fire_available = true;
+						//console.log("ROW:"+String(i));
+						//console.log("Row Index:"+String(rows[i].rowIndex));
+						//console.log("Table ID:"+String(table_fire_id));
+						//console.log("Selected Fire ID:"+String(selected_fire_id));
+						console.log(evt.selected[0].q.description+" is available in the table.");
+						fireTable.$('tr:eq(' +  String(i) + ')').addClass('row_selected');
+						fireTable.row('.row_selected').scrollTo();
+					 }
+					 
+				}
+				
+				if(fire_available == false)
+				{
+				   console.log(evt.selected[0].q.description+" is not available in the table.");	
+				}
+			  }
 		}
     });
+    
+	/*var select = new ol.interaction.Select();
+	map.addInteraction(select);
+
+	var selected_collection = select.getFeatures();
+	selected_collection.push(featurePoint);*/
+    
+    
  
        /* $('#fire-table tbody tr').each( function () {
             //var row = fireTable.row(this);
