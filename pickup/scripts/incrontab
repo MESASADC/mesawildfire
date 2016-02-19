@@ -1,2 +1,0 @@
-/home/mesa/mesa-terminal/pickup/af_modis IN_CLOSE_WRITE,IN_MOVED_TO python /home/mesa/mesa-terminal/pickup/scripts/af_modis.py $@ $# $%
-#/home/mesa/mesa-terminal/pickup/af_modis IN_CLOSE_WRITE,IN_MOVED_TO /home/mesa/mesa-terminal/pickup/scripts/incron.test $@ $# $%

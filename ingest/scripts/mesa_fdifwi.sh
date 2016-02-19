@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#set -x
+
+# if POSTGIS_DOCKER_EXEC is set then execute this inside the postgis docker
+if [ ! -z "$POSTGIS_DOCKER_EXEC" ]; 
+  then
+    docker exec -t supervisor_postgis bash -c "/mnt/ingest/scripts/mesa_fdifwi.sh /mnt/ingest/mesa_fdifwi $2 $3"
+    exit
+  else
+    echo no
+fi
+
+SCRIPT_DIR=$(readlink -f `dirname $0`)
+DB_NAME="gis"
+
+INCRON_EVENT_DIR=$1
+INCRON_EVENT_FILE=$2
+INCRON_EVENT_FLAGS=$3
+
+# Example: MESA_SADC_FDI_SAfri_v1.2016-02-01T1200Z.2016-02-01T1200Z.lfdid.tif
+
+# Use Python's regex module. Regex created using https://regex101.com/#python
+PARAMS=( $(python -c \
+"import sys,re; \
+match = re.match(r'.*(?P<target_datetime>.{16})(?<=Z)\.(?P<datetime>.{16})(?<=Z)\.(?P<product>.*(?=\.)).*', sys.argv[1]); \
+print ' '.join(match.groups()) \
+" $INCRON_EVENT_FILE ) \
+)
+
+DATETIME=${PARAMS[0]}
+DATETIME_TARGET=${PARAMS[1]}
+PRODUCT=${PARAMS[2]}
+
+SQL="CREATE TABLE IF NOT EXISTS \"lfdi_fwi_raster\" ( \
+    \"rid\" serial PRIMARY KEY, \
+    \"datetime\" timestamp without time zone, \
+    \"target_datetime\" timestamp without time zone, \
+    \"product\" character varying, \
+    \"rasterfile\" character varying, \
+    \"rast\" raster\
+  );"
+
+TERM=xterm
+
+echo $SQL | su -c "psql $DB_NAME" postgres
+
+raster2pgsql -R -a -e $INCRON_EVENT_DIR/$INCRON_EVENT_FILE lfdi_fwi_raster | $SCRIPT_DIR/pginsert-customize.py datetime "'$DATETIME'::timestamp without time zone" target_datetime "'$DATETIME_TARGET'::timestamp" product "'$PRODUCT'" rasterfile "'$INCRON_EVENT_DIR/$INCRON_EVENT_FILE'" | su -c "psql $DB_NAME" postgres
