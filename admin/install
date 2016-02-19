@@ -121,3 +121,7 @@ python configure.py
 
 # Restart dockers
 service supervisor restart
+
+
+# Install qgis
+sudo apt-get install qgis python-qgis qgis-plugin-grass
