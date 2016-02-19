@@ -18,3 +18,4 @@ volumes
 
 admin/geoserver/mesa_rasters/HYP_50M_SR_W.tif
 
+*aux.xml
