@@ -33,12 +33,6 @@ apt-get install -y docker-engine
 docker run hello-world
 
 
-# Install GeoNode
-#docker build -t geonode https://github.com/GeoNode/geonode.git
-#mkdir $VOLUMES/geonode_data/workspaces
-#cp -r $MESA_ROOT/admin/geoserver/mesa $VOLUMES/geonode_data/workspaces/
-
-
 # Install PostGIS
 docker pull kartoza/postgis
 docker run -it --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
