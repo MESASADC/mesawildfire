@@ -18,7 +18,7 @@ nano $MESA_ROOT/admin/ENV
 source $MESA_ROOT/admin/ENV
 mkdir -p $VOLUMES
 
-if [ -z "$QUICK" ]; do
+if [ -z "$QUICK" ]; then
   # General
   apt-get update
   apt-get upgrade -y
@@ -36,7 +36,7 @@ fi
 
 # Check docker
 docker run hello-world
-if [ "$?" != "0" ]; do
+if [ "$?" != "0" ]; then
   echo "Docker has not been properly installed!"
   exit 1
 fi
