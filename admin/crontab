@@ -22,4 +22,4 @@
 # m h  dom mon dow   command
 
 # housekeeping: remove old containers (especially the martin/wait ones!)
-40 * * * * docker ps -qa | xargs docker rm
+0 1 * * 1 docker ps -qa | xargs docker rm

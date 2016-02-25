@@ -2,7 +2,7 @@
 
 # Script to install MESA Wildfire software unto a vinilla Ubuntu machine
 
-set -x
+#set -x
 
 HERE=$(readlink -f `dirname $0`)
 MESA_ROOT=$(readlink -f $HERE/..)
@@ -13,6 +13,8 @@ export DEBIAN_FRONTEND=noninteractive
 cp $MESA_ROOT/admin/ENV.example $MESA_ROOT/admin/ENV
 read -p "Press [Enter] key to open the editor"
 nano $MESA_ROOT/admin/ENV
+
+apt-get install -y pwgen
 
 # need VOLUMES from ENV
 source $MESA_ROOT/admin/ENV
@@ -37,23 +39,23 @@ fi
 # Check docker
 docker run hello-world
 if [ "$?" != "0" ]; then
-  echo "Docker has not been properly installed!"
+  echo "Docker is not properly installed!"
   exit 1
 fi
 
 # Install PostGIS
-docker pull mesasadc/postgis
-docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql mesasadc/postgis bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
+docker pull mesasadc/postgis:$BUILD_TAG
+docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql mesasadc/postgis:$BUILD_TAG bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
 #cp $HERE/pg_hba.conf $VOLUMES/postgis/9.4/main/  # allow login from any ip address
 
 # Install Geoserver
-docker pull mesasadc/geoserver
+docker pull mesasadc/geoserver:$BUILD_TAG
 
 #Install RabbitMQ
-docker pull mesasadc/rabbitmq-webstomp
+docker pull mesasadc/rabbitmq-webstomp:$BUILD_TAG
 
 # Install Nginx
-docker pull mesasadc/nginx
+docker pull mesasadc/nginx:$BUILD_TAG
 
 # Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
@@ -65,10 +67,12 @@ pip install gsconfig
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
 apt-get install -y supervisor
-cp $HERE/supervisord/supervisor.conf /etc/supervisor/
-cp $HERE/supervisord/init.d/supervisor /etc/init.d/supervisor
-chmod +x /etc/init.d/supervisor
+cp $HERE/supervisord/supervisor.conf /etc/supervisor/supervisor.conf
+cp $HERE/supervisord/supervisor.init /etc/init.d/supervisor
+sed "s|username.*=.*|username=$SUPERVISOR_USER|g" -i /etc/supervisor/supervisor.conf
+sed "s|password.*=.*|password=$SUPERVISOR_PASS|g" -i /etc/supervisor/supervisor.conf
 
+# Configure supervisor scripts
 cd $HERE/supervisord
 ./update_conf
 
@@ -85,7 +89,6 @@ cd $MESA_ROOT/django_project
 
 # Initialize MESA Viewer
 cd $MESA_ROOT/mesa-viewer
-cp ENV.example ENV
 ./build
 RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb --noinput
 RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
