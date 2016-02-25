@@ -17,7 +17,7 @@ rm -r static_root/css 2> /dev/null
 rm -r static_root/images 2> /dev/null
 
 # Specify the docker image name to be built. Used by Fern to specify a standardized image name for deployment.
-IMAGE_NAME=${IMAGE_NAME:-"mesa_viewer"}
+IMAGE_NAME=${VIEWER_IMAGE_NAME:-"mesa_viewer"}
 
 # Read the Python package requirements into an environment variable, before rendering Dockerfile template.
 export PIP_REQUIREMENTS=$(cat REQUIREMENTS.txt)
@@ -38,4 +38,4 @@ python .render_template.py
 
 # Build the docker image
 echo "Building docker image: $IMAGE_NAME"
-docker build --rm -t $IMAGE_NAME .
+docker build --rm -t $VIEWER_IMAGE_NAME .
