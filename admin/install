@@ -6,59 +6,60 @@ set -x
 
 HERE=$(readlink -f `dirname $0`)
 MESA_ROOT=$(readlink -f $HERE/..)
-VOLUMES=$MESA_ROOT/volumes
 
 export DEBIAN_FRONTEND=noninteractive
 
-
 # Customize settings
-cp $MESA_ROOT/django_project/ENV.example $MESA_ROOT/django_project/ENV
+cp $MESA_ROOT/admin/ENV.example $MESA_ROOT/admin/ENV
 read -p "Press [Enter] key to open the editor"
-nano $MESA_ROOT/django_project/ENV
+nano $MESA_ROOT/admin/ENV
 
+# need VOLUMES from ENV
+source $MESA_ROOT/admin/ENV
+mkdir -p $VOLUMES
 
-# General
-apt-get update
-apt-get upgrade -y
-apt-get install -y git nano vi
-apt-get install curl
+if [ -z "$QUICK" ]; do
+  # General
+  apt-get update
+  apt-get upgrade -y
+  apt-get install -y git nano vi
+  apt-get install curl
 
-# Install Docker - https://docs.docker.com/installation/ubuntulinux/
-apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/sources.list.d/docker.list
-apt-get update
-apt-get purge -y lxc-docker*
-apt-cache policy docker-engine
-apt-get install -y docker-engine
+  # Install Docker - https://docs.docker.com/installation/ubuntulinux/
+  apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+  echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" >> /etc/apt/sources.list.d/docker.list
+  apt-get update
+  apt-get purge -y lxc-docker*
+  apt-cache policy docker-engine
+  apt-get install -y docker-engine
+fi
+
+# Check docker
 docker run hello-world
-
+if [ "$?" != "0" ]; do
+  echo "Docker has not been properly installed!"
+  exit 1
+fi
 
 # Install PostGIS
-docker pull kartoza/postgis
-docker run -it --rm -v $MESA_ROOT/volumes/postgis:/var/lib/postgresql kartoza/postgis bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
-cp $HERE/pg_hba.conf $MESA_ROOT/volumes/postgis/9.4/main/  # allow login from any ip address
-
+docker pull mesasadc/postgis
+docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql kartoza/postgis bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
+#cp $HERE/pg_hba.conf $VOLUMES/postgis/9.4/main/  # allow login from any ip address
 
 # Install Geoserver
-docker pull kartoza/geoserver
+docker pull mesasadc/geoserver
 
 #Install RabbitMQ
-#docker pull rabbitmq:3-management
-cd $HERE/rabbitmq
-./build
-
+docker pull mesasadc/rabbitmq-webstomp
 
 # Install Nginx
-cd $MESA_ROOT/nginx
-./build
-
-
+docker pull mesasadc/nginx
 
 # Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
 
 # Install gsconfig scripts
-apt-get install python-pip
+apt-get install -y python-pip
 pip install gsconfig
 
 # Install supervisord
@@ -71,26 +72,16 @@ chmod +x /etc/init.d/supervisor
 cd $HERE/supervisord
 ./update_conf
 
-#FILES=$HERE/supervisord/conf.d/*
-#for f in $FILES; do
-#  TARGET=/etc/supervisor/conf.d/$(basename $f)
-#  cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
-#  echo "$f --> $TARGET"
-#done;
-
 # Make supervisor start up on boot
 update-rc.d supervisor defaults
 service supervisor stop
 service supervisor start
 service supervisor status
 
-
-
 # Install MESA Wildfire application
 cd $MESA_ROOT/django_project
 ./build
 ./manage migrate --noinput
-
 
 # Initialize MESA Viewer
 cd $MESA_ROOT/mesa-viewer
@@ -100,23 +91,27 @@ RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py s
 RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
 RUN_MODE=-it ./run env python /tmp/django_project/manage.py loaddata mesa_layers
 
-# Make sure Geoserver is ready000
+# Make sure Geoserver is ready
 docker run --link supervisor_geoserver --rm martin/wait
 
-# Add GeoServer layers 
-mkdir -p $MESA_ROOT/volumes/geoserver_data/data/mesa
-mkdir -p $MESA_ROOT/volumes/geoserver_data/data/mesa/user_shapefiles
-cp -r $HERE/geoserver/mesa_shapefiles $MESA_ROOT/volumes/geoserver_data/data/mesa/
-cp -r $HERE/geoserver/mesa_rasters $MESA_ROOT/volumes/geoserver_data/data/mesa/
+# Add GeoServer layers
+mkdir -p $VOLUMES/geoserver_data/data/mesa
+mkdir -p $VOLUMES/geoserver_data/data/mesa/user_shapefiles
+cp -r $HERE/geoserver/mesa_shapefiles $VOLUMES/geoserver_data/data/mesa/
+cp -r $HERE/geoserver/mesa_rasters $VOLUMES/geoserver_data/data/mesa/
 
 cd $MESA_ROOT/admin/geoserver
 python configure.py
 
-
-
 # Restart dockers
 service supervisor restart
 
-
 # Install qgis
-sudo apt-get install qgis python-qgis qgis-plugin-grass
+sudo apt-get install -y qgis python-qgis qgis-plugin-grass
+
+# Configure crond to do housekeeping tasks etc
+sudo cp $HERE/crontab /etc/cron.d/mesa
+
+# Configure incrond to monitor incoming EUMETCast files
+sudo cp $HERE/incrontab /etc/incron.d/mesa
+

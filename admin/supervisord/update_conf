@@ -7,13 +7,12 @@
 HERE=$(readlink -f `dirname $0`)
 MESA_ROOT=$(readlink -f $HERE/../..)
 
+# we need VOLUMES from admin/vars
+source $MESA_ROOT/admin/ENV
+
 FILES=$HERE/conf.d/*
 for f in $FILES; do
   TARGET=/etc/supervisor/conf.d/$(basename $f)
-  cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
+  cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" | sed -e "s|VOLUMES=\".*|VOLUMES=$VOLUMES|g"  > $TARGET
   echo "$f --> $TARGET"
 done;
-
-
-
-

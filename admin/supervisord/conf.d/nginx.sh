@@ -3,6 +3,7 @@
 set -x
 
 MESA_ROOT="install script will set the directory"
+VOLUMES="install script will set the directory"
 
 trap "{ echo Stopping nginx docker; docker stop supervisor_nginx; exit 0; }" EXIT
 

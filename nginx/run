@@ -1,5 +1,0 @@
-set -x
-
-MESA_ROOT=$PWD/..
-
-docker run -t --rm -p 8800:80 -v $MESA_ROOT/nginx/sites:/etc/nginx/sites-enabled -v $MESA_ROOT/nginx/www:/var/www/ mesa/nginx 
