@@ -10,6 +10,10 @@ upstream upstream_geoserver  {
         server geoserver:8080 max_fails=0;
 }
 
+upstream upstream_supervisor  {
+        server unix:/var/run/supervisor.sock max_fails=0;
+}
+
 
 server {
 
@@ -31,6 +35,13 @@ server {
             proxy_set_header X-Forwarded-For $remote_addr;
             proxy_set_header Host $host;
             proxy_pass http://upstream_geoserver/geoserver/;
+	}
+
+	location /monitor/ {
+            proxy_set_header X-Real-IP  $remote_addr;
+            proxy_set_header X-Forwarded-For $remote_addr;
+            proxy_set_header Host $host;
+            proxy_pass http://upstream_supervisor/;
 	}
 
         error_log /dev/stdout info;
@@ -64,7 +75,6 @@ server {
         access_log /dev/stdout;
 
 }
-
 
 
 

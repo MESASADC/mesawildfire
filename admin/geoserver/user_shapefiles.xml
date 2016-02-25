@@ -5,7 +5,7 @@
 <enabled>true</enabled>
 
 <workspace>
-  <name>mesa</name>
+  <name>user</name>
 </workspace>
 
 <connectionParameters>
@@ -18,11 +18,11 @@
     <entry key="enable spatial index">true</entry>
     <entry key="cache and reuse memory maps">true</entry>
     <entry key="url">file:data/mesa/user_shapefiles</entry>
-    <entry key="namespace">http://mesasadc.org/mesa</entry>
+    <entry key="namespace">http://mesasadc.org/user</entry>
 </connectionParameters>
 
 <__default>false</__default>
 <featureTypes>
-<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesa_shapefiles/featuretypes.xml" type="application/xml"/>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://localhost:8080/geoserver/rest/workspaces/user/datastores/mesa_shapefiles/featuretypes.xml" type="application/xml"/>
 </featureTypes>
 </dataStore>

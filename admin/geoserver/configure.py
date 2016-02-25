@@ -6,12 +6,15 @@ cat = Catalog("http://localhost:8080/geoserver/rest/", "admin", "geoserver")
 
 import sys, os
 
-namespace = 'mesa'
-
+namespace = 'user'
 workspace = cat.get_workspace(namespace)
 if workspace is None:
     workspace = cat.create_workspace(namespace, 'http://mesasadc.org/' + namespace)
 
+namespace = 'mesa'
+workspace = cat.get_workspace(namespace)
+if workspace is None:
+    workspace = cat.create_workspace(namespace, 'http://mesasadc.org/' + namespace)
 
 import geoserver.util
 
@@ -30,15 +33,7 @@ shapefile_plus_sidecars = geoserver.util.shapefile_and_friends("mesa_shapefiles/
 # 'workspace' is optional (GeoServer's default workspace is used by... default)
 # 'name' is required
 
-'''
 try:
-    ft = cat.create_featurestore("custom_background", shapefile_plus_sidecars, workspace)
-except Exception, e:
-    print str(e)
-'''
-    
-try:
-    #ft = cat.create_featurestore("custom_background", shapefile_plus_sidecars, workspace)
     ft = cat.create_coveragestore("custom_background", "mesa_rasters/HYP_50M_SR_W.tif", workspace)
 except Exception, e:
     print str(e)
@@ -51,20 +46,29 @@ except:
     cat.save(ds)
 
 ft = cat.publish_featuretype('mesa_firepixel', ds, 'EPSG:4326', srs='EPSG:4326')
+ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
 cat.save(ft)
 
 ft = cat.publish_featuretype('mesa_fire', ds, 'EPSG:4326', srs='EPSG:4326')
+ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
 cat.save(ft)
 
 ft = cat.publish_featuretype('mesa_firefeature', ds, 'EPSG:4326', srs='EPSG:4326')
+ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
 cat.save(ft)
 
 ft = cat.publish_featuretype('mesa_firefeature_active', ds, 'EPSG:4326', srs='EPSG:4326')
+ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
 cat.save(ft)
 
 ft = cat.publish_featuretype('mesa_fireevent', ds, 'EPSG:4326', srs='EPSG:4326')
+ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
 cat.save(ft)
-
 
 os.system('curl -v -u "admin:geoserver" -XPOST -T fires_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 os.system('curl -v -u "admin:geoserver" -XPOST -T firepixel_polygons_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
@@ -74,11 +78,11 @@ os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_fdipoint.xml -H "Content-
 os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores')
 os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/mesa_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesa_shapefiles/external.shp?configure=all"')
 
-os.system('curl -v -u "admin:geoserver" -XPOST -T user_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores')
-os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/user_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/user_shapefiles/external.shp?configure=all"')
-
 os.system('curl -v -u "admin:geoserver" -XPOST -T HYP_50M_SR_W.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores')
 os.system('curl -v -u "admin:geoserver" -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/mesa_rasters" "http://localhost:8080/geoserver/rest/workspaces/mesa/coveragestores/HYP_50M_SR_W/external.geotiff?configure=first')
+
+os.system('curl -v -u "admin:geoserver" -XPOST -T user_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/user/datastores')
+os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/user/user_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/user/datastores/user_shapefiles/external.shp?configure=all"')
 
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T firepixel.sld "http://localhost:8080/geoserver/rest/workspaces/mesa/styles"')
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T firepixel_legend.sld "http://localhost:8080/geoserver/rest/workspaces/mesa/styles"')

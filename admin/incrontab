@@ -1,0 +1,1 @@
+/data/tellicast/eumetcast IN_CLOSE_WRITE,IN_MOVED_TO /home/mesa/mesawildfire/ingest/scripts/incoming.sh $@ $# $%

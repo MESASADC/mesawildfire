@@ -53,7 +53,7 @@ try:
             body = render_message_payload(template_dir, "af_modis_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=btemp, frp=frp, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat=sat, confidence=confidence)
             #logging.debug(body)
             # Publish message
-            rk = 'af_modis.m01.0.0.1.1'
+            rk = 'af_modis.v0_1'
             exchange.publish(body, rk)
             count += 1
             #logging.debug('Published a message with rk: %s' % rk)

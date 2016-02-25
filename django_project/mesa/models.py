@@ -244,11 +244,15 @@ def _notification(event, instance):
     messages.append(message)
     
 
-    if isinstance(sender, FirePixel):
+    if isinstance(instance, FirePixel):
 
-        fire_event = FireEvent.objects.get(pk=instance.fire_id)
-
-    	message = {
+        try:
+            fire_event = FireEvent.objects.get(pk=instance.fire_id)
+        except FireEvent.DoesNotExist, e:
+            fire_event = None
+        
+        if fire_event:
+            message = {
                   "pk": fire_event.pk,
                   "rk": "notify.db.FireEvent.cascaded",
                   "version": "0.1",
@@ -256,11 +260,10 @@ def _notification(event, instance):
                   "event": event,
                   "timestamp": timezone.now().isoformat(),
                   "extra": { "fire_pixel": instance.pk }
-              }
-        
-        messages.append(message)
+            }
+            
+            messages.append(message)
 
-      
     return messages
 
 @receiver(post_save, dispatch_uid='post_save_notify')
@@ -287,5 +290,7 @@ def post_save_notify_amqp(sender, **kwargs):
                             routing_key=rk,
                             serializer='json')
         except Exception, e:
-            logging.warn('Failed to publish. Reason: %s' % e)
+            logging.warn('Failed to publish (post save). Reason: %s' % e)
+            if settings.DEBUG is True:
+                raise e
    

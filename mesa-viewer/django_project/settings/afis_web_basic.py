@@ -221,7 +221,7 @@ LOGGING = {
 }
 
 CUSTOM_LAYER = {
-	'host':"//dashboard.mesa.afis.co.za/geoserver/wms",
+	'host':"/geoserver/wms",
 	'namespace':"mesa",
 	'layer_name':"custom_background"
 }

@@ -64,6 +64,7 @@ pip install gsconfig
 # Install supervisord
 # See: http://serverfault.com/questions/96499/how-to-automatically-start-supervisord-on-linux-ubuntu
 apt-get install -y supervisor
+cp $HERE/supervisord/supervisor.conf /etc/supervisor/
 cp $HERE/supervisord/init.d/supervisor /etc/init.d/supervisor
 chmod +x /etc/init.d/supervisor
 
