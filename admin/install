@@ -43,6 +43,11 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
+read -p "Press [Enter] key to continue"
+if [ -f $MESA_ROOT/admin/docker_images.tar ]; then
+  docker load -i $MESA_ROOT/admin/docker_images.tar
+fi
+
 # Install PostGIS
 docker pull mesasadc/postgis:$BUILD_TAG
 #docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql mesasadc/postgis:$BUILD_TAG bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
