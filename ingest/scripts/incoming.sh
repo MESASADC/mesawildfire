@@ -29,7 +29,7 @@ case $INCRON_EVENT_FILE in
 esac
 
 # ingest the files we are interested in
-if [ -z "$PRODUCT" ]; do
+if [ "$PRODUCT" != "" ]; then
   $INGEST_DIR/scripts/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS
 fi
 

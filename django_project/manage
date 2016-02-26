@@ -1,1 +1,6 @@
-docker run --name run_mesa_manage --link supervisor_postgis:postgis -v $PWD/ENV:/ENV -v $PWD/start.sh:/start.sh -v $PWD:/django_project -it --rm mesa_django /django_project/manage.py $*
+#!/bin/bash
+
+ENV_PATH=`pwd`/../admin/ENV
+source $ENV_PATH
+
+docker run --name run_mesa_manage --link supervisor_postgis:postgis -v $ENV_PATH:/ENV -v `pwd`/start.sh:/start.sh -v `pwd`:/django_project -it --rm mesasadc/mesa_django:$BUILD_TAG /django_project/manage.py $*

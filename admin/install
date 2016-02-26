@@ -22,8 +22,8 @@ mkdir -p $VOLUMES
 
 if [ -z "$QUICK" ]; then
   # General
-  apt-get update
-  apt-get upgrade -y
+  #apt-get update
+  #apt-get upgrade -y
   apt-get install -y git nano vi
   apt-get install curl
 
@@ -93,12 +93,20 @@ service supervisor status
 
 # Install MESA Wildfire application
 cd $MESA_ROOT/django_project
-./build $BUILD_TAG
+echo "Building docker image mesasadc/mesa_django:$BUILD_TAG if neccersary"
+docker run -t mesasadc/mesa_django:$BUILD_TAG echo "done"
+if [ "$?" != "0" ]; then
+  ./build $BUILD_TAG
+fi
 ./manage migrate --noinput
 
 # Initialize MESA Viewer
 cd $MESA_ROOT/mesa-viewer
-./build
+echo "Building docker image mesasadc/mesa_viewer:$BUILD_TAG if neccersary"
+docker run -t mesasadc/mesa_viewer:$BUILD_TAG echo "done"
+if [ "$?" != "0" ]; then
+  ./build
+fi
 RUN_MODE=-it ./run env AFIS_VIEWER_INIT=1 python /tmp/django_project/manage.py syncdb --noinput
 RUN_MODE=-it ./run env AFIS_VIEWER_INIT= python /tmp/django_project/manage.py syncdb --noinput
 RUN_MODE=-it ./run env python /tmp/django_project/manage.py loaddata mesa_layers

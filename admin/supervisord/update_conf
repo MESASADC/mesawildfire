@@ -21,3 +21,11 @@ for f in $FILES; do
   cat $f | sed -e "s|MESA_ROOT=\".*|MESA_ROOT=$MESA_ROOT|g" > $TARGET
   echo "$f --> $TARGET"
 done;
+
+service supervisor restart
+
+echo
+echo "username: $SUPERVISOR_USER"
+echo "password: $SUPERVISOR_PASS"
+echo
+

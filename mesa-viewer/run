@@ -8,7 +8,7 @@ RUN_MODE=${RUN_MODE:-$DAEMON}
 
 # Variables that will be set by the Fern framework
 RUN_NAME=${RUN_NAME:-"afis-viewer"}
-IMAGE_NAME=${IMAGE_NAME:-"afis-viewer"}
+IMAGE_NAME=${VIEWER_IMAGE_NAME:-"afis-viewer"}
 
 # Specify a host user to run as
 if [ -n $RUN_USER ];  then
