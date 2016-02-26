@@ -12,7 +12,8 @@ docker run --link supervisor_postgis --rm martin/wait
 
 # Start Geoserver:
 chmod a+w $VOLUMES/geoserver_data/logs
-docker run --name supervisor_geoserver --link supervisor_postgis:postgis -a stdout -a stderr --rm -v $VOLUMES/geoserver_data:/opt/geoserver/data_dir -v $VOLUMES/geoserver_extensions:/usr/local/tomcat/webapps/ROOT/WEB-INF/ -p 8080:8080 mesasadc/geoserver:$BUILD_TAG
+JAVA_OPTS="-Dorg.geotools.shapefile.datetime=true"
+docker run --name supervisor_geoserver --link supervisor_postgis:postgis --rm  -e JAVA_OPTS=$JAVAS_OPTS -v $VOLUMES/geoserver_data:/opt/geoserver/data_dir -v $VOLUMES/geoserver_extensions:/usr/local/tomcat/webapps/ROOT/WEB-INF/ -p 8080:8080 mesasadc/geoserver:$BUILD_TAG
 RESULT=$?
 
 # Avoid Supervisor restarting immediately

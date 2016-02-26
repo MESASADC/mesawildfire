@@ -1,1 +1,5 @@
-docker build -t mesa_django .
+#!/bin/bash
+
+TAG=${1:-"local"}
+
+docker build -t mesasadc/mesa_web:$TAG .
