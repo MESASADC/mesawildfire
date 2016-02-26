@@ -43,24 +43,28 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-read -p "Press [Enter] key to continue"
+echo "Trying to load docker images from $MESA_ROOT/admin/docker_images.tar"
 if [ -f $MESA_ROOT/admin/docker_images.tar ]; then
   docker load -i $MESA_ROOT/admin/docker_images.tar
 fi
 
 # Install PostGIS
-docker pull mesasadc/postgis:$BUILD_TAG
+echo "Pulling docker image mesasadc/postgis:$BUILD_TAG if neccersary"
+docker run -t mesasadc/postgis:$BUILD_TAG echo "done"
 #docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql mesasadc/postgis:$BUILD_TAG bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
 #cp $HERE/pg_hba.conf $VOLUMES/postgis/9.4/main/  # allow login from any ip address
 
 # Install Geoserver
-docker pull mesasadc/geoserver:$BUILD_TAG
+echo "Pulling docker image mesasadc/geoserver:$BUILD_TAG if neccersary"
+docker run -t mesasadc/geoserver:$BUILD_TAG echo "done"
 
 #Install RabbitMQ
-docker pull mesasadc/rabbitmq-webstomp:$BUILD_TAG
+echo "Pulling docker image mesasadc/rabbitmq-webstomp:$BUILD_TAG if neccersary"
+docker run -t mesasadc/rabbitmq-webstomp:$BUILD_TAG echo "done"
 
 # Install Nginx
-docker pull mesasadc/nginx:$BUILD_TAG
+echo "Pulling docker image mesasadc/nginx:$BUILD_TAG if neccersary"
+docker run -t mesasadc/nginx:$BUILD_TAG echo "done"
 
 # Install ingest scripts
 apt-get install -y python-jinja2 incron python-kombu
@@ -89,7 +93,7 @@ service supervisor status
 
 # Install MESA Wildfire application
 cd $MESA_ROOT/django_project
-./build
+./build $BUILD_TAG
 ./manage migrate --noinput
 
 # Initialize MESA Viewer
