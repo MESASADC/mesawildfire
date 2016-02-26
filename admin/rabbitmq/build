@@ -1,1 +1,1 @@
-docker build -t mesa_rabbitmq .
+docker build -t mesasadc/rabbitmq:local .

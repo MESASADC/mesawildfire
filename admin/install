@@ -45,7 +45,7 @@ fi
 
 # Install PostGIS
 docker pull mesasadc/postgis:$BUILD_TAG
-docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql mesasadc/postgis:$BUILD_TAG bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
+#docker run -it --rm -v $VOLUMES/postgis:/var/lib/postgresql mesasadc/postgis:$BUILD_TAG bash -c 'chown postgres: /var/lib/postgresql && su postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/data"' # initialize data directory
 #cp $HERE/pg_hba.conf $VOLUMES/postgis/9.4/main/  # allow login from any ip address
 
 # Install Geoserver

@@ -16,7 +16,7 @@ docker run --link supervisor_mesa_web --rm martin/wait
 docker run --link supervisor_mesa_viewer --rm martin/wait
 
 # Start django:
-docker run -t --rm -a stdout -a stderr --name supervisor_nginx --link supervisor_mesa_viewer:mesa_viewer --link supervisor_geoserver:geoserver --link supervisor_mesa_web:mesa_web --link supervisor_rabbitmq:rabbitmq -p 80:80 -p 8000:8000 -v $MESA_ROOT/nginx/sites:/etc/nginx/sites-enabled -v $MESA_ROOT/nginx/www:/var/www/ -v /var/run/supervisor.sock:/var/run/supervisor.sock mesasadc/nginx:$BUILD_TAG
+docker run -t --rm -a stdout -a stderr --name supervisor_nginx --link supervisor_mesa_viewer:mesa_viewer --link supervisor_geoserver:geoserver --link supervisor_mesa_web:mesa_web --link supervisor_rabbitmq:rabbitmq -p 80:80 -p 8000:8000 -v /var/run/supervisor.sock:/var/run/supervisor.sock mesasadc/nginx:$BUILD_TAG
 
 RESULT=$?
 
