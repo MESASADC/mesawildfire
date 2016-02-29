@@ -15,6 +15,9 @@ ARCHIVE_DIR=/data/archive
 DATE=$(date +%Y/%m/%d)
 mkdir -p $ARCHIVE_DIR/$DATE
 
+# directory where files that failed to ingest will be kept
+FAILED_DIR=/data/failed
+
 # create a hardlink to instantly create a "copy" in the archive
 ln $FILEPATH $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE
 
@@ -30,7 +33,10 @@ esac
 
 # ingest the files we are interested in
 if [ "$PRODUCT" != "" ]; then
-  $INGEST_DIR/scripts/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS
+  $INGEST_DIR/scripts/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS || {
+    mkdir -p $FAILED_DIR
+    ln $FILEPATH $FAILED_DIR/$INCRON_EVENT_FILE
+  }
 fi
 
 # remove (unlink) from incoming
