@@ -1,5 +1,7 @@
 #!/bin/bash
 
-TAG=${1:-"local"}
+source ENV
 
-docker build -t mesasadc/mesa_web:$TAG .
+TAG=${BUILD_TAG:-"local"}
+
+docker build -t mesasadc/mesa_django:$TAG .

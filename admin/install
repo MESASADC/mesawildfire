@@ -33,7 +33,7 @@ if [ -z "$QUICK" ]; then
   apt-get update
   apt-get purge -y lxc-docker*
   apt-cache policy docker-engine
-  apt-get install -y docker-engine
+  apt-get install -y --force-yes docker-engine
 fi
 
 # Check docker
@@ -96,7 +96,7 @@ cd $MESA_ROOT/django_project
 echo "Building docker image mesasadc/mesa_django:$BUILD_TAG if neccersary"
 docker run -t mesasadc/mesa_django:$BUILD_TAG echo "done"
 if [ "$?" != "0" ]; then
-  ./build $BUILD_TAG
+  ./build
 fi
 ./manage migrate --noinput
 
