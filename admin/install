@@ -116,7 +116,9 @@ docker run --link supervisor_geoserver --rm martin/wait
 
 # Add GeoServer layers
 mkdir -p $VOLUMES/geoserver_data/data/mesa
+mkdir -p $VOLUMES/geoserver_data/data/user
 mkdir -p $VOLUMES/geoserver_data/data/mesa/user_shapefiles
+mkdir -p $VOLUMES/geoserver_data/data/user/user_shapefiles
 cp -r $HERE/geoserver/mesa_shapefiles $VOLUMES/geoserver_data/data/mesa/
 cp -r $HERE/geoserver/mesa_rasters $VOLUMES/geoserver_data/data/mesa/
 

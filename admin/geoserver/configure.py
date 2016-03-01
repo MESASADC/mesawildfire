@@ -70,6 +70,7 @@ ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
 ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
 cat.save(ft)
 
+
 os.system('curl -v -u "admin:geoserver" -XPOST -T fires_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 os.system('curl -v -u "admin:geoserver" -XPOST -T firepixel_polygons_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_fdipoint.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
