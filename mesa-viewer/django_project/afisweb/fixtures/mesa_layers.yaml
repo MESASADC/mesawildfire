@@ -118,3 +118,33 @@
         order: 2, user: 1, wmslayer: 4}
     model: afisweb.userwmslayer
     pk: 4
+
+-   fields: {as_open_layer: "lyr5 = new OpenLayers.Layer.WMS(\n\
+                'Fire Danger Index (LFDI)','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_;product:lfdid',\n\
+                    {\n\
+                        layers: 'mesa:fdi_point_values',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr5.id] = 'lyr5';", content_type: 14,
+        name: 'Fire Danger Index (LFDI)', owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: 'Fire Danger Index (LFDI)', image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:fdi_point_values',
+        legend_group: 5,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 5
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 1, user: 1, wmslayer: 5}
+    model: afisweb.userwmslayer
+    pk: 5

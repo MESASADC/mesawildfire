@@ -30,9 +30,9 @@
     model: afisweb.legendgroup
     pk: 4
 -   fields: {
-        description: Weather Stations,
+        description: Fire Danger,
         order: 5,
-        title: Weather Stations}
+        title: Fire Danger}
     model: afisweb.legendgroup
     pk: 5
 -   fields: {
