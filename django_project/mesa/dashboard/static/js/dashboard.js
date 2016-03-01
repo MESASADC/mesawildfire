@@ -308,7 +308,6 @@ $(document).ready(function() {
     $.get(FDI_URL, function(result, status) {
 
         var selected = null;
-        alert(result);
 
         result.features.forEach(function (feature) {
 

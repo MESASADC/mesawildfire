@@ -5,14 +5,14 @@
    <title>fires_today</title>
    <nativeBoundingBox>
       <minx>10</minx>
-      <maxx>66</maxx>
+      <maxx>65</maxx>
       <miny>-50</miny>
       <maxy>10</maxy>
       <crs>EPSG:4326</crs>
    </nativeBoundingBox>
    <latLonBoundingBox>
       <minx>10</minx>
-      <maxx>66</maxx>
+      <maxx>65</maxx>
       <miny>-50</miny>
       <maxy>10</maxy>
       <crs>GEOGCS["WGS84(DD)", DATUM["WGS84", SPHEROID["WGS84", 6378137.0, 298.257223563]], PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH]]</crs>

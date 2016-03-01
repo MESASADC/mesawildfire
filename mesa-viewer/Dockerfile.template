@@ -1,15 +1,15 @@
-FROM ubuntu:14.04
+FROM debian:jessie
 
 MAINTAINER rvddool@csir.co.za
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN sed 's/main$/main universe multiverse/' -i /etc/apt/sources.list
+#RUN sed 's/main$/main universe multiverse/' -i /etc/apt/sources.list
 RUN apt-get update
 
 # install uwsgi first because it takes quite a while
 RUN apt-get install -y build-essential python python-dev python-setuptools
-RUN easy_install pip
+RUN apt-get install -y python-pip
 RUN pip install uwsgi
 
 # install additional packages

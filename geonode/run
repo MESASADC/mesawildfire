@@ -1,4 +1,0 @@
-#!/bin/bash
-
-docker run -d -p 8111:8000 -p 8181:8080 geonode
-

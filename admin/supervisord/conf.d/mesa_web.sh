@@ -1,6 +1,7 @@
 #!/bin/bash
 
 MESA_ROOT="install script will set the directory"
+source $MESA_ROOT/admin/ENV
 
 trap "{ echo Stopping mesa_web docker; docker stop supervisor_mesa_web; exit 0; }" EXIT
 
@@ -15,7 +16,7 @@ echo "Give PostGIS docker time to start up"
 sleep 20
 
 echo "Start django:"
-docker run -t --rm -a stdout -a stderr --name supervisor_mesa_web --link supervisor_geoserver:geoserver --link supervisor_postgis:postgis --link supervisor_rabbitmq:rabbitmq -v $MESA_ROOT/django_project/ENV:/ENV -v $MESA_ROOT/django_project/start.sh:/start.sh -v $MESA_ROOT/django_project:/django_project -v $MESA_ROOT/volumes/web_static:/static_root/ -p 8112:8000 mesa_django
+docker run -t --rm -a stdout -a stderr --name supervisor_mesa_web --link supervisor_geoserver:geoserver --link supervisor_postgis:postgis --link supervisor_rabbitmq:rabbitmq -v $MESA_ROOT/django_project/ENV:/ENV -v $MESA_ROOT/django_project/start.sh:/start.sh -v $MESA_ROOT/django_project:/django_project -v $VOLUMES/web_static:/static_root/ -p 8112:8000 mesasadc/mesa_django:$BUILD_TAG
 
 RESULT=$?
 

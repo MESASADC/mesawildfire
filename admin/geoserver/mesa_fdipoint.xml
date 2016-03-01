@@ -13,15 +13,15 @@
    <nativeCRS>GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4326"]]</nativeCRS>
    <srs>EPSG:4326</srs>
    <nativeBoundingBox>
-      <minx>20.0</minx>
-      <maxx>28.22</maxx>
-      <miny>-25.77</miny>
-      <maxy>-15.0</maxy>
+      <minx>10.0</minx>
+      <maxx>65.0</maxx>
+      <miny>-50.0</miny>
+      <maxy>10.0</maxy>
       <crs>EPSG:4326</crs>
    </nativeBoundingBox>
    <latLonBoundingBox>
       <minx>10.0</minx>
-      <maxx>66.0</maxx>
+      <maxx>65.0</maxx>
       <miny>-50.0</miny>
       <maxy>10.0</maxy>
    </latLonBoundingBox>

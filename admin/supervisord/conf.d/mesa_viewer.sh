@@ -1,6 +1,7 @@
 #!/bin/bash
 
 MESA_ROOT="install script will set the directory"
+source $MESA_ROOT/admin/ENV
 
 trap "{ echo Stopping mesa_viewer docker; docker stop supervisor_mesa_viewer; exit 0; }" EXIT
 
@@ -34,7 +35,7 @@ docker run --name supervisor_mesa_viewer -t \
 -e AFIS_VIEWER_DATABASE_PORT=$AFIS_VIEWER_DATABASE_PORT \
 -e AFIS_VIEWER_STATIC_ROOT=/tmp/django_project/afisweb/static/ \
 -e DJANGO_SETTINGS_MODULE=settings.afis_web_basic \
-mesa_viewer \
+mesasadc/mesa_viewer:$BUILD_TAG \
 python /tmp/django_project/manage.py runserver 0.0.0.0:8000
 
 RESULT=$?

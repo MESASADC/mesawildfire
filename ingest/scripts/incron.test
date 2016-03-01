@@ -1,1 +1,0 @@
-echo $1 $2 $3 `cat $1/$2` >> /tmp/incron.test.log

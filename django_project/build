@@ -1,1 +1,7 @@
-docker build -t mesa_django .
+#!/bin/bash
+
+source ENV
+
+TAG=${BUILD_TAG:-"local"}
+
+docker build -t mesasadc/mesa_django:$TAG .

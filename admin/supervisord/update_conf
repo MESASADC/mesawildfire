@@ -7,6 +7,14 @@
 HERE=$(readlink -f `dirname $0`)
 MESA_ROOT=$(readlink -f $HERE/../..)
 
+# we need VOLUMES from admin/vars
+source $MESA_ROOT/admin/ENV
+
+cp $HERE/supervisord.conf /etc/supervisor/supervisord.conf
+cp $HERE/supervisord.init /etc/init.d/supervisor
+sed "s|username.*=.*|username=$SUPERVISOR_USER|g" -i /etc/supervisor/supervisord.conf
+sed "s|password.*=.*|password=$SUPERVISOR_PASS|g" -i /etc/supervisor/supervisord.conf
+
 FILES=$HERE/conf.d/*
 for f in $FILES; do
   TARGET=/etc/supervisor/conf.d/$(basename $f)
@@ -14,6 +22,10 @@ for f in $FILES; do
   echo "$f --> $TARGET"
 done;
 
+service supervisor restart
 
-
+echo
+echo "username: $SUPERVISOR_USER"
+echo "password: $SUPERVISOR_PASS"
+echo
 
