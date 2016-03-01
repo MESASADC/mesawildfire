@@ -1,4 +1,0 @@
-/data/tellicast/eumetcast IN_CLOSE_WRITE,IN_MOVED_TO mv $@/$# /home/mesa/incoming/$#
-/home/mesa/incoming IN_CLOSE_WRITE,IN_MOVED_TO /home/mesa/mesawildfire/ingest/scripts/incoming.sh $@ $# $%
-/home/mesa/mesawildfire/ingest/af_modis IN_CLOSE_WRITE,IN_MOVED_TO python /home/mesa/mesawildfire/ingest/scripts/af_modis.py $@ $# $%
-/home/mesa/mesawildfire/ingest/mesa_fdifwi IN_CLOSE_WRITE,IN_MOVED_TO /home/mesa/mesawildfire/ingest/scripts/mesa_fdifwi.incron.sh $@ $# $%
