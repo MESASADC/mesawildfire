@@ -50,10 +50,10 @@ $(function() {
         preload: 10
     });
 
-    var gadm2 = new ol.layer.Image({
+    var borders = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
-          params: {'LAYERS': 'mesa:gadm2'},
+          params: {'LAYERS': 'mesa:MESASADC'},
           serverType: 'geoserver'
         })
     });
@@ -67,8 +67,6 @@ $(function() {
             color: 'rgba(100, 100, 100, 0.1)'
         })
     });
-
-
 
     var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
@@ -95,15 +93,14 @@ $(function() {
         minResolution: 2000
     });
     
-     var firesVector = new ol.layer.Vector({
-		source: new ol.source.Vector({
-		projection: 'EPSG:4326',
-		url: '/rest/FireFeature/?format=json',
-		format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
-		
-		}),
-		style: fireStyle
-	});
+    var firesVector = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          projection: 'EPSG:4326',
+          url: '/rest/FireFeature/?format=json',
+          format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
+	}),
+        style: fireStyle
+    });
 	
 	 
                 
@@ -137,15 +134,15 @@ $(function() {
     }));
 
     defaultView = new ol.View({
-        center: ol.proj.transform([25.85, -17.53], 'EPSG:4326', 'EPSG:3857'),
-        zoom: 6,
-        minZoom: 4,
+        center: ol.proj.transform([35, -16], 'EPSG:4326', 'EPSG:3857'),
+        zoom: 3,
+        minZoom: 3,
         maxZoom: 12
     });
 
     map = new ol.Map({
         //projection: 'EPSG:4326',
-        layers: [ backdrop, gadm2, msgWMS, firesWMS, firePixelWMS,firesVector],
+        layers: [ backdrop, borders, msgWMS, firesWMS, firePixelWMS],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -495,11 +492,12 @@ $(document).ready(function() {
                 "data": null,
                 "defaultContent": ''
             }, {
-				"className" : 'hidden fireid',
+                "className" : 'hidden fireid',
                 "data": "id"
             }, {
                 "data": "description"
             }, {
+                "className" : 'hidden',
                 "data": "status"
             },{
                 "data": "area",
@@ -519,23 +517,26 @@ $(document).ready(function() {
                 "className": "fdi",
                 "data": "current_fdi"
             }, {
-                "data": "current_fdi_date",
+                "data": "max_frp"
+            }, {
+                "data": "first_seen",
                 "render": function ( data, type, row, meta ) {
                     return (type == 'display' | type == 'filter') ? simpleDate(data) : data;
                 }
             }, {
-                "data": "max_frp"
-            }, {
-                "data": "max_frp_date",
+                "data": "last_seen",
                 "render": function ( data, type, row, meta ) {
                     return (type == 'display' | type == 'filter') ? simpleDate(data) : data;
                 }
             }],
             "order": [
-                [1, 'asc']
+                [8, "desc"],
+                [7, "asc"]
             ]
         });
         
+        // Order by last_seen (column 8)
+        fireTable.order([8, "desc"], [7, "asc"]).draw();
         
         
         
@@ -650,19 +651,35 @@ $(document).ready(function() {
             var wgs84 = new ol.Sphere(6378137);
             var geodesicDistance = wgs84.haversineDistance(from, to);
 
-            var duration = 1000 * Math.max(0.5, Math.min(2, Math.abs(ratio)));
+            var duration = 1000 * Math.max(0.5, Math.min(3, Math.abs(ratio)));
 
             var pan = ol.animation.pan({
                 duration: duration,
-                source: from,
-                start: start
+                source: from
             });
             var bounce = ol.animation.bounce({
                 duration: duration,
-                resolution: defaultView.getResolution() * Math.max(1, Math.abs(ratio)),
-                start: start
+                resolution: defaultView.getResolution() * Math.max(1, Math.abs(ratio))
             });
-            map.beforeRender(pan, bounce);
+            var dipFrom = defaultView.getResolution();
+            var zoom;
+            var bounceThenDip = function(map, frameState) {
+                var bouncing = bounce(map, frameState);
+                var zooming = false;
+                if (!bouncing) {
+                    if (!zoom) {
+                        zoom = ol.animation.zoom({
+                            duration: duration,
+                            resolution: dipFrom
+                        });
+                        map.beforeRender(zoom);
+                        defaultView.setZoom(Math.max(defaultView.getZoom(), 9));
+                    };
+                    zooming = zoom(map, frameState);
+                }
+                return bouncing || zooming;
+            };
+            map.beforeRender(pan, bounceThenDip);
             defaultView.setCenter(to);
         };
 

@@ -2,13 +2,9 @@
 
 #set -x
 
-# if POSTGIS_DOCKER_EXEC is set then execute this inside the postgis docker
-if [ ! -z "$POSTGIS_DOCKER_EXEC" ]; 
-  then
-    docker exec -t supervisor_postgis bash -c "/mnt/ingest/scripts/mesa_fdifwi.sh /mnt/ingest/mesa_fdifwi $2 $3"
+if [ "$INSIDE_DOCKER" = "" ]; then
+    docker exec -t supervisor_postgis bash -c "INSIDE_DOCKER=true /mnt/ingest/scripts/mesa_fdifwi /mnt/ingest/mesa_fdifwi $2 $3"
     exit
-  else
-    echo no
 fi
 
 SCRIPT_DIR=$(readlink -f `dirname $0`)
@@ -28,8 +24,8 @@ print ' '.join(match.groups()) \
 " $INCRON_EVENT_FILE ) \
 )
 
-DATETIME=${PARAMS[0]}
-DATETIME_TARGET=${PARAMS[1]}
+DATETIME_TARGET=${PARAMS[0]}
+DATETIME=${PARAMS[1]}
 PRODUCT=${PARAMS[2]}
 
 SQL="CREATE TABLE IF NOT EXISTS \"lfdi_fwi_raster\" ( \

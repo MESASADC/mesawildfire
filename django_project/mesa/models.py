@@ -169,7 +169,7 @@ class FdiMeasurement(models.Model, NotifySave):
     temp_c = models.FloatField()
     date_time = models.DateTimeField(blank=True, null=True)
     
-    fdi_point = models.ForeignKey(FdiPoint, blank=True, null=True)
+    fdi_point = models.OneToOneField(FdiPoint, blank=False)
 
 
 class FdiForecast(View):
@@ -189,7 +189,7 @@ class FdiForecast(View):
     temp_c = models.FloatField()
     date_time = models.DateTimeField(blank=True, null=True)
 
-    fdi_point = models.ForeignKey(FdiPoint, primary_key=True)
+    fdi_point = models.OneToOneField(FdiPoint, blank=False)
    
     class Meta:
         unique_together = ('fdi_point', 'date_time')
@@ -201,8 +201,7 @@ class FdiPointData(View):
     """
     type_choices = (('wstation', 'Weather station'), ('poi', 'Point of interest'))
 
-    #id = models.IntegerField(primary_key=True)   # The FdiPoint ID
-    fdi_point = models.ForeignKey(FdiPoint, primary_key=True)
+    fdi_point = models.ForeignKey(FdiPoint)
 
     name = models.CharField(max_length=40, blank=False, unique=True)
     type = models.CharField(max_length=20, blank=True, choices=type_choices, default='poi')

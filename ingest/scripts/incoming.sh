@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -x
-set -e
 
 SCRIPT_DIR=$(readlink -f `dirname $0`)
 INGEST_DIR=$SCRIPT_DIR/..
@@ -20,16 +19,18 @@ mkdir -p $ARCHIVE_DIR/$DATE
 FAILED_DIR=/data/failed
 
 function failed {
-  mkdir -p $FAILED_DIR
-  ln $FILEPATH $FAILED_DIR/$INCRON_EVENT_FILE
-  echo Failed: $FAILED_DIR/$INCRON_EVENT_FILE
-  logger MESA: Failed $FAILED_DIR/$INCRON_EVENT_FILE
+  mkdir -p $FAILED_DIR/$1
+  ln $FILEPATH $FAILED_DIR/$1/$INCRON_EVENT_FILE
+  echo Failed to $1: $FAILED_DIR/$1/$INCRON_EVENT_FILE
+  logger MESA: Failed to $1: $FAILED_DIR/$1/$INCRON_EVENT_FILE
   rm $FILEPATH
   exit 1
 }
 
 # create a hardlink to instantly create a "copy" in the archive
-(ln $FILEPATH $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE && logger MESA: Archived $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE) || failed
+if [ ! -e $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE ]; then
+  (ln $FILEPATH $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE && logger MESA: Archived $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE) || failed "archive"
+fi
 
 # determine product type
 case $INCRON_EVENT_FILE in
@@ -43,7 +44,12 @@ esac
 
 # ingest the files we are interested in
 if [ "$PRODUCT" != "" ]; then
-  ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS && logger MESA: Ingested $PRODUCT: $FILEPATH) || failed
+  # create a hardlink to instantly create a "copy" in the ingest directory. Note: PostGIS uses this link for out of DB raster access!
+  if [ ! -e $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE ]; then
+    ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"
+  fi
+  # run the script for the product
+  ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS && logger MESA: Ingested $PRODUCT: $FILEPATH) || failed "ingest"
 fi
 
 # remove (unlink) from incoming

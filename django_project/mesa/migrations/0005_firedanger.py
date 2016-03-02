@@ -43,9 +43,9 @@ class Migration(migrations.Migration):
                 $BODY$
                   LANGUAGE plpgsql VOLATILE
                   COST 100;
-            """
+            """,
             
-            reverse_sql="""
+            reverse_sql = """
                 DROP FUNCTION IF EXISTS mesa_fdi_colour(integer);
             """
         ),
@@ -76,9 +76,9 @@ class Migration(migrations.Migration):
             $BODY$
                 LANGUAGE plpgsql VOLATILE
                 COST 100;
-            """
+            """,
             
-            reverse_sql="""
+            reverse_sql = """
                 DROP FUNCTION IF EXISTS mesa_fwi_colour(integer);
             """
         ),
@@ -124,9 +124,9 @@ class Migration(migrations.Migration):
                 AND forecast_utc::DATE < DATE ''today'' + INTERVAL ''2 days''
                 AND forecast_utc::time = time ''12:00''
                 ORDER BY 1,2'::text, 'SELECT unnest(''{lfdid,fwi,rh_pct,temp_k,uwind_ms,vwind_ms}''::text[])'::text) ct(t text[], fdi_value double precision, fwi double precision, rh_pct double precision, temp_k double precision, uwind_ms double precision, vwind_ms double precision);
-            """
+            """,
                     
-            reverse_sql="""
+            reverse_sql = """
                 DROP TABLE IF EXISTS mesa_firedanger;
                 DROP INDEX IF EXISTS mesa_firedanger_dateidx;
                 DROP INDEX IF EXISTS mesa_firedanger_rast_gist_idx;
