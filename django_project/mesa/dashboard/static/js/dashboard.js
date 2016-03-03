@@ -1,6 +1,7 @@
 
 // CONSTANTS
 
+var FDI_CURRENT_URL = "/geoserver/mesa/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mesa:lfdi_point_forecast_and_measured_current&outputFormat=application/json"
 var FDI_URL = "/rest/FdiPointData/?format=json";
 var FIRE_URL = "/rest/FireEvent/?format=json";
 var NUM_INITIAL_FIRES = 8;
@@ -19,7 +20,6 @@ var fireStyle;
 var firesVector;
 
 
-// BEGIN LAYOUT
 function unique(list) {
     var result = [];
     $.each(list, function(i, e) {
@@ -29,11 +29,11 @@ function unique(list) {
     });
     return result;
 }
-function log(log_msg){
-  console.log(log_msg);	
-}
+
+
 
 $(function() {
+
     // BEGIN OPEN LAYERS
     var backdrop_osm = new ol.layer.Tile({
         source: new ol.source.OSM(),
@@ -193,7 +193,6 @@ $(function() {
       info.style.display = '';
     };
 
-
 });
 
 function extract_rgb(rgb_string) {
@@ -206,7 +205,20 @@ function extract_rgb(rgb_string) {
     return values;
 }
 
-var debugvar;
+function fdiColor(fdiValue) {
+    if (fdiValue > 75)
+        return "#FF0000";
+    else if (fdiValue > 60)
+        return "#FFA500";
+    else if (fdiValue > 45)
+        return "#FFFF00";
+    else if (fdiValue > 20)
+        return "#0000FF";
+    else if (fdiValue > 0)
+        return "#00FF00";
+    else 
+        return "#FFFFFF";
+};
 
 function compare_date(a, b) {
     if (a.date < b.date)
@@ -241,15 +253,23 @@ var simpleDate = (function() {
 
     return function(thedate, before) {
 
+        // get a Date object if thedate is a string or null
+        thedate = new Date(thedate);
+
+        // display empty string for null date
+        if (!thedate.valueOf())
+            return ""; 
+
+        // if 'before' is not a valid 'measures' key, then default to hour
         if (!measures.hasOwnProperty(before))
             before = 'hour';
-
         before = (typeof before === 'undefined') ? 'hour' : before;
 
-        thedate = new Date(thedate);
         var dateStr, amount, denomination,
-            current = new Date().getTime(),
-            diff = (current - thedate.getTime()) / 1000; // work with seconds
+            //current = new Date().getTime(),
+            //diff = (current - thedate.getTime()) / 1000; // work with seconds
+            current = new Date(),
+            diff = (current - thedate) / 1000; // work with seconds
 
         var future = diff < 0;
         diff = Math.abs(diff);  // use absolute diff together with future boolean from now on
@@ -274,16 +294,17 @@ var simpleDate = (function() {
             denomination = "day";
         } else if(diff > measures.hour) {
             denomination = "hour";
-        } else if(diff > measures.minute) {
+        } else {            //if(diff > measures.minute) {
             denomination = "minute";
-        } else {
+        };
+        /*} else {
             if (future) {
                 dateStr = "in a few seconds";
             } else {
                 dateStr = "a few seconds ago";
             };
             return dateStr;
-        };
+        };*/
         amount = Math.round(diff/measures[denomination]);
         if (future) {
             dateStr = "in about " + chkMultiple(amount, denomination);
@@ -299,10 +320,12 @@ var simpleDate = (function() {
 $(document).ready(function() {
 
     var fdiData = {};
-    var fdiColors = {};
+    var fdiRows = [];
 
     // get fdi data
-    $.get(FDI_URL, function(result, status) {
+    $.get(FDI_CURRENT_URL, function(result, status) {
+    
+        console.log('got fdi');
 
         var selected = null;
 
@@ -310,75 +333,28 @@ $(document).ready(function() {
 
             var properties = feature.properties;
 
-            if (properties.fdi_value === null) {
-                return;
-            }
-
-            var point_id = feature.id;
-
-            var weather = {
-                point_id: point_id,
-                point_name: properties.name,
-                type: properties.type,
-                fdi: properties.fdi_value,
-                fdiColor: properties.fdi_rgb,
-                wind: properties.windspd_kmh,
-                temp: properties.temp_c,
-                relativeH: properties.rh_pct,
-                rain: properties.rain_mm,
-                date: new Date(properties.date_time),
-                temperature: properties.temp_c,
-                windSpeed: properties.windspd_kmh,
-                windDirection: properties.winddir_deg,
-                is_forecast: properties.is_forecast,
-                forecast_actual: properties.is_forecast ? "Forecast" : "Actual"
+            var row = {
+                feature_id: feature.id,
+                point_id: properties.point_id,
+                point_name: properties.point_name,
+                point_type: properties.point_type,
+                lfdi_value: properties.value,
+                lfdi_color: "#556677",
+                target_date_time: new Date(properties.target_date_time),
+                value_class: properties.value_class
             };
-
-            if (properties.is_forecast) {
-                weather.forecast_fdi = properties.fdi_value;
-            } else {
-                weather.actual_fdi = properties.fdi_value;
-            };
-
-            if (fdiData[point_id] === undefined) {
-                fdiData[point_id] = [];
-            };
-
-            fdiData[point_id].push(weather);
-            fdiColors[weather.fdi] = weather.fdiColor; // perhaps rather have a js function to compute rgb?
+            
+            fdiRows.push(row);
 
             if (selected === null) {
-                selected = point_id;
+                selected = row.feature_id;
             };
 
         });
 
-
-        var fdiTableData = [];
-        var last;
-
-        for (key in fdiData) {
-            if (fdiData.hasOwnProperty(key)) {
-                fdiData[key].sort(compare_date);
-                if (fdiData[key].length > 0) {
-                    // after sorting, get the last value for the table
-                    last = fdiData[key].pop();
-                    // and put it back again
-                    fdiData[key].push(last);
-                    // show current fdi for fdi point
-                    fdiTableData.push(last);
-                } else {
-                    last = null;
-                }
-            }
-
-        };
-
-        render_chart(selected);
-        
         fdiTable = $('#fdi-table').DataTable({
 
-            data: fdiTableData,
+            data: fdiRows,
             deferRender: true,
             dom: "tS",
             scrollY: "90%",
@@ -395,24 +371,24 @@ $(document).ready(function() {
                 },
                 {
                     "className": "point-type icon-column",
-                    "data": "type"
+                    "data": "point_type"
                 }, {
                     "data": "point_name"
                 }, {
-                    "className": "fdi",
-                    "data": "fdi"
+                    "className": "lfdi",
+                    "data": "lfdi_value"
                 }, {
                     "className": "fdi-date",
-                    "data": "date",
+                    "data": "target_date_time",
                     "render": function ( data, type, row, meta ) {
                         return (type == 'display' | type == 'filter') ? simpleDate(data) : data;
                     }
                 }, {
-                    "data": "forecast_actual"
+                    "data": "value_class"
                 }
             ],
             "order": [
-                [1, 'asc']
+                [2, 'asc']
             ]
         });
 
@@ -420,8 +396,7 @@ $(document).ready(function() {
             var td_fdi = $(tr).find("td.fdi").toArray();
             td_fdi.forEach(function(td) {
                 var fdiValue = $(td).text();
-                var fdiColor = fdiColors[fdiValue];
-                $(td).css("background-color", fdiColor);
+                $(td).css("background-color", fdiColor(fdiValue));
                 var rgb = extract_rgb($(td).css("background-color"));
                 var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) / 1000);
                 (o > 125) ? $(td).css('color', 'black'): $(td).css('color', 'white');
@@ -446,9 +421,8 @@ $(document).ready(function() {
 
     }); // get fdi data
 
-    console.log("http://" + document.location.hostname + FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0');
     // get fire data.
-    $.get("http://" + document.location.hostname + FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0', function(data, status) {
+    $.get(FIRE_URL + '&limit=' + NUM_INITIAL_FIRES + '&offset=0', function(data, status) {
 
         var tableData = [];
         var fires;
@@ -537,30 +511,16 @@ $(document).ready(function() {
         
         // Order by last_seen (column 8)
         fireTable.order([8, "desc"], [7, "asc"]).draw();
-        
-        
-        
-		/*$('#fire-table tbody tr').each( function () {
-			
-			var row = fireTable.row(this);
-            $(row).attr('fire-id',row.data()['id']);
 
-			if (row & row.data()) {
-			     $(row).attr('fire-id', row.data()['id']);
-			}
-        });*/
+        // Redraw table to update relative time ( "10 minutes ago")
+        setInterval(function() { fireTable.draw(); }, 10 * 60 * 1000);
         
-        
-        
-        debugvar = tableData;
-
+       
         $('#fire-table-search').on('keyup', function() {
             fireTable.search(this.value).draw();
         });
 
         /* Formatting function for row details - modify as you need */
-
-
         var key_names = {
             "first_seen": "First observation",
             "last_seen": "Last observation",
@@ -756,7 +716,6 @@ $(document).ready(function() {
             var row = fireTable.row($(this));
             if (row) {
                 var data = row.data();
-                //console.log(data);
                 flyToPoint(data.centroid_x, data.centroid_y);
                 
                 $.get("http://mesa2.dhcp.meraka.csir.co.za/rest/FireFeature/"+data.id+"/?format=json",function(data){
