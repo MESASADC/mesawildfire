@@ -4,14 +4,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from mesa.rest import views
 
 router = routers.DefaultRouter()
-router.register(r'ConfigSetting', views.ConfigViewSet)
+#router.register(r'ConfigSetting', views.ConfigViewSet)
 router.register(r'FdiPoint', views.FdiPointViewSet)
 router.register(r'FdiMeasurement', views.FdiMeasurementViewSet)
-router.register(r'FdiForecast', views.FdiForecastViewSet)
-router.register(r'FdiPointData', views.FdiPointDataViewSet)
+router.register(r'FdiGraphData', views.FdiGraphDataViewSet)
 router.register(r'FireEvent', views.FireEventViewSet)
 router.register(r'FirePixel', views.FirePixelViewSet)
-router.register(r'FireFeature', views.FireFeatureViewSet)
+#router.register(r'FireFeature', views.FireFeatureViewSet)
 
 
 # Wire up our API using automatic URL routing.

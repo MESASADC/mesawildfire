@@ -180,6 +180,7 @@ class FirePixelPersistConsumer(BasePersistConsumer):
         obj.btemp = float(fields['btemp']['value'])
         obj.frp = float(fields['frp']['value'])
         obj.sat = fields['sat']['value']
+        obj.to_cluster = True
         return obj
 
     def af_viirs(self, data, obj):
@@ -197,6 +198,7 @@ class FirePixelPersistConsumer(BasePersistConsumer):
         obj.btemp = float(fields['btemp']['value'])
         obj.frp = float(fields['frp']['value'])
         obj.sat = fields['sat']['value']
+        obj.to_cluster = True
         return obj
                 
     def _persist(self, data):
