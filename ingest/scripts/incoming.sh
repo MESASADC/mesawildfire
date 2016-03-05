@@ -49,7 +49,7 @@ if [ "$PRODUCT" != "" ]; then
     ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || cp $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"
   fi
   # run the script for the product
-  ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS && logger MESA: Ingested $PRODUCT: $FILEPATH) || failed "ingest"
+  ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS && logger MESA: Ingested $PRODUCT: $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE) || failed "ingest"
 fi
 
 # remove (unlink) from incoming
