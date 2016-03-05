@@ -204,7 +204,7 @@
 
 -   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
         has_access: true,
-        order: 3, user: 1, wmslayer: 2}
+        order: 3, user: 1, wmslayer: 7}
     model: afisweb.userwmslayer
     pk: 7
 

@@ -46,7 +46,7 @@ esac
 if [ "$PRODUCT" != "" ]; then
   # create a hardlink to instantly create a "copy" in the ingest directory. Note: PostGIS uses this link for out of DB raster access!
   if [ ! -e $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE ]; then
-    ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"
+    ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || cp $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"
   fi
   # run the script for the product
   ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS && logger MESA: Ingested $PRODUCT: $FILEPATH) || failed "ingest"
