@@ -48,6 +48,10 @@ try:
         for line in open(incron_filepath):
             # Compose message payload
             lat, lon, btemp, frp, res, MM_DD_YYYY, HHMM, sat, confidence = line.split(',')
+            # hard coded area of interest
+            if float(lat) > -30 or float(lat) < -31 or float(lon) < 27 or float(lon) > 30:
+                logging.debug('Skip. (%s, %s) is outside AOI.' % (lon, lat)) 
+                continue
             YYYY_MM_DD = "{}-{}-{}".format(MM_DD_YYYY[6:10], MM_DD_YYYY[0:2], MM_DD_YYYY[3:5])
             HH_MM_SS = "{}:{}:00".format(HHMM[:2], HHMM[2:4])
             body = render_message_payload(template_dir, "af_modis_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=btemp, frp=frp, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat=sat, confidence=confidence)

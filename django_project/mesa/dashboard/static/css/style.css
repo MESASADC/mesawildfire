@@ -24,6 +24,23 @@ tr.row_selected td{background-color:rgb(172, 186, 212) !important;}
     padding-left: 16px;
     padding-right: 20px;
 }
+#hide_elements{
+ visibility: hidden;
+}
+
+#loading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: white;
+    background-image: url("../images/mesa-logo-.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 .cursor
 { 

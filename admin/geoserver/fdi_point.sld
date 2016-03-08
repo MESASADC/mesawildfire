@@ -6,7 +6,7 @@
          <sld:Title>FDI Points</sld:Title>
          <sld:Abstract>FDI points can be weather stations</sld:Abstract>
          <sld:FeatureTypeStyle>
-            <sld:Name>name</sld:Name>
+            <sld:Name>point_name</sld:Name>
             <sld:Rule>
                <sld:Name>Is Weatherstation</sld:Name>
                <sld:Title>Weather station</sld:Title>
@@ -46,6 +46,25 @@
                   <sld:VendorOption name="autoWrap">100</sld:VendorOption>
                </sld:TextSymbolizer>
             </sld:Rule>
+              <Rule>
+					<Name>Rule 1</Name>
+					<Title>RedSquare</Title>
+					<Abstract>A red fill with an 11 pixel size</Abstract>
+
+					<!-- like a linesymbolizer but with a fill too -->
+					<PointSymbolizer>
+						<Graphic>
+							<Mark>
+								<WellKnownName>circle</WellKnownName>
+								<Fill>
+									<CssParameter name="fill">#FFFFFF</CssParameter>
+									<CssParameter name="stroke-color">#000000</CssParameter>
+								</Fill>
+							</Mark>
+							<Size>6</Size>
+						</Graphic>
+					</PointSymbolizer>
+				</Rule>
          </sld:FeatureTypeStyle>
       </sld:UserStyle>
    </sld:NamedLayer>

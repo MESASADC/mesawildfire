@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<featureType>
+   <name>hotspots_since_yesterday</name>
+   <nativeName>hotspots_since_yesterday</nativeName>
+   <namespace>
+      <name>mesa</name>
+      <atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://192.168.1.41/geoserver/rest/namespaces/mesa.xml" type="application/xml" />
+   </namespace>
+   <title>hotspots_since_yesterday</title>
+   <keywords>
+      <string>hotspots_since_yesterday</string>
+      <string>features</string>
+   </keywords>
+   <nativeCRS>GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4326"]]</nativeCRS>
+   <srs>EPSG:4326</srs>
+   <nativeBoundingBox>
+      <minx>10.0</minx>
+      <maxx>65.0</maxx>
+      <miny>-50.0</miny>
+      <maxy>10.0</maxy>
+   </nativeBoundingBox>
+   <latLonBoundingBox>
+      <minx>10.0</minx>
+      <maxx>65.0</maxx>
+      <miny>-50.0</miny>
+      <maxy>10.0</maxy>
+      <crs>GEOGCS["WGS84(DD)", DATUM["WGS84", SPHEROID["WGS84", 6378137.0, 298.257223563]], PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH]]</crs>
+   </latLonBoundingBox>
+   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+   <enabled>true</enabled>
+   <metadata>
+      <entry key="cachingEnabled">false</entry>
+      <entry key="JDBC_VIRTUAL_TABLE">
+         <virtualTable>
+            <name>hotspots_since_yesterday</name>
+            <sql>SELECT *, ST_Envelope(ST_Buffer(point, greatest(vsize, hsize)/2)) AS polygon FROM mesa_firepixel
+ WHERE
+ date_trunc('day', date_time) + '1 day'::INTERVAL &gt;= date_trunc('day', timezone('GMT', now()+('%tzoffset%'||'MINUTE')::INTERVAL))</sql>
+            <escapeSql>false</escapeSql>
+            <geometry>
+               <name>polygon</name>
+               <type>Polygon</type>
+               <srid>4326</srid>
+            </geometry>
+            <geometry>
+               <name>point</name>
+               <type>Point</type>
+               <srid>4326</srid>
+            </geometry>
+            <parameter>
+               <name>tzoffset</name>
+               <defaultValue>0</defaultValue>
+               <regexpValidator>^[\w\d\s]+$</regexpValidator>
+            </parameter>
+         </virtualTable>
+      </entry>
+   </metadata>
+   <store class="dataStore">
+      <name>mesadb</name>
+      <atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://192.168.1.41/geoserver/rest/workspaces/mesa/datastores/mesadb.xml" type="application/xml" />
+   </store>
+   <maxFeatures>0</maxFeatures>
+   <numDecimals>0</numDecimals>
+   <overridingServiceSRS>false</overridingServiceSRS>
+   <circularArcPresent>false</circularArcPresent>
+</featureType>

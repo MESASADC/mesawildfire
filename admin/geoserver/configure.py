@@ -45,36 +45,44 @@ except:
     ds.connection_parameters.update(host='postgis', port='5432', database='gis', user='docker', passwd='docker', dbtype='postgis', schema='public')
     cat.save(ds)
 
-ft = cat.publish_featuretype('mesa_firepixel', ds, 'EPSG:4326', srs='EPSG:4326')
-ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
-ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
-cat.save(ft)
-
-ft = cat.publish_featuretype('mesa_fire', ds, 'EPSG:4326', srs='EPSG:4326')
-ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
-ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
-cat.save(ft)
-
-ft = cat.publish_featuretype('mesa_firefeature', ds, 'EPSG:4326', srs='EPSG:4326')
-ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
-ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
-cat.save(ft)
-
-ft = cat.publish_featuretype('mesa_firefeature_active', ds, 'EPSG:4326', srs='EPSG:4326')
-ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
-ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
-cat.save(ft)
-
-ft = cat.publish_featuretype('mesa_fireevent', ds, 'EPSG:4326', srs='EPSG:4326')
-ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
-ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
-cat.save(ft)
+#ft = cat.publish_featuretype('mesa_firepixel', ds, 'EPSG:4326', srs='EPSG:4326')
+#ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+#ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
+#cat.save(ft)
 
 
-os.system('curl -v -u "admin:geoserver" -XPOST -T fires_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
-os.system('curl -v -u "admin:geoserver" -XPOST -T firepixel_polygons_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+#ft = cat.publish_featuretype('mesa_fire', ds, 'EPSG:4326', srs='EPSG:4326')
+#ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+#ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
+#cat.save(ft)
+
+
+#ft = cat.publish_featuretype('mesa_fireevent', ds, 'EPSG:4326', srs='EPSG:4326')
+#ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+#ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
+#cat.save(ft)
+
+#ft = cat.publish_featuretype('mesa_firefeature_active', ds, 'EPSG:4326', srs='EPSG:4326')
+#ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+#ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
+#cat.save(ft)
+
+#ft = cat.publish_featuretype('mesa_fireevent', ds, 'EPSG:4326', srs='EPSG:4326')
+#ft.native_bbox = ('10', '65', '-50', '10', 'EPSG:4326')
+#ft.latlon_bbox = ('10', '65', '-50', '10', 'GEOGCS["WGS84(DD)", \n  DATUM["WGS84", \n    SPHEROID["WGS84", 6378137.0, 298.257223563]], \n  PRIMEM["Greenwich", 0.0], \n  UNIT["degree", 0.017453292519943295], \n  AXIS["Geodetic longitude", EAST], \n  AXIS["Geodetic latitude", NORTH]]')
+#cat.save(ft)
+
+
+os.system('curl -v -u "admin:geoserver" -XPOST -T lfdi_point_forecast_and_measured_current.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+
+
+#os.system('curl -v -u "admin:geoserver" -XPOST -T hotpots_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_fdipoint.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 
+os.system('curl -v -u "admin:geoserver" -XPOST -T fires_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+os.system('curl -v -u "admin:geoserver" -XPOST -T fires_since_yesterday.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+os.system('curl -v -u "admin:geoserver" -XPOST -T hotspots_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+os.system('curl -v -u "admin:geoserver" -XPOST -T hotspots_since_yesterday.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 
 os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores')
 os.system('curl -v -u admin:geoserver -XPUT -H "Content-type: text/plain" -d "file:///opt/geoserver/data_dir/data/mesa/mesa_shapefiles" "http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesa_shapefiles/external.shp?configure=all"')
@@ -93,8 +101,13 @@ os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T firefeature.sld "http://localhost:8080/geoserver/rest/workspaces/mesa/styles"')
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T polygon_border.sld "http://localhost:8080/geoserver/rest/workspaces/mesa/styles"')
 
-os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -T fires_today_style.xml http://localhost:8080/geoserver/rest/layers/mesa:fires_today')
 os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>fdi_point</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:mesa_fdipoint')
-os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firepixel</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:firepixel_polygons_today')
 os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>Default Styler</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:MESASADC')
+
+os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>fdi_point</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:lfdi_point_forecast_and_measured_current')
+
+os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firepixel</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:hotspots_today')
+os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firepixel</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:hotspots_since_yesterday')
+os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><selectedStyle><name>firepixel</name><workspace>mesa</workspace></selectedStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:fires_today')
+os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firefeature</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:fires_since_yesterday')
 

@@ -19,3 +19,10 @@ volumes
 admin/geoserver/mesa_rasters/HYP_50M_SR_W.tif
 
 *aux.xml
+
+ingest/af_modis
+ingest/af_msg
+ingest/af_viirs
+ingest/mesa_fdifwi
+ingest/modis_tc
+

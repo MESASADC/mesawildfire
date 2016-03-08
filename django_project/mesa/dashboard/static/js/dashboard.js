@@ -799,8 +799,10 @@ $(document).ready(function() {
 		
 		if(evt.selected.length > 0){
 			
-			fireTable.$("#fire-table tbody tr").removeClass('row_selected');
-			var selected_fire_id = evt.selected[0].getId();
+			fireTable.$("#fire-table tbody tr").removeClass('selected');
+                     
+			//var selected_fire_id = evt.selected[0].getId();
+			var selected_fire_id = evt.selected[0].q.id;
 			var rows = $("#fire-table").dataTable().fnGetNodes();
 			var fire_available = false;
 			
@@ -821,18 +823,18 @@ $(document).ready(function() {
 						//console.log("Table ID:"+String(table_fire_id));
 						//console.log("Selected Fire ID:"+String(selected_fire_id));
 						console.log(evt.selected[0].q.description+" is available in the table.");
-						fireTable.$('tr:eq(' +  String(i) + ')').addClass('row_selected');
-						fireTable.row('.row_selected').scrollTo();
-					 }
-					 
-				}
+						fireTable.$('tr:eq(' +  String(i) + ')').addClass('selected');
+						fireTable.row('.selected').scrollTo();
+				     }
 				
-				if(fire_available == false)
-				{
-				   console.log(evt.selected[0].q.description+" is not available in the table.");	
-				}
-			  }
-		}
+					if(fire_available == false)
+					{
+					   console.log(evt.selected[0].q.description+" is not available in the table.");	
+					}
+			    }
+			 }
+	     }
+		
     });
     
 	/*var select = new ol.interaction.Select();

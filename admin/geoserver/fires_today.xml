@@ -23,7 +23,7 @@
       <entry key="JDBC_VIRTUAL_TABLE">
          <virtualTable>
             <name>fires_today</name>
-            <sql>SELECT * FROM mesa_firefeature WHERE date_trunc('day', last_seen) = date_trunc('day', timezone('GMT', now()+('%tzoffset%'||'MINUTE')::INTERVAL))</sql>
+            <sql>SELECT * FROM mesa_fireevent WHERE date_trunc('day', last_seen) = date_trunc('day', timezone('GMT', now()+('%tzoffset%'||'MINUTE')::INTERVAL))</sql>
             <escapeSql>false</escapeSql>
             <geometry>
                <name>border</name>

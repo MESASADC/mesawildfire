@@ -25,10 +25,20 @@
            ga('create', 'UA-72611319-1', 'auto');
            ga('send', 'pageview');
         </script>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript">
+		$(window).load(function() {
+			$("#loading").fadeOut("slow");
+			$("#hide_elements").css("visibility","visible");
+		})
+		</script>
  
     </head>
     <body>
+		<div id="loading"></div>
         <div class="container">
+			<div id="hide_elements">
             <nav class="navbar navbar-fixed-top navbar-default" role="navigation">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -84,6 +94,7 @@
                 </div>
                 <!-- /.container-fluid -->
             </nav>
+        </div>
         </div>
         <div class="navbar-offset"></div>
         <div class="row main-area" style="margin-top: 90px;">
