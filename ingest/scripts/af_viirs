@@ -54,6 +54,10 @@ try:
             # Compose message payload 
             # https://wiki.afis.co.za/index.php?title=NPP_notes#DRL_Fireloc 
             lat, lon, bt13_k, scan, track, confidence, frp_mw = line.split(',')
+            # hard coded area of interest
+            if float(lat) > -30 or float(lat) < -31 or float(lon) < 27 or float(lon) > 30:
+                logging.debug('Skip. (%s, %s) is outside AOI.' % (lon, lat)) 
+                continue
             frp_mw = frp_mw.strip()
             body = render_message_payload(template_dir, "af_viirs_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=bt13_k, frp=frp_mw, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat='NPP', confidence=confidence)
             logging.debug(body)
