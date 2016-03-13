@@ -235,11 +235,6 @@ var simpleDate = (function() {
         return (amount > 1) ? amount + " " + type + "s": "one " + type;
     };
 
-    function only_HH_MM(date) {
-       var localeSpecificTime = date.toLocaleTimeString();
-       return localeSpecificTime.replace(/:\d+$/, '');
-    };
-
     return function(thedate, before) {
 
         // get a Date object if thedate is a string or null
@@ -249,10 +244,12 @@ var simpleDate = (function() {
         if (!thedate.valueOf())
             return ""; 
 
+        // before is a string that indicates where the relative representation should stop
         // if 'before' is not a valid 'measures' key, then default to hour
+        var before_default = 'second';
         if (!measures.hasOwnProperty(before))
-            before = 'hour';
-        before = (typeof before === 'undefined') ? 'hour' : before;
+            before = before_default;
+        before = (typeof before === 'undefined') ? before_default : before;
 
         var dateStr, amount, denomination,
             //current = new Date().getTime(),
@@ -267,9 +264,9 @@ var simpleDate = (function() {
         if (diff >= measures[before]) {
             var isToday = (thedate.toDateString() == (new Date()).toDateString());
             if (isToday) {
-                return only_HH_MM(thedate) + ' today';
+                return thedate.toLocaleString("en",  { hour: "numeric", hour12: true, minute: "numeric" }) + ' today';
             } else {
-                return thedate.toLocaleString();
+                return thedate.toLocaleString("en",  { weekday: "long", month: "short", day: "numeric", hour: "numeric", hour12: true, minute: "numeric"  } );
             };
         };
 
@@ -283,17 +280,9 @@ var simpleDate = (function() {
             denomination = "day";
         } else if(diff > measures.hour) {
             denomination = "hour";
-        } else {            //if(diff > measures.minute) {
+        } else {            
             denomination = "minute";
         };
-        /*} else {
-            if (future) {
-                dateStr = "in a few seconds";
-            } else {
-                dateStr = "a few seconds ago";
-            };
-            return dateStr;
-        };*/
         amount = Math.round(diff/measures[denomination]);
         if (future) {
             dateStr = "in about " + chkMultiple(amount, denomination);
@@ -671,8 +660,10 @@ $(document).ready(function() {
               webStompClient.subscribe('/exchange/mesa_terminal/notify.db.FireEvent.#', function(d) {
                 //Received Message
                 fire_active_data = JSON.parse(d.body);
-                pk_id = fire_active_data.pk;                
-               /* var firesVector = new ol.layer.Vector({
+                pk_id = fire_active_data.pk;
+               
+               //Add fire vector layer                
+               var firesVector = new ol.layer.Vector({
 					source: new ol.source.Vector({
 					projection: 'EPSG:4326',
 					url: '/rest/FireEvent/'+pk_id+'/?format=json',
@@ -682,11 +673,20 @@ $(document).ready(function() {
 					style: fireStyle
 				});
                 
-                map.addLayer(firesVector);*/
+                map.addLayer(firesVector);
+
+                //Add fire event data in the table
                 $.get("http://"+document.location.hostname+"/rest/FireEvent/"+pk_id+"/?format=json",function(fire_event_data){
-				   fireTable.row.add(fire_event_data).draw();
-				   console.log("Added fire: "+fire_event_data.description+" ,in the table.");
-		});
+                        
+                     var fire_event_obj = fire_event_data.properties;
+                     var fire_event_id = fire_event_data.id;
+                     fire_event_obj.id = fire_event_id;
+                     fireTable.row.add(fire_event_obj).draw();
+                     console.log("Added fire: "+fire_event_obj.description+" ,in the table");                   
+
+		}).fail(function() {
+                     console.log("ERROR occured:Trying to connect to: "+document.location.hostname);
+                });
                 
               });
             };
@@ -728,50 +728,9 @@ $(document).ready(function() {
             if (row) {
                 var data = row.data();
                 flyToPoint(data.centroid_x, data.centroid_y);
-                
-                $.get("/rest/FireEvent/"+data.id+"/?format=json",function(data){
-					
-					console.log(data.geometry.coordinates);
-					
-					var selectd = new ol.interaction.Select();
-					map.addInteraction(selectd);
-					
-					var feature = new ol.Feature({
-					  geometry: new ol.geom.Polygon(data.geometry.coordinates),
-					  
-					});
-					
-					feature.setStyle(new ol.style.Style({
-                        stroke: new ol.style.Stroke({color:'red',width:3}),
-                        fill: new ol.style.Fill({color: 'rgba(91, 53, 252, 0.1)'})
-                    }))
-                    
-					var selected_collection = selectd.getFeatures();
-					selected_collection.push(feature);
-					map.addInteraction(selectd);
-					
-					console.log(selected_collection);
-					console.log("executed");
-                });
-                
-                /*
-				var features = select.getFeatures(feature);
-				// now you have an ol.Collection of features that you can add features to
-				features.push(feature); */
-				
             };
         }
     } );
-    
-    
-	 function sleep(milliseconds) {
-		  var start = new Date().getTime();
-		  for (var i = 0; i < 1e7; i++) {
-			if ((new Date().getTime() - start) > milliseconds){
-			  break;
-			}
-		  }
-	   }
     
     //select interaction working on "singleclick"
     var selectSingleClick = new ol.interaction.Select();
@@ -829,7 +788,9 @@ $(document).ready(function() {
 				
 					if(fire_available == false)
 					{
-					   console.log(evt.selected[0].q.description+" is not available in the table.");	
+                                           console.log("Table ID:"+String(table_fire_id));
+                                           console.log("Selected Fire ID:"+String(selected_fire_id));
+                                           console.log(evt.selected[0].q.description+" is not available in the table.");	
 					}
 			    }
 			 }

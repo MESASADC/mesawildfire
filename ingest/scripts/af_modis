@@ -24,8 +24,8 @@ incron_file = sys.argv[2]
 incron_filepath = os.path.join(incron_dir, incron_file)
 incron_event = sys.argv[3]
 
-logfile = os.path.join(script_dir, 'af_modis.log')
-#logfile='/dev/stdout'
+#logfile = os.path.join(script_dir, 'af_modis.log')
+logfile='/dev/stdout'
 logging.basicConfig(filename=logfile,level=logging.DEBUG, format='%(asctime)s :: %(message)s')
 
 configfile = os.path.join(script_dir, 'config.json')
@@ -49,20 +49,20 @@ try:
             # Compose message payload
             lat, lon, btemp, frp, res, MM_DD_YYYY, HHMM, sat, confidence = line.split(',')
             # hard coded area of interest
-            if float(lat) > -30 or float(lat) < -31 or float(lon) < 27 or float(lon) > 30:
-                logging.debug('Skip. (%s, %s) is outside AOI.' % (lon, lat)) 
-                continue
+            #if float(lat) > -30 or float(lat) < -31 or float(lon) < 27 or float(lon) > 30:
+            #    logging.debug('Skip. (%s, %s) is outside AOI.' % (lon, lat)) 
+            #    continue
             YYYY_MM_DD = "{}-{}-{}".format(MM_DD_YYYY[6:10], MM_DD_YYYY[0:2], MM_DD_YYYY[3:5])
             HH_MM_SS = "{}:{}:00".format(HHMM[:2], HHMM[2:4])
             body = render_message_payload(template_dir, "af_modis_template.json", id='null', src='CSIR', lon=lon, lat=lat, btemp=btemp, frp=frp, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, sat=sat, confidence=confidence)
-            #logging.debug(body)
+            logging.debug(body)
             # Publish message
             rk = 'af_modis.v0_1'
             exchange.publish(body, rk)
             count += 1
-            #logging.debug('Published a message with rk: %s' % rk)
+            logging.debug('Published a message with rk: %s' % rk)
         logging.info('Published %d af_modis messages' % count)
-    logging.info('Deleting succesfully processed file: %s' % incron_filepath)
+    #logging.info('Deleting succesfully processed file: %s' % incron_filepath)
     #os.remove(incron_filepath)
 except:
     logging.exception('Failed to process: {}/{} for {}'.format(incron_dir, incron_file, incron_event))

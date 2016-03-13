@@ -171,6 +171,9 @@ def _notification(event, instance):
     
     messages = []
 
+    # update the model instance from the database to reflect changes made by database triggers (firepixel clustering happens in the database)
+    instance = type(instance).objects.get(pk=instance.pk)
+
     message = {
               "pk": instance.pk,
               "rk": "notify.db.%s.%s" % (type(instance).__name__, event),
@@ -178,17 +181,19 @@ def _notification(event, instance):
               "source": type(instance).__name__,
               "event": event,
               "timestamp": timezone.now().isoformat(),
-              "extra" : {}
+              "extra" : { "fire_id" : instance.fire_id }
         }
 
     messages.append(message)
     
 
     if isinstance(instance, FirePixel):
+        logging.debug('Event (%s) is for instance of FirePixel' % event)
 
         try:
             fire_event = FireEvent.objects.get(pk=instance.fire_id)
         except FireEvent.DoesNotExist, e:
+            logging.debug('No fireEvent exists with pk=%s' % instance.fire_id)
             fire_event = None
         
         if fire_event:
@@ -232,6 +237,6 @@ def post_save_notify_amqp(sender, **kwargs):
                             serializer='json')
         except Exception, e:
             logging.warn('Failed to publish (post save). Reason: %s' % e)
-            if settings.DEBUG is True:
+            if False and settings.DEBUG is True:
                 raise e
    

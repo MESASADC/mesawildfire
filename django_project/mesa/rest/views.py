@@ -62,7 +62,7 @@ class FireEventViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Fire as detected and updated over time
     """
-    queryset = models.FireEvent.objects.none()
+    queryset = models.FireEvent.objects.all()
     serializer_class = serializers.FireEventSerializer
     
     #def get_queryset(self):

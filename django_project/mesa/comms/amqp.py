@@ -217,7 +217,6 @@ class FirePixelPersistConsumer(BasePersistConsumer):
             logging.debug("Succesfully stored FirePixel record in the database".format(msg_type, msg_version))
         except Exception, e:
             logging.exception(str(e))
-            raise e
 
 
 import time
