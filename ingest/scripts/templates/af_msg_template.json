@@ -1,0 +1,59 @@
+{
+    "type": "af_msg",
+    "version": "0.1",
+    "id": {{ id }},
+    "location": {
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                {{ lon }}, {{ lat }}
+            ]
+        },
+        "properties": {
+            "id": "{{ id }}"
+        }
+    },
+    "fields": {
+        "src": {
+            "value": "{{ src }}",
+            "description": "Data provider/source",
+            "format": "FIRMS or CSIR"
+        },
+        "lon": {
+            "value": {{ lon }},
+            "description": "Longitude",
+            "format": "degrees"
+        },
+        "lat": {
+            "value": {{ lat }},
+            "description": "Latitude",
+            "format": "degrees"
+        },
+        "pixel_size": {
+            "value": "{{ pixel_size }}",
+            "description": "Pixel Size",
+            "format": "Km*2"
+        },
+        "fire_size": {
+            "value": "{{ fire_size }}",
+            "description": "Fire size",
+            "format": "Km*2"
+        },
+        "temp": {
+            "value": {{ temp }},
+            "description": "Brightness Temperature",
+            "format": "K"
+        },
+        "ecosystem": {
+            "value": "{{ ecosystem }}",
+            "description": "Ecosystem",
+            "format": ""
+        },
+        "frp": {
+            "value": {{ frp }},
+            "description": "Fire Radiative Power",
+            "format": "MW/km**2"
+        }
+    }
+}

@@ -4,20 +4,42 @@ set -x
 
 SCRIPT_DIR=$(readlink -f `dirname $0`)
 INGEST_DIR=$SCRIPT_DIR/..
+ARCHIVE_DIR=/data/archive
+FAILED_DIR=/data/failed
 
 INCRON_EVENT_DIR=$1
 INCRON_EVENT_FILE=$2
 INCRON_EVENT_FLAGS=$3
 FILEPATH=$INCRON_EVENT_DIR/$INCRON_EVENT_FILE
+DATED=
+
+# determine product type
+source ${SCRIPT_DIR}/prodtype.conf
+
+if [[ "${DATED}" == "Y" ]]; then
+   if [[ "$D_FORMAT" == "YYYYDOY" ]] && [[ -n ${D_POSITION} ]]; then
+      fdate=${INCRON_EVENT_FILE:D_POSITION:7}
+      year=${fdate:0:4}
+      doy=${fdate:4:3}
+      doy=$((doy-1))
+      DATE=$(date +"%Y/%m/%d" -d "${year}0101 + $doy days")
+   elif [[ "$D_FORMAT" == "YYYYMMDD" ]] && [[ -n ${D_POSITION} ]]; then
+      fdate=${INCRON_EVENT_FILE:D_POSITION:8}
+      DATE=$(date +"%Y/%m/%d" -d "${fdate}")
+   elif [[ "$D_FORMAT" == "YYYY-MM-DD" ]] && [[ -n ${D_POSITION} ]]; then
+      fdate=$(echo ${INCRON_EVENT_FILE:D_POSITION:10} | sed 's/-//g')
+      DATE=$(date +"%Y/%m/%d" -d "${fdate}")
+   fi
+fi
+
+echo "${DATED} $ARCHIVE_DIR/$GROUP/$PRODUCT/$DATE $INCRON_EVENT_FILE " >> /home/mesa/Desktop/test.log
+
 
 # archive location for today's file
-ARCHIVE_DIR=/data/archive
-DATE=$(date +%Y/%m/%d)
-mkdir -p $ARCHIVE_DIR/$DATE
+OUTDIR="$ARCHIVE_DIR/$GROUP/$PRODUCT/$DATE"
+mkdir -p "$OUTDIR"
 
-# directory where files that failed to ingest will be kept
-FAILED_DIR=/data/failed
-
+# function to send files that failed to ingest to the failed directory
 function failed {
   mkdir -p $FAILED_DIR/$1
   ln $FILEPATH $FAILED_DIR/$1/$INCRON_EVENT_FILE
@@ -28,19 +50,9 @@ function failed {
 }
 
 # create a hardlink to instantly create a "copy" in the archive
-if [ ! -e $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE ]; then
-  (ln $FILEPATH $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE && logger MESA: Archived $ARCHIVE_DIR/$DATE/$INCRON_EVENT_FILE) || failed "archive"
+if [ ! -e "$OUTDIR/$INCRON_EVENT_FILE" ]; then
+  (ln $FILEPATH "$OUTDIR/$INCRON_EVENT_FILE" && logger MESA: Archived "$OUTDIR/$INCRON_EVENT_FILE") || failed "archive"
 fi
-
-# determine product type
-case $INCRON_EVENT_FILE in
-  ( MODIS?_FIRE.*.txt ) PRODUCT=af_modis ;;
-  ( FireLoc_npp_*.txt ) PRODUCT=af_viirs ;;
-  ( AMESD_SADC_MSG_W_ABBA*.txt ) PRODUCT=af_msg ;;
-  ( MESA_SADC_FDI_SAfri_v1*.tif ) PRODUCT=mesa_fdifwi ;;
-  ( AMESD_SADC_MODIS_TC* ) PRODUCT=modis_tc ;;
-  ( * ) PRODUCT=
-esac
 
 # ingest the files we are interested in
 if [ "$PRODUCT" != "" ]; then
