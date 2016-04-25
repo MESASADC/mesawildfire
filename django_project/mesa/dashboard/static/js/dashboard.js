@@ -1,4 +1,3 @@
-
 // CONSTANTS
 
 var FDI_CURRENT_URL = "/geoserver/mesa/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mesa:lfdi_point_forecast_and_measured_current&outputFormat=application/json"
@@ -299,12 +298,12 @@ var fdiGraph = {};
 var fdiRows = [];
 
 $(document).ready(function() {
+    
 
     // get fdi table data
     $.get(FDI_CURRENT_URL, function(result, status) {
     
         console.log('got fdi table data');
-
 
         result.features.forEach(function (feature) {
 
@@ -324,6 +323,10 @@ $(document).ready(function() {
             fdiRows.push(row);
 
         });
+
+
+
+        var start = new Date().getTime();
 
         fdiTable = $('#fdi-table').DataTable({
 
@@ -366,6 +369,13 @@ $(document).ready(function() {
             ]
         });
 
+        var end = new Date().getTime();
+        var time = end - start;
+        console.log('FDI Table:Start time -:- ' + start);
+        console.log('FDI Table:End time -:- ' + end);
+        console.log('FDI Table:Execution time -:- ' + time);
+        
+
         for (tr in $("#fdi-table, #fire-table").find("tr")) {
             var td_fdi = $(tr).find("td.lfdi").toArray();
             td_fdi.forEach(function(td) {
@@ -389,12 +399,16 @@ $(document).ready(function() {
 
         }
 
+
+
         $('#fdi-table-search').on('keyup', function() {
             fdiTable.search(this.value).draw();
         });
 
     }); // get fdi table data
 
+
+    var star = new Date().getTime();
     // get fdi graph data
     $.get(FDI_GRAPH_URL, function(result, status) {
     
@@ -425,6 +439,10 @@ $(document).ready(function() {
 
         render_chart(graphPointName);
     });
+
+    var en = new Date().getTime();
+    var tim = en - star;
+    console.log('FDI graph:Execution time -:- ' + tim);
 
 
     // get fire data
@@ -559,7 +577,7 @@ $(document).ready(function() {
             var html = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;display:inline">';
             html +=
                 '<tr>' +
-                    '<td><image class="fire-detail-thumbnail" fire-id="' + d.id + '" style="width:100px; height:100px;" src="' + FIRE_THUMBNAIL_URL + d.west + ',' + d.south + ',' + d.east + ',' + d.north + '"/></th>' +
+                    '<td><div class = "img-rounded"><image class="fire-detail-thumbnail img-rounded" fire-id="' + d.id + '" style="width:100px; height:100px;" src="' + FIRE_THUMBNAIL_URL + d.west + ',' + d.south + ',' + d.east + ',' + d.north + '"/></div></th>' +
                     '<td class="fire-detail-list"><ul class="fire-detail-list">';
                 
             for (key in d) {
@@ -661,8 +679,9 @@ $(document).ready(function() {
                 //Received Message
                 fire_active_data = JSON.parse(d.body);
                 pk_id = fire_active_data.pk;
-               
-               //Add fire vector layer                
+                            
+
+               //Add fire feature.                
                var firesVector = new ol.layer.Vector({
 					source: new ol.source.Vector({
 					projection: 'EPSG:4326',
@@ -672,28 +691,41 @@ $(document).ready(function() {
 					}),
 					style: fireStyle
 				});
-                
                 map.addLayer(firesVector);
+                
+                
 
-                //Add fire event data in the table
+                //Add fire event data in the fire table
                 $.get("http://"+document.location.hostname+"/rest/FireEvent/"+pk_id+"/?format=json",function(fire_event_data){
                         
                      var fire_event_obj = fire_event_data.properties;
                      var fire_event_id = fire_event_data.id;
                      fire_event_obj.id = fire_event_id;
+                     //fire_event_obj["current_fdi"] = Math.floor(Math.random()*101);
                      fireTable.row.add(fire_event_obj).draw();
-                     console.log("Added fire: "+fire_event_obj.description+" ,in the table");                   
+                     console.log("Added fire: "+fire_event_obj.description+" ,in the table"); 
+                     
+                     //Adding FDI colour after receiving new fire data.
+					 var rows_fire = $("#fire-table").dataTable().fnGetNodes();
+					 for(var x = 0;x < rows_fire.length;x++)
+					 {
+						var fdi_val = $(rows_fire[x]).find("td.lfdi");
+						var fire_d = $(rows_fire[x]).find("td.fireid");
+						$(fdi_val).css("background-color", fdiColor($(fdi_val).text()));
+						
+					 }                     
 
-		}).fail(function() {
+			    }).fail(function() {
                      console.log("ERROR occured:Trying to connect to: "+document.location.hostname);
-                });
-                
+                });                
               });
+              
             };
             
             var onError = function(e) {
               console.log('WebStomp ERROR', e);
             };
+            
             webStompClient.connect('user', 'password', onConnect, onError, '/');
 
         // Add event listener for opening and closing details
@@ -760,37 +792,49 @@ $(document).ready(function() {
 			
 			fireTable.$("#fire-table tbody tr").removeClass('selected');
                      
-			//var selected_fire_id = evt.selected[0].getId();
+			var selected_fire_id_fire = evt.selected[0].getId();
 			var selected_fire_id = evt.selected[0].q.id;
 			var rows = $("#fire-table").dataTable().fnGetNodes();
 			var fire_available = false;
-			
-			
-			if(rows.length != 0)
+			var final_selected;
+
+			 if(selected_fire_id_fire){
+				final_selected = selected_fire_id_fire;
+			 }
+
+			 if(selected_fire_id){
+				final_selected = selected_fire_id;
+			 }
+
+			if(rows.length)
 			{
 						
 				for(var i=0; i < rows.length; i++)
 				{
 					
 					var table_fire_id = $(rows[i]).find("td.fireid").html();
-					
-					if(selected_fire_id == table_fire_id)
+
+					if(final_selected == table_fire_id)
 					 {
 						fire_available = true;
 						//console.log("ROW:"+String(i));
 						//console.log("Row Index:"+String(rows[i].rowIndex));
-						//console.log("Table ID:"+String(table_fire_id));
-						//console.log("Selected Fire ID:"+String(selected_fire_id));
+                        console.log("----------------------FOUND---------------------------------");
+						console.log("Table ID:"+String(table_fire_id));
+						console.log("Selected Fire ID:"+String(final_selected));
+                        console.log("-------------------------------------------------------------");
 						console.log(evt.selected[0].q.description+" is available in the table.");
 						fireTable.$('tr:eq(' +  String(i) + ')').addClass('selected');
 						fireTable.row('.selected').scrollTo();
+                        //console.log(evt.selected[0]);
 				     }
 				
 					if(fire_available == false)
 					{
-                                           console.log("Table ID:"+String(table_fire_id));
-                                           console.log("Selected Fire ID:"+String(selected_fire_id));
-                                           console.log(evt.selected[0].q.description+" is not available in the table.");	
+					   //console.log(selected_fire_id_fire);
+					   console.log("Table ID:"+String(table_fire_id));
+					   console.log("Selected Fire ID:"+String(final_selected));
+					   console.log(evt.selected[0].q.description+" is not available in the table.");	
 					}
 			    }
 			 }
@@ -834,9 +878,10 @@ $(document).ready(function() {
     function render_chart(point_name) {
         
         $("#point-name").html("FDI at: " + point_name);
-
+        
         var chart = AmCharts.makeChart("chartdiv", {
             "type": "serial",
+            "startDuration": 1,
             "theme": "dark",
             "marginRight": 80,
             "dataProvider": fdiGraph[point_name],
@@ -844,7 +889,7 @@ $(document).ready(function() {
                 "maximum": 100,
                 "minimum": 0,
                 "axisAlpha": 0.4,
-                "guides": [{}, {
+                "guides": [{},/* {
                     "lineColor": "#0000FF",
                     "lineThickness": 3,
                     "lineAlpha": 0,
@@ -873,7 +918,7 @@ $(document).ready(function() {
                     "lineAlpha": 1,
                     "lineThickness": 3,
                     "value": 75
-                }]
+                }*/]
             }],
 
             "graphs": [{
@@ -884,15 +929,16 @@ $(document).ready(function() {
                 "lineAlpha": 0,
                 "title": "12H00 Forecast",
                 "type": "column",
-                "valueField": "value"
-            }, {
-                "balloonText": "", // "Actual FDI:[[actual_fdi]]",
+                "valueField": "value",
+                "fillColorsField":"color"
+            }, {/*
+                "balloonText":  "Actual FDI:[[actual_fdi]]",
                 "lineThickness": 3,
                 "connect": true,
                 "title": "FDI",
                 "lineColor": "#FFFFFF",
                 "type": "smoothedLine",
-                "valueField": "value"
+                "valueField": "value"*/
             /*}, {
                 "balloonText": "",
                 "lineThickness": 3,
@@ -902,6 +948,8 @@ $(document).ready(function() {
                 "type": "smoothedLine",
                 "valueField": "date"*/
             }],
+            "depth3D": 10,
+            "angle": 30,
             "zoomOutButtonRollOverAlpha": 0.15,
             "chartCursor": {
                 "categoryBalloonDateFormat": "MMM DD JJ:NN",
@@ -920,7 +968,6 @@ $(document).ready(function() {
             }
 
         });
-
 
 
     }

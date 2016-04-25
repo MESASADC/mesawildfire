@@ -34,6 +34,7 @@ if [ -z "$QUICK" ]; then
   apt-get purge -y lxc-docker*
   apt-cache policy docker-engine
   apt-get install -y --force-yes docker-engine
+  apt-mark hold docker-engine
 fi
 
 # Check docker
