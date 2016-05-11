@@ -16,7 +16,7 @@
         name: Hotspots today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Hotspots today, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:hotspots_today',
-        legend_group: 1, legend_style: '&scale=1',   # &scale=1 is a crude workaround for the fact that explicitly stating the style did not work.  
+        legend_group: 1, legend_style: firepixel_legend,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
@@ -46,13 +46,13 @@
         name: Active Fires today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Active Fires today, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:fires_today',
-        legend_group: 1,
+        legend_group: 1,legend_style: firepixel_legend,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
     pk: 2
 
--   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
         order: 1, user: 1, wmslayer: 2}
     model: afisweb.userwmslayer
@@ -166,13 +166,13 @@
         name: Hotspots since yesterday, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Hotspots since yesterday, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:hotspots_since_yesterday',
-        legend_group: 1, legend_style: '&scale=1',   # &scale=1 is a crude workaround for the fact that explicitly stating the style did not work.  
+        legend_group: 1,legend_style: firepixel_legend,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
     pk: 6
 
--   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
         order: 4, user: 1, wmslayer: 6}
     model: afisweb.userwmslayer
@@ -196,16 +196,79 @@
         name: Active Fires since yesterday, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Active Fires since yesterday, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:fires_since_yesterday',
-        legend_group: 1,
+        legend_group: 1,legend_style: firefeature,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
     pk: 7
 
--   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
         order: 3, user: 1, wmslayer: 7}
     model: afisweb.userwmslayer
     pk: 7
+
+
+-   fields: {as_open_layer: "lyr8 = new OpenLayers.Layer.WMS(\n\
+                'MSG hotspots today','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:MSG_hotspots_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr8.id] = 'lyr8';", content_type: 14,
+        name: MSG hotspots today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: MSG hotspots today, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:MSG_hotspots_today',
+        legend_group: 2, legend_style: MSG_hotspots_legend, 
+        show_legend_image: true, 
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 8
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 4, user: 1, wmslayer: 8}
+    model: afisweb.userwmslayer
+    pk: 8
+
+
+
+-   fields: {as_open_layer: "lyr9 = new OpenLayers.Layer.WMS(\n\
+                'MSG hotspots since yesterday','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:MSG_hotspots_since_yesterday',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr9.id] = 'lyr9';", content_type: 14,
+        name: MSG hotspots since yesterday, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: MSG hotspots since yesterday, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:MSG_hotspots_since_yesterday',
+        legend_group: 2, legend_style: MSG_hotspots_legend,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 9
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+        has_access: true,
+        order: 5, user: 1, wmslayer: 9}
+    model: afisweb.userwmslayer
+    pk: 9
 
 

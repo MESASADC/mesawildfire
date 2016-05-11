@@ -13,7 +13,7 @@ from functools import partial
 from django.contrib.gis.geos import Point
 from django.conf import settings
 from mesa import models
-import json
+import json, math
 
 async = Hub()
 
@@ -161,6 +161,9 @@ class FirePixelPersistConsumer(BasePersistConsumer):
                             },
                             'af_viirs': {
                                 '0.1': self.af_viirs
+                            },
+                            'af_msg': {
+                                '0.1': self.af_msg
                             }}
         super(FirePixelPersistConsumer, self).__init__(name=name, channel=channel)
 
@@ -199,6 +202,23 @@ class FirePixelPersistConsumer(BasePersistConsumer):
         obj.frp = float(fields['frp']['value'])
         obj.sat = fields['sat']['value']
         obj.to_cluster = True
+        return obj
+
+    def af_msg(self, data, obj):
+        fields = data['fields']
+        obj.type = data['type']
+        obj.point = Point(*data['location']['geometry']['coordinates'])
+        # approx pixel size in degrees 
+        obj.vsize = obj.hsize = math.sqrt(float(fields['pixel_size']['value'])) * 0.01  # crude conversion from km to degrees
+        ddd = [int(v) for v in fields['date']['value'].split('-')]
+        ttt = [int(v) for v in fields['time']['value'].split(':')]
+        dddttt = ddd + ttt
+        obj.date_time = dt.datetime(*dddttt )
+        obj.src = fields['src']['value']
+        obj.btemp = float(fields['btemp']['value']) if fields['btemp']['value'] is not None else None
+        obj.frp = float(fields['frp']['value']) if fields['frp']['value'] is not None else None
+        obj.sat = fields['sat']['value']
+        obj.to_cluster = False
         return obj
                 
     def _persist(self, data):
@@ -240,7 +260,7 @@ def async_run_forever():
     fire_pixel_persistance = FirePixelPersistConsumer('firepixel')
     fire_pixel_persistance.declare()
     fire_pixel_persistance.purge()
-    fire_pixel_persistance.bind_queue(routing_keys=['af_modis.#', 'af_viirs.#'])
+    fire_pixel_persistance.bind_queue(routing_keys=['af_modis.#', 'af_viirs.#', 'af_msg.#'])
     
 
     logging.info("AMQP running forever!")

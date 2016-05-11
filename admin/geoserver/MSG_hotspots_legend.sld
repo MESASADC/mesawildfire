@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sld:StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml" version="1.0.0">
+    <sld:UserLayer>
+        <sld:UserStyle>
+            <sld:Name>MSG_hotspots_legend</sld:Name>
+            <sld:Title>MSG Hotspots Legend Style</sld:Title>
+            <sld:Abstract></sld:Abstract>
+            <sld:FeatureTypeStyle>
+                <sld:Name>MSG_hotspots_legend</sld:Name>
+                <sld:Title>MSG Hotspots Legend Style</sld:Title>
+                <sld:Abstract>MSG Hotspots Legend Style</sld:Abstract>
+                <sld:Rule>
+                    <sld:Name>rule01</sld:Name>
+                    <sld:Title>Low Intensity</sld:Title>
+                    <sld:Abstract>Abstract</sld:Abstract>
+                    <ogc:Filter>
+                        <ogc:And>
+                            <ogc:PropertyIsGreaterThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>-1</ogc:Literal>
+                            </ogc:PropertyIsGreaterThanOrEqualTo>
+                            <ogc:PropertyIsLessThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>150</ogc:Literal>
+                            </ogc:PropertyIsLessThanOrEqualTo>
+                        </ogc:And>
+                    </ogc:Filter>
+                    <sld:PointSymbolizer>
+                        <sld:Graphic>
+                            <sld:Mark>
+                                <sld:WellKnownName>circle</sld:WellKnownName>
+                                <sld:Fill>
+                                    <sld:CssParameter name="fill">
+                                        <ogc:Literal>#ffbf00</ogc:Literal>
+                                    </sld:CssParameter>
+                                </sld:Fill>
+                            </sld:Mark>
+                            <sld:Size>
+                                <ogc:Literal>10</ogc:Literal>
+                            </sld:Size>
+                        </sld:Graphic>
+                    </sld:PointSymbolizer>
+                </sld:Rule>
+                <sld:Rule>
+                    <sld:Name>rule02</sld:Name>
+                    <sld:Title>Medium Intensity</sld:Title>
+                    <sld:Abstract>Abstract</sld:Abstract>
+                    <ogc:Filter>
+                        <ogc:And>
+                            <ogc:PropertyIsGreaterThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>151</ogc:Literal>
+                            </ogc:PropertyIsGreaterThanOrEqualTo>
+                            <ogc:PropertyIsLessThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>300</ogc:Literal>
+                            </ogc:PropertyIsLessThanOrEqualTo>
+                        </ogc:And>
+                    </ogc:Filter>
+                    <sld:PointSymbolizer>
+                        <sld:Graphic>
+                            <sld:Mark>
+                                <sld:WellKnownName>circle</sld:WellKnownName>
+                                <sld:Fill>
+                                    <sld:CssParameter name="fill">
+                                        <ogc:Literal>#ff7f00</ogc:Literal>
+                                    </sld:CssParameter>
+                                </sld:Fill>
+                            </sld:Mark>
+                            <sld:Size>
+                                <ogc:Literal>10</ogc:Literal>
+                            </sld:Size>
+                        </sld:Graphic>
+                    </sld:PointSymbolizer>
+                </sld:Rule>
+                <sld:Rule>
+                    <sld:Name>rule03</sld:Name>
+                    <sld:Title>High Intensity</sld:Title>
+                    <sld:Abstract>Abstract</sld:Abstract>
+                    <ogc:Filter>
+                        <ogc:And>
+                            <ogc:PropertyIsGreaterThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>301</ogc:Literal>
+                            </ogc:PropertyIsGreaterThanOrEqualTo>
+                            <ogc:PropertyIsLessThanOrEqualTo>
+                                <ogc:PropertyName>frp_mw</ogc:PropertyName>
+                                <ogc:Literal>600</ogc:Literal>
+                            </ogc:PropertyIsLessThanOrEqualTo>
+                        </ogc:And>
+                    </ogc:Filter>
+                    <sld:PointSymbolizer>
+                        <sld:Graphic>
+                            <sld:Mark>
+                                <sld:WellKnownName>circle</sld:WellKnownName>
+                                <sld:Fill>
+                                    <sld:CssParameter name="fill">
+                                        <ogc:Literal>#fe2712</ogc:Literal>
+                                    </sld:CssParameter>
+                                </sld:Fill>
+                            </sld:Mark>
+                            <sld:Size>
+                                <ogc:Literal>10</ogc:Literal>
+                            </sld:Size>
+                        </sld:Graphic>
+                    </sld:PointSymbolizer>
+                </sld:Rule>
+                <sld:Rule>
+                    <sld:Name>rule04</sld:Name>
+                    <sld:Title>Extreme Intensity</sld:Title>
+                    <sld:Abstract>Abstract</sld:Abstract>
+                    <ogc:Filter>
+                        <ogc:And>
+                            <ogc:PropertyIsGreaterThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>601</ogc:Literal>
+                            </ogc:PropertyIsGreaterThanOrEqualTo>
+                            <ogc:PropertyIsLessThanOrEqualTo>
+                                <ogc:PropertyName>frp</ogc:PropertyName>
+                                <ogc:Literal>50000</ogc:Literal>
+                            </ogc:PropertyIsLessThanOrEqualTo>
+                        </ogc:And>
+                    </ogc:Filter>
+                    <sld:PointSymbolizer>
+                        <sld:Graphic>
+                            <sld:Mark>
+                                <sld:WellKnownName>circle</sld:WellKnownName>
+                                <sld:Fill>
+                                    <sld:CssParameter name="fill">
+                                        <ogc:Literal>#ff0000</ogc:Literal>
+                                    </sld:CssParameter>
+                                </sld:Fill>
+                            </sld:Mark>
+                            <sld:Size>
+                                <ogc:Literal>10</ogc:Literal>
+                            </sld:Size>
+                        </sld:Graphic>
+                    </sld:PointSymbolizer>
+                </sld:Rule>              
+            </sld:FeatureTypeStyle>
+        </sld:UserStyle>
+    </sld:UserLayer>
+</sld:StyledLayerDescriptor>

@@ -1,2 +1,92 @@
-#!/bin/bash
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+from jinja2 import Environment, FileSystemLoader;
+import sys, os
+import logging
+from kombu import Connection, Exchange, Queue
+import datetime
+import json
+import re
+
+
+def render_message_payload(template_dir, template_name, **kwargs):
+    #logging.debug('Template variables: %s' % str(kwargs)) 
+    loader = FileSystemLoader(template_dir);
+    env = Environment(loader=loader);
+    template = env.get_template(template_name);
+    return template.render(**kwargs)
+
+script_dir = os.path.dirname(sys.argv[0])
+template_dir = os.path.join(os.path.dirname(sys.argv[0]), 'templates')
+incron_dir = sys.argv[1]
+incron_file = sys.argv[2]
+incron_filepath = os.path.join(incron_dir, incron_file)
+incron_event = sys.argv[3]
+
+logfile = os.path.join(script_dir, 'af_msg.log')
+#logfile='/dev/stdout'
+logging.basicConfig(filename=logfile,level=logging.DEBUG, format='%(asctime)s :: %(message)s')
+
+configfile = os.path.join(script_dir, 'config.json')
+config = json.loads(open(configfile).read())
+
+uri = 'amqp://{amqp_user}:{amqp_pass}@{amqp_host}:{amqp_port}/{amqp_vhost}'.format(**config)
+match = re.match(r'.*(?P<year>[0-9]{4})(?P<doy>[0-9]{3})(?P<hours>[0-9]{2})(?P<minutes>[0-9]{2})_.*', incron_file)
+
+if match:
+    year = match.group(1)
+    doy = match.group(2)
+    hours = match.group(3)
+    minutes = match.group(4)
+    date = datetime.datetime(int(year), 1, 1,int(hours),int(minutes)) + datetime.timedelta(int(doy) - 1)
+else:
+    logging.error("Error occured:Extracting Date")
+
+
+try:
+
+    logging.info('Processing: {}/{} for {}'.format(incron_dir, incron_file, incron_event))
+    logging.info('Trying to establish AMQP connectiion: %s' % uri)
+    
+    # Connect to rabbitmq server
+    with Connection(uri) as conn:
+        conn.connect()
+        logging.info('Connection established: %s' % uri)
+        exchange = Exchange(config['amqp_exchange'], type='topic', channel=conn.default_channel)
+        exchange.declare()
+        count = 0
+        for line in open(incron_filepath):
+            # Compose message payload
+            if line.startswith(" "):
+                af_msg_parameter = line.split(" ")
+                af_msg_parameter = [i for i in af_msg_parameter if i != '']
+                lon = float(af_msg_parameter[0]) 
+                lat= float(af_msg_parameter[1])  
+                satzen_deg = float(af_msg_parameter[2]) 
+                pixel_size = float(af_msg_parameter[3]) 
+                T4_K = float(af_msg_parameter[4])
+                T11_K = float(af_msg_parameter[5]) 
+                fire_size = float(af_msg_parameter[6]) if not str(af_msg_parameter[6]).strip() == '-9.' else 'null'
+                btemp = float(af_msg_parameter[7]) if not str(af_msg_parameter[7]).strip() == '-9.' else 'null'
+                frp = float(af_msg_parameter[8]) if not str(af_msg_parameter[8]).strip() == '-9.' else 'null'
+                ecosystem = int(af_msg_parameter[9])
+                fire_flag = int(af_msg_parameter[-1])
+                YYYY_MM_DD = "{}-{}-{}".format(date.year,date.month,date.day)
+                HH_MM_SS = "{}:{}:00".format(date.hour,date.minute)
+            
+                body = render_message_payload(template_dir, "af_msg_template.json", id='null', src='ABBA', sat='MSG', fire_size=fire_size, lon=lon, lat=lat, btemp=btemp, frp=frp, pixel_size=pixel_size, ecosystem=ecosystem, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, satzen_deg=satzen_deg, T4_K=T4_K, T11_K=T11_K, fire_flag=fire_flag)
+                logging.debug(body)
+                # Publish message
+                rk = 'af_msg.v0_1'
+                exchange.publish(body, rk)
+                count += 1
+                #logging.debug('Published a message with rk: %s' % rk)
+        logging.info('Published %d af_msg messages' % count)
+    logging.info('Deleting succesfully processed file: %s' % incron_filepath)
+    #os.remove(incron_filepath)
+except:
+    logging.exception('Failed to process: {}/{} for {}'.format(incron_dir, incron_file, incron_event))
+
 

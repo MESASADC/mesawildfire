@@ -87,8 +87,8 @@ class FirePixel(models.Model, NotifySave):
     date_time = models.DateTimeField(blank=True, null=True)
     src = models.CharField(max_length=20, blank=True, null=False, default='')
     sat = models.CharField(max_length=20, blank=True, null=False, default='')
-    frp = models.FloatField(blank=True)
-    btemp = models.FloatField(blank=True)
+    frp = models.FloatField(blank=True, null=True)
+    btemp = models.FloatField(blank=True, null=True)
     to_cluster = models.BooleanField(blank=False, default=False)
 
     fire = models.ForeignKey(FireCluster, blank=True, null=True)

@@ -1,9 +1,16 @@
+{% load mapboxtag %} {# Custom tag defined in templatetags/ #}
+
 <div id="layer-switcher">
   <b>  
-  <p><input type="radio" name="baselayer" class="baselayer" checked id="Custom">Custom</input></p>
-  <p><input type="radio" name="baselayer" class="baselayer" id="Google Physical">Google Physical</input></p>
-  <p><input type="radio" name="baselayer" class="baselayer" id="Google Streets">Google Streets</input></p>
-  <p><input type="radio" name="baselayer" class="baselayer" id="Google Hybrid">Google Hybrid</input></p>
-  <p><input type="radio" name="baselayer" class="baselayer" id="Google Satellite">Google Satellite</input></p>
+  <p><input type="radio" name="baselayer" class="baselayer" checked id="Custom">Local (offline)</input></p>
+  {% no_internet as no_internet %}
+  {% if not no_internet %}
+  <p><input type="radio" name="baselayer" class="baselayer" id="Mapbox Outdoors">MapBox Outdoors (internet)</input></p>
+  <p><input type="radio" name="baselayer" class="baselayer" id="Mapbox Streets and Satellite">MapBox Streets and Satellite (internet)</input></p>
+  <p><input type="radio" name="baselayer" class="baselayer" id="Mapbox Streets">MapBox Streets (internet)</input></p>
+  <p><input type="radio" name="baselayer" class="baselayer" id="Mapbox Light">MapBox Light (internet)</input></p>
+  <p><input type="radio" name="baselayer" class="baselayer" id="Mapbox Dark">MapBox Dark (internet)</input></p>
+  <p><input type="radio" name="baselayer" class="baselayer" id="Mapbox Satellite">MapBox Satellite (internet)</input></p>
+  {% endif %}
   </b>
 </div>

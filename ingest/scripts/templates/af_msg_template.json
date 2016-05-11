@@ -18,7 +18,7 @@
         "src": {
             "value": "{{ src }}",
             "description": "Data provider/source",
-            "format": "FIRMS or CSIR"
+            "format": "ABBA or LSAF"
         },
         "lon": {
             "value": {{ lon }},
@@ -30,25 +30,60 @@
             "description": "Latitude",
             "format": "degrees"
         },
+        "date": {
+            "value": "{{ YYYY_MM_DD }}",
+            "description": "Date",
+            "format": "YYYY-MM-DD"
+        },
+        "time": {
+            "value": "{{ HH_MM_SS }}",
+            "description": "Time (UTC)",
+            "format": "HH:MM:SS"
+        },        
         "pixel_size": {
-            "value": "{{ pixel_size }}",
+            "value": {{ pixel_size }},
             "description": "Pixel Size",
             "format": "Km*2"
         },
         "fire_size": {
-            "value": "{{ fire_size }}",
-            "description": "Fire size",
+            "value": {{ fire_size }},
+            "description": "Fire Size",
             "format": "Km*2"
         },
-        "temp": {
-            "value": {{ temp }},
+        "sat": {
+            "value": "{{ sat }}",
+            "description": "Satellite",
+            "format": "MSG, GOES"
+        },
+        "satzen": {
+            "value": {{ satzen_deg }},
+            "description": "Satzen",
+            "format": "degrees"
+        },
+        "T4": {
+            "value": {{ T4_K }},
+            "description": "T4",
+            "format": "K"
+        }, 
+        "T11": {
+            "value": {{ T11_K }},
+            "description": "T11",
+            "format": "K"
+        },                       
+        "fire_flag": {
+            "value": {{ fire_flag }},
+            "description": "Fire flag",
+            "format": "Number"
+        },              
+        "btemp": {
+            "value": {{ btemp }},
             "description": "Brightness Temperature",
             "format": "K"
         },
         "ecosystem": {
-            "value": "{{ ecosystem }}",
+            "value": {{ ecosystem }},
             "description": "Ecosystem",
-            "format": ""
+            "format": "Number"
         },
         "frp": {
             "value": {{ frp }},

@@ -41,4 +41,4 @@ TERM=xterm
 
 echo $SQL | su -c "psql $DB_NAME" postgres
 
-raster2pgsql -R -a -e $INCRON_EVENT_DIR/$INCRON_EVENT_FILE lfdi_fwi_raster | $SCRIPT_DIR/pginsert-customize.py datetime "'$DATETIME'::timestamp without time zone" target_datetime "'$DATETIME_TARGET'::timestamp" product "'$PRODUCT'" rasterfile "'$INCRON_EVENT_DIR/$INCRON_EVENT_FILE'" | su -c "psql $DB_NAME" postgres
+raster2pgsql -I -R -a -e $INCRON_EVENT_DIR/$INCRON_EVENT_FILE lfdi_fwi_raster | $SCRIPT_DIR/pginsert-customize.py datetime "'$DATETIME'::timestamp without time zone" target_datetime "'$DATETIME_TARGET'::timestamp" product "'$PRODUCT'" rasterfile "'$INCRON_EVENT_DIR/$INCRON_EVENT_FILE'" | su -c "psql $DB_NAME" postgres

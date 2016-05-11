@@ -228,4 +228,5 @@ CUSTOM_LAYER = {
 
 GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-72611319-1'
 
-
+# indicate that the sapplication should not try to connect to any resource via the internet
+NO_INTERNET = False

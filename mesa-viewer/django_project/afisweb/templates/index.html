@@ -1,12 +1,13 @@
 {% extends "contentAndSidebarBase.html" %}
-{% load googlemapstag %} {# Custom tag defined in templatetags/ #}
+{# load mapboxtag #} {# Custom tag defined in templatetags/ #}
 {% load openlayersjs %} {# Custom tag defined in templatetags/ #}
 {% load misc_tags %} {# Custom tag defined in templatetags/ #}
 
 {% block js %}
-    {% if myUseGoogleFlag %}
-    <script src="//maps.google.com/maps/api/js?v=3.9&sensor=false"></script>
-    {% endif %}
+
+    {# if myUseGoogleFlag #}
+       <!--script src="http://maps.google.com/maps/api/js?v=3.9&sensor=false"></script-->
+    {# endif #}
 
     {% openlayersjs %}
     {# jquery stuff must be **after** openlayers #}
