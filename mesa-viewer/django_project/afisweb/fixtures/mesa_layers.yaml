@@ -46,7 +46,7 @@
         name: Active Fires today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Active Fires today, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:fires_today',
-        legend_group: 1,legend_style: firepixel_legend,
+        legend_group: 1,legend_style: firefeature,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
