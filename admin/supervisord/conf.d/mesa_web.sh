@@ -16,7 +16,7 @@ echo "Give PostGIS docker time to start up"
 sleep 20
 
 echo "Start django:"
-docker run -t --rm -a stdout -a stderr --name supervisor_mesa_web --link supervisor_geoserver:geoserver --link supervisor_postgis:postgis --link supervisor_rabbitmq:rabbitmq -v $MESA_ROOT/django_project/ENV:/ENV -v $MESA_ROOT/django_project/start.sh:/start.sh -v $MESA_ROOT/django_project:/django_project -v $VOLUMES/web_static:/static_root/ -p 8112:8000 mesasadc/mesa_django:$BUILD_TAG
+docker run -t --rm -a stdout -a stderr --name supervisor_mesa_web --link supervisor_geoserver:geoserver --link supervisor_postgis:postgis --link supervisor_rabbitmq:rabbitmq -v $MESA_ROOT/admin/ENV:/ENV -v $MESA_ROOT/django_project/start.sh:/start.sh -v $MESA_ROOT/django_project:/django_project -v $VOLUMES/web_static:/static_root/ -p 8112:8000 mesasadc/mesa_django:$BUILD_TAG
 
 RESULT=$?
 
