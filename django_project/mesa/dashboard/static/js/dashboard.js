@@ -2,8 +2,8 @@
 
 var FDI_CURRENT_URL = "/geoserver/mesa/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mesa:lfdi_point_forecast_and_measured_current&outputFormat=application/json"
 var FDI_GRAPH_URL = "/rest/FdiGraphData/?format=json";
-var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:fires_since_yesterday,mesa:hotspots_since_yesterday&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
-var FIRE_URL = "/geoserver/mesa/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mesa:fires_since_yesterday&outputFormat=application/json"
+var FIRE_THUMBNAIL_URL = "/geoserver/mesa/wms?service=WMS&version=1.1.0&request=GetMap&layers=mesa:custom_background,mesa:hotpots_for_fires_today,mesa:hotspots_today,mesa:fires_today&viewparams=time_filter_h:72&styles=&width=200&height=200&srs=EPSG:4326&format=image/png&bbox="
+var FIRE_URL = "/geoserver/mesa/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=mesa:fires_today&outputFormat=application/json"
 var NUM_INITIAL_FIRES = 8;
 
 // GLOBALS
@@ -38,7 +38,6 @@ $(function() {
         preload: 10
     });
 
-
     var backdrop = new ol.layer.Tile({
         source: new ol.source.TileWMS({
           url: '/geoserver/wms',
@@ -67,13 +66,31 @@ $(function() {
         })
     });
 
-    var firesWMS = new ol.layer.Image({
+    /*var firesWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
           params: {'LAYERS': 'mesa:fires_since_yesterday', 'viewparams': 'prev_days:6'},
           serverType: 'geoserver'
         })
+    });*/
+
+    var detectRecentWMS = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:hotspots_today','viewparams':'time_filter_h:72'},
+          serverType: 'geoserver'
+        })
     });
+
+    var detectAllWMS = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:hotpots_for_fires_today'},
+          serverType: 'geoserver'
+        })
+    });
+
+            
 
     var firePixelWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
@@ -83,23 +100,34 @@ $(function() {
         })
     });
 
-    var msgWMS = new ol.layer.Image({
+    var fireDangerIndexWMS = new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+          url: '/geoserver/wms',
+          params: {'LAYERS': 'mesa:lfdi_point_forecast_and_measured_current'},
+          serverType: 'geoserver'
+        })
+    });    
+
+
+    /*var msgWMS = new ol.layer.Image({
         source: new ol.source.ImageWMS({
           url: '/geoserver/wms',
           params: {'LAYERS': 'mesa:day-natural.c'},
           serverType: 'geoserver'
         }),
         minResolution: 2000
-    });
+    });*/
     
     var firesVector = new ol.layer.Vector({
         source: new ol.source.Vector({
           projection: 'EPSG:4326',
-          url: FIRE_URL,
+          url: FIRE_URL + '&viewparams=time_filter_h:72',
           format: new ol.format.GeoJSON({defaultDataProjection :'EPSG:4326', projection: 'EPSG:3857'})
 	}),
         style: fireStyle
     });
+
+    
 	
 	 
                 
@@ -140,7 +168,7 @@ $(function() {
     });
 
     map = new ol.Map({
-        layers: [ backdrop, borders, msgWMS, firePixelWMS, firesVector],
+        layers: [ backdrop, borders, detectAllWMS, firesVector, fireDangerIndexWMS, detectRecentWMS],
         target: "map",
         view: defaultView,
         overlays: [overlay],
@@ -181,7 +209,8 @@ $(function() {
       info.style.display = '';
     };
 
-});
+//});
+
 
 function extract_rgb(rgb_string) {
 
@@ -235,10 +264,11 @@ var simpleDate = (function() {
     };
 
     return function(thedate, before) {
-
+        
+        
         // get a Date object if thedate is a string or null
         thedate = new Date(thedate);
-
+        
         // display empty string for null date
         if (!thedate.valueOf())
             return ""; 
@@ -258,16 +288,26 @@ var simpleDate = (function() {
 
         var future = diff < 0;
         diff = Math.abs(diff);  // use absolute diff together with future boolean from now on
+       
 
+        
         // if the interval is larger than the specified denomination
         if (diff >= measures[before]) {
+
             var isToday = (thedate.toDateString() == (new Date()).toDateString());
+            console.log(thedate.toDateString());
+            console.log((new Date()).toDateString());
             if (isToday) {
                 return thedate.toLocaleString("en",  { hour: "numeric", hour12: true, minute: "numeric" }) + ' today';
             } else {
                 return thedate.toLocaleString("en",  { weekday: "long", month: "short", day: "numeric", hour: "numeric", hour12: true, minute: "numeric"  } );
             };
         };
+
+        //console.log(moment().format());
+
+
+      
 
         if(diff > measures.year) {
             denomination = "year";
@@ -288,6 +328,7 @@ var simpleDate = (function() {
         } else {
             dateStr = "about " + chkMultiple(amount, denomination) + " ago";
         };
+
         return dateStr;
     };
 
@@ -297,86 +338,25 @@ var simpleDate = (function() {
 var fdiGraph = {};
 var fdiRows = [];
 
-$(document).ready(function() {
-    
+//$(document).ready(function() {
 
-    // get fdi table data
-    $.get(FDI_CURRENT_URL, function(result, status) {
-    
-        console.log('got fdi table data');
+        // Convert Javascript date to Pg YYYY MM DD HH MI SS
+        function pgFormatDate(date) {
+          /* Via http://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date */
+          function zeroPad(d) {
+            return ("0" + d).slice(-2)
+          }
+          var parsed = new Date(date)
+          var date = [parsed.getUTCFullYear(), zeroPad(parsed.getMonth() + 1), zeroPad(parsed.getDate())].join("-");
+          var time = [zeroPad(parsed.getHours()), zeroPad(parsed.getMinutes()), zeroPad(parsed.getSeconds())].join(":");
+          return [date,time].join(" ");
+        }
 
-        result.features.forEach(function (feature) {
-
-            var properties = feature.properties;
-
-            var row = {
-                feature_id: feature.id,
-                point_id: properties.point_id,
-                point_name: properties.point_name,
-                point_type: properties.point_type,
-                lfdi_value: properties.value,
-                lfdi_color: fdiColor(properties.value),
-                target_date_time: new Date(properties.target_date_time),
-                value_class: properties.value_class
-            };
-            
-            fdiRows.push(row);
-
-        });
-
-
-
-        var start = new Date().getTime();
-
-        fdiTable = $('#fdi-table').DataTable({
-
-            data: fdiRows,
-            deferRender: true,
-            dom: "tS",
-            scrollY: "90%",
-            scrollCollapse: true,
-            scrollX: "90%",
-            stateSave: true,
-            scroller: true,
-            paging: true,
-            columns: [{
-                    "className": 'hidden point_id',
-                    "orderable": false,
-                    "data": "point_id",
-                    "defaultContent": ' '
-                },
-                {
-                    "className": "point-type icon-column",
-                    "data": "point_type"
-                }, {
-                    "className": "point-name",
-                    "data": "point_name"
-                }, {
-                    "className": "lfdi",
-                    "data": "lfdi_value"
-                }, {
-                    "className": "fdi-date",
-                    "data": "target_date_time",
-                    "render": function ( data, type, row, meta ) {
-                        return (type == 'display' | type == 'filter') ? simpleDate(data) : data;
-                    }
-                }, {
-                    "data": "value_class"
-                }
-            ],
-            "order": [
-                [2, 'asc']
-            ]
-        });
-
-        var end = new Date().getTime();
-        var time = end - start;
-        console.log('FDI Table:Start time -:- ' + start);
-        console.log('FDI Table:End time -:- ' + end);
-        console.log('FDI Table:Execution time -:- ' + time);
         
 
-        for (tr in $("#fdi-table, #fire-table").find("tr")) {
+    function background_fdi_colour(){
+
+        for (tr in $("#fdi-table,#fire-table").find("tr")) {
             var td_fdi = $(tr).find("td.lfdi").toArray();
             td_fdi.forEach(function(td) {
                 var fdiValue = $(td).text();
@@ -396,64 +376,250 @@ $(document).ready(function() {
                     $(td).html('');
                 }
             });
-
         }
 
+    }
 
+    var parser = new ol.format.WMSCapabilities();
+    fetch("http://"+document.location.hostname+"/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities").then(function(response) {  
+        return response.text();  
+    }).then(function(text) {
+
+        var result = parser.read(text);        
+        var timestamp;
+        var layer_s = result.Capability.Layer.Layer;
+        for(var x = 0; x < Object.keys(layer_s).length; x++)
+        {
+          if(layer_s[x].Dimension)
+          {
+            timestamp = layer_s[x].Dimension[0].values.split(',');
+          }
+        }
+        var msgWMS = new ol.layer.Image({
+            source: new ol.source.ImageWMS({
+              url: '/geoserver/wms',
+              params: {'LAYERS': 'mesa:mesaframes','time':timestamp[0]},
+              serverType: 'geoserver'
+            }),
+
+            minResolution: 8000
+        });
+        map.addLayer(msgWMS);
+        function check_resolution(evt){
+           var map = evt.map;
+           map.getView().getResolution() > msgWMS.getMinResolution() ? $("#datetime").css("visibility","visible"):$("#datetime").css("visibility","hidden");
+        }
+        map.on('moveend', check_resolution);
+        var i = 0;
+        setInterval(function(){
+            if (i >= timestamp.length){
+                i = 0;
+            }
+            var source = msgWMS.getSource();
+            var params = source.getParams();
+            params.time = timestamp[i];
+            source.updateParams(params);
+            i++;
+            $("#datetime").html("Date: "+moment(timestamp[i]).format('LL')+"  Time: "+moment(timestamp[i]).format('LT'));
+            $(document).tooltip({});
+        },1000);
+    });
+   
+    // get fdi table data
+    $.get(FDI_CURRENT_URL, function(result, status) {
+        //console.log('got fdi table data');
+        result.features.forEach(function (feature) {
+            var properties = feature.properties;
+            var row = {
+                feature_id: feature.id,
+                point_id: properties.point_id,
+                point_name: properties.point_name,
+                point_type: properties.point_type,
+                lfdi_value: properties.value,
+                lfdi_color: fdiColor(properties.value),
+                target_date_time: new Date(properties.target_date_time),
+                value_class: properties.value_class
+            };
+            fdiRows.push(row);
+        });
+
+
+        //function renderFDItable(){
+
+                fdiTable = $('#fdi-table').DataTable({
+
+                    data: fdiRows,
+                    destroy: true,
+                    deferRender: true,
+                    dom: "tS",
+                    scrollY: "90%",
+                    scrollCollapse: true,
+                    scrollX: "90%",
+                    stateSave: true,
+                    scroller: true,
+                    paging: true,
+                    columns: [{
+                            "className": 'hidden point_id',
+                            "orderable": false,
+                            "data": "point_id",
+                            "defaultContent": ' '
+                        },
+                        {
+                            "className": "point-type icon-column",
+                            "data": "point_type"
+                        }, {
+                            "className": "point-name",
+                            "data": "point_name"
+                        }, {
+                            "className": "lfdi",
+                            "data": "lfdi_value"
+                        }, {
+                            "className": "fdi-date fdi-time",
+                            "data": "target_date_time",
+                            "render": function ( data, type, row, meta ) {
+                                return (type == 'display' | type == 'filter') ? data : data;
+                            }
+                        }, {
+                            "data": "value_class"
+                        }
+                    ],
+                    "order": [
+                        [2, 'asc']
+                    ]
+            });
+
+
+         function renderFDItable(){
+
+           $('#fdi-table tbody tr td.fdi-time').each(function(i,j) {
+              $(this).addClass('fdi-time'+(i+1)).removeClass('fdi-time');
+           });
+           $("thead th").removeClass("fdi-time");
+           for(var f=0;f<$("#fdi-table").dataTable().fnGetNodes().length + 1;f++){
+               if(typeof fdiTable.cell(f,3,'').render('display') !== "undefined"){
+                $('.fdi-time'+(f+1)).html(moment(fdiTable.cell(f,4,'').render('display')).utcOffset("+02").startOf('hour').fromNow()); //UTC +02:00
+               }
+           }
+           fdiTable.columns.adjust().draw();
+         }       
+
+        //Rendering Column(4) FDI-Time every second.
+        renderFDItable();
+        setInterval(function(){
+          renderFDItable();
+        },60000);
+
+
+        background_fdi_colour();
 
         $('#fdi-table-search').on('keyup', function() {
             fdiTable.search(this.value).draw();
         });
 
-    }); // get fdi table data
+    //}
 
-
-    var star = new Date().getTime();
+    //renderFDItable();
+    //setInterval(function() { renderFDItable(); }, 60000);  
+     
+    
+    }); 
+    // get fdi table data
+  
     // get fdi graph data
     $.get(FDI_GRAPH_URL, function(result, status) {
     
-        console.log('got fdi graph data');
+        //console.log('got fdi graph data');
 
         var graphPointName;
 
         result.forEach(function (item) {
+ 
+            //if(new Date(item.target_date_time) < new Date()){
+                var value = {
+                    point_id: item.point_id,
+                    point_name: item.point_name,
+                    target_date_time: item.target_date_time,
+                    value: item.value,
+                    value_class: item.value_class,
+                    color: fdiColor(item.value)
+                };
 
-            var value = {
-                point_id: item.point_id,
-                point_name: item.point_name,
-                target_date_time: item.target_date_time,
-                value: item.value,
-                value_class: item.value_class,
-                color: fdiColor(item.value)
-            };
+                if ( ! (value.point_name in fdiGraph) )
+                    fdiGraph[value.point_name] = [];
 
-            if ( ! (value.point_name in fdiGraph) )
-                fdiGraph[value.point_name] = [];
+                fdiGraph[value.point_name].push(value);
 
-            fdiGraph[value.point_name].push(value);
-
-            if (!graphPointName)
-                graphPointName = value.point_name;
+                if (!graphPointName)
+                    graphPointName = value.point_name;
+           // }    
 
         });
-
         render_chart(graphPointName);
     });
 
-    var en = new Date().getTime();
-    var tim = en - star;
-    console.log('FDI graph:Execution time -:- ' + tim);
+    function flyToPoint(lon, lat) {
+        var start = +new Date();
+        var from = defaultView.getCenter();
+        var to = ol.proj.fromLonLat([lon, lat]);
 
+        // Determine zoom level needed to see from and to points at the same time
+        var distanceX = Math.abs(to[0] - from[0]);
+        var distanceY = Math.abs(to[1] - from[1]);
+        var startPixel = map.getPixelFromCoordinate(from);
+        var endPixel = map.getPixelFromCoordinate(to);
+        var distancePixelX = Math.abs(endPixel[0] - startPixel[0]);
+        var distancePixelY = Math.abs(endPixel[1] - startPixel[1]);
+        var mapSizeX = map.getSize()[0];
+        var mapSizeY = map.getSize()[1];
+
+        var ratioX = distancePixelX / mapSizeX;
+        var ratioY = distancePixelY / mapSizeY;
+        var ratio = Math.max(ratioX, ratioY);
+
+        var wgs84 = new ol.Sphere(6378137);
+        var geodesicDistance = wgs84.haversineDistance(from, to);
+
+        var duration = 1000 * Math.max(0.5, Math.min(3, Math.abs(ratio)));
+
+        var pan = ol.animation.pan({
+            duration: duration,
+            source: from
+        });
+        var bounce = ol.animation.bounce({
+            duration: duration,
+            resolution: defaultView.getResolution() * Math.max(1, Math.abs(ratio))
+        });
+        var dipFrom = defaultView.getResolution();
+        var zoom;
+        var bounceThenDip = function(map, frameState) {
+            var bouncing = bounce(map, frameState);
+            var zooming = false;
+            if (!bouncing) {
+                if (!zoom) {
+                    zoom = ol.animation.zoom({
+                        duration: duration,
+                        resolution: dipFrom
+                    });
+                    map.beforeRender(zoom);
+                    defaultView.setZoom(Math.max(defaultView.getZoom(), 9));
+                };
+                zooming = zoom(map, frameState);
+            }
+            return bouncing || zooming;
+        };
+        map.beforeRender(pan, bounceThenDip);
+        defaultView.setCenter(to);
+    };
+;
 
     // get fire data
-    $.get(FIRE_URL + '&sortBy=id&maxFeatures=' + NUM_INITIAL_FIRES, function(data, status) {
+    $.get(FIRE_URL + '&viewparams=time_filter_h:72&sortBy=id&maxFeatures=' + NUM_INITIAL_FIRES, function(data, status) {
 
-        console.log('got initial fire data');
-
+        //console.log('got initial fire data');
         var tableData = [];
         var fires;
-
-        console.log(data);
+        var date;
+        //console.log(data);
 
         data.features.forEach(function (fire) {
             tableData.push(fire.properties);
@@ -463,6 +629,7 @@ $(document).ready(function() {
             data: tableData ,
             deferRender: true,
             dom: "tS",
+            destroy: true,
             scrollY: "35%",
             scrollCollapse: false,
             paging: true,
@@ -470,12 +637,16 @@ $(document).ready(function() {
             stateSave: true,
             "initComplete": function( settings, json ) {
                 // the idea is to load a small subset of fires first to speed up rendering the table on page load
-                $.get(FIRE_URL + '&sortBy=id&startIndex=' + NUM_INITIAL_FIRES, function(data, status) {
+                $.get(FIRE_URL + '&viewparams=time_filter_h:72&sortBy=id&startIndex=' + NUM_INITIAL_FIRES, function(data, status) {
                     console.log('got more fire data: ' + data.features.length);
+
                     data.features.forEach( function (feature) {
-                        fireTable.rows.add(feature.properties);
+                        fireTable.row.add(feature.properties).draw();
+                        background_fdi_colour();
                     });
-                    fireTable.draw();
+                    //fireTable.draw();
+                    var row = $("#fire-table").dataTable().fnGetNodes();
+                   
                 });
             },
             "columns": [{
@@ -511,14 +682,16 @@ $(document).ready(function() {
             }, {
                 "data": "max_frp"
             }, {
+                "className" : 'first-seen',
                 "data": "first_seen",
                 "render": function ( data, type, row, meta ) {
-                    return (type == 'display' | type == 'filter') ? simpleDate(data) : data;
+                    return (type == 'display' | type == 'filter') ? data : data;
                 }
             }, {
+                "className" : 'last-seen',
                 "data": "last_seen",
                 "render": function ( data, type, row, meta ) {
-                    return (type == 'display' | type == 'filter') ? simpleDate(data) : data;
+                    return (type == 'display' | type == 'filter') ? data : data;
                 }
             }],
             "order": [
@@ -526,7 +699,32 @@ $(document).ready(function() {
                 [7, "asc"]
             ]
         });
-        
+
+        //Rendering Column(7 and 8) First-seen and Last seen every second.
+        setInterval(function(){
+
+            $('#fire-table tbody tr td.first-seen').each(function(i,j) {
+               $(this).addClass('first-seen'+(i+1)).removeClass('first-seen');
+            });
+            $('#fire-table tbody tr td.last-seen').each(function(i,j) {
+               $(this).addClass('last-seen'+(i+1)).removeClass('last-seen');
+            });
+            $("thead th").removeClass("first-seen");
+            $("thead th").removeClass("last-seen");
+
+            for(var f=0;f<$("#fire-table").dataTable().fnGetNodes().length + 1;f++){
+                if(typeof fireTable.cell(f,7,'').render('display') !== "undefined" && typeof fireTable.cell(f,8,'').render('display') !== "undefined"){
+                 $('.first-seen'+(f+1)).html(moment(fireTable.cell(f,7,'').render('display')).utcOffset("+02").startOf('hour').fromNow()); //UTC +02:00
+                 $('.last-seen'+(f+1)).html(moment(fireTable.cell(f,8,'').render('display')).utcOffset("+02").startOf('minute').fromNow()); //UTC +02:00
+                }
+            }
+
+        },1000);
+
+        $('.dataTables_scrollBody').on('scroll', function() {
+            background_fdi_colour();
+        });
+
         // Order by last_seen (column 8)
         fireTable.order([8, "desc"], [7, "asc"]).draw();
 
@@ -604,65 +802,11 @@ $(document).ready(function() {
             return html;
         };
         
+       background_fdi_colour();
 
 
-
-        function flyToPoint(lon, lat) {
-            var start = +new Date();
-            var from = defaultView.getCenter();
-            var to = ol.proj.fromLonLat([lon, lat]);
-
-            // Determine zoom level needed to see from and to points at the same time
-            var distanceX = Math.abs(to[0] - from[0]);
-            var distanceY = Math.abs(to[1] - from[1]);
-            var startPixel = map.getPixelFromCoordinate(from);
-            var endPixel = map.getPixelFromCoordinate(to);
-            var distancePixelX = Math.abs(endPixel[0] - startPixel[0]);
-            var distancePixelY = Math.abs(endPixel[1] - startPixel[1]);
-            var mapSizeX = map.getSize()[0];
-            var mapSizeY = map.getSize()[1];
-
-            var ratioX = distancePixelX / mapSizeX;
-            var ratioY = distancePixelY / mapSizeY;
-            var ratio = Math.max(ratioX, ratioY);
-
-            var wgs84 = new ol.Sphere(6378137);
-            var geodesicDistance = wgs84.haversineDistance(from, to);
-
-            var duration = 1000 * Math.max(0.5, Math.min(3, Math.abs(ratio)));
-
-            var pan = ol.animation.pan({
-                duration: duration,
-                source: from
-            });
-            var bounce = ol.animation.bounce({
-                duration: duration,
-                resolution: defaultView.getResolution() * Math.max(1, Math.abs(ratio))
-            });
-            var dipFrom = defaultView.getResolution();
-            var zoom;
-            var bounceThenDip = function(map, frameState) {
-                var bouncing = bounce(map, frameState);
-                var zooming = false;
-                if (!bouncing) {
-                    if (!zoom) {
-                        zoom = ol.animation.zoom({
-                            duration: duration,
-                            resolution: dipFrom
-                        });
-                        map.beforeRender(zoom);
-                        defaultView.setZoom(Math.max(defaultView.getZoom(), 9));
-                    };
-                    zooming = zoom(map, frameState);
-                }
-                return bouncing || zooming;
-            };
-            map.beforeRender(pan, bounceThenDip);
-            defaultView.setCenter(to);
-        };
 
             //RabbitMQ WebStomp
-        
             webStompSocket = new WebSocket('ws://'+document.location.hostname+':56723/ws');
             webStompClient = Stomp.over(webStompSocket);
             
@@ -677,10 +821,14 @@ $(document).ready(function() {
 				
               webStompClient.subscribe('/exchange/mesa_terminal/notify.db.FireEvent.#', function(d) {
                 //Received Message
+
+                $("#noti").notify("Received: New fire.",{ position:"top right" });
+                $(".notifyjs-container").css("left","-130px");
+                $(".notifyjs-container").css("bottom","-70px");
+
                 fire_active_data = JSON.parse(d.body);
                 pk_id = fire_active_data.pk;
-                            
-
+ 
                //Add fire feature.                
                var firesVector = new ol.layer.Vector({
 					source: new ol.source.Vector({
@@ -693,8 +841,6 @@ $(document).ready(function() {
 				});
                 map.addLayer(firesVector);
                 
-                
-
                 //Add fire event data in the fire table
                 $.get("http://"+document.location.hostname+"/rest/FireEvent/"+pk_id+"/?format=json",function(fire_event_data){
                         
@@ -705,7 +851,7 @@ $(document).ready(function() {
                      fireTable.row.add(fire_event_obj).draw();
                      console.log("Added fire: "+fire_event_obj.description+" ,in the table"); 
                      
-                     //Adding FDI colour after receiving new fire data.
+                     //Adding FDI colour(Background) after receiving new fire.
 					 var rows_fire = $("#fire-table").dataTable().fnGetNodes();
 					 for(var x = 0;x < rows_fire.length;x++)
 					 {
@@ -807,33 +953,18 @@ $(document).ready(function() {
 			 }
 
 			if(rows.length)
-			{
-						
+			{		
 				for(var i=0; i < rows.length; i++)
 				{
-					
 					var table_fire_id = $(rows[i]).find("td.fireid").html();
-
 					if(final_selected == table_fire_id)
 					 {
 						fire_available = true;
-						//console.log("ROW:"+String(i));
-						//console.log("Row Index:"+String(rows[i].rowIndex));
-                        console.log("----------------------FOUND---------------------------------");
-						console.log("Table ID:"+String(table_fire_id));
-						console.log("Selected Fire ID:"+String(final_selected));
-                        console.log("-------------------------------------------------------------");
-						console.log(evt.selected[0].q.description+" is available in the table.");
 						fireTable.$('tr:eq(' +  String(i) + ')').addClass('selected');
 						fireTable.row('.selected').scrollTo();
-                        //console.log(evt.selected[0]);
 				     }
-				
 					if(fire_available == false)
 					{
-					   //console.log(selected_fire_id_fire);
-					   console.log("Table ID:"+String(table_fire_id));
-					   console.log("Selected Fire ID:"+String(final_selected));
 					   console.log(evt.selected[0].q.description+" is not available in the table.");	
 					}
 			    }
@@ -859,7 +990,12 @@ $(document).ready(function() {
             }
         });*/
 
-    }); // get fire data
+
+
+
+    }); 
+
+    // get fire data
     // END FIRE EVENT TABLE
     // BEGIN FDI CHART
     var SECOND = 1000;
@@ -867,13 +1003,33 @@ $(document).ready(function() {
     var HOUR = 60 * MINUTE;
     var DAY = 24 * HOUR;
 
+   
+   //Getting FdiPoint data.
+   var FdiPoint;
+   $.ajax({ 
+            type: 'GET', 
+            url: '/rest/FdiPoint/?format=json', 
+            async: false, 
+            contentType: 'application/json', 
+            dataType: 'json', 
+            success: function (json) { 
+                FdiPoint = json.features;       
+             },
+            error: function (e) { 
+                console.log('ERROR'); 
+            } 
+        }); 
 
     // Add event listener for updating the FDI graph
     $('#fdi-table').on('click', 'tr', function() {
         var point_name = $(this).find('td.point-name').text();
         render_chart(point_name);
+        for(var j=0;j<FdiPoint.length;j++){
+            if(FdiPoint[j].properties.name == point_name){
+              flyToPoint(FdiPoint[j].properties.lon,FdiPoint[j].properties.lat);
+            }
+        }
     });
-
 
     function render_chart(point_name) {
         
@@ -974,4 +1130,5 @@ $(document).ready(function() {
     // END FDI CHART
 
 });
+
 

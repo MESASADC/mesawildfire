@@ -1,6 +1,7 @@
 {% load misc_tags %}
 function setDataLayers(theEnabledLayersList, theDisabledLayersList) 
 {
+  $(document).ready(function() {
   {# This function refreshes the map layers, both at initial page load and when the #}
   {# user saves new layer stack from Layer Manager.#}
 
@@ -16,21 +17,89 @@ function setDataLayers(theEnabledLayersList, theDisabledLayersList)
   // requires jquery.cookie.js, cookie value set in afis.js using getTimezoneOffset()
   var tzo = encodeURIComponent(decodeURIComponent($.cookie('timezoneoffset')));
   var tz = encodeURIComponent(decodeURIComponent($.cookie('timezone')));
-  {# myObjects are UserWMSLayers #}
-  {% for myObject in myObjects %}
-      {% if myObject.has_access %}
-        {# as_open_layer will return executable javascript code #}
-        {# { myObject.wmslayer.as_open_layer|safe} #}
-        try {
-          var xxx = "{{ myObject.wmslayer.as_open_layer|remove_newlines|reduce_spaces }}";
-          eval(xxx.replace(/_TZOFFSET_/g,tzo).replace(/_TIMEZONE_/g,tz));
-        }
-        catch(err) {
-          alert('Error loading wmslayer\n' + err);
-        }
-    {% endif %}
-  {% endfor %}
+  var time_slider = $('#slider').slider( "option", "value" );
+  //var time_sliders = $('#sliders').slider( "option", "value" );
 
+  // Convert Javascript date to Pg YYYY MM DD HH MI SS
+  function pgFormatDate(date) {
+    /* Via http://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date */
+    function zeroPad(d) {
+      return ("0" + d).slice(-2)
+    }
+    var parsed = new Date(date)
+    var date = [parsed.getUTCFullYear(), zeroPad(parsed.getMonth() + 1), zeroPad(parsed.getDate())].join("-");
+    var time = [zeroPad(parsed.getHours()), zeroPad(parsed.getMinutes()), zeroPad(parsed.getSeconds())].join(":");
+    return [date,time].join(" ");
+  }
+
+  /*$("#time_slider").slider({
+      max: 720,
+      min: 0,
+      step: 60,
+      slide: function (e, ui) {
+          var hours = Math.floor(ui.value / 60);
+          var minutes = ui.value - (hours * 60);
+
+          if(hours.toString().length == 1) hours = '0' + hours;
+          if(minutes.toString().length == 1) minutes = '0' + minutes;
+
+        $("#time_slider_value").html( ui.value == 0 ? 'Time filter: No' : 'Time filter: Last ' + hours+':'+minutes + ' hours' );
+      }
+   });*/
+  //(parseInt(ui.value)-1)
+  $("#time_slider").slider({
+      max: 72,
+      min:1,
+      step: 4,
+      value:24,
+      slide: function (e, ui) {
+        $("#time_slider_value").html( (parseInt(ui.value)-1) == 0 ? 'Time filter: Last ' + (parseInt(ui.value)) + ' hours' : 'Time filter: Last ' + (parseInt(ui.value)-1) + ' hours' );
+        /*if(ui.value>24){
+
+          /*if((parseInt(ui.value)-1) == 48){
+            $("#time_slider_value").html('Time filter: Yesterday');
+          }else if((parseInt(ui.value)-1) == 72){
+           $("#time_slider_value").html('Time filter: Day before Yesterday');
+          }else if((parseInt(ui.value)-1) == 96){
+           $("#time_slider_value").html('Time filter: Day After');
+          }
+
+          $(this).slider("option", "step",24);
+          $(this).slider("option", "max",96);
+          $(this).slider("option", "min",1);
+        }
+        else{
+          $(this).slider("option", "step",1);
+        }*/
+      }
+   });
+   
+  $("#time_slider_label").html("Time filter: Last "+$('#time_slider').slider('option','value')+" hours");
+
+  $("#frp_slider").slider({
+      max: 1000,
+      step: 50,
+      slide: function (e, ui) {
+        $("#frp_slider_value").html( ui.value == 0 ? 'FRP filter: No' : 'FRP filter: Above ' + ui.value + ' MW/km2' );
+      }
+  });
+
+
+    {# myObjects are UserWMSLayers #}
+    {% for myObject in myObjects %}
+        {% if myObject.has_access %}
+          {# as_open_layer will return executable javascript code #}
+          {# { myObject.wmslayer.as_open_layer|safe} #}
+          try {
+            var xxx = "{{ myObject.wmslayer.as_open_layer|remove_newlines|reduce_spaces }}";
+            eval(xxx.replace(/_TZOFFSET_/g,tzo).replace(/_TIMEZONE_/g,tz));
+           }
+          catch(err) {
+            alert('Error loading wmslayer\n' + err);
+          }
+      {% endif %}
+    {% endfor %}
+  
 
   {# ---------------------------------------------- #}
   {# Next we order the layers in the legend         #}
@@ -96,4 +165,5 @@ function setDataLayers(theEnabledLayersList, theDisabledLayersList)
       myLayers[0].setVisibility( true );
     }
   }
+ }); 
 }

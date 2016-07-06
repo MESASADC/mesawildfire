@@ -188,3 +188,7 @@ a.notice-button span.ui-button-text {
 .sortableLegend{
     padding-left: 15px;
 }
+
+.filter-slider {
+    margin-left: 10px;
+}

@@ -21,6 +21,10 @@
     <script type="text/javascript" src="addBackdropLayers.js"></script>
     <script type="text/javascript" src="addDataLayers.js"></script>
 
+  <script type="text/javascript">
+
+    </script>
+
     {% if autorefresh %}
     <script type="text/javascript">
         // alert("{{ browser }}");
@@ -28,8 +32,6 @@
           location.reload();
         }, 60000);
     </script>
-
-
     {% endif %}
 
 {% endblock %}
@@ -43,9 +45,17 @@
 {% block sidebar %}
   {# don't prettify this by adding line breaks - the jquery buttonset #}
   {# will interject spaces between tool buttons if you do #}
+
   <div id="map-controls">
+
+    <h5><div id="time_slider_value"><div id="time_slider_label"></div></div></h5>
+    <div class="filter-slider" id="time_slider"></div>
+    <h5><div id="frp_slider_value">FRP filter</div></h5>
+    <div class="filter-slider" id="frp_slider"></div><br/>
+
     <input type="radio" id="pan-button" name="mapcontrol-button" value="pan" checked="checked"/><label for="pan-button" class="button" ><img title="Pan the map" src="{{STATIC_URL}}images/icons/pan.png" alt="pan"/></label><input type="radio" id="identify-button" name="mapcontrol-button" value="identify" /><label for="identify-button" class="button" ><img title="Point query on the map" src="{{STATIC_URL}}images/icons/identify.png" alt="identify"/></label><input type="radio" id="measure-line-button" name="mapcontrol-button" value="line" /><label for="measure-line-button" class="button" ><img title="Measure a line on the map" src="{{STATIC_URL}}images/icons/measure-line.png" alt="measure-line"/></label><input type="radio" id="measure-polygon-button" name="mapcontrol-button" value="polygon" /><label for="measure-polygon-button" class="button" ><img title="Measure an area on the map" src="{{STATIC_URL}}images/icons/measure-polygon.png" alt="measure-polygon"/></label><input type="radio" id="zoom-in-button" name="mapcontrol-button" value="zoomin" /><label for="zoom-in-button" class="button" ><img title="Zoom in" src="{{STATIC_URL}}images/icons/zoom-in.png" alt="zoom in"/></label><input type="radio" id="zoom-out-button" name="mapcontrol-button" value="zoomout" /><label for="zoom-out-button" class="button" ><img title="Zoom out" src="{{STATIC_URL}}images/icons/zoom-out.png" alt="zoom out"/></label>
   </div>
+
   {% if user.is_authenticated %}
   <div id="toolbar-buttons">
     <a href="#" id="manage-button" class="button"><img title="Manage layers" src="{{STATIC_URL}}images/icons/gear.png" alt="manage layers"/></a>

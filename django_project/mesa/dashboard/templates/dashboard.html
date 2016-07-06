@@ -61,9 +61,11 @@
                            <div style="padding-top:20px;">
                             <div class="form-group">
                                 <input id="fire-table-search" data-toggle="tooltip" title="Search Fire Event" type="text" class="search form-control" placeholder="Search" >
+
                             </div>
                            </div> 
                         </form>
+                        <div id="steve"></div>
                         <div id="short"></div>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a target="_blank" href="http://www.sadc.int/"><img src="{% static "images/SADC-logo.png" %}"/></a></li>
@@ -91,8 +93,11 @@
                                         <a target="_blank" href="http://www.europa.eu/index_en.htm">European Union</a>
                                     </li>
                                 </ul>
+                                <div id="noti" style="right:0px;top:0px;"></div>
                             </li>
+
                         </ul>
+
                     </div>
                     <!-- /.navbar-collapse -->
                 </div>
@@ -103,7 +108,7 @@
         <div class="navbar-offset"></div>
         <div class="row main-area" style="margin-top: 90px;">
             <div class="col-md-12 fire-table">
-                <table id="fire-table" class="display" cellspacing="0" width="100%">
+                <table id="fire-table" class="display" cellspacing="0" width="100%" >
                     <thead>
                         <tr>
                             <th></th>
@@ -127,7 +132,8 @@
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" href="#panel-footer-right">
                                         <i class="fa fa-globe"></i>
-                            Map
+                                       Map
+                                       <div id="datetime" title="Weather Animination Date and Time."></div>
                                     </a>
                                 </h4>
                             </div>
@@ -146,6 +152,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-md-4">
                     <div class = "span3 wow bounceInDown center animated">
                         <div class="panel panel-default">
@@ -223,6 +230,8 @@
         <script src="https://cdn.datatables.net/scroller/1.3.0/js/dataTables.scroller.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
         <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+        <script src="http://momentjs.com/downloads/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.js"></script>
         <script src="{% static "js/dashboard.js" %}"></script>
         <script src="{% static "js/wow.min.js" %}"></script>
 

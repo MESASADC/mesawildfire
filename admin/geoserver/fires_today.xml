@@ -19,23 +19,34 @@
    </latLonBoundingBox>
    <enabled>true</enabled>
    <srs>EPSG:4326</srs>
-   <metadata>
-      <entry key="JDBC_VIRTUAL_TABLE">
-         <virtualTable>
-            <name>fires_today</name>
-            <sql>SELECT * FROM mesa_fireevent WHERE date_trunc('day', last_seen) = date_trunc('day', timezone('GMT', now()+('%tzoffset%'||'MINUTE')::INTERVAL))</sql>
-            <escapeSql>false</escapeSql>
-            <geometry>
-               <name>border</name>
-               <type>Polygon</type>
-               <srid>4326</srid>
-            </geometry>
-            <parameter>
-               <name>tzoffset</name>
-               <defaultValue>0</defaultValue>
-               <regexpValidator>^\d+$</regexpValidator>
-            </parameter>
-         </virtualTable>
-      </entry>
-   </metadata>
+<metadata>
+<entry key="cachingEnabled">false</entry>
+<entry key="JDBC_VIRTUAL_TABLE">
+<virtualTable>
+<name>fires_today</name>
+<sql>
+SELECT * FROM mesa_fireevent
+ WHERE last_seen >= current_timestamp at time zone 'utc' - interval '%time_filter_h% hour' and 
+ max_frp > '%frp_filter_mwkm2%'
+</sql>
+<escapeSql>false</escapeSql>
+<geometry>
+<name>border</name>
+<type>Polygon</type>
+<srid>4326</srid>
+</geometry>
+<parameter>
+<name>time_filter_h</name>
+<defaultValue>24</defaultValue>
+<regexpValidator>^[\w\d\s]+$</regexpValidator>
+</parameter>
+<parameter>
+<name>frp_filter_mwkm2</name>
+<defaultValue>0</defaultValue>
+<regexpValidator>^[\w\d\s]+$</regexpValidator>
+</parameter>
+</virtualTable>
+</entry>
+</metadata>
+
 </featureType>

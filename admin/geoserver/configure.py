@@ -85,6 +85,7 @@ os.system('curl -v -u "admin:geoserver" -XPOST -T hotspots_today.xml -H "Content
 os.system('curl -v -u "admin:geoserver" -XPOST -T hotspots_since_yesterday.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 os.system('curl -v -u "admin:geoserver" -XPOST -T MSG_hotspots_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 os.system('curl -v -u "admin:geoserver" -XPOST -T MSG_hotspots_since_yesterday.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
+os.system('curl -v -u "admin:geoserver" -XPOST -T hotpots_for_fires_today.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores/mesadb/featuretypes')
 
 
 os.system('curl -v -u "admin:geoserver" -XPOST -T mesa_shapefiles.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/mesa/datastores')
@@ -105,7 +106,8 @@ os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T gadm2.sld "http://localhost:8080/geoserver/rest/styles"')
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T firefeature.sld "http://localhost:8080/geoserver/rest/styles"')
 os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T polygon_border.sld "http://localhost:8080/geoserver/rest/styles"')
-
+os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T firepixel_legend_grayscale.sld "http://localhost:8080/geoserver/rest/styles"')
+os.system('curl -u admin:geoserver -XPOST -H "Content-type: application/vnd.ogc.sld+xml" -T firepixel_grayscale.sld "http://localhost:8080/geoserver/rest/styles"')
 
 
 
@@ -120,4 +122,5 @@ os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer>
 os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firepixel</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:hotspots_since_yesterday')
 os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firefeature</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:fires_today')
 os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firefeature</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:fires_since_yesterday')
+os.system('curl -u admin:geoserver -XPUT -H "Content-type: text/xml" -d "<layer><defaultStyle><name>firepixel_grayscale</name><workspace>mesa</workspace></defaultStyle></layer>" http://localhost:8080/geoserver/rest/layers/mesa:hotpots_for_fires_today')
 

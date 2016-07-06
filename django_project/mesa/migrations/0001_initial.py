@@ -161,6 +161,14 @@ class Migration(migrations.Migration):
         ),
         migrations.RunSQL(
             sql = """
+                ALTER TABLE mesa_firepixel ALTER COLUMN date_time TYPE timestamp without time zone;
+            """,
+            reverse_sql = """
+                ALTER TABLE mesa_firepixel ALTER COLUMN date_time TYPE timestamp with time zone;
+            """,
+        ),        
+        migrations.RunSQL(
+            sql = """
                 CREATE INDEX index_mesa_firepixel_fire_id
                 ON mesa_firepixel
                 USING btree

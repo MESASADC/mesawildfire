@@ -1,0 +1,200 @@
+reg_ex,prod_group,product,dated,date_format,date_position,daystokeep
+MODIS._FIRE..*.txt,Wildfire,af_modis,Y,YYYYDOY,12,
+.*L-000-NEW.*,NOAA,NOAA HIRS,,,,30
+.*L-000-NEW.*,NOAA,NOAA MHS,,,,30
+.*S-O3M_GOME_.*,NOAA,NOAA GOME,,,,30
+.*AVHR_GAC_1B_N19.*,NOAA,AVHR_GAC,,,,30
+.*V2KRN.*Africa.*,VGT4AFRICA,NDVI,,,,
+g2_BIOPAR.*,VGT4AFRICA,BIOPAR,,,,
+.*VGT4AFRICA_DMP_.*,VGT4AFRICA,DMP,,,,
+.*VGT4AFRICA_PHENOKS_.*,VGT4AFRICA,PHENOKS,,,,
+.*VGT4AFRICA_PHENOMAX_.*,VGT4AFRICA,PHENOMAX,,,,
+.*VGT4AFRICA_SWB_.*,VGT4AFRICA,SWB,,,,
+FireLoc_npp_.*.txt,Wildfire,af_viirs,Y,YYYYMMDD,13,
+.*VGT4AFRICA_VPI_.*,VGT4AFRICA,VPI,,,,
+.*VGT4AFRICA_NDWI_.*,VGT4AFRICA,NDWI,,,,
+.*VGT4AFRICA.*,VGT4AFRICA,Other,,,,
+.*L-000-MSG.__-MPEF________-AMV______-PRO______-.*,MPEF_PRO,AMV-PRO,,,,30
+.*L-000-MSG.__-MPEF________-ASR.*,MPEF_PRO,ASR-PRO,,,,30
+.*L-000-MSG.__-MPEF________-CLA______-PRO______-.*,MPEF_PRO,CLA-PRO,,,,30
+.*L-000-MSG.__-MPEF________-CLAI_____-PRO______-.*,MPEF_PRO,CLAI-PRO,,,,30
+.*L-000-MSG.__-MPEF________-CLM______-PRO______-.*,MPEF_PRO,CLM-PRO,,,,30
+.*L-000-MSG.__-MPEF________-CSR______-PRO______-.*,MPEF_PRO,CRS-PRO,,,,30
+.*L-000-MSG.__-MPEF________-CTH______-PRO______-.*,MPEF_PRO,CTH-PRO,,,,30
+AMESD_SADC_MSG_W_ABBA.*.txt,Wildfire,af_msg,Y,YYYYDOY,22,
+.*L-000-MSG.__-MPEF________-DIV______-PRO______-.*,MPEF_PRO,DIV-PRO,,,,30
+.*L-000-MSG.__-MPEF________-FIRA_____-PRO______-.*,MPEF_PRO,FIRA-PRO,,,,30
+.*L-000-MSG.__-MPEF________-FIRC_____-PRO______-.*,MPEF_PRO,FIRC-PRO,,,,30
+.*L-000-MSG.__-MPEF________-FIRG_____-PRO______-.*,MPEF_PRO,FIRG-PRO,,,,30
+.*L-000-MSG.__-MPEF________-GII______-PRO______-.*,MPEF_PRO,GII-PRO,,,,30
+.*L-000-MSG.__-MPEF________-MPEG_____-PRO______-.*,MPEF_PRO,MPEG-PRO,,,,30
+.*L-000-MSG.__-MPEF________-TH_______-PRO.*,MPEF_PRO,TH-PRO,,,,30
+.*L-000-MSG.__-MPEF________-TOZ______-PRO.*,MPEF_PRO,TOZ-PRO,,,,30
+.*L-000-MSG.__-MPEF________-PHI______-PRO.*,MPEF_PRO,PHI-PRO,,,,30
+.*L-000-MSG.__-MPEF________-CRM______-PRO.*,MPEF_PRO,CRM-PRO,,,,30
+MESA_SADC_FDI_SAfri_v1.*.tif,Wildfire,mesa_fdifwi,Y,YYYY-MM-DD,23,
+.*L-000-MSG.__-MPEF________-RII______-PRO.*,MPEF_PRO,RII-PRO,,,,30
+.*L-000-MSG.__-MPEF________-AMV______-00.*,MPEF-Data,AMV,,,,30
+.*L-000-MSG.__-MPEF________-CLA______-00.*,MPEF-Data,CLA,,,,30
+.*L-000-MSG.__-MPEF________-CLAI_____-00.*,MPEF-Data,CLAI,,,,30
+.*L-000-MSG.__-MPEF________-CLM______-00.*,MPEF-Data,CLM,,,,30
+.*L-000-MSG.__-MPEF________-CSR______-00.*,MPEF-Data,CSR,,,,30
+.*L-000-MSG.__-MPEF________-CTH______-00.*,MPEF-Data,CTH,,,,30
+.*L-000-MSG.__-MPEF________-DIV______-00.*,MPEF-Data,DIV,,,,30
+.*L-000-MSG.__-MPEF________-FIRA_____-00.*,MPEF-Data,FIRA,,,,30
+.*L-000-MSG.__-MPEF________-FIRC_____-00.*,MPEF-Data,FIRC,,,,30
+AMESD_SADC_MODIS_TC.*,Wildfire,modis_tc,Y,YYYYDOY,20,
+.*L-000-MSG.__-MPEF________-FIRG_____-00.*,MPEF-Data,FIRG,,,,30
+.*L-000-MSG.__-MPEF________-GII______-00.*,MPEF-Data,GII,,,,30
+.*L-000-MSG.__-MPEF________-MPEG_____-00.*,MPEF-Data,MPEG,,,,30
+.*L-000-MSG.__-MPEF________-TH_______-00.*,MPEF-Data,TH,,,,30
+.*L-000-MSG.__-MPEF________-TOZ______-00.*,MPEF-Data,TOZ,,,,30
+.*L-000-MSG.__-MPEF________-HPI______-00.*,MPEF-Data,HPI,,,,30
+.*L-000-MSG.__-MPEF________-CRM______-00.*,MPEF-Data,CRM,,,,30
+.*L-000-MSG.__-MPEF________-RII______-00.*,MPEF-Data,RII,,,,30
+.*L-000-MSG.__-MPEF________-NDVI_____-PRO.*,MPEF_DayDec_PRO,NDVI-PRO,,,,30
+.*L-000-MSG.__-MPEF________-NDVD_____-PRO.*,MPEF_DayDec_PRO,NDVD-PRO,,,,30
+.*H-000-MSG.__-MSG.________-_________-PRO______-.*,MSG HRIT,PRO,,,,10
+.*L-000-MSG.__-MPEF________-NDVI_____-00.*,MPEF_DayDec_DATA,NDVI,,,,30
+.*L-000-MSG.__-MPEF________-NDVD_____-00.*,MPEF_DayDec_DATA,NDVD,,,,30
+.*S-LSA_-HDF5_LSASAF_MSG_.*,SAF_EURO/A,MSG-FPR,,,,30
+.*SAFNWC_MSG3_CMa_.*,SAF_EURO/A,MSG-FES,,,,30
+.*SAFNWC_MSG3_CT_.*,SAF_EURO/A,MSG-FES,,,,30
+.*SAFNWC_MSG3_CTTH_.*,SAF_EURO/A,MSG-FES,,,,30
+.*S-LSA_-HDF5_LSASAF_EPS.*,SAF_EURO/A,EPS,,,,30
+.*S-OSI_-FRA_-MULT-MAPSST_.*,SAF_EURO/A,MSG-GOES SST,,,,30
+.*S-LSA_-ASCII_.*,SAF_EURO/A,MSG-ASCII,,,,30
+.*S-LSA_-HDF5_LSASAF_MSG_AL-C1_SAme_.*,SAF_SA,MSG-AL-C1_SAmer,,,,30
+.*H-000-MSG.__-MSG.________-_________-EPI______-.*,MSG HRIT,EPI,,,,10
+.*S-LSA_-HDF5_LSASAF_MSG_AL-C2_SAme_.*,SAF_SA,MSG-AL-C2_SAmer,,,,30
+.*S-LSA_-HDF5_LSASAF_MSG_AL-C3_SAme_.*,SAF_SA,MSG-AL-C3_SAmer,,,,30
+.*S-LSA_-HDF5_LSASAF_MSG_DSLF_SAme_.*,SAF_SA,MSG-DSLF_SAmer,,,,30
+.*S-LSA_-HDF5_LSASAF_MSG_DSSF_SAme_.*,SAF_SA,MSG-DSSF_SAmer,,,,30
+.*S-LSA_-HDF5_LSASAF_MSG_LST_SAme_.*,SAF_SA,MSG-LST_SAmer,,,,30
+.*_eps_o_125_ssm_l2.*,SOUND SSM METOPA+ASCAT L2,ASCAT Soil Moisture at 12.5 km Swath Grid - Metop,,,,30
+.*_eps_o_250_ssm_l2.*,SOUND SSM METOPA+ASCAT L2,ASCAT Soil Moisture at 25 km Swath Grid - Metop,,,,30
+.*_eps_o_clp_l2.*,SOUND Other METOPA+ISASI L2,IASI Cloud Params - Metop,,,,30
+.*_eps_o_ems_l2.*,SOUND Other METOPA+ISASI L2,IASI Surface Emiss - Metop,,,,30
+.*_eps_o_ozo_l2.*,SOUND Other METOPA+ISASI L2,IASI Ozone - Metop,,,,30
+.*H-000-MSG.__-MSG.________-HRV______-.*,MSG HRIT,HRV,,,,10
+.*_eps_o_trg_l2.*,SOUND Other METOPA+ISASI L2,IASI Trace Gases - Metop,,,,30
+.*_eps_o_twt_l2.*,SOUND Other METOPA+ISASI L2,IASI Atm Temp+Water Vap+Surf Skin Temp - Metop,,,,30
+.*_eps_o_l2.*,SOUND Other L2,ATOVS Sounding Products - Metop+NOAA,,,,30
+.*_eps_o_amv_l2.*,SOUND Other L2,Polar Winds - Metop,,,,30
+.*OCEANSAT2.OSCAT_C_EHDB_.*,OSCAT,OSCAT KNMI NL,,,,30
+.*g2_BIOPAR.*America.*,VGT4LatinAmerica,S-America-VGT,,,,30
+.*V2KRN.*America.*,VGT4LatinAmerica,NDVI,,,,30
+.*INPE_CBERS.*,DevCoCast_CBERS,INPE_CBERS,,,,30
+.*INPE.*,DevCoCast_LA,INPE,,,,30
+.*INTA_.*,DevCoCast_LA,INPE,,,,30
+.*H-000-MSG.__-MSG.________-VIS006___-.*,MSG HRIT,VIS006,,,,10
+.*PML_Brazil.*,DevCoCast_LA,PML,,,,30
+.*CSIR.*,DevCoCast_A,CSIR,,,,30
+.*PML_.*,DevCoCast_A,PML,,,,30
+.*MODIS._FIRE.*,DevCoCast_A,Aida fire,,,,
+.*rfe20.*,TAMSAT,rfe2010,,,,30
+.*L-000-MSG1__-SERVICE_.*,Messages,ADMIN,,,,30
+.*E-UNS_.*,Messages,ADMIN,,,,30
+.*METOP_ADMINMSG.*,Messages,ADMIN,,,,30
+.*H-000-MSG3__-SERVICE_____-ADMIN_.*,Messages,ADMIN MSG3,,,,30
+.*H-000-MSG.__-MSG.________-VIS008___-.*,MSG HRIT,VIS008,,,,10
+.*H-000-MSG.__-SERVICE_____-ADMIN____-.*,Messages,ADMIN MSG,,,,30
+.*H-000-MSG1__-SERVICE.*,Messages,ADMIN MSG1,,,,30
+.*H-000-MSG.__-SERVICE_____-REG_RPT__-.*,Messages,REG_RPT,,,,30
+.*H-000-MSG3__-SERVICE_____-NEWS_____-.*,Messages,MSG3 NEWS,,,,30
+.*H-000-MSG.__-SERVICE_____-NEWS_____-.*,Messages,MSG NEWS,,,,30
+.*E-UNS_-MSG.*,Messages,Daily log MSG,,,,30
+.*E-UNS_-EPS_.*,Messages,Daily log EPS,,,,30
+.*E-UNS_W.*,Messages,Weekly scedule,,,,30
+.*H-000-MSG.__-NEWS_____-.*,Messages,EPS Sevice News,,,,30
+.*EPS_GDS.*,Messages,Admin ATOVS,,,,30
+.*H-000-MSG.__-MSG.________-IR_016___-.*,MSG HRIT,IR016,,,,10
+.*L-000-MSG.__-SERVICE_____-ADMIN____-.*,Messages,ADMIN-LRIT,,,,30
+.*L-000-MSG.__-SERVICE_____-REG_RPT__-.*,Messages,REG_RPT-LRIT,,,,30
+.*L-000-MSG.__-SERVICE_____-NEWS_____-.*,Messages,NEWS-LRIT,,,,30
+UCT.*,EAMNET,UCT,,,,30
+nrt.*,AVISO,nrt,,,,30
+CorSSH.*,AVISO,correction SSH,,,,30
+S-HSAF-.*,H-SAF,hsaf,,,,30
+AMESD_SADC.*,BDMS,AMESD_SADC,,,,
+MESA_SADC.*,BDMS,MESA_SADC,,,,
+dt_upd_global.*,dt_upd,dt_upd,,,,30
+.*H-000-MSG.__-MSG.________-IR_039___-.*,MSG HRIT,IR039,,,,10
+.*H-000-MSG.__-MSG.________-WV_062___-.*,MSG HRIT,WV062,,,,10
+.*H-000-MSG.__-MSG.________-WV_073___-.*,MSG HRIT,WV073,,,,10
+.*H-000-MSG.__-MSG.________-IR_087___-.*,MSG HRIT,IR087,,,,10
+.*H-000-MSG.__-MSG.________-IR_097___-.*,MSG HRIT,IR097,,,,10
+.*H-000-MSG.__-MSG.________-IR_108___-.*,MSG HRIT,IR108,,,,10
+.*H-000-MSG.__-MSG.________-IR_120___-.*,MSG HRIT,IR120,,,,10
+.*H-000-MSG.__-MSG.________-IR_134___-.*,MSG HRIT,IR134,,,,10
+.*H-000-MSG1__-MSG1_RSS____-.*,MSG HRIT RSS,RSS,,,,30
+.*L-000-MSG1__-MPEF_RSS.*,MSG RSS MPEF,RSS,,,,30
+.*guatemala_.*,SERVIR,2010,,,,30
+.*accum_pcp.*,SERVIR,2010,,,,30
+.*super.*,SERVIR,2010,,,,30
+.*Z_SATE_.*,FENGYUN,FengYun2,,,,10
+.*L-000-MSG.__-MSG.________-_________-PRO______-.*,MSG LRIT,PRO,,,,10
+.*L-000-MSG.__-MSG.________-_________-EPI______-.*,MSG LRIT,EPI,,,,10
+.*L-000-MSG.__-MSG.________-VIS006___-.*,MSG LRIT,VIS006,,,,10
+.*L-000-MSG.__-MSG.________-IR_016___-.*,MSG LRIT,IR016,,,,10
+.*L-000-MSG.__-MSG.________-IR_039___-.*,MSG LRIT,IR039,,,,10
+.*L-000-MSG.__-MSG.________-WV_062___-.*,MSG LRIT,WV062,,,,10
+.*L-000-MSG.__-MSG.________-IR_108___-.*,MSG LRIT,IR108,,,,10
+.*L-000-MSG.__-MTSAT2.*,MSG LRIT,mtsat2,,,,10
+.*gts_JA1_.*,JASON,gts,,,,30
+.*JA1_.*,JASON,JA1,,,,30
+.*JA2_.*,JASON,JA2,,,,30
+.*Z__C_EDZW.*,JASON,EDZW,,,,30
+.*JASON2.*,JASON,JASON2+OGDR,,,,30
+.*MOD14.*,MODIS,mod14,,,,30
+.*satwnd.*,MODIS,satwnd,,,,30
+.*thin_MOD.*,MODIS,thin_MOD,,,,30
+.*thin_MYD.*,MODIS,thin_MOD,,,,30
+.*MYD14.*,MODIS,MOD14,,,,30
+.*A20.*,MODIS,A2010_CHLO,,,,30
+.*scatt_.*,EARS,scatt,,,,30
+.*NPR..*,NOT Specified,NPR,,,,30
+.*PRD..*,NOT Specified,PRD,,,,30
+.*L-000-MTP___-MET7________-00_7_057E-PRO______-.*,MET-7 LRIT,PRO_007,,,,30
+.*L-000-MTP___-MET7________-06_4_057E-PRO______-.*,MET-7 LRIT,PRO_064,,,,30
+.*L-000-MTP___-MET7________-11_5_057E-PRO______-.*,MET-7 LRIT,PRO_115,,,,30
+.*L-000-MTP___-MET7________-00_7_057E-.*,MET-7 LRIT,VIS007,,,,30
+.*L-000-MTP___-MET7________-06_4_057E-.*,MET-7 LRIT,WV064,,,,30
+.*L-000-MTP___-MET7________-11_5_057E-.*,MET-7 LRIT,IR115,,,,30
+.*L-000-MSG.__-MTSAT2_____-00_7_140E-PRO______-.*,MTSAT2 LRIT,PRO_007,,,,30
+.*L-000-MSG.__-MTSAT2_____-03_8_140E-PRO______-.*,MTSAT2 LRIT,PRO_038,,,,30
+.*L-000-MSG.__-MTSAT2_____-06_8_140E-PRO______-.*,MTSAT2 LRIT,PRO_068,,,,30
+.*L-000-MSG.__-MTSAT2_____-10_8_140E-PRO______-.*,MTSAT2 LRIT,PRO_108,,,,30
+.*L-000-MSG.__-MTSAT2_____-00_7_140E-.*,MTSAT2 LRIT,VIS007,,,,30
+.*L-000-MSG.__-MTSAT2_____-03_8_140E-.*,MTSAT2 LRIT,IR038,,,,30
+.*L-000-MSG.__-MTSAT2_____-06_8_140E-.*,MTSAT2 LRIT,WV068,,,,30
+.*L-000-MSG.__-MTSAT2_____-10_8_140E-.*,MTSAT2 LRIT,IR108,,,,30
+.*L-000-MSG.__-GOES11______-00_7_135W-PRO______-.*,GOES-11 LRIT,PRO_007,,,,30
+.*L-000-MSG.__-GOES11______-03_9_135W-PRO______-.*,GOES-11 LRIT,PRO_039,,,,30
+.*L-000-MSG.__-GOES11______-06_8_135W-PRO______-.*,GOES-11 LRIT,PRO_068,,,,30
+.*L-000-MSG.__-GOES11______-10_7_135W-PRO______-.*,GOES-11 LRIT,PRO_107,,,,30
+.*L-000-MSG.__-GOES11______-00_7_135W-.*,GOES-11 LRIT,VIS007,,,,30
+.*L-000-MSG.__-GOES11______-03_9_135W-.*,GOES-11 LRIT,IR039,,,,30
+.*L-000-MSG.__-GOES11______-06_8_135W-.*,GOES-11 LRIT,WV068,,,,30
+.*L-000-MSG.__-GOES11______-10_7_135W-.*,GOES-11 LRIT,IR107,,,,30
+.*L-000-MSG.__-GOES13.*,GOES-13 LRIT,goes,,,,30
+.*L-000-MSG.__-GOES15.*,GOES-15 LRIT,goes,,,,30
+.*amsua_.*,METOP,AMSU-A,,,,30
+.*ascat_.*,METOP,ASCAT_bufr,,,,10
+.*ASCA_S.*,METOP,ASCAT_other,,,,30
+.*atovs_.*,METOP,ATOVS_bufr,,,,30
+.*GOME_.*,METOP,GOME,,,,30
+.*gras_.*,METOP,GRAS_bufr,,,,30
+.*GRAS_xxx_1B_M02_.*,METOP,GRAS_other,,,,30
+.*hirs_.*,METOP,HIRS,,,,30
+.*mhs_.*,METOP,MHS,,,,30
+.*AVHR_xxx_1B_M02_.*,METOP,AVHRR/3,,,,30
+.*AVHR_HRP_00_M02.*,METOP,AVHRR/3,,,,30
+.*iasi_.*,METOP,IASI,,,,30
+.*S-GRM_.*,METOP,metopa-gras,,,,30
+.*avhrr.*metopa.*,METOP,metopa-avhrr,,,,30
+.*amsub_.*,NOAA,amsub,,,,30
+.*avhrr.*noaa.*,NOAA,avhrr,,,,30
+.*L-000-NEW.*,NOAA,NOAA AMSU-A,,,,30
+.*L-000-NEW.*,NOAA,NOAA ATOVS,,,,30
+.*AVHR_GAC_1B_N18_.*,NOAA,NOAA AVHRR/3 GAC,,,,30

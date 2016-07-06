@@ -11,6 +11,12 @@ body {
   background-repeat: no-repeat, repeat-x;
 
 }
+#datetime{
+  text-align:right;
+  position:absolute;
+  top:10;
+  right:7;
+}
 
 
 tr.row_selected td{background-color:rgb(172, 186, 212) !important;}

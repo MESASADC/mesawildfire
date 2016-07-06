@@ -38,8 +38,7 @@ GEOGCS["WGS84(DD)", DATUM["WGS84", SPHEROID["WGS84", 6378137.0, 298.257223563]],
 <name>hotspots_today</name>
 <sql>
 SELECT *, ST_Envelope(ST_Buffer(point, greatest(vsize, hsize)/2)) AS polygon FROM mesa_firepixel
- WHERE
- date_trunc('day', date_time) = date_trunc('day', timezone('GMT', now()+('%tzoffset%'||'MINUTE')::INTERVAL))
+ WHERE sat != 'MSG' and frp > '%frp_filter_mwkm2%' and date_time >= current_timestamp at time zone 'utc' - interval '%time_filter_h% hour'
 </sql>
 <escapeSql>false</escapeSql>
 <geometry>
@@ -53,7 +52,12 @@ SELECT *, ST_Envelope(ST_Buffer(point, greatest(vsize, hsize)/2)) AS polygon FRO
 <srid>4326</srid>
 </geometry>
 <parameter>
-<name>tzoffset</name>
+<name>time_filter_h</name>
+<defaultValue>24</defaultValue>
+<regexpValidator>^[\w\d\s]+$</regexpValidator>
+</parameter>
+<parameter>
+<name>frp_filter_mwkm2</name>
 <defaultValue>0</defaultValue>
 <regexpValidator>^[\w\d\s]+$</regexpValidator>
 </parameter>

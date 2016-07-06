@@ -181,8 +181,8 @@ function setupOpenLayers() {
     //20130114 OL-2.12 gMap.addControl(new OpenLayers.Control.MouseDefaults());
     gMap.addControl(new OpenLayers.Control.Navigation());
 
-    myLoadingPanel = new OpenLayers.Control.LoadingPanel();
-    gMap.addControl(myLoadingPanel);
+    // myLoadingPanel = new OpenLayers.Control.LoadingPanel();
+    // gMap.addControl(myLoadingPanel);
 
 
     /* Measure distance and area controls. From
@@ -222,7 +222,7 @@ function setupOpenLayers() {
     /* End measure distance snippet */
 
     // display the progress bar
-    myLoadingPanel.maximizeControl();
+    // myLoadingPanel.maximizeControl();
 
     // This timezone detection code has to be placed before the setDataLayers call!
     // Requires jquery.cookie.js
@@ -274,7 +274,7 @@ function setupOpenLayers() {
     }     
  
     // remove it as the above function returns
-    myLoadingPanel.minimizeControl();
+    // myLoadingPanel.minimizeControl();
     
     // getFeatureInfo, not done by openlayers as it requires proxy
     // for cross site calls, but instead by Django via a view
@@ -892,7 +892,7 @@ function setupDateQueryDialog()
 }
 
 function submitDateQuery() {
-  myLoadingPanel.maximizeControl();
+  // myLoadingPanel.maximizeControl();
   $("#date-query-validation").hide();
   //validate the form using jquery
   //@todo- disable Submit until all is filled?
@@ -932,8 +932,7 @@ function submitDateQuery() {
     dataType: "script",
     data: myDataString,
     success: function(theResponseData){
-      myLoadingPanel.minimizeControl();
-//      alert( theResponseData );
+      // myLoadingPanel.minimizeControl();
       }
   });
   return false;

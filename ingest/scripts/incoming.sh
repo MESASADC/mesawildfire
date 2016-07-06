@@ -11,10 +11,38 @@ INCRON_EVENT_DIR=$1
 INCRON_EVENT_FILE=$2
 INCRON_EVENT_FLAGS=$3
 FILEPATH=$INCRON_EVENT_DIR/$INCRON_EVENT_FILE
-DATED=
+DATED=N
 
 # determine product type
-source ${SCRIPT_DIR}/prodtype.conf
+datatype=${SCRIPT_DIR}/data_sort.csv
+
+# test which filter matches the incoming file
+function fline (){
+  fname="$1"
+  while read -r line; do
+  filter=$(echo "$line" | cut -d , -f 1)
+  if [[ -n $(echo "$fname" | grep "$filter") ]]; then
+     echo "$line"
+     break
+  fi
+done < ${datatype}
+}
+
+
+line="$(fline $INCRON_EVENT_FILE)"
+if [[ -n $line ]]; then
+  GROUP=$(echo "$line" | cut -d , -f 2)
+  PRODUCT=$(echo "$line" | cut -d , -f 3)
+  DATED=$(echo "$line" | cut -d , -f 4)
+  D_FORMAT=$(echo "$line" | cut -d , -f 5)
+  D_POSITION=$(echo "$line" | cut -d , -f 6)
+else
+  GROUP=UNKNOWN
+  PRODUCT=
+  DATE=$(date +"%Y/%m/%d")
+  DATED=
+fi
+
 
 if [[ "${DATED}" == "Y" ]]; then
    if [[ "$D_FORMAT" == "YYYYDOY" ]] && [[ -n ${D_POSITION} ]]; then
@@ -31,9 +59,6 @@ if [[ "${DATED}" == "Y" ]]; then
       DATE=$(date +"%Y/%m/%d" -d "${fdate}")
    fi
 fi
-
-echo "${DATED} $ARCHIVE_DIR/$GROUP/$PRODUCT/$DATE $INCRON_EVENT_FILE " >> /home/mesa/Desktop/test.log
-
 
 # archive location for today's file
 OUTDIR="$ARCHIVE_DIR/$GROUP/$PRODUCT/$DATE"
@@ -55,7 +80,7 @@ if [ ! -e "$OUTDIR/$INCRON_EVENT_FILE" ]; then
 fi
 
 # ingest the files we are interested in
-if [ "$PRODUCT" != "" ]; then
+if [[ -n $PRODUCT ]] && [[ -n $( ls "${SCRIPT_DIR}" | grep "$PRODUCT") ]]; then
   # create a hardlink to instantly create a "copy" in the ingest directory. Note: PostGIS uses this link for out of DB raster access!
   if [ ! -e $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE ]; then
     ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || cp $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"

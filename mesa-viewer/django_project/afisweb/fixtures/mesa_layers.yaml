@@ -1,9 +1,10 @@
 -   fields: {as_open_layer: "lyr1 = new OpenLayers.Layer.WMS(\n\
-                'Hotspots today','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                'Detections (recent)','/geoserver/wms',\n\
                     {\n\
                         layers: 'mesa:hotspots_today',\n\
                         transparent: 'true',\n\
-                        format: 'image/png'\n\
+                        format: 'image/png',\n\
+                        viewparams: 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_'\n\
                     },\n\
                     {\n\
                         minScale: 35000000,\n\
@@ -12,9 +13,29 @@
                         opacity: 1.0\n\
                     }
                 );\n\
-                gLayersDict[lyr1.id] = 'lyr1';", content_type: 14,
-        name: Hotspots today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
-        description: Hotspots today, image_format: 1, is_base_layer: false,
+                gLayersDict[lyr1.id] = 'lyr1';\n\
+
+                function lyr1_slide(event, ui ) {\n\
+                    lyr1.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + ui.value + ';' + \n\
+                        'frp_filter_mwkm2:' + $('#frp_slider').slider('option', 'value') + ';' ;\n\  
+                    lyr1.redraw(true);\n\
+                };
+
+                function lyr1_slide_(event, ui ) {\n\
+                    lyr1.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + $('#time_slider').slider('option','value') + ';' + \n\
+                        'frp_filter_mwkm2:' + ui.value + ';' ;\n\
+                    lyr1.redraw(true);\n\
+                };
+                
+                $('#time_slider').live('slide', lyr1_slide);\n\
+                $('#frp_slider').live('slide', lyr1_slide_);\n\  
+
+
+                ", content_type: 14,
+        name: Detections (recent), owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: Detections (recent), image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:hotspots_today',
         legend_group: 1, legend_style: firepixel_legend,
         show_legend_image: true,
@@ -29,7 +50,7 @@
     pk: 1
 
 -   fields: {as_open_layer: "lyr2 = new OpenLayers.Layer.WMS(\n\
-                'Active Fires today','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                'Fire Event Boundaries','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
                     {\n\
                         layers: 'mesa:fires_today',\n\
                         transparent: 'true',\n\
@@ -42,17 +63,37 @@
                         opacity: 1.0\n\
                     }
                 );\n\
-                gLayersDict[lyr2.id] = 'lyr2';", content_type: 14,
-        name: Active Fires today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
-        description: Active Fires today, image_format: 1, is_base_layer: false,
+                gLayersDict[lyr2.id] = 'lyr2';\n\
+
+                function lyr2_slide(event, ui ) {\n\
+                    lyr2.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + ui.value + ';' + \n\
+                        'frp_filter_mwkm2:' + $('#frp_slider').slider('option', 'value') + ';' ;\n\  
+                    lyr2.redraw(true);\n\
+                };
+
+                function lyr2_slide_(event, ui ) {\n\
+                    lyr2.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + $('#time_slider').slider('option','value') + ';' + \n\
+                        'frp_filter_mwkm2:' + ui.value + ';' ;\n\
+                    lyr2.redraw(true);\n\
+                };
+                
+                $('#time_slider').live('slide', lyr2_slide);\n\
+                $('#frp_slider').live('slide', lyr2_slide_);\n\ 
+
+
+                ", content_type: 14,
+        name: Fire Event Boundaries, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: Fire Event Boundaries, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:fires_today',
-        legend_group: 1,legend_style: firepixel_legend,
+        legend_group: 1,legend_style: firefeature,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
     pk: 2
 
--   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
         has_access: true,
         order: 1, user: 1, wmslayer: 2}
     model: afisweb.userwmslayer
@@ -136,7 +177,7 @@
         name: 'Fire Danger Index (LFDI)', owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: 'Fire Danger Index (LFDI)', image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:lfdi_point_forecast_and_measured_current',
-        legend_group: 5,
+        legend_group: 5,legend_style: fdi_point,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
@@ -149,11 +190,12 @@
     pk: 5
 
 -   fields: {as_open_layer: "lyr6 = new OpenLayers.Layer.WMS(\n\
-                'Hotspots since yesterday','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                'Hotspots since yesterday','/geoserver/wms',\n\
                     {\n\
                         layers: 'mesa:hotspots_since_yesterday',\n\
                         transparent: 'true',\n\
-                        format: 'image/png'\n\
+                        format: 'image/png',\n\
+                        viewparams: 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_'\n\
                     },\n\
                     {\n\
                         minScale: 35000000,\n\
@@ -162,7 +204,28 @@
                         opacity: 1.0\n\
                     }
                 );\n\
-                gLayersDict[lyr6.id] = 'lyr6';", content_type: 14,
+                gLayersDict[lyr6.id] = 'lyr6';
+
+                function lyr6_slide(event, ui ) {\n\
+
+                    lyr6.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + ui.value + ';' + \n\
+                        'frp_filter_mwkm2:' + $('#frp_slider').slider('option', 'value') + ';' ;\n\
+                    lyr6.redraw(true);\n\
+                };
+
+                function lyr6_slide_(event, ui ) {\n\
+                    lyr6.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + $('#time_slider').slider('option','value') + ';' + \n\
+                        'frp_filter_mwkm2:' + ui.value + ';' ;\n\
+                    lyr6.redraw(true);\n\
+                };
+
+                $('#time_slider').live('slide', lyr6_slide);
+                $('#frp_slider').live('slide', lyr6_slide_);    
+         
+
+        ", content_type: 14,
         name: Hotspots since yesterday, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Hotspots since yesterday, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:hotspots_since_yesterday',
@@ -174,7 +237,7 @@
 
 -   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
-        order: 4, user: 1, wmslayer: 6}
+        order: 4, user: 2, wmslayer: 6}
     model: afisweb.userwmslayer
     pk: 6
 
@@ -204,17 +267,18 @@
 
 -   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
-        order: 3, user: 1, wmslayer: 7}
+        order: 3, user: 2, wmslayer: 7}
     model: afisweb.userwmslayer
     pk: 7
 
 
 -   fields: {as_open_layer: "lyr8 = new OpenLayers.Layer.WMS(\n\
-                'MSG hotspots today','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                'MSG hotspots today','/geoserver/wms',\n\
                     {\n\
                         layers: 'mesa:MSG_hotspots_today',\n\
                         transparent: 'true',\n\
-                        format: 'image/png'\n\
+                        format: 'image/png',\n\
+                        viewparams: 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_'\n\
                     },\n\
                     {\n\
                         minScale: 35000000,\n\
@@ -223,7 +287,31 @@
                         opacity: 1.0\n\
                     }
                 );\n\
-                gLayersDict[lyr8.id] = 'lyr8';", content_type: 14,
+                gLayersDict[lyr8.id] = 'lyr8';
+
+                
+                function lyr8_slide (event, ui ) {\n\
+
+                    lyr8.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + ui.value + ';' + \n\
+                        'frp_filter_mwkm2:' + $('#frp_slider').slider('option', 'value') + ';' ;\n\
+                    lyr8.redraw(true);\n\
+                };
+
+                function lyr8_slide_(event, ui ) {\n\
+
+                    lyr8.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + $('#time_slider').slider('option','value') + ';' + \n\
+                        'frp_filter_mwkm2:' + ui.value + ';' ;\n\
+                    lyr8.redraw(true);\n\
+                };
+
+                $('#time_slider').live('slide', lyr8_slide);
+                $('#frp_slider').live('slide', lyr8_slide_);
+
+
+
+                ", content_type: 14,
         name: MSG hotspots today, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: MSG hotspots today, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:MSG_hotspots_today',
@@ -242,11 +330,12 @@
 
 
 -   fields: {as_open_layer: "lyr9 = new OpenLayers.Layer.WMS(\n\
-                'MSG hotspots since yesterday','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                'MSG hotspots since yesterday','/geoserver/wms',\n\
                     {\n\
                         layers: 'mesa:MSG_hotspots_since_yesterday',\n\
                         transparent: 'true',\n\
-                        format: 'image/png'\n\
+                        format: 'image/png',\n\
+                        viewparams: 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_'\n\
                     },\n\
                     {\n\
                         minScale: 35000000,\n\
@@ -255,7 +344,26 @@
                         opacity: 1.0\n\
                     }
                 );\n\
-                gLayersDict[lyr9.id] = 'lyr9';", content_type: 14,
+                gLayersDict[lyr9.id] = 'lyr9';
+
+                function lyr9_slide(event, ui ) {\n\
+                    lyr9.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + ui.value + ';' + \n\
+                        'frp_filter_mwkm2:' + $('#frp_slider').slider('option', 'value') + ';' ;\n\
+                    lyr9.redraw(true);\n\
+                };
+
+                function lyr9_slide_(event, ui ) {\n\
+                    lyr9.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + $('#time_slider').slider('option','value') + ';' + \n\
+                        'frp_filter_mwkm2:' + ui.value + ';' ;\n\
+                    lyr9.redraw(true);\n\
+                };
+
+                $('#time_slider').live('slide', lyr9_slide);
+                $('#frp_slider').live('slide', lyr9_slide_);    
+
+            ", content_type: 14,
         name: MSG hotspots since yesterday, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: MSG hotspots since yesterday, image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:MSG_hotspots_since_yesterday',
@@ -267,8 +375,117 @@
 
 -   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
-        order: 5, user: 1, wmslayer: 9}
+        order: 5, user: 2, wmslayer: 9}
     model: afisweb.userwmslayer
     pk: 9
 
 
+
+-   fields: {as_open_layer: "\n\
+                var parser = new OpenLayers.Format.WMSCapabilities();\n\
+                var timestep;\n\
+                   $.ajax({\n\
+                            type: 'GET',\n\
+                            url: '/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities',\n\
+                            async: false,\n\
+                            contentType: 'application/xml',\n\
+                            dataType: 'xml',\n\
+                            success: function (json) {\n\
+                                    var result = parser.read(json);\n\      
+                                    var timestamp;\n\
+                                    var layer_s = result.capability.layers;\n\
+                                    for(var x = 0; x < Object.keys(layer_s).length; x++)\n\
+                                    {\n\
+                                      if(layer_s[x].dimensions.hasOwnProperty('time'))\n\
+                                      {\n\
+                                        timestamp = layer_s[x].dimensions.time.values;\n\
+                                      }\n\
+                                    }\n\
+                                timestep = timestamp;\n\
+                            },
+                            error: function (e) {\n\
+                                console.log('ERROR');\n\
+                            }\n\
+                        });\n\
+                lyr10 = new OpenLayers.Layer.WMS(\n\
+                'MSG Weather Animination','/geoserver/wms?viewparams=tzoffset:_TZOFFSET_;tz:_TIMEZONE_',\n\
+                    {\n\
+                        layers: 'mesa:mesaframes',\n\
+                        time: timestep[0],\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                var i = 0;\n\
+                setInterval(function(){\n\
+                    if (i >= timestep.length){\n\
+                        i = 0;\n\
+                    }\n\
+                    lyr10.params.TIME = timestep[i];\n\
+                    lyr10.redraw(true);\n\
+                    i++;\n\
+                },1000);\n\              
+
+                gLayersDict[lyr10.id] = 'lyr10';", content_type: 14,
+        name: MSG Weather Animination, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: MSG Weather Animination, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:mesaframes',
+        legend_group: 4, 
+        show_legend_image: false,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 10
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
+        has_access: true,
+        order: 6, user: 2, wmslayer: 10}
+    model: afisweb.userwmslayer
+    pk: 10
+
+-   fields: {as_open_layer: "lyr13 = new OpenLayers.Layer.WMS(\n\
+                'Detections (event)','/geoserver/wms',\n\
+                    {\n\
+                        layers: 'mesa:hotpots_for_fires_today',\n\
+                        transparent: 'true',\n\
+                        format: 'image/png'\n\
+                    },\n\
+                    {\n\
+                        minScale: 35000000,\n\
+                        maxScale: 1,\n\
+                        singleTile: true,\n\
+                        opacity: 1.0\n\
+                    }
+                );\n\
+                gLayersDict[lyr13.id] = 'lyr13';
+
+                function lyr13_slide(event, ui ) {\n\
+                    lyr13.params.viewparams = 'tzoffset:_TZOFFSET_;tz:_TIMEZONE_;' + \n\
+                        'time_filter_h:' + $('#time_slider').slider('option','value') + ';' + \n\
+                        'frp_filter_mwkm2:' + ui.value + ';' ;\n\
+                    lyr13.redraw(true);\n\
+                };
+
+                $('#frp_slider').live('slide', lyr13_slide);    
+
+
+                ", content_type: 14,
+        name: Detections (event), owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: Detections (event), image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:hotpots_for_fires_today',
+        legend_group: 1,legend_style: fire_legend_grayscale,
+        show_legend_image: true,
+        max_scale: 1, min_scale: 35000000}
+    model: afisweb.wmslayer
+    pk: 13
+
+-   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: true,
+        has_access: true,
+        order: 9, user: 1, wmslayer: 13}
+    model: afisweb.userwmslayer
+    pk: 13

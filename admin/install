@@ -33,7 +33,7 @@ if [ -z "$QUICK" ]; then
   apt-get update
   apt-get purge -y lxc-docker*
   apt-cache policy docker-engine
-  apt-get install -y --force-yes docker-engine
+  apt-get install -y --force-yes docker-engine=1.10.2-0~trusty
   apt-mark hold docker-engine
 fi
 
@@ -125,6 +125,8 @@ cp -r $HERE/geoserver/mesa_rasters $VOLUMES/geoserver_data/data/mesa/
 
 cd $MESA_ROOT/admin/geoserver
 python configure.py
+
+
 
 # Restart dockers
 service supervisor restart
