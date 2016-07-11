@@ -822,9 +822,9 @@ var fdiRows = [];
               webStompClient.subscribe('/exchange/mesa_terminal/notify.db.FireEvent.#', function(d) {
                 //Received Message
 
-                $("#noti").notify("Received: New fire.",{ position:"top right" });
-                $(".notifyjs-container").css("left","-130px");
-                $(".notifyjs-container").css("bottom","-70px");
+                //$("#noti").notify("Received: New fire.",{ position:"top right" });
+                //$(".notifyjs-container").css("left","-130px");
+                //$(".notifyjs-container").css("bottom","-70px");
 
                 fire_active_data = JSON.parse(d.body);
                 pk_id = fire_active_data.pk;

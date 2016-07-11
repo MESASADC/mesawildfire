@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sld:StyledLayerDescriptor xmlns:sld="http://www.opengis.net/sld" xmlns="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" version="1.0.0">
    <sld:NamedLayer>
-      <sld:Name>firepixel</sld:Name>
+      <sld:Name>firepixel_grayscale</sld:Name>
       <sld:UserStyle>
-         <sld:Name>firepixel</sld:Name>
+         <sld:Name>firepixel_grayscale</sld:Name>
          <sld:Title>Default polygon style</sld:Title>
          <sld:Abstract>Style point (the_geom) when zoomed out, polygon when zoomed in.</sld:Abstract>
          <sld:FeatureTypeStyle>
