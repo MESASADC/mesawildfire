@@ -381,7 +381,7 @@ var fdiRows = [];
     }
 
     var parser = new ol.format.WMSCapabilities();
-    fetch("http://"+document.location.hostname+"/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities").then(function(response) {  
+    /*fetch("http://"+document.location.hostname+"/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities").then(function(response) {  
         return response.text();  
     }).then(function(text) {
 
@@ -423,7 +423,7 @@ var fdiRows = [];
             $("#datetime").html("Date: "+moment(timestamp[i]).format('LL')+"  Time: "+moment(timestamp[i]).format('LT'));
             $(document).tooltip({});
         },1000);
-    });
+    });*/
    
     // get fdi table data
     $.get(FDI_CURRENT_URL, function(result, status) {
@@ -625,7 +625,8 @@ var fdiRows = [];
             tableData.push(fire.properties);
         });
 
-        fireTable = $('#fire-table').DataTable({
+        function renderFiretable(){
+            fireTable = $('#fire-table').DataTable({
             data: tableData ,
             deferRender: true,
             dom: "tS",
@@ -665,7 +666,7 @@ var fdiRows = [];
             },{
                 "data": "area",
                 "render": function ( data, type, row, meta ) {
-					
+                    
                     if (type == 'display') 
                     {
                         sqkm = data / Math.pow(10,6);
@@ -699,6 +700,13 @@ var fdiRows = [];
                 [7, "asc"]
             ]
         });
+
+        }
+        //Render Fire table every Two hours.
+        renderFiretable();
+        setInterval(function(){
+          renderFiretable();  
+        },7200000);
 
         //Rendering Column(7 and 8) First-seen and Last seen every second.
         setInterval(function(){
@@ -908,7 +916,7 @@ var fdiRows = [];
                 flyToPoint(data.centroid_x, data.centroid_y);
             };
         }
-    } );
+    });
     
     //select interaction working on "singleclick"
     var selectSingleClick = new ol.interaction.Select();
@@ -1029,6 +1037,7 @@ var fdiRows = [];
               flyToPoint(FdiPoint[j].properties.lon,FdiPoint[j].properties.lat);
             }
         }
+        //fireTable.destroy();
     });
 
     function render_chart(point_name) {

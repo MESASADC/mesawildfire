@@ -478,7 +478,7 @@
         name: Detections (event), owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Detections (event), image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:hotpots_for_fires_today',
-        legend_group: 1,legend_style: fire_legend_grayscale,
+        legend_group: 1,legend_style: firepixel_legend_grayscale,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
