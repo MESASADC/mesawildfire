@@ -28,7 +28,7 @@ function unique(list) {
     return result;
 }
 
-
+moment().format();
 
 $(function() {
 
@@ -162,6 +162,7 @@ $(function() {
 
     defaultView = new ol.View({
         center: ol.proj.transform([35, -16], 'EPSG:4326', 'EPSG:3857'),
+        //center: ol.proj.transform([24.6845524, -27.8801617], 'EPSG:4326', 'EPSG:3857'),
         zoom: 3,
         minZoom: 3,
         maxZoom: 12
@@ -176,7 +177,6 @@ $(function() {
             new ol.control.ScaleLine()
             //new ol.control.FullScreen() not working properly
         ]),
-
     });
 
 
@@ -210,6 +210,116 @@ $(function() {
     };
 
 //});
+
+
+
+
+map_modal = new ol.Map({
+    layers: [backdrop_osm],
+    target: "map_modal",
+    view:new ol.View({
+        center: ol.proj.transform([25, -16], 'EPSG:4326', 'EPSG:3857'),
+        zoom: 4
+    })
+});  
+
+map_modal.on('click', function(evt) {
+    var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    var lon = lonlat[0];
+    var lat = lonlat[1];
+    $("#points").html("Longitude:"+lon.toFixed(2)+", Latitude:"+lat.toFixed(2));        
+});
+
+$("#butn-add-point").click(function(){
+
+    var coordinates = document.getElementById('points').innerHTML;
+    var status = true;
+    longitude = coordinates.substring(10,15);
+    latitude = coordinates.substring(26);
+    console.log(latitude);
+    console.log(longitude);
+    if(document.getElementById('nameofpoint').value=='' && latitude=='' && longitude=='')
+    {
+       alert("Please Enter Station name or click on map for your point of interest.");
+       status = false;
+    }
+
+    if(status)
+    {
+        $.post("/rest/FdiPoint/",
+        {
+            "name": document.getElementById('nameofpoint').value,
+            "type": document.getElementById("typepw")[document.getElementById("typepw").selectedIndex].value,
+            "point": "POINT ("+longitude+" "+latitude+")",
+            "lat": latitude,
+            "lon": longitude,
+            "station_id": (document.getElementById('nameofpoint').value).toUpperCase(),
+            "station_name": document.getElementById('nameofpoint').value
+        },
+        function(data, status){});
+        $("#myModal").modal('hide');
+        location.reload();
+    }
+
+}); 
+
+$("#butn-delete-point").click(function(){
+
+    var  deletepoint;
+    var id_point;
+
+    if(document.getElementById('nameofpoint').value=='')
+    {
+       alert("Please Enter Station name.");
+    }
+
+    if(document.getElementById('nameofpoint').value)
+    {
+        $.ajax({
+            url: '/rest/FdiPoint/',
+            type: 'GET',
+            async:false,
+            success: function (data, textStatus, xhr) {
+                deletepoint = data;
+                for(var i = 0;i < Object.keys(deletepoint.features).length;i++)
+                {
+                    if(deletepoint.features[i].properties.name == document.getElementById('nameofpoint').value)
+                    {
+                        id_point=deletepoint.features[i].id;
+                    }
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+    }
+
+    if(id_point)
+    {
+        $.ajax({
+            url: '/rest/FdiPoint/'+id_point+'/',
+            type: 'DELETE',
+            success: function (data, textStatus, xhr) {
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+        $("#myModal").modal('hide');
+        location.reload();
+    }
+
+
+}); 
+
+$("#wrench").on('click',function(e){
+   $("#myModal").modal('show');
+});
+
+$('#myModal').on('shown.bs.modal', function (e) {
+   map_modal.updateSize();
+});
 
 
 function extract_rgb(rgb_string) {
@@ -381,7 +491,25 @@ var fdiRows = [];
     }
 
     var parser = new ol.format.WMSCapabilities();
-    /*fetch("http://"+document.location.hostname+"/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities").then(function(response) {  
+    fetch("/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities").then(function(response) {  
+        return response.text();  
+    }).then(function(text) {
+
+        var result = parser.read(text);        
+        var timestamp;
+        var layer_s = result.Capability.Layer.Layer;
+        for(var x = 0; x < Object.keys(layer_s).length; x++)
+        {
+          if(layer_s[x].Name == "mesa:mesaburned")
+          {
+            timestamp = layer_s[x].Dimension[0].values.split(',');
+          }
+        }   
+
+    });
+
+    /*var parser = new ol.format.WMSCapabilities();
+    fetch("http://"+document.location.hostname+"/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities").then(function(response) {  
         return response.text();  
     }).then(function(text) {
 
@@ -444,7 +572,6 @@ var fdiRows = [];
         });
 
 
-        //function renderFDItable(){
 
                 fdiTable = $('#fdi-table').DataTable({
 
@@ -507,7 +634,7 @@ var fdiRows = [];
         renderFDItable();
         setInterval(function(){
           renderFDItable();
-        },60000);
+        },30000);
 
 
         background_fdi_colour();
@@ -516,25 +643,21 @@ var fdiRows = [];
             fdiTable.search(this.value).draw();
         });
 
-    //}
-
-    //renderFDItable();
-    //setInterval(function() { renderFDItable(); }, 60000);  
+  
      
     
     }); 
     // get fdi table data
   
     // get fdi graph data
-    $.get(FDI_GRAPH_URL, function(result, status) {
+    /*$.get(FDI_GRAPH_URL, function(result, status) {
     
         //console.log('got fdi graph data');
 
         var graphPointName;
 
         result.forEach(function (item) {
- 
-            //if(new Date(item.target_date_time) < new Date()){
+
                 var value = {
                     point_id: item.point_id,
                     point_name: item.point_name,
@@ -551,11 +674,52 @@ var fdiRows = [];
 
                 if (!graphPointName)
                     graphPointName = value.point_name;
-           // }    
-
+          
         });
         render_chart(graphPointName);
-    });
+    });*/
+
+       var graphname;
+    
+       $.ajax({ 
+            type: 'GET', 
+            url: FDI_GRAPH_URL, 
+            async: false, 
+            contentType: 'application/json', 
+            dataType: 'json', 
+            success: function (result) { 
+
+                var graphPointName;
+
+                result.forEach(function (item) {
+
+                        var value = {
+                            point_id: item.point_id,
+                            point_name: item.point_name,
+                            target_date_time: item.target_date_time,
+                            value: item.value,
+                            value_class: item.value_class,
+                            color: fdiColor(item.value)
+                        };
+
+                        if ( ! (value.point_name in fdiGraph) )
+                            fdiGraph[value.point_name] = [];
+
+                        fdiGraph[value.point_name].push(value);
+
+                        if (!graphPointName)
+                            graphPointName = value.point_name;
+                  
+                });
+                graphname = graphPointName;
+                render_chart(graphPointName);
+                console.log(result);
+                console.log(graphname);
+             },
+            error: function (e) { 
+                console.log('ERROR'); 
+            } 
+        }); 
 
     function flyToPoint(lon, lat) {
         var start = +new Date();
@@ -631,6 +795,7 @@ var fdiRows = [];
             deferRender: true,
             dom: "tS",
             destroy: true,
+            scrollX: false,
             scrollY: "35%",
             scrollCollapse: false,
             paging: true,
@@ -706,7 +871,9 @@ var fdiRows = [];
         renderFiretable();
         setInterval(function(){
           renderFiretable();  
-        },7200000);
+        },21600000);
+
+
 
         //Rendering Column(7 and 8) First-seen and Last seen every second.
         setInterval(function(){
@@ -1027,22 +1194,31 @@ var fdiRows = [];
                 console.log('ERROR'); 
             } 
         }); 
-
+    
+    for(var i=0;i<FdiPoint.length;i++){
+        if(FdiPoint[i].properties.name == graphname){
+          $("#point-name-weather").html("Weather Forecast at: " + graphname);
+          $("#fdi-forecast").html('<img src="https://www.meteoblue.com/meteogram-web?lon='+FdiPoint[i].properties.lon+'&lat='+FdiPoint[i].properties.lat+'&lang=en-US&look=CELSIUS,kmh" style="width: 100%; object-fit: contain" alt="FDI FORECAST">');
+        }
+    }
+    
     // Add event listener for updating the FDI graph
     $('#fdi-table').on('click', 'tr', function() {
         var point_name = $(this).find('td.point-name').text();
         render_chart(point_name);
+
         for(var j=0;j<FdiPoint.length;j++){
             if(FdiPoint[j].properties.name == point_name){
               flyToPoint(FdiPoint[j].properties.lon,FdiPoint[j].properties.lat);
+              $("#fdi-forecast").html('<img src="https://www.meteoblue.com/meteogram-web?lon='+FdiPoint[j].properties.lon+'&lat='+FdiPoint[j].properties.lat+'&lang=en-US&look=CELSIUS,kmh" style="width: 100%; object-fit: contain" alt="FDI FORECAST">');
             }
         }
-        //fireTable.destroy();
     });
 
     function render_chart(point_name) {
         
-        $("#point-name").html("FDI at: " + point_name);
+        $("#point-name").html("<i class='fa fa-line-chart'></i>FDI Forecast at: " + point_name);
+        $("#point-name-weather").html("Weather Forecast at: " + point_name);
         
         var chart = AmCharts.makeChart("chartdiv", {
             "type": "serial",

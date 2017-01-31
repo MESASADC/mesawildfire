@@ -85,6 +85,10 @@ function setDataLayers(theEnabledLayersList, theDisabledLayersList)
   });
 
 
+
+
+
+
     {# myObjects are UserWMSLayers #}
     {% for myObject in myObjects %}
         {% if myObject.has_access %}

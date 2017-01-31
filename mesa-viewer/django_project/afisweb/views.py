@@ -377,7 +377,7 @@ def addDefaultLayersForUser(theRequest):
 def getSAFireCount(sensor, hours, bbox):
     logging.info("getSAFireCount called")
 
-    myFileName = "fire" + sensor + str(hours) + str(bbox)
+    myFileName = "fire" + dateQuery + str(hours) + str(bbox)
     myLocalPath = os.path.join(settings.FIRE_ROOT, myFileName)
 
     # now, in seconds from the Epoch.
@@ -916,8 +916,7 @@ def getFeatureInfo(theRequest,
 
         try:
             logging.info("Checking if this is a datequery layer")
-            myDateQueryLayers = DateQueryLayer.objects.filter(
-                owner=myUser).filter(id=myLayerId)
+            myDateQueryLayers = DateQueryLayer.objects.filter(owner=myUser).filter(id=myLayerId)
             logging.info("%s matched" % len(myDateQueryLayers))
             if len(myDateQueryLayers) > 0:
                     # Just use the first if there are duplicate names....
@@ -928,7 +927,7 @@ def getFeatureInfo(theRequest,
                 # "T00%3A00%3A00%3C%2FLiteral%3E%3C%2FLowerBoundary%3E%3CUpperBoundary%3E%3CLiteral%3E"
                 # + myLayer.end_date.isoformat() +
                 # "T00%3A00%3A00%3C%2FLiteral%3E%3C%2FUpperBoundary%3E%3C%2FPropertyIsBetween%3E%3C%2FFilter%3E"
-                myDateFilter = "&cql_filter=acqdatetime DURING " + \
+                myDateFilter = "&cql_filter=date_timee DURING " + \
                     myLayer.start_date.isoformat(
                     ) + "Z/" + myLayer.end_date.isoformat() + "Z"
                 # note the Z suffix is required for ISO8601 date format
@@ -1201,7 +1200,7 @@ def dateQuery(request):
         myLayer.sensor = mySensor
         myLayer.layers = mySensor.layer
         myLayer.owner = myUser
-        myLayer.is_visible = True
+        myLayer.is_visible = False
         myLayer.is_backdrop_layer = False
         myLayer.is_transparent = True
         myLayer.image_format = myFormat

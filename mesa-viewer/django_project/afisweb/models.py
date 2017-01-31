@@ -318,7 +318,7 @@ class DateQueryLayer( WmsLayer ):
           layers: '%s',
           transparent: '%s',
           format: '%s',
-          filter: '<Filter><PropertyIsBetween><PropertyName>acqdatetime</PropertyName><LowerBoundary><Literal>%s</Literal></LowerBoundary><UpperBoundary><Literal>%s</Literal></UpperBoundary></PropertyIsBetween></Filter>'
+          viewparams:'df:%s;dt:%s'
         },
         {
           minScale: %s,

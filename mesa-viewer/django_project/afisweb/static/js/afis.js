@@ -891,8 +891,9 @@ function setupDateQueryDialog()
   });
 }
 
+var MESA_PREFIX = "http://127.0.0.1";
 function submitDateQuery() {
-  // myLoadingPanel.maximizeControl();
+   //myLoadingPanel.maximizeControl();
   $("#date-query-validation").hide();
   //validate the form using jquery
   //@todo- disable Submit until all is filled?
@@ -925,14 +926,15 @@ function submitDateQuery() {
   myDataString+="&start-date=" + $("#start-date").val();
   myDataString+="&end-date=" + $("#end-date").val();
   myDataString+="&name=" + $("#date-query-layer-name").val();
+  console.log( MESA_PREFIX + "/dateQuery/");
   $.ajax({
-    url: AFIS_PREFIX + "/dateQuery/",
+    url: MESA_PREFIX + "/dateQuery/",
     type: "GET",
     processData: false,
     dataType: "script",
     data: myDataString,
     success: function(theResponseData){
-      // myLoadingPanel.minimizeControl();
+       //myLoadingPanel.minimizeControl();
       }
   });
   return false;
@@ -1201,7 +1203,7 @@ function init_for_user() {
   setupOpenLayers();
   setupLegend();
   setupFancyBox();
-  //setupDateQueryDialog();
+  setupDateQueryDialog();
   setupPlaceZoom();
   setupBaseLayerSwitcher();
   setupLayerManager();

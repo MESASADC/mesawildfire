@@ -3,6 +3,15 @@
 #set -x
 
 if [ "$INSIDE_DOCKER" = "" ]; then
+    SCRIPT_DIR=$(readlink -f `dirname $0`)
+    source $SCRIPT_DIR/ENV
+    EXTENSION=$(echo $2 | cut -d'.' -f4-)
+    if [[ $EXTENSION == 'lfdid.tif' ]]; then
+        $SCRIPT_DIR/mesa_lfdi_wmst_add_mosaic_layer.sh $NAMEOFIMAGEMOSAIC $1/$2 $GEOSERVERURL $GEOSERVERWORKSPACE $GEOSERVERUSERNAME $GEOSERVERPASSWORD 
+        
+    else
+        $SCRIPT_DIR/mesa_lfdi_wmst_add_mosaic_layer.sh $NAMEOFIMAGEMOSAICF $1/$2 $GEOSERVERURL $GEOSERVERWORKSPACE $GEOSERVERUSERNAME $GEOSERVERPASSWORD 
+    fi
     docker exec -t supervisor_postgis bash -c "INSIDE_DOCKER=true /mnt/ingest/scripts/mesa_fdifwi /mnt/ingest/mesa_fdifwi $2 $3"
     exit
 fi
@@ -42,3 +51,5 @@ TERM=xterm
 echo $SQL | su -c "psql $DB_NAME" postgres
 
 raster2pgsql -I -R -a -e $INCRON_EVENT_DIR/$INCRON_EVENT_FILE lfdi_fwi_raster | $SCRIPT_DIR/pginsert-customize.py datetime "'$DATETIME'::timestamp without time zone" target_datetime "'$DATETIME_TARGET'::timestamp" product "'$PRODUCT'" rasterfile "'$INCRON_EVENT_DIR/$INCRON_EVENT_FILE'" | su -c "psql $DB_NAME" postgres
+
+

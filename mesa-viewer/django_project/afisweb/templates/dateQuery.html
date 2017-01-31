@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  $(function() {
+    // Date pickers for query panel courtesy of jquery
+    $("div[id$='-date']").datepicker({
+      changeYear: true,
+      changeMonth: true
+    });
+    $("#date-query-validation").hide();
+    $("#search").button();
+  });
+</script>
+
+<div class="ui-widget" id="date-query-validation">
+  <div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+    <div><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+        <strong>Error:</strong><span id="errorMessage"/></div>
+  </div>
+</div>
+
+<div>
+  <div id="date-picker-labels">
+    <div class="float-left">
+      <label for="start-date">Start date</label>
+    </div>
+    <div class="float-right">
+      <label for="end-date">End date</label>
+    </div>
+  </div>
+  <br />
+  <div id="date-pickers" class="clear-both">
+    <div class="float-left">
+      <div id="start-date"></div>
+    </div>
+    <div class="float-right">
+      <div id="end-date"></div>
+    </div>
+  </div>
+  <br />
+  <div class="clear-both">
+    <div class="float-left">
+      <label for="sensor">Source</label>
+    </div>
+    <div class="float-right">
+      <select id="sensor" name="sensor" class="ui-state-default ui-corner-all">
+      {% for mySensor in mySensors %}
+        <option value="{{mySensor.id}}">{{mySensor.name}}</option>
+      {% endfor %}
+      </select>
+    </div>
+  </div>
+  <br />
+  <div class="clear-both">
+    <div class="float-left">
+      <label for="date-query-layer-name">Name for new layer</label>
+    </div>
+    <div class="float-right">
+      <input type="text" id="date-query-layer-name" class="ui-state-default ui-corner-all"/>
+    </div>
+  </div>
+</div>
+<div class="clear-both"></div>

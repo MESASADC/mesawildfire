@@ -78,6 +78,8 @@ class FireCluster(models.Model, NotifySave):
     def __str__(self):
         return '{0} ({1})'.format(self.description, fire_status_choices.get(self.status, '_'))
 
+        
+
 class FirePixel(models.Model, NotifySave):
 
     type = models.CharField(max_length=40, blank=True, default='')
@@ -124,7 +126,6 @@ class FireEvent(View, NotifySave):
     north = models.FloatField()
     centroid_x = models.FloatField()
     centroid_y = models.FloatField()
-
 
 class FdiPoint(models.Model, NotifySave):
 

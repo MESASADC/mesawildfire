@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'mesa',
     'mesa.dashboard',
     'mesa.home',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,6 +89,9 @@ DATABASES = {
         'PASSWORD':  os.environ.get('MESA_DB_PASS'),
         'HOST':  os.environ.get('MESA_DB_HOST'),
         'PORT':  os.environ.get('MESA_DB_PORT'),
+        'OPTIONS': {
+            'options': '-c search_path=public'
+        }                        
     }
 }
 
@@ -109,7 +113,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/webstatic/'
 STATIC_ROOT = '/static_root/'
 
 

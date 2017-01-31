@@ -6,7 +6,7 @@ Requires:
     pip install gsconfig
 Author:     dhohls@csir.co.za
 Created:    2015-10-08 11:05:54
-Updated:    2015-10-21 11:25:23
+Updated:    2016-02-17 (by rvddool@csir.co.za)
 """
 # lib
 import argparse
@@ -23,11 +23,12 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 DATA_PATH = os.getcwd() #os.path.dirname(os.path.realpath(__file__))
-GEOSERVER = 'http://localhost:8080'
-WORKSPACE = "mesa"
+GEOSERVER = ''
+WORKSPACE = ''
 STORE = ""
-MOSAIC_NAME = "mesaframes"
-
+MOSAIC_NAME = ""
+USERNAME = ""
+PASSWORD = ""
 
 def _zip_granule(layer_file):
     zf_name = '/tmp/' + os.path.basename(layer_file) + '.zip'
@@ -48,12 +49,14 @@ def main(args):
     new_layer = args.layer  # eg. '20091201.tif' or '20091201.zip'
     store_name = args.store or STORE
     workspace_name = args.workspace or WORKSPACE
+    username = args.user or USERNAME
+    password = args.password or PASSWORD
 
     # access geoserver
     # TODO - in production usage, find another way to access username & password
     try:
         gs_catalog = Catalog("%s/geoserver/rest" % geo_server,
-                             username="admin", password="geoserver") 
+                             username=username, password=password) 
         ws = gs_catalog.get_workspace(workspace_name)
         if not ws:
             logger.error('Unable to access workspace: "%s"' % workspace_name)
@@ -111,6 +114,12 @@ if __name__ == "__main__":
     parser.add_argument(
         '-g', '--geoserver',
         help="Full URL, with port, for GeoServer")
+    parser.add_argument(
+        '-U', '--user',
+        help="GeoServer user")
+    parser.add_argument(
+        '-P', '--password',
+        help="GeoServer password")
     parser.add_argument(
         '-p', '--path',
         help="Path for location of files to be used (default is current)")

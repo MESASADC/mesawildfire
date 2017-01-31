@@ -27,7 +27,7 @@ FIRE_STATS_MODIS = []
 LOCAL_JQUERY=True
 LOCAL_OPENLAYERS=True
 USE_GOOGLE=True # Set to False for debugging.
-HQ_GEOSERVER_URL = 'http://afis.meraka.org.za/geoserver/'
+HQ_GEOSERVER_URL = 'http://mesa.dhcp.meraka.csir.co.za/geoserver/'
 GEOSERVER_URL = utils.get_env('AFIS_VIEWER_GEOSERVER_URL') or HQ_GEOSERVER_URL
 AFIS_WMS_URL = GEOSERVER_URL +'wms'
 

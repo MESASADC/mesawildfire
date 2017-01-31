@@ -443,7 +443,19 @@ class Migration(migrations.Migration):
                 DROP VIEW IF EXISTS firedanger_point_forecast_and_measured;
             """,
         ),
-                
+
+        migrations.RunSQL(
+            sql = """
+                CREATE SCHEMA imagemosaic
+                AUTHORIZATION docker;
+
+                GRANT ALL ON SCHEMA imagemosaic TO docker;
+                GRANT ALL ON SCHEMA imagemosaic TO public;
+            """,
+            reverse_sql = """
+                DROP SCHEMA imagemosaic;
+            """,
+        ),                
                 
         migrations.RunSQL(
             sql = """
