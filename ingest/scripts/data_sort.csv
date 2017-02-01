@@ -1,4 +1,5 @@
 reg_ex,prod_group,product,dated,date_format,date_position,daystokeep
+AMESD_SADC_MODIS_BA*,Wildfire,mesa_burned_area,Y,YYYYDOY,12,
 MODIS._FIRE..*.txt,Wildfire,af_modis,Y,YYYYDOY,12,
 .*L-000-NEW.*,NOAA,NOAA HIRS,,,,30
 .*L-000-NEW.*,NOAA,NOAA MHS,,,,30

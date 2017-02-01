@@ -6,7 +6,6 @@ fonts
 geoserver_data
 postgres_data
 
-ENV
 
 *.pyc
 *~
@@ -25,4 +24,5 @@ ingest/af_msg
 ingest/af_viirs
 ingest/mesa_fdifwi
 ingest/modis_tc
+ingest/mesa_burned_area
 

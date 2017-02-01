@@ -1,5 +1,6 @@
 #!/bin/bash
 
+shopt -s extglob
 set -x
 
 SCRIPT_DIR=$(readlink -f `dirname $0`)
@@ -49,6 +50,7 @@ if [[ "${DATED}" == "Y" ]]; then
       fdate=${INCRON_EVENT_FILE:D_POSITION:7}
       year=${fdate:0:4}
       doy=${fdate:4:3}
+      doy=${doy##+(0)} #strip leading zeros
       doy=$((doy-1))
       DATE=$(date +"%Y/%m/%d" -d "${year}0101 + $doy days")
    elif [[ "$D_FORMAT" == "YYYYMMDD" ]] && [[ -n ${D_POSITION} ]]; then
@@ -76,17 +78,17 @@ function failed {
 
 # create a hardlink to instantly create a "copy" in the archive
 if [ ! -e "$OUTDIR/$INCRON_EVENT_FILE" ]; then
-  (ln $FILEPATH "$OUTDIR/$INCRON_EVENT_FILE" && logger MESA: Archived "$OUTDIR/$INCRON_EVENT_FILE") || failed "archive"
+  (sudo ln $FILEPATH "$OUTDIR/$INCRON_EVENT_FILE" && logger MESA: Archived "$OUTDIR/$INCRON_EVENT_FILE") || failed "archive"
 fi
 
 # ingest the files we are interested in
 if [[ -n $PRODUCT ]] && [[ -n $( ls "${SCRIPT_DIR}" | grep "$PRODUCT") ]]; then
   # create a hardlink to instantly create a "copy" in the ingest directory. Note: PostGIS uses this link for out of DB raster access!
   if [ ! -e $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE ]; then
-    ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || cp $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"
+    sudo ln $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || cp $FILEPATH $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE || failed "link"
   fi
   # run the script for the product
-  ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS && logger MESA: Ingested $PRODUCT: $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE) || failed "ingest"
+  ($SCRIPT_DIR/$PRODUCT $INCRON_EVENT_DIR $INCRON_EVENT_FILE $INCRON_EVENT_FLAGS  && logger MESA: Ingested $PRODUCT: $INGEST_DIR/$PRODUCT/$INCRON_EVENT_FILE) || failed "ingest"
 fi
 
 # remove (unlink) from incoming

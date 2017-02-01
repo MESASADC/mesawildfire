@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+
+from osgeo import gdal
+import argparse
+import numpy as np
+import os
+import sys
+import logging
+
+script_dir = os.path.dirname(sys.argv[0])
+incron_dir = sys.argv[1]
+incron_file = sys.argv[2]
+incron_filepath = os.path.join(incron_dir, incron_file)
+incron_event = sys.argv[3]
+
+
+logfile = os.path.join(script_dir, 'error.log')
+logging.basicConfig(filename=logfile,level=logging.DEBUG, format='%(asctime)s :: %(message)s')
+logging.info(incron_filepath)
+
+def readFile(filename):   
+    ds = gdal.Open(filename, gdal.GA_ReadOnly)
+    (X, deltaX, rotation, Y, rotation, deltaY) = ds.GetGeoTransform()
+    proj = ds.GetProjection()
+    geo = ds.GetGeoTransform()
+    Nx = ds.RasterXSize
+    Ny = ds.RasterYSize
+    band = ds.GetRasterBand(1)
+    ary = band.ReadAsArray().astype(np.float16)
+    nodata = band.GetNoDataValue()
+    stats = band.GetStatistics(True, True)
+    shape = ary.shape # get the shape of the array
+    #ds.Destroy()
+    return ary, shape, proj, geo, nodata, stats
+
+# Write the data to geotif
+def WriteGeoTif(array,outname,shape1,proj1,geo1):       
+    driver = gdal.GetDriverByName('GTiff')
+    ds = driver.Create(outname,shape1[1],shape1[0],1,gdal.GDT_Float32,options=['COMPRESS=DEFLATE'])
+    ds.SetGeoTransform(geo1)
+    ds.SetProjection(proj1)
+    ds.GetRasterBand(1).WriteArray(array)
+
+def filter_outside_values(inputname,minV,maxV,outname):
+    ary, shape, proj, geo, nodata, stats = readFile(inputname)
+    out_aray = np.zeros(shape)
+    idx = np.where(np.logical_and(ary>=minV,ary<=maxV))
+    out_aray[idx] = ary[idx]
+    WriteGeoTif(out_aray,outname,shape,proj,geo)
+
+# A function for polygonizing a raster and output polygons whose DN is not zero and in WGS84 spatial regerence system
+def polygonize(in_rasterfile,out_shapefile,nameoftable,where='DN!=0',out_src='EPSG:4326'):
+    #polygonize
+    out_shapefile_temp = out_shapefile[:-4]+'_temp1.shp'
+    os.system('gdal_polygonize.py {} -q -f "ESRI Shapefile" {}'.format(in_rasterfile,out_shapefile_temp))
+    #remove polygons with zeros and project results to wgs84
+    #select_string = 'ogr2ogr -where "{0}" -t_srs {1} {2} {3}'.format(where,out_src,out_shapefile,out_shapefile_temp)
+    select_string = 'ogr2ogr -where "{0}" -t_srs {1} {2} {3}'.format(where,out_src,out_shapefile,out_shapefile_temp)
+    select_string_ = 'ogr2ogr -append -f  "PostgreSQL" PG:"host=localhost user=docker dbname=gis password=docker" '+out_shapefile+' -nln '+nameoftable
+    #Polygonizing.
+    os.system(select_string)
+    #Sending polygons to the database.
+    os.system(select_string_)
+    # Delete temporary files
+    os.system('rm {}*'.format(out_shapefile_temp[:-3]))
+    logging.info("Polygonized")
+
+if __name__=='__main__':
+    
+    outname_filterd = 'temporary.tif'
+    out_shapefile = 'temporary.shp'
+
+    inputname = incron_filepath
+    dbtablename = "mesa_burned_area" #name of database table
+
+    min_max = incron_file.split("_")[4].split(".")
+    min=int(min_max[0][-3:])
+    max=int(min_max[1][-3:])
+
+    logging.info(incron_file)
+    logging.info(incron_filepath)
+
+    filter_outside_values(inputname,min,max,outname_filterd)
+    polygonize(outname_filterd,out_shapefile,dbtablename)
+    os.system('rm temporary.*')
+
+
+
+
+
+

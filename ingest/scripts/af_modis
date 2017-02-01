@@ -68,3 +68,4 @@ except:
     logging.exception('Failed to process: {}/{} for {}'.format(incron_dir, incron_file, incron_event))
 
 
+os.system("%s/large_fire.sh" % script_dir)
