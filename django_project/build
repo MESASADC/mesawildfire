@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ENV
+ENV_PATH=`pwd`/../admin/ENV
+source $ENV_PATH
 
 TAG=${BUILD_TAG:-"local"}
 

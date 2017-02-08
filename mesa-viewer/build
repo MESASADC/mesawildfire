@@ -1,5 +1,6 @@
 #!/bin/bash
-source ENV
+ENV_PATH=`pwd`/../admin/ENV
+source $ENV_PATH
 # This build script can be used to build a Docker.io image for this application.
 # The Fern deployment framework will call this script with the following environment variables set:
 #   * IMAGE_NAME: provides a Fern specific name for the image

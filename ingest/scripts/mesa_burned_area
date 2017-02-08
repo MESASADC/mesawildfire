@@ -1,20 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 from osgeo import gdal
 import argparse
 import numpy as np
 import os
 import sys
 import logging
+import psycopg2
+import osgeo.ogr
+import osgeo.osr
+import datetime
+from datetime import date
 
 script_dir = os.path.dirname(sys.argv[0])
 incron_dir = sys.argv[1]
 incron_file = sys.argv[2]
 incron_filepath = os.path.join(incron_dir, incron_file)
 incron_event = sys.argv[3]
-
 
 logfile = os.path.join(script_dir, 'error.log')
 logging.basicConfig(filename=logfile,level=logging.DEBUG, format='%(asctime)s :: %(message)s')
@@ -31,11 +34,9 @@ def readFile(filename):
     ary = band.ReadAsArray().astype(np.float16)
     nodata = band.GetNoDataValue()
     stats = band.GetStatistics(True, True)
-    shape = ary.shape # get the shape of the array
-    #ds.Destroy()
+    shape = ary.shape 
     return ary, shape, proj, geo, nodata, stats
 
-# Write the data to geotif
 def WriteGeoTif(array,outname,shape1,proj1,geo1):       
     driver = gdal.GetDriverByName('GTiff')
     ds = driver.Create(outname,shape1[1],shape1[0],1,gdal.GDT_Float32,options=['COMPRESS=DEFLATE'])
@@ -50,22 +51,43 @@ def filter_outside_values(inputname,minV,maxV,outname):
     out_aray[idx] = ary[idx]
     WriteGeoTif(out_aray,outname,shape,proj,geo)
 
-# A function for polygonizing a raster and output polygons whose DN is not zero and in WGS84 spatial regerence system
-def polygonize(in_rasterfile,out_shapefile,nameoftable,where='DN!=0',out_src='EPSG:4326'):
-    #polygonize
+def polygonize(in_rasterfile,out_shapefile,where='DN!=0',out_src='EPSG:4326'):
     out_shapefile_temp = out_shapefile[:-4]+'_temp1.shp'
-    os.system('gdal_polygonize.py {} -q -f "ESRI Shapefile" {}'.format(in_rasterfile,out_shapefile_temp))
-    #remove polygons with zeros and project results to wgs84
-    #select_string = 'ogr2ogr -where "{0}" -t_srs {1} {2} {3}'.format(where,out_src,out_shapefile,out_shapefile_temp)
+    os.system('gdal_polygonize.py {} -8 -q -f "ESRI Shapefile" {}'.format(in_rasterfile,out_shapefile_temp))
     select_string = 'ogr2ogr -where "{0}" -t_srs {1} {2} {3}'.format(where,out_src,out_shapefile,out_shapefile_temp)
-    select_string_ = 'ogr2ogr -append -f  "PostgreSQL" PG:"host=localhost user=docker dbname=gis password=docker" '+out_shapefile+' -nln '+nameoftable
-    #Polygonizing.
     os.system(select_string)
-    #Sending polygons to the database.
-    os.system(select_string_)
-    # Delete temporary files
     os.system('rm {}*'.format(out_shapefile_temp[:-3]))
-    logging.info("Polygonized")
+
+def read_shapefile_to_list(shapefile,sensor,version,year):
+    src_shapefile = osgeo.ogr.Open(shapefile)
+    layer = src_shapefile.GetLayer(0)
+    params_list = []
+    for feature in layer:
+        flag = feature.GetField('DN')
+        geom = feature.GetGeometryRef()
+        wkt = geom.ExportToWkt()
+        date = datetime.datetime(int(year), 1, 1) + datetime.timedelta(int(flag) - 1)
+        date = date.strftime('%Y-%m-%d')
+        params = {
+                   'flag':flag,
+                   'the_geom':wkt,
+                   'sensor':sensor,
+                   'version':version,
+                   'date':date
+                 }
+        params_list.append(params)
+    params_list = tuple(params_list)
+    return params_list
+
+def load_wgs84shape2database(connection_dict,table,shapefile,sensor,version,year):
+    
+    params_list = read_shapefile_to_list(shapefile,sensor,version,year)
+    connect_string = "user=%(user)s password=%(password)s host=%(host)s dbname=%(dbname)s application_name='landsat8_ba'" %connection_dict
+    connection = psycopg2.connect(connect_string)
+    cursor = connection.cursor()
+    cursor.executemany("""INSERT INTO """+table+"""(burned_day,sensor,version,date,the_geom)
+                       VALUES (%(flag)s,%(sensor)s,%(version)s,%(date)s::timestamp,st_multi(st_GeomFromText(%(the_geom)s,4326)))""",params_list)
+    connection.commit()
 
 if __name__=='__main__':
     
@@ -73,17 +95,25 @@ if __name__=='__main__':
     out_shapefile = 'temporary.shp'
 
     inputname = incron_filepath
-    dbtablename = "mesa_burned_area" #name of database table
+    dbtablename = "mesa_burned_area" 
+    connection_dict = {
+                       'user':'docker', 
+                       'password':'docker',
+                       'host':'localhost',
+                       'dbname':'gis'
+                      }
 
-    min_max = incron_file.split("_")[4].split(".")
+    filename_data = incron_file.split("_")
+    min_max = filename_data[4].split(".")
     min=int(min_max[0][-3:])
     max=int(min_max[1][-3:])
-
-    logging.info(incron_file)
-    logging.info(incron_filepath)
+    sensor = filename_data[2]
+    version = filename_data[6].split(".")[0]
+    year = min_max[0][:4]
 
     filter_outside_values(inputname,min,max,outname_filterd)
-    polygonize(outname_filterd,out_shapefile,dbtablename)
+    polygonize(outname_filterd,out_shapefile)
+    load_wgs84shape2database(connection_dict,dbtablename,out_shapefile,sensor,version,year)
     os.system('rm temporary.*')
 
 

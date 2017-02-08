@@ -479,7 +479,7 @@
         name: Detections (event), owner: 2, url: 'http://geoserver:8080/geoserver/wms',
         description: Detections (event), image_format: 1, is_base_layer: false,
         is_transparent: true, is_visible: true, layers: 'mesa:hotpots_for_fires_today',
-        legend_group: 1,legend_style: fire_legend_grayscale,
+        legend_group: 1,legend_style: firepixel_legend_grayscale,
         show_legend_image: true,
         max_scale: 1, min_scale: 35000000}
     model: afisweb.wmslayer
@@ -563,9 +563,9 @@
 
 
 -   fields: {as_open_layer: "lyr16 = new OpenLayers.Layer.WMS(\n\
-                'MESA SADC MODIS Burned Areas','/geoserver/wms',\n\
+                'MESA SADC MODIS Burned Areas Over Last Month','/geoserver/wms',\n\
                     {\n\
-                        layers: 'mesa:underdevelopment',\n\
+                        layers: 'mesa:mesa_burned_area',\n\
                         transparent: 'true',\n\
                         format: 'image/png'\n\
                     },\n\
@@ -580,9 +580,9 @@
 
 
                 ", content_type: 14,
-        name: MESA SADC MODIS Burned Areas, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
-        description: MESA SADC MODIS Burned Areas, image_format: 1, is_base_layer: false,
-        is_transparent: true, is_visible: true, layers: 'mesa:underdevelopment',
+        name: MESA SADC MODIS Burned Areas Over Last Month, owner: 2, url: 'http://geoserver:8080/geoserver/wms',
+        description: MESA SADC MODIS Burned Areas Over Last Month, image_format: 1, is_base_layer: false,
+        is_transparent: true, is_visible: true, layers: 'mesa:mesa_burned_area',
         legend_group: 3,
         show_legend_image: false,
         max_scale: 1, min_scale: 35000000}
@@ -591,6 +591,6 @@
 
 -   fields: {deleted_timestamp: null, is_default: true, is_deleted: false, is_visible: false,
         has_access: true,
-        order: 16, user: 2, wmslayer: 16}
+        order: 16, user: 1, wmslayer: 16}
     model: afisweb.userwmslayer
     pk: 16

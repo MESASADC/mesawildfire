@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     initial = True
     dependencies = [
-        ('mesa', '0004_firepixel_relax_constraints'),
+        ('mesa', '0003_performance'),
     ]
     operations = [
     migrations.RunSQL(
@@ -35,9 +35,32 @@ class Migration(migrations.Migration):
                 $BODY$
                 LANGUAGE plpgsql VOLATILE
                 COST 1000;
+
+                CREATE TABLE mesa_burned_area
+                (
+                    id serial NOT NULL,
+                    burned_day numeric(9,0),
+                    sensor character varying(20),
+                    version character varying(20),
+                    date timestamp without time zone,
+                    the_geom geometry(MultiPolygon,4326),
+                    CONSTRAINT mesa_burned_area_pkey PRIMARY KEY (id)   
+                );
+
+                CREATE INDEX mesa_burned_area_wkb_geometry_geom_idx
+                ON mesa_burned_area
+                USING gist
+                (the_geom); 
+
             """,
             reverse_sql = """
+
                 DROP FUNCTION reset_firepixel_fireid(integer);
+                DROP TABLE mesa_burned_area;
+                DROP INDEX mesa_burned_area_wkb_geometry_geom_idx;
+
             """,
         ),              
     ]
+
+

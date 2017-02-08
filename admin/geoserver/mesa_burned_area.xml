@@ -1,0 +1,105 @@
+<featureType>
+<name>mesa_burned_area</name>
+<nativeName>mesa_burned_area</nativeName>
+<namespace>
+<name>mesa</name>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://localhost/geoserver/rest/namespaces/mesa.xml" type="application/xml"/>
+</namespace>
+<title>mesa_burned_area</title>
+<keywords>
+<string>features</string>
+<string>mesa_burned_area</string>
+</keywords>
+<nativeCRS>
+GEOGCS["WGS 84", DATUM["World Geodetic System 1984", SPHEROID["WGS 84", 6378137.0, 298.257223563, AUTHORITY["EPSG","7030"]], AUTHORITY["EPSG","6326"]], PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH], AUTHORITY["EPSG","4326"]]
+</nativeCRS>
+<srs>EPSG:4326</srs>
+<nativeBoundingBox>
+<minx>13.2848789825717</minx>
+<maxx>40.663788248628</maxx>
+<miny>-34.2635181811887</miny>
+<maxy>-9.99999999914993</maxy>
+<crs>EPSG:4326</crs>
+</nativeBoundingBox>
+<latLonBoundingBox>
+<minx>13.2848789825717</minx>
+<maxx>40.663788248628</maxx>
+<miny>-34.2635181811887</miny>
+<maxy>-9.99999999914993</maxy>
+<crs>
+GEOGCS["WGS84(DD)", DATUM["WGS84", SPHEROID["WGS84", 6378137.0, 298.257223563]], PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], AXIS["Geodetic longitude", EAST], AXIS["Geodetic latitude", NORTH]]
+</crs>
+</latLonBoundingBox>
+<projectionPolicy>FORCE_DECLARED</projectionPolicy>
+<enabled>true</enabled>
+<metadata>
+<entry key="cachingEnabled">false</entry>
+<entry key="JDBC_VIRTUAL_TABLE">
+<virtualTable>
+<name>mesa_burned_area</name>
+<sql>
+SELECT * FROM mesa_burned_area
+ WHERE NOW() - date < INTERVAL '32 days'
+</sql>
+<escapeSql>false</escapeSql>
+<geometry>
+<name>the_geom</name>
+<type>MultiPolygon</type>
+<srid>4326</srid>
+</geometry>
+</virtualTable>
+</entry>
+</metadata>
+<store class="dataStore">
+<name>mesadb</name>
+<atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="alternate" href="http://localhost/geoserver/rest/workspaces/mesa/datastores/mesadb.xml" type="application/xml"/>
+</store>
+<maxFeatures>0</maxFeatures>
+<numDecimals>0</numDecimals>
+<overridingServiceSRS>false</overridingServiceSRS>
+<circularArcPresent>false</circularArcPresent>
+<attributes>
+<attribute>
+<name>id</name>
+<minOccurs>1</minOccurs>
+<maxOccurs>1</maxOccurs>
+<nillable>false</nillable>
+<binding>java.lang.Integer</binding>
+</attribute>
+<attribute>
+<name>burned_day</name>
+<minOccurs>0</minOccurs>
+<maxOccurs>1</maxOccurs>
+<nillable>true</nillable>
+<binding>java.math.BigDecimal</binding>
+</attribute>
+<attribute>
+<name>sensor</name>
+<minOccurs>0</minOccurs>
+<maxOccurs>1</maxOccurs>
+<nillable>true</nillable>
+<binding>java.lang.String</binding>
+</attribute>
+<attribute>
+<name>version</name>
+<minOccurs>0</minOccurs>
+<maxOccurs>1</maxOccurs>
+<nillable>true</nillable>
+<binding>java.lang.String</binding>
+</attribute>
+<attribute>
+<name>date</name>
+<minOccurs>0</minOccurs>
+<maxOccurs>1</maxOccurs>
+<nillable>true</nillable>
+<binding>java.sql.Timestamp</binding>
+</attribute>
+<attribute>
+<name>the_geom</name>
+<minOccurs>0</minOccurs>
+<maxOccurs>1</maxOccurs>
+<nillable>true</nillable>
+<binding>com.vividsolutions.jts.geom.MultiPolygon</binding>
+</attribute>
+</attributes>
+</featureType>
