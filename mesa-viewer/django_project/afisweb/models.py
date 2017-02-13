@@ -282,69 +282,72 @@ class WmsLayer( Layer ):
     return myLayerDef
 
 class DateQueryLayer( WmsLayer ):
-  """A layer model for storing user date range queries persistently"""
-  sensor = models.ForeignKey( Sensor )
-  start_date = models.DateTimeField( null=True, blank=True )
-  end_date = models.DateTimeField( null=True, blank=True )
+      
+    """A layer model for storing user date range queries persistently"""
 
-  class Meta:
-    db_table=("datequerylayer")
-    verbose_name=_("Date Query Layer")
-    verbose_name_plural=_("Date Query Layers")
+    sensor = models.ForeignKey(Sensor)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
 
-
-  def save( self, *args, **kwargs ):
-    """ Overrides standard save, generating the asOpenLayers javascript. """
-    # save once to get a valid id
-    super(DateQueryLayer, self).save( *args, **kwargs)
-    # which is used when generating openlayer string
-    self.as_open_layer = self.asOpenLayer()
-    # then save again to save the ol string
-    super(DateQueryLayer, self).save( *args, **kwargs)
+    class Meta:
+        db_table=("datequerylayer")
+        verbose_name=_("Date Query Layer")
+        verbose_name_plural=_("Date Query Layers")
 
 
-  def asOpenLayer( self ):
-    """Return a string representation of this model as an open layers
-    layer definition. The created layer def will be added
-    to the openlayers map of name theMap (which defaults to "map". """
+    def save( self, *args, **kwargs ):
+        """ Overrides standard save, generating the asOpenLayers javascript. """
+        # save once to get a valid id
+        super(DateQueryLayer, self).save( *args, **kwargs)
+        # which is used when generating openlayer string
+        self.as_open_layer = self.asOpenLayer()
+        # then save again to save the ol string
+        super(DateQueryLayer, self).save( *args, **kwargs)
 
-    myMaxScale = 1
-    if ( self.max_scale ) : myMaxScale = self.max_scale
-    myMinScale = 38000000
-    if ( self.min_scale ) : myMinScale = self.min_scale
-    myLayerDef = """%s = new OpenLayers.Layer.WMS(
-        '%s','%s',
-        {
-          layers: '%s',
-          transparent: '%s',
-          format: '%s',
-          viewparams:'df:%s;dt:%s'
-        },
-        {
-          minScale: %s,
-          maxScale: %s
-        },
-        {
-          isBaseLayer: %s
-        }
-      );
-    gLayersDict[%s.id] = '%s'; 
+
+    def asOpenLayer( self ):
+        """Return a string representation of this model as an open layers
+        layer definition. The created layer def will be added
+        to the openlayers map of name theMap (which defaults to "map". """
+
+        myMaxScale = 1
+        if ( self.max_scale ) : myMaxScale = self.max_scale
+        myMinScale = 38000000
+        if ( self.min_scale ) : myMinScale = self.min_scale
+        myLayerDef = """%s = new OpenLayers.Layer.WMS(
+            '%s','%s',
+            {
+              layers: '%s',
+              transparent: '%s',
+              format: '%s',
+              viewparams:'df:%s;dt:%s'
+            },
+            {
+              minScale: %s,
+              maxScale: %s
+            },
+            {
+              isBaseLayer: %s
+            }
+          );
+        gLayersDict[%s.id] = '%s'; 
+        
+        """ % ("lyr" + str( self.id ),
+                  self.name.replace("'",""),
+                  self.url,
+                  self.layers,
+                  self.transparencyAsString(),
+                  self.image_format.mime_type,
+                  self.start_date.isoformat(), # aka LowerBoundary
+                  self.end_date.isoformat(), # aka UpperBoundary
+                  str( myMinScale ),
+                  str( myMaxScale ),
+                  self.baseLayerAsString(),
+                  "lyr" + str( self.id ),
+                  "lyr" + str( self.id )
+                  )
+        return myLayerDef
     
-    """ % ("lyr" + str( self.id ),
-              self.name.replace("'",""),
-              self.url,
-              self.layers,
-              self.transparencyAsString(),
-              self.image_format.mime_type,
-              self.start_date.isoformat(), # aka LowerBoundary
-              self.end_date.isoformat(), # aka UpperBoundary
-              str( myMinScale ),
-              str( myMaxScale ),
-              self.baseLayerAsString(),
-              "lyr" + str( self.id ),
-              "lyr" + str( self.id )
-              )
-    return myLayerDef
 
 class PlaceName(models.Model):
   name = models.CharField( max_length=256 )

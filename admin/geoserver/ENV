@@ -7,10 +7,10 @@ export GEOSERVERURL=http://localhost:8080
 export GEOSERVERWORKSPACE=mesa
 export GEOSERVERUSERNAME=admin
 export GEOSERVERPASSWORD=geoserver
-export DATABASEHOST=127.0.0.1
-export DATABASEPORT=5432 
+export DATABASEHOST=$HOSTNAME
+export DATABASEPORT=5432
 export DATABASENAME=gis
-export DATABASESCHEMA=imagemosaic 
+export DATABASESCHEMA=imagemosaic
 export DATABASEUSER=docker
 export DATABASEPASSWORD=docker
 

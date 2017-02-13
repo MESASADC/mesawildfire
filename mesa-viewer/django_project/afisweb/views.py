@@ -813,11 +813,11 @@ def getFeatureInfo(theRequest,
     is_notqueryable = re.compile('LayerNotQueryable')
 
     for myLayerName in theRequest.GET.getlist('gLayers[]'):
-
-	myNoResponseHtml = ""
+     
         myLayer = None
         myDateFilter = ""
         myUser = None
+        myNoResponseHtml = ""
 
         if theRequest.user.is_authenticated and theRequest.user.username is not "":
             myUser = theRequest.user
@@ -927,9 +927,9 @@ def getFeatureInfo(theRequest,
                 # "T00%3A00%3A00%3C%2FLiteral%3E%3C%2FLowerBoundary%3E%3CUpperBoundary%3E%3CLiteral%3E"
                 # + myLayer.end_date.isoformat() +
                 # "T00%3A00%3A00%3C%2FLiteral%3E%3C%2FUpperBoundary%3E%3C%2FPropertyIsBetween%3E%3C%2FFilter%3E"
-                myDateFilter = "&cql_filter=date_timee DURING " + \
-                    myLayer.start_date.isoformat(
-                    ) + "Z/" + myLayer.end_date.isoformat() + "Z"
+                #myDateFilter = "&cql_filter=date_time DURING " + \
+                #    myLayer.start_date.isoformat(
+                #    ) + "Z/" + myLayer.end_date.isoformat() + "Z"
                 # note the Z suffix is required for ISO8601 date format
                 # compliance for geoserver.
         except Exception as e:
@@ -1200,7 +1200,7 @@ def dateQuery(request):
         myLayer.sensor = mySensor
         myLayer.layers = mySensor.layer
         myLayer.owner = myUser
-        myLayer.is_visible = False
+        myLayer.is_visible = True
         myLayer.is_backdrop_layer = False
         myLayer.is_transparent = True
         myLayer.image_format = myFormat

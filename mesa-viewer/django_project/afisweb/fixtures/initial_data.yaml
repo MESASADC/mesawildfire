@@ -147,3 +147,21 @@
         order: 1, user: 1, wmslayer: 1000}
     model: afisweb.userwmslayer
     pk: 1000
+
+
+-   fields: {
+        name: 'MODIS / VIIRS',
+        description: 'MODIS / VIIRS',
+        layer: 'mesa:hotspots_datetime',
+        style: 'firepixel_legend'}
+    model: afisweb.sensor
+    pk: 1
+
+-   fields: {
+        name: 'MSG / GOES',
+        description: 'MSG / GOES',
+        layer: 'mesa:MSG_hotspots_datetime',
+        style: 'MSG_hotspots_legend'}
+    model: afisweb.sensor
+    pk: 2
+

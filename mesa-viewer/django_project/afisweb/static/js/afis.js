@@ -891,7 +891,6 @@ function setupDateQueryDialog()
   });
 }
 
-var MESA_PREFIX = "http://127.0.0.1";
 function submitDateQuery() {
    //myLoadingPanel.maximizeControl();
   $("#date-query-validation").hide();
@@ -926,9 +925,9 @@ function submitDateQuery() {
   myDataString+="&start-date=" + $("#start-date").val();
   myDataString+="&end-date=" + $("#end-date").val();
   myDataString+="&name=" + $("#date-query-layer-name").val();
-  console.log( MESA_PREFIX + "/dateQuery/");
+  console.log( AFIS_PREFIX + "/dateQuery/");
   $.ajax({
-    url: MESA_PREFIX + "/dateQuery/",
+    url: AFIS_PREFIX + "/dateQuery/",
     type: "GET",
     processData: false,
     dataType: "script",

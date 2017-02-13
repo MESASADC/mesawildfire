@@ -39,7 +39,7 @@ GEOGCS["WGS84(DD)", DATUM["WGS84", SPHEROID["WGS84", 6378137.0, 298.257223563]],
 <name>mesa_burned_area</name>
 <sql>
 SELECT * FROM mesa_burned_area
- WHERE NOW() - date < INTERVAL '32 days'
+ WHERE NOW() - date &lt; INTERVAL '32 days'
 </sql>
 <escapeSql>false</escapeSql>
 <geometry>
