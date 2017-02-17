@@ -15,52 +15,59 @@ class Migration(migrations.Migration):
         ('mesa', '0003_performance'),
     ]
     operations = [
-    migrations.RunSQL(
+        migrations.RunSQL(
 
-            sql = """
-                CREATE OR REPLACE FUNCTION reset_firepixel_fireid(firepixel_id integer)
-                RETURNS void AS
-                $BODY$
-                    BEGIN  
-                    WITH row AS (
-                        INSERT INTO mesa_firecluster(description, status, border) 
-                        (
-                            SELECT 'Firepixel #' || id, 'hotspot', (st_buffer(point, 2::double precision * GREATEST(hsize, vsize))) 
-                            FROM mesa_firepixel WHERE id = firepixel_id
+                sql = """
+                    CREATE OR REPLACE FUNCTION reset_firepixel_fireid(firepixel_id integer)
+                    RETURNS void AS
+                    $BODY$
+                        BEGIN  
+                        WITH row AS (
+                            INSERT INTO mesa_firecluster(description, status, border) 
+                            (
+                                SELECT 'Firepixel #' || id, 'hotspot', (st_buffer(point, 2::double precision * GREATEST(hsize, vsize))) 
+                                FROM mesa_firepixel WHERE id = firepixel_id
+                            )
+                            RETURNING id
                         )
-                        RETURNING id
-                    )
-                    UPDATE mesa_firepixel SET fire_id = (SELECT id FROM row) WHERE id = firepixel_id;
-                    END
-                $BODY$
-                LANGUAGE plpgsql VOLATILE
-                COST 1000;
+                        UPDATE mesa_firepixel SET fire_id = (SELECT id FROM row) WHERE id = firepixel_id;
+                        END
+                    $BODY$
+                    LANGUAGE plpgsql VOLATILE
+                    COST 1000;
 
-                CREATE TABLE mesa_burned_area
-                (
-                    id serial NOT NULL,
-                    burned_day numeric(9,0),
-                    sensor character varying(20),
-                    version character varying(20),
-                    date timestamp without time zone,
-                    the_geom geometry(MultiPolygon,4326),
-                    CONSTRAINT mesa_burned_area_pkey PRIMARY KEY (id)   
-                );
+                    CREATE TABLE mesa_burned_area
+                    (
+                        id serial NOT NULL,
+                        burned_day numeric(9,0),
+                        sensor character varying(20),
+                        version character varying(20),
+                        date timestamp without time zone,
+                        the_geom geometry(MultiPolygon,4326),
+                        CONSTRAINT mesa_burned_area_pkey PRIMARY KEY (id)   
+                    );
 
-                CREATE INDEX mesa_burned_area_wkb_geometry_geom_idx
-                ON mesa_burned_area
-                USING gist
-                (the_geom); 
+                    CREATE INDEX mesa_burned_area_wkb_geometry_geom_idx
+                    ON mesa_burned_area
+                    USING gist
+                    (the_geom); 
 
-            """,
+                """,
+                reverse_sql = """
+                    DROP FUNCTION reset_firepixel_fireid(integer);
+                    DROP TABLE mesa_burned_area;
+                    DROP INDEX mesa_burned_area_wkb_geometry_geom_idx;
+                    """,
+        ),
+        migrations.RunSQL(
+            sql = """
+                    INSERT into spatial_ref_sys (srid, auth_name, auth_srid, proj4text, srtext) 
+                    values ( 54008, 'ESRI', 54008, '+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs ', 'PROJCS["World_Sinusoidal",GEOGCS["GCS_WGS_1984",DATUM["WGS_1984",SPHEROID["WGS_1984",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Sinusoidal"],PARAMETER["False_Easting",0],PARAMETER["False_Northing",0],PARAMETER["Central_Meridian",0],UNIT["Meter",1],AUTHORITY["EPSG","54008"]]');
+                """,
             reverse_sql = """
-
-                DROP FUNCTION reset_firepixel_fireid(integer);
-                DROP TABLE mesa_burned_area;
-                DROP INDEX mesa_burned_area_wkb_geometry_geom_idx;
-
-            """,
-        ),              
+                DELETE FROM spatial_ref_sys WHERE srid=54008;
+                """,
+        ),                       
     ]
 
 
