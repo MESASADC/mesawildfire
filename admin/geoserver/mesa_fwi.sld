@@ -17,11 +17,11 @@
                         <sld:Opacity>1</sld:Opacity>
                         <sld:ColorMap >
                             <sld:ColorMapEntry color="#FFFFFF" label="" opacity="0.0" quantity="0.0"/>
-                            <sld:ColorMapEntry color="#0000ff" label="0-5" opacity="1.0" quantity="0"/>
-                            <sld:ColorMapEntry color="#00ff00" label="5-10" opacity="1.0" quantity="5"/>
-                            <sld:ColorMapEntry color="#ffff00" label="10-20" opacity="1.0" quantity="10"/>
-                            <sld:ColorMapEntry color="#ffa500" label="20-30" opacity="1.0" quantity="20"/>
-                            <sld:ColorMapEntry color="#ff0000" label="30 &gt;" opacity="1.0" quantity="30"/>
+                            <sld:ColorMapEntry color="#0000ff" label="0-20" opacity="1.0" quantity="0"/>
+                            <sld:ColorMapEntry color="#00ff00" label="20-45" opacity="1.0" quantity="20"/>
+                            <sld:ColorMapEntry color="#ffff00" label="45-59" opacity="1.0" quantity="45"/>
+                            <sld:ColorMapEntry color="#ffa500" label="59-74" opacity="1.0" quantity="59"/>
+                            <sld:ColorMapEntry color="#ff0000" label="74 &gt;" opacity="1.0" quantity="74"/>
                         </sld:ColorMap>
                     </sld:RasterSymbolizer>
                 </sld:Rule>

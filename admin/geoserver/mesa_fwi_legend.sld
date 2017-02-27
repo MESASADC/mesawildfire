@@ -16,11 +16,11 @@
                         </sld:Geometry>
                         <sld:Opacity>1</sld:Opacity>
                         <sld:ColorMap type="intervals">
-                            <sld:ColorMapEntry color="#0000ff" label="FWI 0-5" opacity="1.0" quantity="0"/>
-                            <sld:ColorMapEntry color="#00ff00" label="FWI 5-10" opacity="1.0" quantity="5"/>
-                            <sld:ColorMapEntry color="#ffff00" label="FWI 10-20" opacity="1.0" quantity="10"/>
-                            <sld:ColorMapEntry color="#ffa500" label="FWI 20-30" opacity="1.0" quantity="20"/>
-                            <sld:ColorMapEntry color="#ff0000" label="FWI 30 &gt;" opacity="1.0" quantity="30"/>
+                            <sld:ColorMapEntry color="#0000ff" label="FWI 0-20" opacity="1.0" quantity="0"/>
+                            <sld:ColorMapEntry color="#00ff00" label="FWI 20-45" opacity="1.0" quantity="20"/>
+                            <sld:ColorMapEntry color="#ffff00" label="FWI 45-59" opacity="1.0" quantity="45"/>
+                            <sld:ColorMapEntry color="#ffa500" label="FWI 59-74" opacity="1.0" quantity="59"/>
+                            <sld:ColorMapEntry color="#ff0000" label="FWI 74 &gt;" opacity="1.0" quantity="74"/>
                         </sld:ColorMap>
                     </sld:RasterSymbolizer>
                 </sld:Rule>
