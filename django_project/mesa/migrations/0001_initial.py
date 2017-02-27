@@ -538,7 +538,7 @@ class Migration(migrations.Migration):
                 f.description,
                 f.status,
                 f.border,
-                st_area(f.border::geography) AS area,
+                st_area(st_transform(f.border, 54008)) AS area,
                 min(p.date_time) AS first_seen,
                 max(p.date_time) AS last_seen,
                 max(p.frp) AS max_frp,
