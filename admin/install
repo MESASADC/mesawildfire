@@ -123,10 +123,11 @@ mkdir -p $VOLUMES/geoserver_data/data/user/user_shapefiles
 cp -r $HERE/geoserver/mesa_shapefiles $VOLUMES/geoserver_data/data/mesa/
 cp -r $HERE/geoserver/mesa_rasters $VOLUMES/geoserver_data/data/mesa/
 
+#Add burned area directory
+mkdir $MESA_ROOT/ingest/mesa_burned_area
+
 cd $MESA_ROOT/admin/geoserver
 python configure.py
-
-
 
 # Restart dockers
 service supervisor restart
