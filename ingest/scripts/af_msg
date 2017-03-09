@@ -9,6 +9,7 @@ from kombu import Connection, Exchange, Queue
 import datetime
 import json
 import re
+from config import *
 
 
 def render_message_payload(template_dir, template_name, **kwargs):
@@ -75,7 +76,9 @@ try:
                 fire_flag = int(af_msg_parameter[-1])
                 YYYY_MM_DD = "{}-{}-{}".format(date.year,date.month,date.day)
                 HH_MM_SS = "{}:{}:00".format(date.hour,date.minute)
-            
+                if float(lat) > uly or float(lat) < lry or float(lon) < ulx or float(lon) > lrx:
+                   logging.debug('Skip. (%s, %s) is outside AOI.' % (lon, lat))
+                   continue
                 body = render_message_payload(template_dir, "af_msg_template.json", id='null', src='ABBA', sat='MSG', fire_size=fire_size, lon=lon, lat=lat, btemp=btemp, frp=frp, pixel_size=pixel_size, ecosystem=ecosystem, YYYY_MM_DD=YYYY_MM_DD, HH_MM_SS=HH_MM_SS, satzen_deg=satzen_deg, T4_K=T4_K, T11_K=T11_K, fire_flag=fire_flag)
                 logging.debug(body)
                 # Publish message
