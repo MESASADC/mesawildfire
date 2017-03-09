@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^home/', include('mesa.home.urls')),
     url(r'^rest/', include('mesa.rest.urls')),
     url(r'^dashboard/', include('mesa.dashboard.urls')),
+    url(r'.*', include('mesa.home.urls')),
 ]
 
