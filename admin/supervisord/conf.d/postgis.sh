@@ -9,7 +9,7 @@ docker rm -f supervisor_postgis &> /dev/null
 
 # Start Postgresql:
 #docker run --name supervisor_postgis -a stdout -a stderr --rm -e POSTGIS_ENABLE_OUTDB_RASTERS=1 -e POSTGIS_GDAL_ENABLED_DRIVERS=ENABLE_ALL -v $MESA_ROOT/admin/postgresql/pg_hba.conf:/etc/postgresql/9.4/main/pg_hba.conf -v $VOLUMES/postgis:/var/lib/postgresql -v $MESA_ROOT/ingest:/mnt/ingest -v $MESA_ROOT/admin/postgresql/start-postgis.sh:/start-postgis.sh -p 5432:5432 mesasadc/postgis:$BUILD_TAG /start-postgis.sh
-docker run --name supervisor_postgis -a stdout -a stderr --rm -v $MESA_ROOT/admin/postgresql/pg_hba.conf:/etc/postgresql/9.5/main/pg_hba.conf -v $VOLUMES/postgis:/var/lib/postgresql -v $MESA_ROOT/ingest:/mnt/ingest -v $MESA_ROOT/admin/postgresql/start-postgis.sh:/start-postgis.sh -p 5432:5432 mesasadc/postgis:$BUILD_TAG
+docker run --name supervisor_postgis -a stdout -a stderr --rm -v $MESA_ROOT/admin/postgresql/pg_hba.conf:/etc/postgresql/9.4/main/pg_hba.conf -v $VOLUMES/postgis:/var/lib/postgresql -v $MESA_ROOT/ingest:/mnt/ingest -v $MESA_ROOT/admin/postgresql/start-postgis.sh:/start-postgis.sh -p 5432:5432 mesasadc/postgis:$BUILD_TAG
 RESULT=$?
 echo RESULT=$RESULT
 

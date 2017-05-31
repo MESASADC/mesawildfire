@@ -13,6 +13,7 @@ class FirePixelSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = models.FirePixel
         geo_field = "point"
+        exclude = ()
 
 class FireEventSerializer(GeoFeatureModelSerializer):
     """ A class to serialize fires for an event table """
@@ -20,6 +21,7 @@ class FireEventSerializer(GeoFeatureModelSerializer):
     class Meta:
         model = models.FireEvent
         geo_field = "border"
+        exclude = ()
 
 class FdiPointSerializer(GeoFeatureModelSerializer):
     """ A class to serialize FDI points of interest as GeoJSON compatible data """
@@ -34,6 +36,7 @@ class FdiMeasurementSerializer(ModelSerializer):
             
     class Meta:
         model = models.FdiMeasurement
+        fields = '__all__'
 
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('date_time')
@@ -45,6 +48,7 @@ class FdiGraphDataSerializer(ModelSerializer):
             
     class Meta:
         model = models.FdiGraphData
+        fields = '__all__'
 
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('date_time')
